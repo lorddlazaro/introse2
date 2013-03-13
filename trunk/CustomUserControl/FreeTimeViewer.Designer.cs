@@ -54,7 +54,8 @@
             this.labelDate5 = new System.Windows.Forms.Label();
             this.labelDate6 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.labelSelectedGroup = new System.Windows.Forms.Label();
+            this.labelDisplayMsg = new System.Windows.Forms.Label();
+            this.treeViewIsolatedGroups = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
             // panelCalendar
@@ -217,11 +218,16 @@
             // 
             // comboBoxView
             // 
+            this.comboBoxView.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxView.FormattingEnabled = true;
+            this.comboBoxView.Items.AddRange(new object[] {
+            "Clustered Groups (According to Panelist)",
+            "Isolated Groups"});
             this.comboBoxView.Location = new System.Drawing.Point(732, 44);
             this.comboBoxView.Name = "comboBoxView";
             this.comboBoxView.Size = new System.Drawing.Size(254, 21);
             this.comboBoxView.TabIndex = 15;
+            this.comboBoxView.SelectedIndexChanged += new System.EventHandler(this.comboBoxView_SelectedIndexChanged);
             // 
             // datePicker
             // 
@@ -313,21 +319,28 @@
             this.label15.TabIndex = 23;
             this.label15.Text = "Start Date:";
             // 
-            // labelSelectedGroup
+            // labelDisplayMsg
             // 
-            this.labelSelectedGroup.AutoSize = true;
-            this.labelSelectedGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSelectedGroup.Location = new System.Drawing.Point(111, 574);
-            this.labelSelectedGroup.Name = "labelSelectedGroup";
-            this.labelSelectedGroup.Size = new System.Drawing.Size(125, 20);
-            this.labelSelectedGroup.TabIndex = 24;
-            this.labelSelectedGroup.Text = "Selected Group:";
+            this.labelDisplayMsg.AutoSize = true;
+            this.labelDisplayMsg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDisplayMsg.Location = new System.Drawing.Point(111, 574);
+            this.labelDisplayMsg.Name = "labelDisplayMsg";
+            this.labelDisplayMsg.Size = new System.Drawing.Size(0, 20);
+            this.labelDisplayMsg.TabIndex = 24;
+            // 
+            // treeViewIsolatedGroups
+            // 
+            this.treeViewIsolatedGroups.Location = new System.Drawing.Point(732, 70);
+            this.treeViewIsolatedGroups.Name = "treeViewIsolatedGroups";
+            this.treeViewIsolatedGroups.Size = new System.Drawing.Size(254, 484);
+            this.treeViewIsolatedGroups.TabIndex = 25;
+            this.treeViewIsolatedGroups.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewIsolatedGroups_NodeMouseClick);
             // 
             // FreeTimeViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.labelSelectedGroup);
+            this.Controls.Add(this.labelDisplayMsg);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.labelDate6);
             this.Controls.Add(this.labelDate5);
@@ -338,7 +351,6 @@
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.datePicker);
             this.Controls.Add(this.comboBoxView);
-            this.Controls.Add(this.treeViewClusters);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
@@ -354,6 +366,8 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panelCalendar);
+            this.Controls.Add(this.treeViewClusters);
+            this.Controls.Add(this.treeViewIsolatedGroups);
             this.Name = "FreeTimeViewer";
             this.Size = new System.Drawing.Size(1000, 600);
             this.ResumeLayout(false);
@@ -389,6 +403,7 @@
         private System.Windows.Forms.Label labelDate5;
         private System.Windows.Forms.Label labelDate6;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label labelSelectedGroup;
+        private System.Windows.Forms.Label labelDisplayMsg;
+        private System.Windows.Forms.TreeView treeViewIsolatedGroups;
     }
 }

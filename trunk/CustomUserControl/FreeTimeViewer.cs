@@ -26,6 +26,9 @@ namespace CustomUserControl
         private int dayWidth;
         private double totalMinsInDay;
 
+        private const int VIEW_INDEX_CLUSTER = 0;
+        private const int VIEW_INDEX_ISOLATED = 1;
+
         public FreeTimeViewer()
         {
             InitializeComponent();
@@ -46,20 +49,28 @@ namespace CustomUserControl
 
             datePicker_ValueChanged(new Object(), new EventArgs());
 
+            comboBoxView.SelectedIndex = 0;
+
             schedulingDM = new SchedulingDataManager();
             treeViewClusters.BeginUpdate();
             schedulingDM.AddPanelistsToTree(treeViewClusters.Nodes);
             treeViewClusters.EndUpdate();
             treeViewClusters.ExpandAll();
             treeViewClusters.Focus();
+
+            treeViewIsolatedGroups.BeginUpdate();
+            schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes);
+            treeViewIsolatedGroups.EndUpdate();
         }
 
 
         /****** START: Drawing Methods*******/
         private void panelCalendar_Paint(object sender, PaintEventArgs e)
         {
-            DrawClusterDefScheds(e.Graphics, panelCalendar.DisplayRectangle);
-            DrawFreeTimes(e.Graphics, panelCalendar.DisplayRectangle);
+            if(!currPanelistID.Equals(""))
+                DrawClusterDefScheds(e.Graphics, panelCalendar.DisplayRectangle);
+            if(!currGroupID.Equals(""))
+                DrawFreeTimes(e.Graphics, panelCalendar.DisplayRectangle);
         }
 
         private void DrawClusterDefScheds(Graphics g, Rectangle panelRectangle) 
@@ -94,7 +105,6 @@ namespace CustomUserControl
         {
             return (int)day - 1;
         }
-
 
         private void DrawFreeTimes(Graphics g, Rectangle panelRectangle) 
         {
@@ -177,6 +187,7 @@ namespace CustomUserControl
             panelCalendar.Refresh();
         }
 
+        //This method records the current thesisgroup and panelist selected in cluster view.
         private void treeViewClusters_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Node.Level == 0)
@@ -198,12 +209,11 @@ namespace CustomUserControl
 
                 //Task 2: Deselect the currently selected thesis group if any.
                 if(!currGroupID.Equals(""))
-                    ChangeSelectedGroup(startOfTheWeek, endOfTheWeek, "");
+                    ChangeSelectedGroup("");
                 UpdateProgressBar(progressBar1, progressBarIncrement);
 
                 //Task 3: Refresh 
-                if (schedulingDM.ClusterDefScheds.Count > 0)
-                    panelCalendar.Refresh();
+                panelCalendar.Refresh();
                 UpdateProgressBar(progressBar1, progressBarIncrement);
 
                 UpdateProgressBar(progressBar1, progressBar1.Maximum); //Just to make the progress bar reach its maximum.
@@ -224,7 +234,7 @@ namespace CustomUserControl
                 //Task 2: Change selected group if user clicked on a different one.
                 if (!currGroupID.Equals(e.Node.Name))
                 {
-                    ChangeSelectedGroup(startOfTheWeek, endOfTheWeek, e.Node.Name);
+                    ChangeSelectedGroup(e.Node.Name);
                 }
                 UpdateProgressBar(progressBar1, progressBarIncrement);
 
@@ -232,7 +242,8 @@ namespace CustomUserControl
                 panelCalendar.Refresh();
                 UpdateProgressBar(progressBar1, progressBarIncrement);
 
-                UpdateProgressBar(progressBar1, progressBar1.Maximum); //Just to make the progress bar reach its maximum.
+                //Just to make sure the progress bar reaches its maximum.
+                UpdateProgressBar(progressBar1, progressBar1.Maximum);             
             }
         }
 
@@ -248,21 +259,38 @@ namespace CustomUserControl
 
             progressBar1.Refresh();
         }
-        
+
+        //Switches the view between cluster and isolated depending on the user's selected item in the combobox.
+        private void comboBoxView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxView.SelectedIndex == VIEW_INDEX_CLUSTER)
+            {
+                treeViewClusters.Show();
+                treeViewIsolatedGroups.Hide();
+            }
+            else if (comboBoxView.SelectedIndex == VIEW_INDEX_ISOLATED)
+            {
+                treeViewClusters.Hide();
+                treeViewIsolatedGroups.Show();
+            }
+        }
+
+
         /****** END: EVENT LISTENERS*******/
 
 
         /******* OTHER METHODS******/
 
         //Changes the selectedGroupID to the new ID given in the parameter, then refreshes the list of free times in schedulingDM.
-        public void ChangeSelectedGroup(DateTime start, DateTime end, String newThesisGroupID)
+        public void ChangeSelectedGroup(String newThesisGroupID)
         {
             currGroupID = newThesisGroupID;
             if (newThesisGroupID.Equals(""))
-                labelSelectedGroup.Text = "";
+                labelDisplayMsg.Text = "";
             else
-                labelSelectedGroup.Text = "Selected Group: " + schedulingDM.GetGroupInfo(currGroupID);
-            schedulingDM.RefreshSelectedGroupFreeTimes(start, end, currGroupID);
+                labelDisplayMsg.Text = "Selected Group: " + schedulingDM.GetGroupInfo(currGroupID);
+            schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID);
+            
 
             /*For debugging purposes*/
             for (int currDay = 0; currDay < 6; currDay++)
@@ -274,5 +302,25 @@ namespace CustomUserControl
             /*For debugging purposes*/
         }
 
+        private void treeViewIsolatedGroups_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            int numTasks = 3;
+            int progressBarIncrement = progressBar1.Maximum / numTasks;
+
+            currPanelistID = "";
+
+            //Task 1: Refresh the current free times.
+            ChangeSelectedGroup(e.Node.Name);
+            UpdateProgressBar(progressBar1, progressBarIncrement);
+
+            //Task 2: Refresh
+            panelCalendar.Refresh();
+            UpdateProgressBar(progressBar1, progressBarIncrement);
+
+            //Just to make sure the progress bar reaches its maximum.
+            UpdateProgressBar(progressBar1, progressBar1.Maximum); 
+        }
+
+      
     }
 }
