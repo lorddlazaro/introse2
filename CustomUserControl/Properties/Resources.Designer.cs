@@ -59,5 +59,40 @@ namespace CustomUserControl.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static System.Drawing.Bitmap tool_add {
+            get {
+                object obj = ResourceManager.GetObject("tool_add", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tool_delete {
+            get {
+                object obj = ResourceManager.GetObject("tool_delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tool_left {
+            get {
+                object obj = ResourceManager.GetObject("tool_left", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tool_right {
+            get {
+                object obj = ResourceManager.GetObject("tool_right", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tool_save {
+            get {
+                object obj = ResourceManager.GetObject("tool_save", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
