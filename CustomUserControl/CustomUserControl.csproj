@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="INTROSEDBDataSet.xsc">
       <DependentUpon>INTROSEDBDataSet.xsd</DependentUpon>
     </None>

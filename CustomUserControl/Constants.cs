@@ -14,7 +14,7 @@ namespace CustomUserControl
         public const int START_MIN = 0;
         public const int LIMIT_HOUR = 21;
         public const int LIMIT_MIN = 0;
-        public const int MIN_DURATION_MINS = 30;
+        public const int MIN_DURATION_MINS = THSST1_DEFDURATION_MINS;
 
     }
 }

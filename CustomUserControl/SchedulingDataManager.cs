@@ -132,8 +132,8 @@ namespace CustomUserControl
          */
         private DefenseSchedule GetDefSched(DateTime startDate, DateTime endDate, String thesisGroupID)
         {
-            String query = "SELECT defenseDateTime, place FROM defenseSchedule WHERE thesisGroupID = " + thesisGroupID + " AND defenseDateTime >='" + startDate.Date + "' AND defenseDateTime <='" + endDate.Date + "';";
-
+            String query = "SELECT defenseDateTime, place FROM defenseSchedule WHERE thesisGroupID = " + thesisGroupID + " AND defenseDateTime >='" + startDate.Date + "' AND defenseDateTime <='" + endDate.AddDays(1).Date + "';";
+           
             List<String>[] columns = dbHandler.Select(query, 2);
 
             if (columns[0].Count == 0)//If the query result is an empty set.
@@ -149,8 +149,6 @@ namespace CustomUserControl
             String groupTitle;
             query = "SELECT title from thesisGroup WHERE thesisGroupID = " + thesisGroupID + ";";
             groupTitle = dbHandler.Select(query, 1)[0].ElementAt(0);
-
-            Console.WriteLine(startTime+" to "+endTime+" is within "+startDate+"-"+endDate);
 
             return new DefenseSchedule(startTime, endTime, place, groupTitle);
         }
@@ -408,7 +406,7 @@ namespace CustomUserControl
 
             DateTime earliestTime = new DateTime(2013, 1, 1, START_HOUR, START_MIN, 0);
             DateTime latestTime = new DateTime(2013, 1, 1, LIMIT_HOUR, LIMIT_MIN, 0);
-            /*For Debugging Purposes*/
+            /*For Debugging Purposes
             Console.WriteLine("EventIDs size:"+size);
             /*For Debugging Purposes*/
             for (int i = 0; i < size; i++)
@@ -417,7 +415,7 @@ namespace CustomUserControl
                 columns = dbHandler.Select(query, 2);
                 DateTime eventStart = Convert.ToDateTime(columns[0].ElementAt(0));
                 DateTime eventEnd = Convert.ToDateTime(columns[1].ElementAt(0));
-
+               
                 if (DateTimeHelper.DatesIntersectInclusive(eventStart, eventEnd, startDate, endDate)) 
                 {
                     for (DateTime curr = eventStart; curr.Date.CompareTo(eventEnd.Date) <= 0; curr = curr.AddDays(1))
@@ -460,7 +458,7 @@ namespace CustomUserControl
                 }
             }
 
-            /*For debugging purposes*/
+            /*For debugging purposes
             Console.WriteLine("Event busy slots:");
             for (int i = 0; i < DEFWEEK_DAYS; i++) 
             {

@@ -151,7 +151,7 @@ namespace CustomUserControl
             {
                 startOfTheWeek = datePicker.Value.AddDays(1);
                 datePicker.Value = startOfTheWeek;
-                MessageBox.Show("No school on Sundays.");
+                MessageBox.Show("No school on Sundays.", "Notice",MessageBoxButtons.OK,MessageBoxIcon.Information);
             }
 
             DateTime currDate = startOfTheWeek;
