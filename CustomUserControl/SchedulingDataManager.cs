@@ -82,7 +82,7 @@ namespace CustomUserControl
             }
         }
 
-        public void AddIsolatedGroupsToList(TreeNodeCollection tree)
+        public void AddIsolatedGroupsToTree(TreeNodeCollection tree)
         {
             String query = "select thesisgroupID,title from thesisgroup where thesisgroupID not in (select thesisgroupID from panelassignment where panelistID in (select panelistID from panelassignment group by panelistID having count(*) > 1));";
             List<String>[] list = dbHandler.Select(query, 2);
