@@ -31,16 +31,24 @@
             this.studentsPanel = new System.Windows.Forms.Panel();
             this.label43 = new System.Windows.Forms.Label();
             this.student4 = new System.Windows.Forms.Panel();
-            this.editStudent4 = new System.Windows.Forms.Button();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.student3 = new System.Windows.Forms.Panel();
-            this.editStudent3 = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.student2 = new System.Windows.Forms.Panel();
-            this.editStudent2 = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.student1 = new System.Windows.Forms.Panel();
-            this.editStudent1 = new System.Windows.Forms.Button();
             this.label22 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -49,13 +57,26 @@
             this.panelistControl = new System.Windows.Forms.Panel();
             this.label44 = new System.Windows.Forms.Label();
             this.panelist3 = new System.Windows.Forms.Panel();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.label39 = new System.Windows.Forms.Label();
+            this.label40 = new System.Windows.Forms.Label();
             this.label37 = new System.Windows.Forms.Label();
             this.panelist1 = new System.Windows.Forms.Panel();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.panelist2 = new System.Windows.Forms.Panel();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.thesisGroupPanel = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
             this.groupStartSY = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.groupStartTerm = new System.Windows.Forms.ComboBox();
@@ -69,30 +90,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.thesisGroupTreeView = new System.Windows.Forms.TreeView();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label31 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.label38 = new System.Windows.Forms.Label();
-            this.label39 = new System.Windows.Forms.Label();
-            this.label40 = new System.Windows.Forms.Label();
             this.studentsPanel.SuspendLayout();
             this.student4.SuspendLayout();
             this.student3.SuspendLayout();
@@ -136,21 +133,47 @@
             this.student4.Controls.Add(this.label23);
             this.student4.Controls.Add(this.label24);
             this.student4.Controls.Add(this.label25);
-            this.student4.Controls.Add(this.editStudent4);
             this.student4.Controls.Add(this.label14);
             this.student4.Location = new System.Drawing.Point(212, 224);
             this.student4.Name = "student4";
             this.student4.Size = new System.Drawing.Size(213, 180);
             this.student4.TabIndex = 19;
             // 
-            // editStudent4
+            // label21
             // 
-            this.editStudent4.Location = new System.Drawing.Point(9, 152);
-            this.editStudent4.Name = "editStudent4";
-            this.editStudent4.Size = new System.Drawing.Size(75, 23);
-            this.editStudent4.TabIndex = 35;
-            this.editStudent4.Text = "Edit";
-            this.editStudent4.UseVisualStyleBackColor = true;
+            this.label21.Location = new System.Drawing.Point(3, 33);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(69, 20);
+            this.label21.TabIndex = 39;
+            this.label21.Text = "ID Number:";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label23
+            // 
+            this.label23.Location = new System.Drawing.Point(3, 63);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(68, 20);
+            this.label23.TabIndex = 36;
+            this.label23.Text = "First Name:";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label24
+            // 
+            this.label24.Location = new System.Drawing.Point(3, 93);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(69, 20);
+            this.label24.TabIndex = 37;
+            this.label24.Text = "Last Name:";
+            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label25
+            // 
+            this.label25.Location = new System.Drawing.Point(3, 123);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(76, 20);
+            this.label25.TabIndex = 38;
+            this.label25.Text = "Middle Initial:";
+            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label14
             // 
@@ -169,21 +192,47 @@
             this.student3.Controls.Add(this.label17);
             this.student3.Controls.Add(this.label19);
             this.student3.Controls.Add(this.label20);
-            this.student3.Controls.Add(this.editStudent3);
             this.student3.Controls.Add(this.label18);
             this.student3.Location = new System.Drawing.Point(-1, 224);
             this.student3.Name = "student3";
             this.student3.Size = new System.Drawing.Size(213, 180);
             this.student3.TabIndex = 18;
             // 
-            // editStudent3
+            // label16
             // 
-            this.editStudent3.Location = new System.Drawing.Point(9, 152);
-            this.editStudent3.Name = "editStudent3";
-            this.editStudent3.Size = new System.Drawing.Size(75, 23);
-            this.editStudent3.TabIndex = 20;
-            this.editStudent3.Text = "Edit";
-            this.editStudent3.UseVisualStyleBackColor = true;
+            this.label16.Location = new System.Drawing.Point(3, 33);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(69, 20);
+            this.label16.TabIndex = 24;
+            this.label16.Text = "ID Number:";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label17
+            // 
+            this.label17.Location = new System.Drawing.Point(3, 63);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(68, 20);
+            this.label17.TabIndex = 21;
+            this.label17.Text = "First Name:";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label19
+            // 
+            this.label19.Location = new System.Drawing.Point(3, 93);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(69, 20);
+            this.label19.TabIndex = 22;
+            this.label19.Text = "Last Name:";
+            this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label20
+            // 
+            this.label20.Location = new System.Drawing.Point(3, 123);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(76, 20);
+            this.label20.TabIndex = 23;
+            this.label20.Text = "Middle Initial:";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label18
             // 
@@ -202,21 +251,47 @@
             this.student2.Controls.Add(this.label12);
             this.student2.Controls.Add(this.label13);
             this.student2.Controls.Add(this.label15);
-            this.student2.Controls.Add(this.editStudent2);
             this.student2.Controls.Add(this.label10);
             this.student2.Location = new System.Drawing.Point(212, 44);
             this.student2.Name = "student2";
             this.student2.Size = new System.Drawing.Size(213, 180);
             this.student2.TabIndex = 17;
             // 
-            // editStudent2
+            // label11
             // 
-            this.editStudent2.Location = new System.Drawing.Point(7, 150);
-            this.editStudent2.Name = "editStudent2";
-            this.editStudent2.Size = new System.Drawing.Size(75, 23);
-            this.editStudent2.TabIndex = 20;
-            this.editStudent2.Text = "Edit";
-            this.editStudent2.UseVisualStyleBackColor = true;
+            this.label11.Location = new System.Drawing.Point(3, 33);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(69, 20);
+            this.label11.TabIndex = 24;
+            this.label11.Text = "ID Number:";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label12
+            // 
+            this.label12.Location = new System.Drawing.Point(3, 63);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(68, 20);
+            this.label12.TabIndex = 21;
+            this.label12.Text = "First Name:";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label13
+            // 
+            this.label13.Location = new System.Drawing.Point(3, 93);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(69, 20);
+            this.label13.TabIndex = 22;
+            this.label13.Text = "Last Name:";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label15
+            // 
+            this.label15.Location = new System.Drawing.Point(3, 123);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(76, 20);
+            this.label15.TabIndex = 23;
+            this.label15.Text = "Middle Initial:";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label10
             // 
@@ -231,7 +306,6 @@
             // 
             this.student1.BackColor = System.Drawing.Color.Transparent;
             this.student1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.student1.Controls.Add(this.editStudent1);
             this.student1.Controls.Add(this.label22);
             this.student1.Controls.Add(this.label6);
             this.student1.Controls.Add(this.label7);
@@ -241,16 +315,6 @@
             this.student1.Name = "student1";
             this.student1.Size = new System.Drawing.Size(213, 180);
             this.student1.TabIndex = 16;
-            // 
-            // editStudent1
-            // 
-            this.editStudent1.Location = new System.Drawing.Point(4, 153);
-            this.editStudent1.Name = "editStudent1";
-            this.editStudent1.Size = new System.Drawing.Size(75, 23);
-            this.editStudent1.TabIndex = 19;
-            this.editStudent1.Text = "Edit";
-            this.editStudent1.UseVisualStyleBackColor = true;
-            this.editStudent1.Click += new System.EventHandler(this.editStudent1_Click);
             // 
             // label22
             // 
@@ -333,6 +397,42 @@
             this.panelist3.Size = new System.Drawing.Size(240, 180);
             this.panelist3.TabIndex = 29;
             // 
+            // label36
+            // 
+            this.label36.Location = new System.Drawing.Point(4, 33);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(69, 20);
+            this.label36.TabIndex = 32;
+            this.label36.Text = "ID Number:";
+            this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label38
+            // 
+            this.label38.Location = new System.Drawing.Point(4, 63);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(68, 20);
+            this.label38.TabIndex = 29;
+            this.label38.Text = "First Name:";
+            this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label39
+            // 
+            this.label39.Location = new System.Drawing.Point(4, 93);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(69, 20);
+            this.label39.TabIndex = 30;
+            this.label39.Text = "Last Name:";
+            this.label39.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label40
+            // 
+            this.label40.Location = new System.Drawing.Point(4, 123);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(69, 20);
+            this.label40.TabIndex = 31;
+            this.label40.Text = "Middle Initial:";
+            this.label40.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // label37
             // 
             this.label37.AutoSize = true;
@@ -355,6 +455,42 @@
             this.panelist1.Name = "panelist1";
             this.panelist1.Size = new System.Drawing.Size(240, 180);
             this.panelist1.TabIndex = 27;
+            // 
+            // label26
+            // 
+            this.label26.Location = new System.Drawing.Point(4, 33);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(69, 20);
+            this.label26.TabIndex = 28;
+            this.label26.Text = "ID Number:";
+            this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label28
+            // 
+            this.label28.Location = new System.Drawing.Point(4, 63);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(68, 20);
+            this.label28.TabIndex = 25;
+            this.label28.Text = "First Name:";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label29
+            // 
+            this.label29.Location = new System.Drawing.Point(4, 93);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(69, 20);
+            this.label29.TabIndex = 26;
+            this.label29.Text = "Last Name:";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label30
+            // 
+            this.label30.Location = new System.Drawing.Point(4, 123);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(69, 20);
+            this.label30.TabIndex = 27;
+            this.label30.Text = "Middle Initial:";
+            this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label27
             // 
@@ -379,6 +515,24 @@
             this.panelist2.Size = new System.Drawing.Size(240, 180);
             this.panelist2.TabIndex = 28;
             // 
+            // label31
+            // 
+            this.label31.Location = new System.Drawing.Point(4, 33);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(69, 20);
+            this.label31.TabIndex = 32;
+            this.label31.Text = "ID Number:";
+            this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label33
+            // 
+            this.label33.Location = new System.Drawing.Point(4, 63);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(68, 20);
+            this.label33.TabIndex = 29;
+            this.label33.Text = "First Name:";
+            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // label32
             // 
             this.label32.AutoSize = true;
@@ -387,6 +541,24 @@
             this.label32.Size = new System.Drawing.Size(56, 13);
             this.label32.TabIndex = 9;
             this.label32.Text = "Panelist 2:";
+            // 
+            // label34
+            // 
+            this.label34.Location = new System.Drawing.Point(4, 93);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(69, 20);
+            this.label34.TabIndex = 30;
+            this.label34.Text = "Last Name:";
+            this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label35
+            // 
+            this.label35.Location = new System.Drawing.Point(4, 123);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(68, 20);
+            this.label35.TabIndex = 31;
+            this.label35.Text = "Middle Initial:";
+            this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label1
             // 
@@ -401,6 +573,7 @@
             // thesisGroupPanel
             // 
             this.thesisGroupPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.thesisGroupPanel.Controls.Add(this.button2);
             this.thesisGroupPanel.Controls.Add(this.groupStartSY);
             this.thesisGroupPanel.Controls.Add(this.button1);
             this.thesisGroupPanel.Controls.Add(this.groupStartTerm);
@@ -417,6 +590,15 @@
             this.thesisGroupPanel.Name = "thesisGroupPanel";
             this.thesisGroupPanel.Size = new System.Drawing.Size(286, 439);
             this.thesisGroupPanel.TabIndex = 33;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(12, 225);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(117, 27);
+            this.button2.TabIndex = 35;
+            this.button2.Text = "Edit Thesis Group";
+            this.button2.UseVisualStyleBackColor = true;
             // 
             // groupStartSY
             // 
@@ -539,222 +721,6 @@
             this.thesisGroupTreeView.TabIndex = 35;
             this.thesisGroupTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.thesisGroupTreeView_NodeMouseClick);
             // 
-            // label11
-            // 
-            this.label11.Location = new System.Drawing.Point(3, 33);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(69, 20);
-            this.label11.TabIndex = 24;
-            this.label11.Text = "ID Number:";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label12
-            // 
-            this.label12.Location = new System.Drawing.Point(3, 63);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(68, 20);
-            this.label12.TabIndex = 21;
-            this.label12.Text = "First Name:";
-            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label13
-            // 
-            this.label13.Location = new System.Drawing.Point(3, 93);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(69, 20);
-            this.label13.TabIndex = 22;
-            this.label13.Text = "Last Name:";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label15
-            // 
-            this.label15.Location = new System.Drawing.Point(3, 123);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(76, 20);
-            this.label15.TabIndex = 23;
-            this.label15.Text = "Middle Initial:";
-            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label16
-            // 
-            this.label16.Location = new System.Drawing.Point(3, 33);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(69, 20);
-            this.label16.TabIndex = 24;
-            this.label16.Text = "ID Number:";
-            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label17
-            // 
-            this.label17.Location = new System.Drawing.Point(3, 63);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(68, 20);
-            this.label17.TabIndex = 21;
-            this.label17.Text = "First Name:";
-            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label19
-            // 
-            this.label19.Location = new System.Drawing.Point(3, 93);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(69, 20);
-            this.label19.TabIndex = 22;
-            this.label19.Text = "Last Name:";
-            this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label20
-            // 
-            this.label20.Location = new System.Drawing.Point(3, 123);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(76, 20);
-            this.label20.TabIndex = 23;
-            this.label20.Text = "Middle Initial:";
-            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label21
-            // 
-            this.label21.Location = new System.Drawing.Point(3, 33);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(69, 20);
-            this.label21.TabIndex = 39;
-            this.label21.Text = "ID Number:";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label23
-            // 
-            this.label23.Location = new System.Drawing.Point(3, 63);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(68, 20);
-            this.label23.TabIndex = 36;
-            this.label23.Text = "First Name:";
-            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label24
-            // 
-            this.label24.Location = new System.Drawing.Point(3, 93);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(69, 20);
-            this.label24.TabIndex = 37;
-            this.label24.Text = "Last Name:";
-            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label25
-            // 
-            this.label25.Location = new System.Drawing.Point(3, 123);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(76, 20);
-            this.label25.TabIndex = 38;
-            this.label25.Text = "Middle Initial:";
-            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label26
-            // 
-            this.label26.Location = new System.Drawing.Point(4, 33);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(69, 20);
-            this.label26.TabIndex = 28;
-            this.label26.Text = "ID Number:";
-            this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label28
-            // 
-            this.label28.Location = new System.Drawing.Point(4, 63);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(68, 20);
-            this.label28.TabIndex = 25;
-            this.label28.Text = "First Name:";
-            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label29
-            // 
-            this.label29.Location = new System.Drawing.Point(4, 93);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(69, 20);
-            this.label29.TabIndex = 26;
-            this.label29.Text = "Last Name:";
-            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label30
-            // 
-            this.label30.Location = new System.Drawing.Point(4, 123);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(69, 20);
-            this.label30.TabIndex = 27;
-            this.label30.Text = "Middle Initial:";
-            this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label31
-            // 
-            this.label31.Location = new System.Drawing.Point(4, 33);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(69, 20);
-            this.label31.TabIndex = 32;
-            this.label31.Text = "ID Number:";
-            this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label33
-            // 
-            this.label33.Location = new System.Drawing.Point(4, 63);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(68, 20);
-            this.label33.TabIndex = 29;
-            this.label33.Text = "First Name:";
-            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label34
-            // 
-            this.label34.Location = new System.Drawing.Point(4, 93);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(69, 20);
-            this.label34.TabIndex = 30;
-            this.label34.Text = "Last Name:";
-            this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label35
-            // 
-            this.label35.Location = new System.Drawing.Point(4, 123);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(68, 20);
-            this.label35.TabIndex = 31;
-            this.label35.Text = "Middle Initial:";
-            this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label36
-            // 
-            this.label36.Location = new System.Drawing.Point(4, 33);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(69, 20);
-            this.label36.TabIndex = 32;
-            this.label36.Text = "ID Number:";
-            this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label38
-            // 
-            this.label38.Location = new System.Drawing.Point(4, 63);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(68, 20);
-            this.label38.TabIndex = 29;
-            this.label38.Text = "First Name:";
-            this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label39
-            // 
-            this.label39.Location = new System.Drawing.Point(4, 93);
-            this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(69, 20);
-            this.label39.TabIndex = 30;
-            this.label39.Text = "Last Name:";
-            this.label39.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label40
-            // 
-            this.label40.Location = new System.Drawing.Point(4, 123);
-            this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(69, 20);
-            this.label40.TabIndex = 31;
-            this.label40.Text = "Middle Initial:";
-            this.label40.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // ThesisGroupControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -829,10 +795,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.Label label44;
-        private System.Windows.Forms.Button editStudent4;
-        private System.Windows.Forms.Button editStudent3;
-        private System.Windows.Forms.Button editStudent2;
-        private System.Windows.Forms.Button editStudent1;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label24;
@@ -857,5 +819,6 @@
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Button button2;
     }
 }
