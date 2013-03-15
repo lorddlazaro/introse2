@@ -76,9 +76,11 @@
             this.label35 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.thesisGroupPanel = new System.Windows.Forms.Panel();
-            this.button2 = new System.Windows.Forms.Button();
+            this.cancelEdits = new System.Windows.Forms.Button();
+            this.saveDetails = new System.Windows.Forms.Button();
+            this.editThesisGroup = new System.Windows.Forms.Button();
             this.groupStartSY = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.newThesisGroup = new System.Windows.Forms.Button();
             this.groupStartTerm = new System.Windows.Forms.ComboBox();
             this.groupSection = new System.Windows.Forms.TextBox();
             this.groupCourse = new System.Windows.Forms.ComboBox();
@@ -573,9 +575,11 @@
             // thesisGroupPanel
             // 
             this.thesisGroupPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.thesisGroupPanel.Controls.Add(this.button2);
+            this.thesisGroupPanel.Controls.Add(this.cancelEdits);
+            this.thesisGroupPanel.Controls.Add(this.saveDetails);
+            this.thesisGroupPanel.Controls.Add(this.editThesisGroup);
             this.thesisGroupPanel.Controls.Add(this.groupStartSY);
-            this.thesisGroupPanel.Controls.Add(this.button1);
+            this.thesisGroupPanel.Controls.Add(this.newThesisGroup);
             this.thesisGroupPanel.Controls.Add(this.groupStartTerm);
             this.thesisGroupPanel.Controls.Add(this.groupSection);
             this.thesisGroupPanel.Controls.Add(this.groupCourse);
@@ -591,14 +595,35 @@
             this.thesisGroupPanel.Size = new System.Drawing.Size(286, 439);
             this.thesisGroupPanel.TabIndex = 33;
             // 
-            // button2
+            // cancelEdits
             // 
-            this.button2.Location = new System.Drawing.Point(12, 225);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(117, 27);
-            this.button2.TabIndex = 35;
-            this.button2.Text = "Edit Thesis Group";
-            this.button2.UseVisualStyleBackColor = true;
+            this.cancelEdits.Location = new System.Drawing.Point(155, 259);
+            this.cancelEdits.Name = "cancelEdits";
+            this.cancelEdits.Size = new System.Drawing.Size(117, 27);
+            this.cancelEdits.TabIndex = 37;
+            this.cancelEdits.Text = "Cancel Changes";
+            this.cancelEdits.UseVisualStyleBackColor = true;
+            this.cancelEdits.Click += new System.EventHandler(this.cancelEdits_Click);
+            // 
+            // saveDetails
+            // 
+            this.saveDetails.Location = new System.Drawing.Point(8, 259);
+            this.saveDetails.Name = "saveDetails";
+            this.saveDetails.Size = new System.Drawing.Size(117, 27);
+            this.saveDetails.TabIndex = 36;
+            this.saveDetails.Text = "Save Group Details";
+            this.saveDetails.UseVisualStyleBackColor = true;
+            this.saveDetails.Click += new System.EventHandler(this.save_groupDetails_Click);
+            // 
+            // editThesisGroup
+            // 
+            this.editThesisGroup.Location = new System.Drawing.Point(8, 225);
+            this.editThesisGroup.Name = "editThesisGroup";
+            this.editThesisGroup.Size = new System.Drawing.Size(117, 27);
+            this.editThesisGroup.TabIndex = 35;
+            this.editThesisGroup.Text = "Edit Thesis Group";
+            this.editThesisGroup.UseVisualStyleBackColor = true;
+            this.editThesisGroup.Click += new System.EventHandler(this.edit_groupDetails_Click);
             // 
             // groupStartSY
             // 
@@ -608,14 +633,15 @@
             this.groupStartSY.Size = new System.Drawing.Size(176, 20);
             this.groupStartSY.TabIndex = 11;
             // 
-            // button1
+            // newThesisGroup
             // 
-            this.button1.Location = new System.Drawing.Point(155, 223);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(117, 27);
-            this.button1.TabIndex = 34;
-            this.button1.Text = "New Thesis Group";
-            this.button1.UseVisualStyleBackColor = true;
+            this.newThesisGroup.Location = new System.Drawing.Point(155, 225);
+            this.newThesisGroup.Name = "newThesisGroup";
+            this.newThesisGroup.Size = new System.Drawing.Size(117, 27);
+            this.newThesisGroup.TabIndex = 34;
+            this.newThesisGroup.Text = "New Thesis Group";
+            this.newThesisGroup.UseVisualStyleBackColor = true;
+            this.newThesisGroup.Click += new System.EventHandler(this.new_thesisGroup_Click);
             // 
             // groupStartTerm
             // 
@@ -792,7 +818,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TreeView thesisGroupTreeView;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button newThesisGroup;
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.Label label21;
@@ -819,6 +845,8 @@
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button editThesisGroup;
+        private System.Windows.Forms.Button cancelEdits;
+        private System.Windows.Forms.Button saveDetails;
     }
 }
