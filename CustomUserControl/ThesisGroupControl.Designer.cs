@@ -92,6 +92,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.thesisGroupTreeView = new System.Windows.Forms.TreeView();
+            this.deleteGroup = new System.Windows.Forms.Button();
             this.studentsPanel.SuspendLayout();
             this.student4.SuspendLayout();
             this.student3.SuspendLayout();
@@ -575,6 +576,7 @@
             // thesisGroupPanel
             // 
             this.thesisGroupPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.thesisGroupPanel.Controls.Add(this.deleteGroup);
             this.thesisGroupPanel.Controls.Add(this.cancelEdits);
             this.thesisGroupPanel.Controls.Add(this.saveDetails);
             this.thesisGroupPanel.Controls.Add(this.editThesisGroup);
@@ -747,6 +749,16 @@
             this.thesisGroupTreeView.TabIndex = 35;
             this.thesisGroupTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.thesisGroupTreeView_NodeMouseClick);
             // 
+            // deleteGroup
+            // 
+            this.deleteGroup.Location = new System.Drawing.Point(8, 292);
+            this.deleteGroup.Name = "deleteGroup";
+            this.deleteGroup.Size = new System.Drawing.Size(117, 27);
+            this.deleteGroup.TabIndex = 38;
+            this.deleteGroup.Text = "Delete Group";
+            this.deleteGroup.UseVisualStyleBackColor = true;
+            this.deleteGroup.Click += new System.EventHandler(this.deleteGroup_Click);
+            // 
             // ThesisGroupControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -848,5 +860,6 @@
         private System.Windows.Forms.Button editThesisGroup;
         private System.Windows.Forms.Button cancelEdits;
         private System.Windows.Forms.Button saveDetails;
+        private System.Windows.Forms.Button deleteGroup;
     }
 }
