@@ -618,7 +618,7 @@ namespace CustomUserControl
             Button pressed = (Button)sender;
             int panelIndex = Convert.ToInt32(pressed.Name.Substring(11));
 
-            if (currThesisGroupID == null)
+            if (currThesisGroupID == "")
                 return;
 
             if (panelButtons[panelIndex].ElementAt(3).Text == "Select Existing")
@@ -809,16 +809,7 @@ namespace CustomUserControl
             if (currThesisGroupID == "")
                 return;
 
-            String query = "delete from defenseschedule where thesisgroupid = " + currThesisGroupID + ";";
-            dbHandler.Delete(query);
-
-            query = "delete from panelassignment where thesisgroupid = " + currThesisGroupID + ";";
-            dbHandler.Delete(query);
-
-            query = "delete from student where thesisgroupid = " + currThesisGroupID + ";";
-            dbHandler.Delete(query);
-
-            query = "delete from thesisgroup where thesisgroupid = " + currThesisGroupID + ";";
+            String query = "delete from thesisgroup where thesisgroupid = " + currThesisGroupID + ";";
             dbHandler.Delete(query);
 
             update_components();
