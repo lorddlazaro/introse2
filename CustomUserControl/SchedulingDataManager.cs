@@ -553,7 +553,7 @@ namespace CustomUserControl
 
             /*Select all distinct defenseId's that these thesis groups have*/
 
-            query = "Select distinct defenseDateTime, course FROM DefenseSchedule ds, ThesisGroup tg WHERE defenseDateTime >= '"+startDate+"' AND defenseDateTime < '"+endDate+"' AND ds.thesisGroupID = tg.thesisGroupID AND ( ";
+            query = "Select distinct defenseDateTime, course FROM DefenseSchedule ds, ThesisGroup tg WHERE defenseDateTime >= '"+startDate+"' AND defenseDateTime < '"+endDate.AddDays(1)+"' AND ds.thesisGroupID = tg.thesisGroupID AND ( ";
             for (int j = 0; j < size; j++) 
             {
                 query += " tg.thesisGroupID = " + groupIDs.ElementAt(j);
