@@ -75,7 +75,6 @@ namespace CustomUserControl
             isGroupBoxWidened = true;
         }
 
-
         /****** START: Drawing Methods*******/
         private void panelCalendar_Paint(object sender, PaintEventArgs e)
         {
@@ -646,6 +645,22 @@ namespace CustomUserControl
             if (!currGroupID.Equals(""))
                 schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID);
             panelCalendar.Refresh();
+        }
+
+        // refresh treeviews from form1
+        public void refreshTreeViews()
+        {
+            treeViewClusters.BeginUpdate();
+            treeViewClusters.Nodes.Clear();
+            schedulingDM.AddPanelistsToTree(treeViewClusters.Nodes);
+            treeViewClusters.EndUpdate();
+            treeViewClusters.ExpandAll();
+            treeViewClusters.Focus();
+
+            treeViewIsolatedGroups.BeginUpdate();
+            treeViewIsolatedGroups.Nodes.Clear();
+            schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes);
+            treeViewIsolatedGroups.EndUpdate();
         }
     }
 }

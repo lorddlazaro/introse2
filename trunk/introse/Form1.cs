@@ -17,7 +17,13 @@ namespace introse
         {
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             InitializeComponent();
+            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
+        }
 
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.TabIndex == 0)
+                freeTimeViewer1.refreshTreeViews();
         }
     }
 }

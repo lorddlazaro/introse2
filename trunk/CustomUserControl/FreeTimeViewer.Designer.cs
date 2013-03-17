@@ -57,6 +57,7 @@
             this.labelDisplayMsg = new System.Windows.Forms.Label();
             this.treeViewIsolatedGroups = new System.Windows.Forms.TreeView();
             this.defenseInfoGroupBox = new System.Windows.Forms.GroupBox();
+            this.addDefenseButton = new System.Windows.Forms.Button();
             this.deleteDefenseButton = new System.Windows.Forms.Button();
             this.saveDefenseButton = new System.Windows.Forms.Button();
             this.dateTimeLabel = new System.Windows.Forms.Label();
@@ -67,7 +68,6 @@
             this.venueTextBox = new System.Windows.Forms.TextBox();
             this.courseSectionTextBox = new System.Windows.Forms.TextBox();
             this.titleTextBox = new System.Windows.Forms.TextBox();
-            this.addDefenseButton = new System.Windows.Forms.Button();
             this.defenseInfoGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -376,6 +376,17 @@
             this.defenseInfoGroupBox.Text = "Selected Thesis Group";
             this.defenseInfoGroupBox.Visible = false;
             // 
+            // addDefenseButton
+            // 
+            this.addDefenseButton.Location = new System.Drawing.Point(94, 68);
+            this.addDefenseButton.Name = "addDefenseButton";
+            this.addDefenseButton.Size = new System.Drawing.Size(156, 23);
+            this.addDefenseButton.TabIndex = 10;
+            this.addDefenseButton.Text = "Schedule Defense";
+            this.addDefenseButton.UseVisualStyleBackColor = true;
+            this.addDefenseButton.Visible = false;
+            this.addDefenseButton.Click += new System.EventHandler(this.addDefenseButton_Click);
+            // 
             // deleteDefenseButton
             // 
             this.deleteDefenseButton.Location = new System.Drawing.Point(92, 123);
@@ -463,17 +474,6 @@
             this.titleTextBox.Name = "titleTextBox";
             this.titleTextBox.Size = new System.Drawing.Size(154, 20);
             this.titleTextBox.TabIndex = 0;
-            // 
-            // addDefenseButton
-            // 
-            this.addDefenseButton.Location = new System.Drawing.Point(94, 68);
-            this.addDefenseButton.Name = "addDefenseButton";
-            this.addDefenseButton.Size = new System.Drawing.Size(156, 23);
-            this.addDefenseButton.TabIndex = 10;
-            this.addDefenseButton.Text = "Schedule Defense";
-            this.addDefenseButton.UseVisualStyleBackColor = true;
-            this.addDefenseButton.Visible = false;
-            this.addDefenseButton.Click += new System.EventHandler(this.addDefenseButton_Click);
             // 
             // FreeTimeViewer
             // 
