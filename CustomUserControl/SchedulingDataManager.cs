@@ -350,7 +350,7 @@ namespace CustomUserControl
              * */
             List<TimePeriod>[] classSlots = GetUniqueClassTimeSlots(timeSlotIDs);
             List<TimePeriod>[] eventSlots = GetUniqueEventSlots(eventIDs, startDate, endDate);
-            List<TimePeriod>[] defSlots = GetUniqueDefSlots(panelistIDs);
+            List<TimePeriod>[] defSlots = GetUniqueDefSlots(panelistIDs, startDate, endDate);
 
             for (int i = 0; i < 6; i++)
             {
@@ -520,7 +520,7 @@ namespace CustomUserControl
             return busySlots;
         }
 
-        private List<TimePeriod>[] GetUniqueDefSlots(List<String> panelistIDs)
+        private List<TimePeriod>[] GetUniqueDefSlots(List<String> panelistIDs, DateTime startDate, DateTime endDate)
         {
             String query = "SELECT defenseDateTime";
             int size = panelistIDs.Count;
@@ -553,7 +553,7 @@ namespace CustomUserControl
 
             /*Select all distinct defenseId's that these thesis groups have*/
 
-            query = "Select distinct defenseDateTime, course FROM DefenseSchedule ds, ThesisGroup tg WHERE ds.thesisGroupID = tg.thesisGroupID AND ( ";
+            query = "Select distinct defenseDateTime, course FROM DefenseSchedule ds, ThesisGroup tg WHERE defenseDateTime >= '"+startDate+"' AND defenseDateTime < '"+endDate+"' AND ds.thesisGroupID = tg.thesisGroupID AND ( ";
             for (int j = 0; j < size; j++) 
             {
                 query += " tg.thesisGroupID = " + groupIDs.ElementAt(j);
