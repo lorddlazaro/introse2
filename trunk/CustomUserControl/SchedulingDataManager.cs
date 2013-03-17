@@ -607,7 +607,7 @@ namespace CustomUserControl
             String query = "SELECT section, course, title from ThesisGroup WHERE thesisGroupID = '" + thesisGroupID + "';";
             List<String>[] columns = dbHandler.Select(query, 3);
             if(columns[0].Count > 0)
-                return columns[0].ElementAt(0) + "-" + columns[1].ElementAt(0) + ": " + columns[2].ElementAt(0);
+                return columns[0].ElementAt(0) + " " + columns[1].ElementAt(0) + ": " + columns[2].ElementAt(0);
             return "";
         }
 

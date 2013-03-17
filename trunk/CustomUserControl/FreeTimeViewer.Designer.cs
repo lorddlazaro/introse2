@@ -56,6 +56,19 @@
             this.label15 = new System.Windows.Forms.Label();
             this.labelDisplayMsg = new System.Windows.Forms.Label();
             this.treeViewIsolatedGroups = new System.Windows.Forms.TreeView();
+            this.defenseInfoGroupBox = new System.Windows.Forms.GroupBox();
+            this.deleteDefenseButton = new System.Windows.Forms.Button();
+            this.saveDefenseButton = new System.Windows.Forms.Button();
+            this.dateTimeLabel = new System.Windows.Forms.Label();
+            this.venueLabel = new System.Windows.Forms.Label();
+            this.courseSectionLabel = new System.Windows.Forms.Label();
+            this.titleLabel = new System.Windows.Forms.Label();
+            this.defenseDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.venueTextBox = new System.Windows.Forms.TextBox();
+            this.courseSectionTextBox = new System.Windows.Forms.TextBox();
+            this.titleTextBox = new System.Windows.Forms.TextBox();
+            this.addDefenseButton = new System.Windows.Forms.Button();
+            this.defenseInfoGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelCalendar
@@ -63,7 +76,7 @@
             this.panelCalendar.BackColor = System.Drawing.SystemColors.Menu;
             this.panelCalendar.Location = new System.Drawing.Point(115, 44);
             this.panelCalendar.Name = "panelCalendar";
-            this.panelCalendar.Size = new System.Drawing.Size(600, 510);
+            this.panelCalendar.Size = new System.Drawing.Size(600, 503);
             this.panelCalendar.TabIndex = 0;
             this.panelCalendar.Paint += new System.Windows.Forms.PaintEventHandler(this.panelCalendar_Paint);
             // 
@@ -209,10 +222,13 @@
             // 
             // treeViewClusters
             // 
+            this.treeViewClusters.FullRowSelect = true;
+            this.treeViewClusters.HideSelection = false;
+            this.treeViewClusters.HotTracking = true;
             this.treeViewClusters.Location = new System.Drawing.Point(732, 70);
             this.treeViewClusters.Name = "treeViewClusters";
             this.treeViewClusters.ShowNodeToolTips = true;
-            this.treeViewClusters.Size = new System.Drawing.Size(254, 484);
+            this.treeViewClusters.Size = new System.Drawing.Size(254, 477);
             this.treeViewClusters.TabIndex = 14;
             this.treeViewClusters.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewClusters_NodeMouseClick);
             // 
@@ -330,16 +346,140 @@
             // 
             // treeViewIsolatedGroups
             // 
+            this.treeViewIsolatedGroups.FullRowSelect = true;
+            this.treeViewIsolatedGroups.HideSelection = false;
+            this.treeViewIsolatedGroups.HotTracking = true;
             this.treeViewIsolatedGroups.Location = new System.Drawing.Point(732, 70);
             this.treeViewIsolatedGroups.Name = "treeViewIsolatedGroups";
-            this.treeViewIsolatedGroups.Size = new System.Drawing.Size(254, 484);
+            this.treeViewIsolatedGroups.Size = new System.Drawing.Size(254, 477);
             this.treeViewIsolatedGroups.TabIndex = 25;
             this.treeViewIsolatedGroups.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewIsolatedGroups_NodeMouseClick);
+            // 
+            // defenseInfoGroupBox
+            // 
+            this.defenseInfoGroupBox.Controls.Add(this.addDefenseButton);
+            this.defenseInfoGroupBox.Controls.Add(this.deleteDefenseButton);
+            this.defenseInfoGroupBox.Controls.Add(this.saveDefenseButton);
+            this.defenseInfoGroupBox.Controls.Add(this.dateTimeLabel);
+            this.defenseInfoGroupBox.Controls.Add(this.venueLabel);
+            this.defenseInfoGroupBox.Controls.Add(this.courseSectionLabel);
+            this.defenseInfoGroupBox.Controls.Add(this.titleLabel);
+            this.defenseInfoGroupBox.Controls.Add(this.defenseDateTimePicker);
+            this.defenseInfoGroupBox.Controls.Add(this.venueTextBox);
+            this.defenseInfoGroupBox.Controls.Add(this.courseSectionTextBox);
+            this.defenseInfoGroupBox.Controls.Add(this.titleTextBox);
+            this.defenseInfoGroupBox.Location = new System.Drawing.Point(732, 394);
+            this.defenseInfoGroupBox.Name = "defenseInfoGroupBox";
+            this.defenseInfoGroupBox.Size = new System.Drawing.Size(254, 153);
+            this.defenseInfoGroupBox.TabIndex = 26;
+            this.defenseInfoGroupBox.TabStop = false;
+            this.defenseInfoGroupBox.Text = "Selected Thesis Group";
+            this.defenseInfoGroupBox.Visible = false;
+            // 
+            // deleteDefenseButton
+            // 
+            this.deleteDefenseButton.Location = new System.Drawing.Point(92, 123);
+            this.deleteDefenseButton.Name = "deleteDefenseButton";
+            this.deleteDefenseButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteDefenseButton.TabIndex = 9;
+            this.deleteDefenseButton.Text = "Delete";
+            this.deleteDefenseButton.UseVisualStyleBackColor = true;
+            this.deleteDefenseButton.Click += new System.EventHandler(this.deleteDefenseButton_Click);
+            // 
+            // saveDefenseButton
+            // 
+            this.saveDefenseButton.Location = new System.Drawing.Point(173, 123);
+            this.saveDefenseButton.Name = "saveDefenseButton";
+            this.saveDefenseButton.Size = new System.Drawing.Size(75, 23);
+            this.saveDefenseButton.TabIndex = 8;
+            this.saveDefenseButton.Text = "Save";
+            this.saveDefenseButton.UseVisualStyleBackColor = true;
+            this.saveDefenseButton.Click += new System.EventHandler(this.saveDefenseButton_Click);
+            // 
+            // dateTimeLabel
+            // 
+            this.dateTimeLabel.AutoSize = true;
+            this.dateTimeLabel.Location = new System.Drawing.Point(6, 103);
+            this.dateTimeLabel.Name = "dateTimeLabel";
+            this.dateTimeLabel.Size = new System.Drawing.Size(77, 13);
+            this.dateTimeLabel.TabIndex = 7;
+            this.dateTimeLabel.Text = "Date and Time";
+            // 
+            // venueLabel
+            // 
+            this.venueLabel.AutoSize = true;
+            this.venueLabel.Location = new System.Drawing.Point(6, 74);
+            this.venueLabel.Name = "venueLabel";
+            this.venueLabel.Size = new System.Drawing.Size(38, 13);
+            this.venueLabel.TabIndex = 6;
+            this.venueLabel.Text = "Venue";
+            // 
+            // courseSectionLabel
+            // 
+            this.courseSectionLabel.AutoSize = true;
+            this.courseSectionLabel.Location = new System.Drawing.Point(6, 48);
+            this.courseSectionLabel.Name = "courseSectionLabel";
+            this.courseSectionLabel.Size = new System.Drawing.Size(87, 13);
+            this.courseSectionLabel.TabIndex = 5;
+            this.courseSectionLabel.Text = "Course / Section";
+            // 
+            // titleLabel
+            // 
+            this.titleLabel.AutoSize = true;
+            this.titleLabel.Location = new System.Drawing.Point(6, 22);
+            this.titleLabel.Name = "titleLabel";
+            this.titleLabel.Size = new System.Drawing.Size(57, 13);
+            this.titleLabel.TabIndex = 4;
+            this.titleLabel.Text = "Thesis title";
+            // 
+            // defenseDateTimePicker
+            // 
+            this.defenseDateTimePicker.CustomFormat = "MMM d, yyyy  h:mm tt";
+            this.defenseDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.defenseDateTimePicker.Location = new System.Drawing.Point(94, 97);
+            this.defenseDateTimePicker.Name = "defenseDateTimePicker";
+            this.defenseDateTimePicker.Size = new System.Drawing.Size(154, 20);
+            this.defenseDateTimePicker.TabIndex = 3;
+            // 
+            // venueTextBox
+            // 
+            this.venueTextBox.Location = new System.Drawing.Point(94, 71);
+            this.venueTextBox.Name = "venueTextBox";
+            this.venueTextBox.Size = new System.Drawing.Size(154, 20);
+            this.venueTextBox.TabIndex = 2;
+            // 
+            // courseSectionTextBox
+            // 
+            this.courseSectionTextBox.Enabled = false;
+            this.courseSectionTextBox.Location = new System.Drawing.Point(94, 45);
+            this.courseSectionTextBox.Name = "courseSectionTextBox";
+            this.courseSectionTextBox.Size = new System.Drawing.Size(154, 20);
+            this.courseSectionTextBox.TabIndex = 1;
+            // 
+            // titleTextBox
+            // 
+            this.titleTextBox.Enabled = false;
+            this.titleTextBox.Location = new System.Drawing.Point(94, 19);
+            this.titleTextBox.Name = "titleTextBox";
+            this.titleTextBox.Size = new System.Drawing.Size(154, 20);
+            this.titleTextBox.TabIndex = 0;
+            // 
+            // addDefenseButton
+            // 
+            this.addDefenseButton.Location = new System.Drawing.Point(94, 68);
+            this.addDefenseButton.Name = "addDefenseButton";
+            this.addDefenseButton.Size = new System.Drawing.Size(156, 23);
+            this.addDefenseButton.TabIndex = 10;
+            this.addDefenseButton.Text = "Schedule Defense";
+            this.addDefenseButton.UseVisualStyleBackColor = true;
+            this.addDefenseButton.Visible = false;
+            this.addDefenseButton.Click += new System.EventHandler(this.addDefenseButton_Click);
             // 
             // FreeTimeViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.defenseInfoGroupBox);
             this.Controls.Add(this.labelDisplayMsg);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.labelDate6);
@@ -370,6 +510,8 @@
             this.Controls.Add(this.treeViewIsolatedGroups);
             this.Name = "FreeTimeViewer";
             this.Size = new System.Drawing.Size(1000, 600);
+            this.defenseInfoGroupBox.ResumeLayout(false);
+            this.defenseInfoGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -405,5 +547,17 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label labelDisplayMsg;
         private System.Windows.Forms.TreeView treeViewIsolatedGroups;
+        private System.Windows.Forms.GroupBox defenseInfoGroupBox;
+        private System.Windows.Forms.DateTimePicker defenseDateTimePicker;
+        private System.Windows.Forms.TextBox venueTextBox;
+        private System.Windows.Forms.TextBox courseSectionTextBox;
+        private System.Windows.Forms.TextBox titleTextBox;
+        private System.Windows.Forms.Label dateTimeLabel;
+        private System.Windows.Forms.Label venueLabel;
+        private System.Windows.Forms.Label courseSectionLabel;
+        private System.Windows.Forms.Label titleLabel;
+        private System.Windows.Forms.Button deleteDefenseButton;
+        private System.Windows.Forms.Button saveDefenseButton;
+        private System.Windows.Forms.Button addDefenseButton;
     }
 }
