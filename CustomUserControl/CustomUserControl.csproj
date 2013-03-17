@@ -78,11 +78,6 @@
     <Compile Include="FreeTimeViewer.Designer.cs">
       <DependentUpon>FreeTimeViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="INTROSEDBDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>INTROSEDBDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -114,16 +109,20 @@
   <ItemGroup>
     <EmbeddedResource Include="FreeTimeViewer.resx">
       <DependentUpon>FreeTimeViewer.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ScheduleEditor.resx">
       <DependentUpon>ScheduleEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ThesisGroupControl.resx">
       <DependentUpon>ThesisGroupControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -137,17 +136,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
-    <None Include="INTROSEDBDataSet.xsc">
-      <DependentUpon>INTROSEDBDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="INTROSEDBDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>INTROSEDBDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="INTROSEDBDataSet.xss">
-      <DependentUpon>INTROSEDBDataSet.xsd</DependentUpon>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
