@@ -291,7 +291,7 @@ namespace CustomUserControl
             groupButtons[1].Enabled = true;
             groupButtons[2].Enabled = false;
             groupButtons[3].Enabled = false;
-            groupButtons[4].Enabled = true;
+            groupButtons[4].Enabled = false;
         }
 
         private void update_students()
@@ -432,7 +432,7 @@ namespace CustomUserControl
             Button pressed = (Button)sender;
             int studentIndex = Convert.ToInt32(pressed.Name.Substring(11));
 
-            if (currThesisGroupID == null)
+            if (currThesisGroupID == "")
                 return;
 
             if (pressed.Text == "Edit") // editing
@@ -511,7 +511,7 @@ namespace CustomUserControl
             Button pressed = (Button)sender;
             int studentIndex = Convert.ToInt32(pressed.Name.Substring(10));
 
-            if (currThesisGroupID == null)
+            if (currThesisGroupID == "")
                 return;
 
             String query;
@@ -527,7 +527,7 @@ namespace CustomUserControl
             Button pressed = (Button)sender;
             int panelIndex = Convert.ToInt32(pressed.Name.Substring(12));
 
-            if (currThesisGroupID == null)
+            if (currThesisGroupID == "")
                 return;
 
             if (pressed.Text == "Edit") // editing
@@ -602,7 +602,7 @@ namespace CustomUserControl
             Button pressed = (Button)sender;
             int panelIndex = Convert.ToInt32(pressed.Name.Substring(11));
 
-            if (currThesisGroupID == null)
+            if (currThesisGroupID == "")
                 return;
 
             String query;
