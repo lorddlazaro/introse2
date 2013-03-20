@@ -76,6 +76,7 @@
             this.label35 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.thesisGroupPanel = new System.Windows.Forms.Panel();
+            this.deleteGroup = new System.Windows.Forms.Button();
             this.cancelEdits = new System.Windows.Forms.Button();
             this.saveDetails = new System.Windows.Forms.Button();
             this.editThesisGroup = new System.Windows.Forms.Button();
@@ -92,7 +93,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.thesisGroupTreeView = new System.Windows.Forms.TreeView();
-            this.deleteGroup = new System.Windows.Forms.Button();
             this.studentsPanel.SuspendLayout();
             this.student4.SuspendLayout();
             this.student3.SuspendLayout();
@@ -592,10 +592,20 @@
             this.thesisGroupPanel.Controls.Add(this.label4);
             this.thesisGroupPanel.Controls.Add(this.label3);
             this.thesisGroupPanel.Controls.Add(this.label2);
-            this.thesisGroupPanel.Location = new System.Drawing.Point(277, 6);
+            this.thesisGroupPanel.Location = new System.Drawing.Point(277, 7);
             this.thesisGroupPanel.Name = "thesisGroupPanel";
             this.thesisGroupPanel.Size = new System.Drawing.Size(286, 439);
             this.thesisGroupPanel.TabIndex = 33;
+            // 
+            // deleteGroup
+            // 
+            this.deleteGroup.Location = new System.Drawing.Point(8, 292);
+            this.deleteGroup.Name = "deleteGroup";
+            this.deleteGroup.Size = new System.Drawing.Size(117, 27);
+            this.deleteGroup.TabIndex = 38;
+            this.deleteGroup.Text = "Delete Group";
+            this.deleteGroup.UseVisualStyleBackColor = true;
+            this.deleteGroup.Click += new System.EventHandler(this.deleteGroup_Click);
             // 
             // cancelEdits
             // 
@@ -748,16 +758,6 @@
             this.thesisGroupTreeView.Size = new System.Drawing.Size(263, 625);
             this.thesisGroupTreeView.TabIndex = 35;
             this.thesisGroupTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.thesisGroupTreeView_NodeMouseClick);
-            // 
-            // deleteGroup
-            // 
-            this.deleteGroup.Location = new System.Drawing.Point(8, 292);
-            this.deleteGroup.Name = "deleteGroup";
-            this.deleteGroup.Size = new System.Drawing.Size(117, 27);
-            this.deleteGroup.TabIndex = 38;
-            this.deleteGroup.Text = "Delete Group";
-            this.deleteGroup.UseVisualStyleBackColor = true;
-            this.deleteGroup.Click += new System.EventHandler(this.deleteGroup_Click);
             // 
             // ThesisGroupControl
             // 
