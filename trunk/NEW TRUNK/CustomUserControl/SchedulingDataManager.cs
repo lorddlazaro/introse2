@@ -524,7 +524,7 @@ namespace CustomUserControl
 
         private List<TimePeriod>[] GetUniqueDefSlots(List<String> panelistIDs, DateTime startDate, DateTime endDate)
         {
-            String query = "SELECT defenseDateTime";
+            String query;
             int size = panelistIDs.Count;
             List<String> defDateTimes;
             List<String> courses;
@@ -555,7 +555,7 @@ namespace CustomUserControl
 
             /*Select all distinct defenseId's that these thesis groups have*/
 
-            query = "Select distinct defenseDateTime, course FROM DefenseSchedule ds, ThesisGroup tg WHERE defenseDateTime >= '"+startDate+"' AND defenseDateTime < '"+endDate.AddDays(1)+"' AND ds.thesisGroupID = tg.thesisGroupID AND ( ";
+            query = "Select distinct defenseDateTime, course FROM DefenseSchedule ds, ThesisGroup tg WHERE defenseDateTime > '"+startDate.AddDays(-1)+"' AND defenseDateTime < '"+endDate.AddDays(1)+"' AND ds.thesisGroupID = tg.thesisGroupID AND ( ";
             for (int j = 0; j < size; j++) 
             {
                 query += " tg.thesisGroupID = " + groupIDs.ElementAt(j);
@@ -582,7 +582,7 @@ namespace CustomUserControl
                     end = start.AddMinutes(THSST1_DEF_DURATION_MINS);
                 else
                     end = start.AddMinutes(THSST3_DEF_DURATION_MINS);
-                //end = start.AddMinutes(GetMinsDuration(courses.ElementAt(i)));
+                
                 if(start.DayOfWeek > 0)
                     busySlots[(int)start.DayOfWeek - 1].Add(new TimePeriod(start, end));
             }
