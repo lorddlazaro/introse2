@@ -291,7 +291,7 @@ namespace CustomUserControl
             groupButtons[1].Enabled = true;
             groupButtons[2].Enabled = false;
             groupButtons[3].Enabled = false;
-            groupButtons[4].Enabled = true;
+            groupButtons[4].Enabled = false;
         }
 
         private void update_students()
@@ -381,7 +381,7 @@ namespace CustomUserControl
             query = "select count(*) from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid =  " + currThesisGroupID + ");";
             int memcount = Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
 
-            query = "select panelistID, firstname, lastname, MI from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid = " + currThesisGroupID + ");";
+            query = "select panelistID, firstname, lastname, MI from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid = " + currThesisGroupID + ") order by lastname;";
             groupInfo = dbHandler.Select(query, 4);
 
             for (int i = 0; i < 3; i++)
@@ -432,7 +432,7 @@ namespace CustomUserControl
             Button pressed = (Button)sender;
             int studentIndex = Convert.ToInt32(pressed.Name.Substring(11));
 
-            if (currThesisGroupID == null)
+            if (currThesisGroupID == "")
                 return;
 
             if (pressed.Text == "Edit") // editing
@@ -479,9 +479,23 @@ namespace CustomUserControl
 
             if (result[0].Count <= studentIndex)
             {
-                query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
-                query += newLastName + "', " + currThesisGroupID + ");";
-                dbHandler.Insert(query);
+                query = "select studentID from student;";
+                List<String>[] result2 = dbHandler.Select(query, 1);
+
+                Boolean duplicate = false;
+
+                for (int i = 0; i < result2[0].Count && !duplicate; i++)
+                {
+                    if (result2[0].ElementAt(i) == newID)
+                        duplicate = true;
+                }
+
+                if (!duplicate)
+                {
+                    query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
+                    query += newLastName + "', " + currThesisGroupID + ");";
+                    dbHandler.Insert(query);
+                }
             }
             else if (result[0].ElementAt(studentIndex) == newID)
             {
@@ -492,14 +506,28 @@ namespace CustomUserControl
             }
             else
             {
-                String oldID = result[0].ElementAt(studentIndex);
+                query = "select studentID from student;";
+                List<String>[] result2 = dbHandler.Select(query, 1);
 
-                query = "delete from student where studentID = " + oldID + ";";
-                dbHandler.Delete(query);
+                Boolean duplicate = false;
 
-                query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
-                query += newLastName + "', " + currThesisGroupID + ");";
-                dbHandler.Insert(query);
+                for (int i = 0; i < result2[0].Count && !duplicate; i++)
+                {
+                    if (result2[0].ElementAt(i) == newID)
+                        duplicate = true;
+                }
+
+                if (!duplicate)
+                {
+                    String oldID = result[0].ElementAt(studentIndex);
+
+                    query = "delete from student where studentID = " + oldID + ";";
+                    dbHandler.Delete(query);
+
+                    query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
+                    query += newLastName + "', " + currThesisGroupID + ");";
+                    dbHandler.Insert(query);
+                }
             }
 
 
@@ -511,7 +539,7 @@ namespace CustomUserControl
             Button pressed = (Button)sender;
             int studentIndex = Convert.ToInt32(pressed.Name.Substring(10));
 
-            if (currThesisGroupID == null)
+            if (currThesisGroupID == "")
                 return;
 
             String query;
@@ -527,7 +555,7 @@ namespace CustomUserControl
             Button pressed = (Button)sender;
             int panelIndex = Convert.ToInt32(pressed.Name.Substring(12));
 
-            if (currThesisGroupID == null)
+            if (currThesisGroupID == "")
                 return;
 
             if (pressed.Text == "Edit") // editing
@@ -574,11 +602,22 @@ namespace CustomUserControl
 
             if (result[0].Count <= panelIndex)
             {
-                query = "insert into panelist values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
-                query += newLastName + "');";
-                dbHandler.Insert(query);
+                Boolean duplicate = false;
 
-                query = "insert into panelistassignment values(" + currThesisGroupID + ", " + result[0].ElementAt(panelIndex) + ");";
+                for (int i = 0; i < result[0].Count && !duplicate; i++)
+                {
+                    if (result[0].ElementAt(i) == newID)
+                        duplicate = true;
+                }
+
+                if (!duplicate)
+                {
+                    query = "insert into panelist values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
+                    query += newLastName + "');";
+                    dbHandler.Insert(query);
+
+                    query = "insert into panelassignment values(" + currThesisGroupID + ", " + result[0].ElementAt(panelIndex) + ");";
+                }
             }
             else if (result[0].ElementAt(panelIndex) == newID)
             {
@@ -590,8 +629,26 @@ namespace CustomUserControl
             }
             else
             {
-                query = "insert into panelistassignment values(" + currThesisGroupID + ", " + result[0].ElementAt(panelIndex) + ");";
-                dbHandler.Insert(query);
+                Boolean duplicate = false;
+
+                for (int i = 0; i < result[0].Count && !duplicate; i++)
+                {
+                    if (result[0].ElementAt(i) == newID)
+                        duplicate = true;
+                }
+
+                if (!duplicate)
+                {
+                    query = "delete from panelassignment where thesisgroupid = " + currThesisGroupID + " and panelistid = " + result[0].ElementAt(panelIndex) + ";";
+                    dbHandler.Delete(query);
+
+                    query = "insert into panelist values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
+                    query += newLastName + "');";
+                    dbHandler.Insert(query);
+
+                    query = "insert into panelassignment values(" + currThesisGroupID + ", " + panelistDetails[panelIndex].ElementAt(0).Text + ");";
+                    dbHandler.Insert(query);
+                }
             }
 
             update_components();
@@ -602,7 +659,7 @@ namespace CustomUserControl
             Button pressed = (Button)sender;
             int panelIndex = Convert.ToInt32(pressed.Name.Substring(11));
 
-            if (currThesisGroupID == null)
+            if (currThesisGroupID == "")
                 return;
 
             String query;
@@ -618,7 +675,7 @@ namespace CustomUserControl
             Button pressed = (Button)sender;
             int panelIndex = Convert.ToInt32(pressed.Name.Substring(11));
 
-            if (currThesisGroupID == null)
+            if (currThesisGroupID == "")
                 return;
 
             if (panelButtons[panelIndex].ElementAt(3).Text == "Select Existing")
@@ -809,16 +866,7 @@ namespace CustomUserControl
             if (currThesisGroupID == "")
                 return;
 
-            String query = "delete from defenseschedule where thesisgroupid = " + currThesisGroupID + ";";
-            dbHandler.Delete(query);
-
-            query = "delete from panelassignment where thesisgroupid = " + currThesisGroupID + ";";
-            dbHandler.Delete(query);
-
-            query = "delete from student where thesisgroupid = " + currThesisGroupID + ";";
-            dbHandler.Delete(query);
-
-            query = "delete from thesisgroup where thesisgroupid = " + currThesisGroupID + ";";
+            String query = "delete from thesisgroup where thesisgroupid = " + currThesisGroupID + ";";
             dbHandler.Delete(query);
 
             update_components();
