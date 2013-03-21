@@ -479,11 +479,14 @@ namespace CustomUserControl
 
             if (result[0].Count <= studentIndex)
             {
+                query = "select studentID from student;";
+                List<String>[] result2 = dbHandler.Select(query, 1);
+
                 Boolean duplicate = false;
 
-                for (int i = 0; i < result[0].Count && !duplicate; i++)
+                for (int i = 0; i < result2[0].Count && !duplicate; i++)
                 {
-                    if (result[0].ElementAt(i) == newID)
+                    if (result2[0].ElementAt(i) == newID)
                         duplicate = true;
                 }
 
@@ -503,11 +506,14 @@ namespace CustomUserControl
             }
             else
             {
+                query = "select studentID from student;";
+                List<String>[] result2 = dbHandler.Select(query, 1);
+
                 Boolean duplicate = false;
 
-                for (int i = 0; i < result[0].Count && !duplicate; i++)
+                for (int i = 0; i < result2[0].Count && !duplicate; i++)
                 {
-                    if (result[0].ElementAt(i) == newID)
+                    if (result2[0].ElementAt(i) == newID)
                         duplicate = true;
                 }
 
