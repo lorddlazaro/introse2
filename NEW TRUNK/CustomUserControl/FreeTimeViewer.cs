@@ -440,8 +440,8 @@ namespace CustomUserControl
                 int month = Convert.ToInt16(date.Split('/')[0]);
                 int hour = Convert.ToInt16(time.Split(':')[0]);
                 int minute = Convert.ToInt16(time.Split(':')[1]);
-                if (time.Split(' ')[1].Equals("PM"))
-                    hour += 12;
+                //if (time.Split(' ')[1].Equals("PM"))
+                //    hour += 12;
 
                 currDefenseID = queryResult[0].ElementAt(0);
                 venueTextBox.Text = queryResult[1].ElementAt(0);
@@ -573,7 +573,7 @@ namespace CustomUserControl
             }
 
             // CASE 2: Time selected is set after 8:00PM (THSST-1) or 7:00PM (THSST-3)
-            if (courseSectionTextBox.Text.Split(' ')[0].Equals("THSST-1"))
+            if (courseSectionTextBox.Text.Split(' ')[1].Equals("THSST-1"))
             {
                 timePeriod = new TimePeriod(dateTime, dateTime.AddHours(1));
                 if (time > new TimeSpan(20, 0, 0))
@@ -607,16 +607,21 @@ namespace CustomUserControl
             }
 
             // Case 5: Selected time doesn't fit the free time of those involved
+            //schedulingDM.AddToFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1, timePeriod);
+            
             bool found = false;
             List<TimePeriod>[] list = schedulingDM.SelectedGroupFreeTimes;
 
             Console.WriteLine("comparing " + timePeriod.StartTime + " " + timePeriod.EndTime + ".");
             foreach (TimePeriod freeTime in list[Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1])
+            {
+                Console.WriteLine("   " + freeTime.StartTime + " " + freeTime.EndTime + ".");
                 if (timePeriod.isWithin(freeTime))
                 {
                     found = true;
                     break;
                 }
+            }
 
             if (!found)
             {

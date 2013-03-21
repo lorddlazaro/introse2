@@ -258,12 +258,14 @@ namespace CustomUserControl
             }
         }
 
+
+
         //This method adds the busy time periods to the List<TimePeriod>[] representing the days in a def week.
         private void AddBusyTimePeriods(String thesisGroupID, DateTime startDate, DateTime endDate, List<TimePeriod>[] days)
         {
             List<String> timeSlotIDs = new List<String>(); //Stored as string instead of int because when included in the select statement, it will become a string anyway.
             List<String> eventIDs = new List<String>();
-            List<String>studentIDs;
+            List<String> studentIDs;
             List<String> panelistIDs;
 
             String query;
@@ -611,7 +613,83 @@ namespace CustomUserControl
             return "";
         }
 
-     
 
+        public void AddToFreeTimes(DateTime startDate, DateTime endDate, String thesisGroupID, int day, TimePeriod timePeriod)
+        {
+            if (thesisGroupID.Equals(""))
+            {
+                selectedGroupFreeTimes[day].Clear();
+                return;
+            }
+
+            List<TimePeriod>[] days = new List<TimePeriod>[DEFWEEK_DAYS];
+            InitListTimePeriodArray(days);
+            AddBusyTimePeriods(thesisGroupID, startDate, endDate, days);
+
+            days[day].Add(timePeriod);
+            days[day].Sort();
+
+            //Console.WriteLine("Day " + i);
+            List<TimePeriod> mergedPeriods = new List<TimePeriod>();
+            List<TimePeriod> currDay = days[day];
+            int size = currDay.Count;
+            //Console.WriteLine("Before merging: Day" + i);
+            //DateTimeHelper.PrintTimePeriods(currDay);
+            if (size > 0)
+            {
+                //Console.WriteLine("Going to merge day:" + i);
+                TimePeriod curr = currDay.ElementAt(0);
+                bool isNewSet = false;
+                for (int j = 1; j < size; j++)
+                {
+                    //Console.Write("j: "+j+" ==== ");
+                    if (curr.IntersectsInclusive(currDay.ElementAt(j)))
+                    {
+                        //Console.WriteLine(curr+" intersects with " + currDay.ElementAt(j));
+                        curr = MergeTimePeriods(curr, currDay.ElementAt(j));
+                    }
+                    else
+                    {
+                        //Console.WriteLine("here with "+curr);
+                        mergedPeriods.Add(curr);
+                        curr = currDay.ElementAt(j);
+                    }
+
+                }
+
+                if (!isNewSet)
+                    mergedPeriods.Add(curr);
+
+                //DateTimeHelper.PrintTimePeriods(mergedPeriods);
+            }
+
+            //Console.WriteLine("After merging: Day" + i);
+            //DateTimeHelper.PrintTimePeriods(mergedPeriods);
+
+            DateTime currStart = new DateTime(2013, 1, 1, START_HOUR, START_MIN, 0);
+            DateTime currEnd;
+            size = mergedPeriods.Count;
+            List<TimePeriod> currDayFreeSlots = new List<TimePeriod>();
+            for (int j = 0; j < size; j++)
+            {
+                currEnd = mergedPeriods.ElementAt(j).StartTime;
+
+                //if (currStart != currEnd in terms of time only).
+                if (currStart.TimeOfDay.CompareTo(currEnd.TimeOfDay) != 0)
+                    currDayFreeSlots.Add(new TimePeriod(currStart, currEnd));
+
+                currStart = mergedPeriods.ElementAt(j).EndTime;
+            }
+
+                //The following makes sure the free times end at 9pm.
+
+
+            if (currStart.Hour < LIMIT_HOUR || currStart.Hour == LIMIT_HOUR && currStart.Minute < LIMIT_MIN)
+            {
+                currDayFreeSlots.Add(new TimePeriod(currStart, new DateTime(currStart.Year, currStart.Month, currStart.Day, LIMIT_HOUR, LIMIT_MIN, 0)));
+            }
+
+            selectedGroupFreeTimes[day] = currDayFreeSlots;
+        }
     }
 }
