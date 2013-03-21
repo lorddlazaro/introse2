@@ -563,7 +563,22 @@ namespace CustomUserControl
                     
             TimeSpan time = new TimeSpan(hour, minute, 0);
             DateTime dateTime = new DateTime(year, month, day, hour, minute, 0);
-            TimePeriod timePeriod;
+            DateTime savedDateTime = DateTime.Today;
+            TimePeriod timePeriod = new TimePeriod(DateTime.Today, DateTime.Today);
+            TimePeriod currPeriod = new TimePeriod(DateTime.Today, DateTime.Today);
+
+            if (defenseRecordExistsInDatabase)
+            {
+                string query = "select defensedatetime from defenseschedule where defenseid =" + currDefenseID;
+                dateTimeString = string.Format("{0:M/d/yyyy H:mm}", dbHandler.Select(query,1)[0].ElementAt(0));
+
+                month = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[0]);
+                day = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[1]);
+                year = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[2]);
+                hour = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[0]);
+                minute = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[1]);
+                savedDateTime = new DateTime(year, month, day, hour, minute, 0);
+            }
 
             // CASE 1: Time selected is set before 8:00AM
             if (time < new TimeSpan(8, 0, 0))
@@ -575,6 +590,8 @@ namespace CustomUserControl
             // CASE 2: Time selected is set after 8:00PM (THSST-1) or 7:00PM (THSST-3)
             if (courseSectionTextBox.Text.Split(' ')[1].Equals("THSST-1"))
             {
+                if(defenseRecordExistsInDatabase)
+                    currPeriod = new TimePeriod(savedDateTime, savedDateTime.AddHours(1));
                 timePeriod = new TimePeriod(dateTime, dateTime.AddHours(1));
                 if (time > new TimeSpan(20, 0, 0))
                 {
@@ -584,6 +601,8 @@ namespace CustomUserControl
             }
             else
             {
+                if(defenseRecordExistsInDatabase)
+                    currPeriod= new TimePeriod(savedDateTime, savedDateTime.AddHours(2));
                 timePeriod = new TimePeriod(dateTime, dateTime.AddHours(2));
                 if (time > new TimeSpan(19, 0, 0))
                 {
@@ -607,21 +626,57 @@ namespace CustomUserControl
             }
 
             // Case 5: Selected time doesn't fit the free time of those involved
-            //schedulingDM.AddToFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1, timePeriod);
+            //if(defenseRecordExistsInDatabase)
+            //    schedulingDM.AddToSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1, timePeriod);
             
-            bool found = false;
-            List<TimePeriod>[] list = schedulingDM.SelectedGroupFreeTimes;
 
-            Console.WriteLine("comparing " + timePeriod.StartTime + " " + timePeriod.EndTime + ".");
-            foreach (TimePeriod freeTime in list[Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1])
+            bool found = false;
+            
+            bool upbool = false;
+            bool downbool = false;
+            bool foundOne = false;
+
+            if (defenseRecordExistsInDatabase)
             {
-                Console.WriteLine("   " + freeTime.StartTime + " " + freeTime.EndTime + ".");
-                if (timePeriod.isWithin(freeTime))
+                if (currPeriod.IsBetweenInclusive(currPeriod.StartTime, currPeriod.EndTime, timePeriod.StartTime))
+                    upbool = true;
+
+                if (currPeriod.IsBetweenInclusive(currPeriod.StartTime, currPeriod.EndTime, timePeriod.EndTime))
+                    downbool = true;
+
+                found = upbool && downbool;
+                foundOne = upbool || downbool;
+                Console.WriteLine("   " + found + " " + foundOne+ "   "+ currPeriod.StartTime+" "+currPeriod.EndTime +"," + timePeriod.StartTime+" "+timePeriod.EndTime);
+            }
+
+            if(!found)
+            {
+                List<TimePeriod>[] list = schedulingDM.SelectedGroupFreeTimes;
+
+                Console.WriteLine("comparing " + timePeriod.StartTime + " " + timePeriod.EndTime + ".");
+                foreach (TimePeriod freeTime in list[Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1])
                 {
-                    found = true;
-                    break;
+                    Console.WriteLine("   " + freeTime.StartTime + " " + freeTime.EndTime + ".");
+                    if (timePeriod.isWithin(freeTime))
+                    {
+                        found = true;
+                        break;
+                    }
+                    
+                    if(foundOne)
+                    {
+                        Console.WriteLine(upbool + " " + downbool);
+                        if (!upbool)
+                            upbool = timePeriod.IsBetweenInclusive(freeTime.StartTime, freeTime.EndTime, timePeriod.StartTime);
+                        if(!downbool)
+                            downbool =timePeriod.IsBetweenInclusive(freeTime.StartTime, freeTime.EndTime, timePeriod.EndTime);
+                        found = upbool && downbool;
+                        if(found)
+                            break;
+                    }
                 }
             }
+
 
             if (!found)
             {

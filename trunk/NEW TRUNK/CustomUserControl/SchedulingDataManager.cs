@@ -635,12 +635,11 @@ namespace CustomUserControl
             return "";
         }
 
-
-        public void AddToFreeTimes(DateTime startDate, DateTime endDate, String thesisGroupID, int day, TimePeriod timePeriod)
+        public void AddToSelectedGroupFreeTimes(DateTime startDate, DateTime endDate, String thesisGroupID, int dayIndex,  TimePeriod timePeriod)
         {
             if (thesisGroupID.Equals(""))
             {
-                selectedGroupFreeTimes[day].Clear();
+                selectedGroupFreeTimes[dayIndex].Clear();
                 return;
             }
 
@@ -648,70 +647,49 @@ namespace CustomUserControl
             InitListTimePeriodArray(days);
             AddBusyTimePeriods(thesisGroupID, startDate, endDate, days);
 
-            days[day].Add(timePeriod);
-            days[day].Sort();
-
-            //Console.WriteLine("Day " + i);
+            //Console.WriteLine(dayIndex+"       DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
             List<TimePeriod> mergedPeriods = new List<TimePeriod>();
-            List<TimePeriod> currDay = days[day];
+            List<TimePeriod> currDay = days[dayIndex];
             int size = currDay.Count;
-            //Console.WriteLine("Before merging: Day" + i);
-            //DateTimeHelper.PrintTimePeriods(currDay);
             if (size > 0)
             {
-                //Console.WriteLine("Going to merge day:" + i);
                 TimePeriod curr = currDay.ElementAt(0);
                 bool isNewSet = false;
                 for (int j = 1; j < size; j++)
                 {
-                    //Console.Write("j: "+j+" ==== ");
+                    //Console.WriteLine(curr.StartTime +"  "+curr.EndTime + "      AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            
                     if (curr.IntersectsInclusive(currDay.ElementAt(j)))
-                    {
-                        //Console.WriteLine(curr+" intersects with " + currDay.ElementAt(j));
                         curr = MergeTimePeriods(curr, currDay.ElementAt(j));
-                    }
                     else
                     {
-                        //Console.WriteLine("here with "+curr);
                         mergedPeriods.Add(curr);
                         curr = currDay.ElementAt(j);
                     }
-
+                    //Console.WriteLine(curr.StartTime + "  " + curr.EndTime + "      JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ");
+            
                 }
-
                 if (!isNewSet)
                     mergedPeriods.Add(curr);
-
-                //DateTimeHelper.PrintTimePeriods(mergedPeriods);
-            }
-
-            //Console.WriteLine("After merging: Day" + i);
-            //DateTimeHelper.PrintTimePeriods(mergedPeriods);
-
-            DateTime currStart = new DateTime(2013, 1, 1, START_HOUR, START_MIN, 0);
-            DateTime currEnd;
-            size = mergedPeriods.Count;
-            List<TimePeriod> currDayFreeSlots = new List<TimePeriod>();
-            for (int j = 0; j < size; j++)
-            {
+             }
+             DateTime currStart = new DateTime(2013, 1, 1, START_HOUR, START_MIN, 0);
+             DateTime currEnd;
+             size = mergedPeriods.Count;
+             List<TimePeriod> currDayFreeSlots = new List<TimePeriod>();
+             for (int j = 0; j < size; j++)
+             {
                 currEnd = mergedPeriods.ElementAt(j).StartTime;
-
-                //if (currStart != currEnd in terms of time only).
                 if (currStart.TimeOfDay.CompareTo(currEnd.TimeOfDay) != 0)
                     currDayFreeSlots.Add(new TimePeriod(currStart, currEnd));
 
                 currStart = mergedPeriods.ElementAt(j).EndTime;
-            }
-
-                //The following makes sure the free times end at 9pm.
-
-
-            if (currStart.Hour < LIMIT_HOUR || currStart.Hour == LIMIT_HOUR && currStart.Minute < LIMIT_MIN)
-            {
+             }
+             if (currStart.Hour < LIMIT_HOUR || currStart.Hour == LIMIT_HOUR && currStart.Minute < LIMIT_MIN)
+             {
                 currDayFreeSlots.Add(new TimePeriod(currStart, new DateTime(currStart.Year, currStart.Month, currStart.Day, LIMIT_HOUR, LIMIT_MIN, 0)));
-            }
+             }
 
-            selectedGroupFreeTimes[day] = currDayFreeSlots;
-        }
+             selectedGroupFreeTimes[dayIndex] = currDayFreeSlots;
+        }        
     }
 }

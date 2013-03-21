@@ -85,7 +85,7 @@ namespace CustomUserControl
             return false;
         }
 
-        private bool IsBetweenInclusive(DateTime start, DateTime end, DateTime check)
+        public bool IsBetweenInclusive(DateTime start, DateTime end, DateTime check)
         {
             if (check.TimeOfDay.CompareTo(start.TimeOfDay) >= 0 && check.TimeOfDay.CompareTo(end.TimeOfDay) <= 0)
                 return true;
