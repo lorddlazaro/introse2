@@ -381,7 +381,7 @@ namespace CustomUserControl
             query = "select count(*) from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid =  " + currThesisGroupID + ");";
             int memcount = Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
 
-            query = "select panelistID, firstname, lastname, MI from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid = " + currThesisGroupID + ");";
+            query = "select panelistID, firstname, lastname, MI from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid = " + currThesisGroupID + ") order by lastname;";
             groupInfo = dbHandler.Select(query, 4);
 
             for (int i = 0; i < 3; i++)
@@ -479,9 +479,20 @@ namespace CustomUserControl
 
             if (result[0].Count <= studentIndex)
             {
-                query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
-                query += newLastName + "', " + currThesisGroupID + ");";
-                dbHandler.Insert(query);
+                Boolean duplicate = false;
+
+                for (int i = 0; i < result[0].Count && !duplicate; i++)
+                {
+                    if (result[0].ElementAt(i) == newID)
+                        duplicate = true;
+                }
+
+                if (!duplicate)
+                {
+                    query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
+                    query += newLastName + "', " + currThesisGroupID + ");";
+                    dbHandler.Insert(query);
+                }
             }
             else if (result[0].ElementAt(studentIndex) == newID)
             {
@@ -492,14 +503,25 @@ namespace CustomUserControl
             }
             else
             {
-                String oldID = result[0].ElementAt(studentIndex);
+                Boolean duplicate = false;
 
-                query = "delete from student where studentID = " + oldID + ";";
-                dbHandler.Delete(query);
+                for (int i = 0; i < result[0].Count && !duplicate; i++)
+                {
+                    if (result[0].ElementAt(i) == newID)
+                        duplicate = true;
+                }
 
-                query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
-                query += newLastName + "', " + currThesisGroupID + ");";
-                dbHandler.Insert(query);
+                if (!duplicate)
+                {
+                    String oldID = result[0].ElementAt(studentIndex);
+
+                    query = "delete from student where studentID = " + oldID + ";";
+                    dbHandler.Delete(query);
+
+                    query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
+                    query += newLastName + "', " + currThesisGroupID + ");";
+                    dbHandler.Insert(query);
+                }
             }
 
 
@@ -574,11 +596,22 @@ namespace CustomUserControl
 
             if (result[0].Count <= panelIndex)
             {
-                query = "insert into panelist values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
-                query += newLastName + "');";
-                dbHandler.Insert(query);
+                Boolean duplicate = false;
 
-                query = "insert into panelistassignment values(" + currThesisGroupID + ", " + result[0].ElementAt(panelIndex) + ");";
+                for (int i = 0; i < result[0].Count && !duplicate; i++)
+                {
+                    if (result[0].ElementAt(i) == newID)
+                        duplicate = true;
+                }
+
+                if (!duplicate)
+                {
+                    query = "insert into panelist values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
+                    query += newLastName + "');";
+                    dbHandler.Insert(query);
+
+                    query = "insert into panelassignment values(" + currThesisGroupID + ", " + result[0].ElementAt(panelIndex) + ");";
+                }
             }
             else if (result[0].ElementAt(panelIndex) == newID)
             {
@@ -590,8 +623,26 @@ namespace CustomUserControl
             }
             else
             {
-                query = "insert into panelistassignment values(" + currThesisGroupID + ", " + result[0].ElementAt(panelIndex) + ");";
-                dbHandler.Insert(query);
+                Boolean duplicate = false;
+
+                for (int i = 0; i < result[0].Count && !duplicate; i++)
+                {
+                    if (result[0].ElementAt(i) == newID)
+                        duplicate = true;
+                }
+
+                if (!duplicate)
+                {
+                    query = "delete from panelassignment where thesisgroupid = " + currThesisGroupID + " and panelistid = " + result[0].ElementAt(panelIndex) + ";";
+                    dbHandler.Delete(query);
+
+                    query = "insert into panelist values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
+                    query += newLastName + "');";
+                    dbHandler.Insert(query);
+
+                    query = "insert into panelassignment values(" + currThesisGroupID + ", " + panelistDetails[panelIndex].ElementAt(0).Text + ");";
+                    dbHandler.Insert(query);
+                }
             }
 
             update_components();
