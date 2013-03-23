@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace CustomUserControl
 {
-    public partial class ThesisGroupControl : UserControl
+    public partial class ThesisGroupControl2 : UserControl
     {
         DBce dbHandler;
         private String currThesisGroupID; // currently selected thesis group
@@ -21,9 +21,11 @@ namespace CustomUserControl
         List<TextBox>[] studentDetails;
         List<Button>[] studentButtons;
         
+        List<TextBox>[] panelistDetails;
+        List<Button>[] panelButtons;
         ComboBox[] selPanel;
 
-        public ThesisGroupControl()
+        public ThesisGroupControl2()
         {
             dbHandler = new DBce();
             InitializeComponent();
@@ -85,8 +87,48 @@ namespace CustomUserControl
             for (int i = 0; i < 3; i++) student3.Controls.Add(studentButtons[2].ElementAt(i));
             for (int i = 0; i < 3; i++) student4.Controls.Add(studentButtons[3].ElementAt(i));
 
-            //panelists
+            // panelists
+            panelButtons = new List<Button>[3]; // 3 panelists
+            for (int i = 0; i < 3; i++)
+            {
+                panelButtons[i] = new List<Button>();
 
+                panelButtons[i].Add(new Button());
+                panelButtons[i].ElementAt(0).Name = "editPanelist" + i;
+                panelButtons[i].ElementAt(0).Enabled = true;
+                panelButtons[i].ElementAt(0).Location = new Point(3, 152);
+                panelButtons[i].ElementAt(0).Size = new Size(49, 23);
+                panelButtons[i].ElementAt(0).Text = "Edit";
+                panelButtons[i].ElementAt(0).Click += new System.EventHandler(edit_panel_Click);
+
+                panelButtons[i].Add(new Button());
+                panelButtons[i].ElementAt(1).Name = "savePanelist" + i;
+                panelButtons[i].ElementAt(1).Enabled = false;
+                panelButtons[i].ElementAt(1).Location = new Point(54, 153);
+                panelButtons[i].ElementAt(1).Size = new Size(45, 23);
+                panelButtons[i].ElementAt(1).Text = "Save";
+                panelButtons[i].ElementAt(1).Click += new System.EventHandler(save_panel_Click);
+
+                panelButtons[i].Add(new Button());
+                panelButtons[i].ElementAt(2).Name = "delPanelist" + i;
+                panelButtons[i].ElementAt(2).Enabled = true;
+                panelButtons[i].ElementAt(2).Location = new Point(100, 153);
+                panelButtons[i].ElementAt(2).Size = new Size(45, 23);
+                panelButtons[i].ElementAt(2).Text = "Clear";
+                panelButtons[i].ElementAt(2).Click += new System.EventHandler(delete_panel_Click);
+
+                panelButtons[i].Add(new Button());
+                panelButtons[i].ElementAt(3).Name = "selPanelist" + i;
+                panelButtons[i].ElementAt(3).Enabled = true;
+                panelButtons[i].ElementAt(3).Location = new Point(148, 153);
+                panelButtons[i].ElementAt(3).Size = new Size(88, 23);
+                panelButtons[i].ElementAt(3).Text = "Select Existing";
+                panelButtons[i].ElementAt(3).Click += new System.EventHandler(select_panel_Click);
+            }
+
+            for (int i = 0; i < 4; i++) panelist1.Controls.Add(panelButtons[0].ElementAt(i));
+            for (int i = 0; i < 4; i++) panelist2.Controls.Add(panelButtons[1].ElementAt(i));
+            for (int i = 0; i < 4; i++) panelist3.Controls.Add(panelButtons[2].ElementAt(i));
 
         }
 
@@ -126,6 +168,39 @@ namespace CustomUserControl
             for (int i = 0; i < 4; i++) student2.Controls.Add(studentDetails[1].ElementAt(i));
             for (int i = 0; i < 4; i++) student3.Controls.Add(studentDetails[2].ElementAt(i));
             for (int i = 0; i < 4; i++) student4.Controls.Add(studentDetails[3].ElementAt(i));
+
+            // panelists
+            panelistDetails = new List<TextBox>[3]; // 3 panelists
+            for (int i = 0; i < 3; i++)
+            {
+                panelistDetails[i] = new List<TextBox>();
+                for (int j = 0; j < 4; j++)
+                {
+                    panelistDetails[i].Add(new TextBox());
+                    panelistDetails[i].ElementAt(j).Enabled = false;
+                    panelistDetails[i].ElementAt(j).Location = new Point(79, 30 * j + 33);
+                    panelistDetails[i].ElementAt(j).Size = new Size(133, 20);
+                }
+            }
+
+            for (int i = 0; i < 4; i++) panelist1.Controls.Add(panelistDetails[0].ElementAt(i));
+            for (int i = 0; i < 4; i++) panelist2.Controls.Add(panelistDetails[1].ElementAt(i));
+            for (int i = 0; i < 4; i++) panelist3.Controls.Add(panelistDetails[2].ElementAt(i));
+
+            selPanel = new ComboBox[3]; // 3 panelists
+            for (int i = 0; i < 3; i++)
+            {
+                selPanel[i] = new ComboBox();
+                selPanel[i].Enabled = false;
+                selPanel[i].Location = new Point(79, 8);
+                selPanel[i].Size = new Size(154, 21);
+                selPanel[i].Name = "selPanelist" + i;
+                selPanel[i].SelectedIndexChanged += new System.EventHandler(selPanel_Selected_Index_Changed);
+            }
+
+            panelist1.Controls.Add(selPanel[0]);
+            panelist2.Controls.Add(selPanel[1]);
+            panelist3.Controls.Add(selPanel[2]);
         }
 
         private void AddPanelistsToTree(TreeNodeCollection tree)
@@ -277,9 +352,70 @@ namespace CustomUserControl
 
         }
 
-        private void update_panelists() 
+        private void update_panelists()
         {
-        
+            if (currThesisGroupID == "")
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    selPanel[i].Enabled = false;
+                    selPanel[i].Items.Clear();
+
+                        for (int j = 0; j < 4; j++)
+                        {
+                            panelistDetails[i].ElementAt(j).Text = null;
+                            panelistDetails[i].ElementAt(j).Enabled = false;
+                        }
+
+                    panelButtons[i].ElementAt(0).Text = "Add";
+                    panelButtons[i].ElementAt(1).Enabled = false;
+                    panelButtons[i].ElementAt(2).Enabled = false;
+                    panelButtons[i].ElementAt(3).Text = "Select Existing";
+                }
+                return;
+            }
+
+            String query;
+            List<String>[] groupInfo;
+
+            query = "select count(*) from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid =  " + currThesisGroupID + ");";
+            int memcount = Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
+
+            query = "select panelistID, firstname, lastname, MI from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid = " + currThesisGroupID + ") order by lastname;";
+            groupInfo = dbHandler.Select(query, 4);
+
+            for (int i = 0; i < 3; i++)
+            {
+                selPanel[i].Enabled = false;
+                selPanel[i].Items.Clear();
+
+                if (i >= memcount)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        panelistDetails[i].ElementAt(j).Text = null;
+                        panelistDetails[i].ElementAt(j).Enabled = false;
+                    }
+
+                    panelButtons[i].ElementAt(0).Text = "Add";
+                    panelButtons[i].ElementAt(1).Enabled = false;
+                    panelButtons[i].ElementAt(2).Enabled = false;
+                    panelButtons[i].ElementAt(3).Text = "Select Existing";
+                }
+                else
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        panelistDetails[i].ElementAt(j).Text = groupInfo[j].ElementAt(i);
+                        panelistDetails[i].ElementAt(j).Enabled = false;
+                    }
+
+                    panelButtons[i].ElementAt(0).Text = "Edit";
+                    panelButtons[i].ElementAt(1).Enabled = false;
+                    panelButtons[i].ElementAt(2).Enabled = true;
+                    panelButtons[i].ElementAt(3).Text = "Select Existing";
+                }
+            }
         }
 
         private void thesisGroupTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -343,9 +479,23 @@ namespace CustomUserControl
 
             if (result[0].Count <= studentIndex)
             {
-                query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
-                query += newLastName + "', " + currThesisGroupID + ");";
-                dbHandler.Insert(query);
+                query = "select studentID from student;";
+                List<String>[] result2 = dbHandler.Select(query, 1);
+
+                Boolean duplicate = false;
+
+                for (int i = 0; i < result2[0].Count && !duplicate; i++)
+                {
+                    if (result2[0].ElementAt(i) == newID)
+                        duplicate = true;
+                }
+
+                if (!duplicate)
+                {
+                    query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
+                    query += newLastName + "', " + currThesisGroupID + ");";
+                    dbHandler.Insert(query);
+                }
             }
             else if (result[0].ElementAt(studentIndex) == newID)
             {
@@ -356,14 +506,28 @@ namespace CustomUserControl
             }
             else
             {
-                String oldID = result[0].ElementAt(studentIndex);
+                query = "select studentID from student;";
+                List<String>[] result2 = dbHandler.Select(query, 1);
 
-                query = "delete from student where studentID = " + oldID + ";";
-                dbHandler.Delete(query);
+                Boolean duplicate = false;
 
-                query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
-                query += newLastName + "', " + currThesisGroupID + ");";
-                dbHandler.Insert(query);
+                for (int i = 0; i < result2[0].Count && !duplicate; i++)
+                {
+                    if (result2[0].ElementAt(i) == newID)
+                        duplicate = true;
+                }
+
+                if (!duplicate)
+                {
+                    String oldID = result[0].ElementAt(studentIndex);
+
+                    query = "delete from student where studentID = " + oldID + ";";
+                    dbHandler.Delete(query);
+
+                    query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
+                    query += newLastName + "', " + currThesisGroupID + ");";
+                    dbHandler.Insert(query);
+                }
             }
 
 
@@ -382,6 +546,217 @@ namespace CustomUserControl
 
             query = "delete from student where studentid = " + studentDetails[studentIndex].ElementAt(0).Text + ";";
             dbHandler.Delete(query);
+
+            update_components();
+        }
+
+        private void edit_panel_Click(object sender, EventArgs e)
+        {
+            Button pressed = (Button)sender;
+            int panelIndex = Convert.ToInt32(pressed.Name.Substring(12));
+
+            if (currThesisGroupID == "")
+                return;
+
+            if (pressed.Text == "Edit") // editing
+            {
+                update_panelists();
+
+                for (int i = 0; i < studentDetails[panelIndex].Count; i++)
+                    panelistDetails[panelIndex].ElementAt(i).Enabled = true;
+
+                panelButtons[panelIndex].ElementAt(1).Enabled = true;
+                panelButtons[panelIndex].ElementAt(0).Text = "Cancel";
+            }
+            else if (pressed.Text == "Add") // duh
+            {
+                update_panelists();
+
+                for (int i = 0; i < panelistDetails[panelIndex].Count; i++)
+                    panelistDetails[panelIndex].ElementAt(i).Enabled = true;
+
+                panelButtons[panelIndex].ElementAt(1).Enabled = true;
+                panelButtons[panelIndex].ElementAt(0).Text = "Cancel";
+            }
+            else // cancel editing/adding
+            {
+                update_panelists();
+            }
+        }
+
+        private void save_panel_Click(object sender, EventArgs e)
+        {
+            Button pressed = (Button)sender;
+            int panelIndex = Convert.ToInt32(pressed.Name.Substring(12));
+
+            String newID = panelistDetails[panelIndex].ElementAt(0).Text;
+            String newFirstName = panelistDetails[panelIndex].ElementAt(1).Text;
+            String newLastName = panelistDetails[panelIndex].ElementAt(2).Text;
+            String newMI = panelistDetails[panelIndex].ElementAt(3).Text;
+
+            String query = "select panelistID from panelassignment where thesisgroupid = " + currThesisGroupID + " order by panelistID;";
+            List<String>[] result = dbHandler.Select(query, 1);
+            
+            if (newID == "" || newFirstName == "" || newLastName == "")
+                return;
+
+            if (result[0].Count <= panelIndex)
+            {
+                Boolean duplicate = false;
+
+                for (int i = 0; i < result[0].Count && !duplicate; i++)
+                {
+                    if (result[0].ElementAt(i) == newID)
+                        duplicate = true;
+                }
+
+                if (!duplicate)
+                {
+                    query = "insert into panelist values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
+                    query += newLastName + "');";
+                    dbHandler.Insert(query);
+
+                    query = "insert into panelassignment values(" + currThesisGroupID + ", " + result[0].ElementAt(panelIndex) + ");";
+                }
+            }
+            else if (result[0].ElementAt(panelIndex) == newID)
+            {
+
+                query = "update panelist set firstname = '" + newFirstName + "', lastname = '" + newLastName + "', MI = '" + newMI + "' ";
+                query += "where panelistid = " + newID + ";";
+
+                dbHandler.Update(query);
+            }
+            else
+            {
+                Boolean duplicate = false;
+
+                for (int i = 0; i < result[0].Count && !duplicate; i++)
+                {
+                    if (result[0].ElementAt(i) == newID)
+                        duplicate = true;
+                }
+
+                if (!duplicate)
+                {
+                    query = "delete from panelassignment where thesisgroupid = " + currThesisGroupID + " and panelistid = " + result[0].ElementAt(panelIndex) + ";";
+                    dbHandler.Delete(query);
+
+                    query = "insert into panelist values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
+                    query += newLastName + "');";
+                    dbHandler.Insert(query);
+
+                    query = "insert into panelassignment values(" + currThesisGroupID + ", " + panelistDetails[panelIndex].ElementAt(0).Text + ");";
+                    dbHandler.Insert(query);
+                }
+            }
+
+            update_components();
+        }
+
+        private void delete_panel_Click(object sender, EventArgs e)
+        {
+            Button pressed = (Button)sender;
+            int panelIndex = Convert.ToInt32(pressed.Name.Substring(11));
+
+            if (currThesisGroupID == "")
+                return;
+
+            String query;
+
+            query = "delete from panelassignment where panelistid = " + panelistDetails[panelIndex].ElementAt(0).Text + " and thesisgroupid = " + currThesisGroupID + ";";
+            dbHandler.Delete(query);
+
+            update_components();
+        }
+
+        private void select_panel_Click(object sender, EventArgs e)
+        {
+            Button pressed = (Button)sender;
+            int panelIndex = Convert.ToInt32(pressed.Name.Substring(11));
+
+            if (currThesisGroupID == "")
+                return;
+
+            if (panelButtons[panelIndex].ElementAt(3).Text == "Select Existing")
+            {
+                update_components();
+
+                panelButtons[panelIndex].ElementAt(3).Text = "Cancel Select";
+                selPanel[panelIndex].Enabled = true;
+
+                String query = "select count(*) from panelist where panelistid not in (select panelistid from panelassignment where thesisgroupid = " + currThesisGroupID + ");";
+                List<String>[] result = dbHandler.Select(query, 1);
+
+                int memcount = Convert.ToInt32(result[0].ElementAt(0));
+
+                query = "select firstname, MI, lastname from panelist where panelistid not in (select panelistid from panelassignment where thesisgroupid = " + currThesisGroupID + ");";
+                result = dbHandler.Select(query, 3);
+
+                for (int i = 0; i < memcount; i++)
+                    selPanel[panelIndex].Items.Add(result[0].ElementAt(i) + " " + result[1].ElementAt(i) + ". " + result[2].ElementAt(i));
+            }
+            else
+            {
+                panelButtons[panelIndex].ElementAt(3).Text = "Select Existing";
+                selPanel[panelIndex].Items.Clear();
+
+                update_components();
+            }
+        }
+
+        private void selPanel_Selected_Index_Changed(object sender, EventArgs e)
+        {
+            ComboBox currPanel = (ComboBox)sender;
+            int panelIndex = Convert.ToInt32(currPanel.Name.Substring(11));
+            int selected = selPanel[panelIndex].SelectedIndex;
+            String[] name = ((String)selPanel[panelIndex].SelectedItem).Split(' ');
+
+            int middleIndex = 0;
+            while (name[middleIndex].Length != 2)
+                middleIndex++;
+
+            String newFirstName = "";
+            String newMI = "";
+            String newLastName = "";
+            for (int i = 0; i < middleIndex; i++) {
+                newFirstName += name[i];
+                if (i != middleIndex - 1)
+                    newFirstName += " ";
+            }
+
+            newMI = name[middleIndex];
+            newMI = newMI.Substring(0, newMI.Length - 1);
+            for (int i = middleIndex + 1; i <= name.GetUpperBound(0); i++)
+            {
+                newLastName += name[i];
+                if (i != name.GetUpperBound(0))
+                    newLastName += " ";
+            }
+
+            String query;
+            List<String>[] result;
+
+
+            if (panelistDetails[panelIndex].ElementAt(0).Text == "")
+            {
+                query = "select panelistid from panelist where firstname = '" + newFirstName + "' and MI = '" + newMI + "' and lastname = '" + newLastName + "';";
+                result = dbHandler.Select(query, 1);
+
+                query = "insert into panelassignment values(" + currThesisGroupID + ", " + result[0].ElementAt(0) + ");";
+                dbHandler.Insert(query);
+            }
+            else
+            {
+                query = "delete from panelassignment where thesisgroupid = " + currThesisGroupID + " and panelistid = " + panelistDetails[panelIndex].ElementAt(0).Text + ";";
+                dbHandler.Delete(query);
+
+                query = "select panelistid from panelist where firstname = '" + newFirstName + "' and MI = '" + newMI + "' and lastname = '" + newLastName + "';";
+                result = dbHandler.Select(query, 1);
+
+                query = "insert into panelassignment values(" + currThesisGroupID + ", " + result[0].ElementAt(0) + ");";
+                dbHandler.Insert(query);
+            }
 
             update_components();
         }
