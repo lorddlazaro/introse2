@@ -81,10 +81,11 @@ namespace CustomUserControl
             }
 
             for (int i = 0; i < 3; i++) student1.Controls.Add(studentButtons[0].ElementAt(i));
+            /*
             for (int i = 0; i < 3; i++) student2.Controls.Add(studentButtons[1].ElementAt(i));
             for (int i = 0; i < 3; i++) student3.Controls.Add(studentButtons[2].ElementAt(i));
             for (int i = 0; i < 3; i++) student4.Controls.Add(studentButtons[3].ElementAt(i));
-
+            */
             //panelists
 
 
@@ -123,9 +124,11 @@ namespace CustomUserControl
             }
 
             for (int i = 0; i < 4; i++) student1.Controls.Add(studentDetails[0].ElementAt(i));
+            /*
             for (int i = 0; i < 4; i++) student2.Controls.Add(studentDetails[1].ElementAt(i));
             for (int i = 0; i < 4; i++) student3.Controls.Add(studentDetails[2].ElementAt(i));
             for (int i = 0; i < 4; i++) student4.Controls.Add(studentDetails[3].ElementAt(i));
+             * */
         }
 
         private void AddPanelistsToTree(TreeNodeCollection tree)

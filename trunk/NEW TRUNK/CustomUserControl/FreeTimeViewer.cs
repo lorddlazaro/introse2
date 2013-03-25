@@ -618,7 +618,7 @@ namespace CustomUserControl
                     string dateTime = string.Format("{0:M/d/yyyy h:mm:ss tt}", defenseDateTimePicker.Value);
                     Console.WriteLine(dateTime);
 
-                    query = "insert into defenseschedule (defensedatetime,place,thesisgroupid, calendarType) values('" + dateTime + "','" + venueTextBox.Text + "','" + currGroupID + "','"+ Constants.DEFENSE_TYPE+"');";
+                    query = "insert into defenseschedule (defensedatetime,place,thesisgroupid, defenseType) values('" + dateTime + "','" + venueTextBox.Text + "','" + currGroupID + "','"+ Constants.DEFENSE_TYPE+"');";
                     dbHandler.Insert(query);
 
                     query = "select defenseid from defenseschedule where defensedatetime= '"+dateTime+"' and place='"+venueTextBox.Text+"' and thesisgroupid='"+currGroupID+"';";

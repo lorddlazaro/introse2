@@ -284,9 +284,9 @@ namespace CustomUserControl
             }
         }
 
-        public void RefreshScheduledGroupIDs(String calendarType) 
+        public void RefreshScheduledGroupIDs(String defenseType) 
         {
-            String query = "SELECT thesisGroupID FROM DefenseSchedule where calendarType = '" + calendarType + "'";
+            String query = "SELECT thesisGroupID FROM DefenseSchedule where defenseType = '" + defenseType + "'";
             scheduledGroupIDs = dbHandler.Select(query, 1)[0];
         }
 
