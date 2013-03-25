@@ -26,6 +26,8 @@ namespace CustomUserControl
         //This will be used to store the free times of the selected thesis group
         private List<TimePeriod>[] selectedGroupFreeTimes;
 
+        private List<String> scheduledGroupIDs;
+
         //This will be used to draw the rectangles representing the free slots of the selected thesis group.
         //private List<TimePeriod> selectedGroupFreeSlots;
 
@@ -33,11 +35,13 @@ namespace CustomUserControl
 
         public List<DefenseSchedule> ClusterDefScheds { get { return clusterDefScheds; } }
         public List<TimePeriod>[] SelectedGroupFreeTimes { get { return selectedGroupFreeTimes; } }
+        public List<String> ScheduledGroupIDs { get { return scheduledGroupIDs; } }
 
         public SchedulingDataManager()
         {
             clusterDefScheds = new List<DefenseSchedule>();
             selectedGroupFreeTimes = new List<TimePeriod>[DEFWEEK_DAYS];
+            scheduledGroupIDs = new List<String>();
             InitListTimePeriodArray(selectedGroupFreeTimes);
             dbHandler = new DBce();
         }
@@ -280,7 +284,11 @@ namespace CustomUserControl
             }
         }
 
-
+        public void RefreshScheduledGroupIDs(String calendarType) 
+        {
+            String query = "SELECT thesisGroupID FROM DefenseSchedule where calendarType = '" + calendarType + "'";
+            scheduledGroupIDs = dbHandler.Select(query, 1)[0];
+        }
 
         //This method adds the busy time periods to the List<TimePeriod>[] representing the days in a def week.
         private void AddBusyTimePeriods(String thesisGroupID, DateTime startDate, DateTime endDate, List<TimePeriod>[] days)
