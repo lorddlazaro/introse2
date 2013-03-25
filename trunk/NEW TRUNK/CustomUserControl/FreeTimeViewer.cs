@@ -29,7 +29,7 @@ namespace CustomUserControl
         private const int VIEW_INDEX_CLUSTER = 0;
         private const int VIEW_INDEX_ISOLATED = 1;
 
-       
+        private String currDefenseType;
 
         //check
         bool isGroupBoxWidened;
@@ -49,6 +49,7 @@ namespace CustomUserControl
 
             currPanelistID = "";
             currGroupID = "";
+            currDefenseType = Constants.DEFENSE_TYPE;
 
             labelDates = new List<Label>();
             labelDates.Add(labelDate1);
@@ -64,13 +65,13 @@ namespace CustomUserControl
 
             schedulingDM = new SchedulingDataManager();
             treeViewClusters.BeginUpdate();
-            schedulingDM.AddPanelistsToTree(treeViewClusters.Nodes);
+            schedulingDM.AddPanelistsToTree(treeViewClusters.Nodes, "eligibleFor"+currDefenseType);
             treeViewClusters.EndUpdate();
             treeViewClusters.ExpandAll();
             treeViewClusters.Focus();
 
             treeViewIsolatedGroups.BeginUpdate();
-            schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes);
+            schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes, "eligibleFor"+currDefenseType);
             treeViewIsolatedGroups.EndUpdate();
 
 
@@ -79,6 +80,13 @@ namespace CustomUserControl
             isGroupBoxWidened = true;
         }
 
+
+        /****** START: Initializing Methods *******/
+        
+
+        /****** END: Initializing Methods *******/
+
+
         /****** START: Drawing Methods*******/
         private void panelCalendar_Paint(object sender, PaintEventArgs e)
         {
@@ -86,6 +94,8 @@ namespace CustomUserControl
                 DrawClusterDefScheds(e.Graphics, panelCalendar.DisplayRectangle);
             if(!currGroupID.Equals(""))
                 DrawFreeTimes(e.Graphics, panelCalendar.DisplayRectangle);
+
+            DrawCalendarDivisions();
         }
 
         private void DrawClusterDefScheds(Graphics g, Rectangle panelRectangle) 
@@ -161,7 +171,29 @@ namespace CustomUserControl
             g.FillRectangle(new SolidBrush(color), rect);
             g.DrawString(timePeriod.ToString(),font1, new SolidBrush(Color.Black),  rect, new StringFormat());
         }
+        
+        private void DrawCalendarDivisions()
+        {
+            Brush aSolidBrush = new SolidBrush(Color.Black);  //Creates a black solid brush for the pen  
+            Pen aSolidPen = new Pen(aSolidBrush);  //Assigns the SolidBrush to the Pen  
+            Graphics graphics = panelCalendar.CreateGraphics();
 
+            int numHours = Constants.LIMIT_HOUR - Constants.START_HOUR;
+            Rectangle displayRect = panelCalendar.DisplayRectangle;
+            int hourHeight = (int) Math.Round(displayRect.Height * (60/totalMinsInDay));
+            Console.WriteLine(displayRect.Height + "*" + 60 / totalMinsInDay + "=" + displayRect.Height * 60 / totalMinsInDay);
+            int yCoord;
+
+            for (int i = 1; i < numHours; i++) 
+            {
+                yCoord = displayRect.Top+i*hourHeight;
+                graphics.DrawLine(aSolidPen, new Point(displayRect.Left, yCoord), new Point(displayRect.Right, yCoord));
+            }
+           
+
+        }
+         
+         
         /****** END: Drawing Methods*******/
 
 
@@ -516,8 +548,11 @@ namespace CustomUserControl
             {
                 defenseRecordExistsInDatabase = true;
 
-                if(!isGroupBoxWidened)
-                    WidenGroupBox();
+                //if(!isGroupBoxWidened)
+                   // WidenGroupBox();
+
+                if (isGroupBoxWidened)
+                    ShortenGroupBox();
 
                 string date = queryResult[2].ElementAt(0).Split(' ')[0];
                 string time = queryResult[2].ElementAt(0).Split(' ')[1] + " " + queryResult[2].ElementAt(0).Split(' ')[2];
@@ -803,14 +838,14 @@ namespace CustomUserControl
         {
             treeViewClusters.BeginUpdate();
             treeViewClusters.Nodes.Clear();
-            schedulingDM.AddPanelistsToTree(treeViewClusters.Nodes);
+            schedulingDM.AddPanelistsToTree(treeViewClusters.Nodes, "eligibleFor"+currDefenseType);
             treeViewClusters.EndUpdate();
             treeViewClusters.ExpandAll();
             treeViewClusters.Focus();
 
             treeViewIsolatedGroups.BeginUpdate();
             treeViewIsolatedGroups.Nodes.Clear();
-            schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes);
+            schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes, "eligibleFor"+currDefenseType);
             treeViewIsolatedGroups.EndUpdate();
         }
 

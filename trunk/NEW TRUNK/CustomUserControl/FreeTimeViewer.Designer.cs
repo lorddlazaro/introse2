@@ -73,10 +73,10 @@
             // 
             // panelCalendar
             // 
-            this.panelCalendar.BackColor = System.Drawing.SystemColors.Menu;
+            this.panelCalendar.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.panelCalendar.Location = new System.Drawing.Point(115, 44);
             this.panelCalendar.Name = "panelCalendar";
-            this.panelCalendar.Size = new System.Drawing.Size(600, 503);
+            this.panelCalendar.Size = new System.Drawing.Size(600, 507);
             this.panelCalendar.TabIndex = 0;
             this.panelCalendar.Paint += new System.Windows.Forms.PaintEventHandler(this.panelCalendar_Paint);
             // 
@@ -258,7 +258,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(732, 574);
+            this.progressBar1.Location = new System.Drawing.Point(732, 553);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(254, 23);
             this.progressBar1.TabIndex = 17;
@@ -335,7 +335,7 @@
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.Location = new System.Drawing.Point(703, 9);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(85, 16);
+            this.label15.Size = new System.Drawing.Size(81, 16);
             this.label15.TabIndex = 23;
             this.label15.Text = "Start Date:";
             // 
@@ -362,6 +362,7 @@
             // 
             // defenseInfoGroupBox
             // 
+            this.defenseInfoGroupBox.BackColor = System.Drawing.SystemColors.HotTrack;
             this.defenseInfoGroupBox.Controls.Add(this.addDefenseButton);
             this.defenseInfoGroupBox.Controls.Add(this.deleteDefenseButton);
             this.defenseInfoGroupBox.Controls.Add(this.saveDefenseButton);
@@ -373,6 +374,8 @@
             this.defenseInfoGroupBox.Controls.Add(this.venueTextBox);
             this.defenseInfoGroupBox.Controls.Add(this.courseSectionTextBox);
             this.defenseInfoGroupBox.Controls.Add(this.titleTextBox);
+            this.defenseInfoGroupBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.defenseInfoGroupBox.ForeColor = System.Drawing.SystemColors.ControlText;
             this.defenseInfoGroupBox.Location = new System.Drawing.Point(732, 394);
             this.defenseInfoGroupBox.Name = "defenseInfoGroupBox";
             this.defenseInfoGroupBox.Size = new System.Drawing.Size(254, 153);

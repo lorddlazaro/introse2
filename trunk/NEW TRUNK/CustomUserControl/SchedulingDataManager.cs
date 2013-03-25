@@ -48,7 +48,7 @@ namespace CustomUserControl
 
         /* This method will be called by the GUI to add multigrouped panelists to the tree.
          * */
-        public void AddPanelistsToTree(TreeNodeCollection tree)
+        public void AddPanelistsToTree(TreeNodeCollection tree, String eligibilityColumnName)
         {
             String query = "select panelistID from panelassignment group by panelistID having count(*) > 1;";
             List<String>[] parentList = dbHandler.Select(query, 1);
@@ -64,7 +64,7 @@ namespace CustomUserControl
                 parentInfo = dbHandler.Select(query, 3);
 
                 //query = "Select t.thesisgroupID,t.title from thesisgroup t, panelassignment p where t.thesisgroupid = p.thesisgroupid and p.panelistID =" + parentList[0].ElementAt(i) + ";";
-                query = "Select thesisgroupID, title from thesisgroup where thesisgroupid in( select thesisgroupid from panelassignment where panelistID =" + parentList[0].ElementAt(i) + ");";
+                query = "Select thesisgroupID, title from thesisgroup where " + eligibilityColumnName + " = 'True' AND thesisgroupid in( select thesisgroupid from panelassignment where panelistID =" + parentList[0].ElementAt(i) + ");";
                 childList = dbHandler.Select(query, 2);
 
                 parent = new TreeNode();
@@ -98,9 +98,9 @@ namespace CustomUserControl
             }
         }
 
-        public void AddIsolatedGroupsToTree(TreeNodeCollection tree)
+        public void AddIsolatedGroupsToTree(TreeNodeCollection tree, String eligibilityColumnName)
         {
-            String query = "select thesisgroupID,title from thesisgroup where thesisgroupID not in (select thesisgroupID from panelassignment where panelistID in (select panelistID from panelassignment group by panelistID having count(*) > 1));";
+            String query = "select thesisgroupID,title from thesisgroup where "+eligibilityColumnName+" = 'True' AND thesisgroupID not in (select thesisgroupID from panelassignment where panelistID in (select panelistID from panelassignment group by panelistID having count(*) > 1));";
             List<String>[] list = dbHandler.Select(query, 2);
             TreeNode node;
             for (int i = 0; i < list[0].Count(); i++)
