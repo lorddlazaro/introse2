@@ -36,7 +36,7 @@
             this.scheduleEditorControl = new System.Windows.Forms.TabPage();
             this.scheduleEditor2 = new CustomUserControl.ScheduleEditor();
             this.thesisGroupControl = new System.Windows.Forms.TabPage();
-            this.thesisGroupControl1 = new CustomUserControl.ThesisGroupControl();
+            this.thesisGroupControl1 = new CustomUserControl.ThesisGroupControl2();
             this.freeTimeViewer1 = new CustomUserControl.FreeTimeViewer();
             this.tabControl1.SuspendLayout();
             this.freeTimeViewerControl.SuspendLayout();
@@ -158,7 +158,7 @@
         private CustomUserControl.FreeTimeViewer freeTimeViewer1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage thesisGroupControl;
-        private CustomUserControl.ThesisGroupControl thesisGroupControl1;
+        private CustomUserControl.ThesisGroupControl2 thesisGroupControl1;
         private System.Windows.Forms.TabPage freeTimeViewerControl;
         private CustomUserControl.FreeTimeViewer freeTimeViewer2;
         private System.Windows.Forms.TabPage defSchedViewerControl;
