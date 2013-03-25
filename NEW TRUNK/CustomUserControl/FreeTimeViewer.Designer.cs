@@ -222,6 +222,8 @@
             // 
             // treeViewClusters
             // 
+            this.treeViewClusters.BackColor = System.Drawing.SystemColors.Window;
+            this.treeViewClusters.CheckBoxes = true;
             this.treeViewClusters.FullRowSelect = true;
             this.treeViewClusters.HideSelection = false;
             this.treeViewClusters.HotTracking = true;
@@ -230,6 +232,7 @@
             this.treeViewClusters.ShowNodeToolTips = true;
             this.treeViewClusters.Size = new System.Drawing.Size(254, 477);
             this.treeViewClusters.TabIndex = 14;
+            this.treeViewClusters.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewClusters_BeforeCheck);
             this.treeViewClusters.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewClusters_NodeMouseClick);
             // 
             // comboBoxView
@@ -259,6 +262,7 @@
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(254, 23);
             this.progressBar1.TabIndex = 17;
+            this.progressBar1.Visible = false;
             // 
             // labelDate1
             // 
@@ -331,7 +335,7 @@
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.Location = new System.Drawing.Point(703, 9);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(81, 16);
+            this.label15.Size = new System.Drawing.Size(85, 16);
             this.label15.TabIndex = 23;
             this.label15.Text = "Start Date:";
             // 
@@ -346,6 +350,7 @@
             // 
             // treeViewIsolatedGroups
             // 
+            this.treeViewIsolatedGroups.CheckBoxes = true;
             this.treeViewIsolatedGroups.FullRowSelect = true;
             this.treeViewIsolatedGroups.HideSelection = false;
             this.treeViewIsolatedGroups.HotTracking = true;
@@ -509,7 +514,7 @@
             this.Controls.Add(this.treeViewClusters);
             this.Controls.Add(this.treeViewIsolatedGroups);
             this.Name = "FreeTimeViewer";
-            this.Size = new System.Drawing.Size(1000, 600);
+            this.Size = new System.Drawing.Size(1000, 700);
             this.defenseInfoGroupBox.ResumeLayout(false);
             this.defenseInfoGroupBox.PerformLayout();
             this.ResumeLayout(false);
