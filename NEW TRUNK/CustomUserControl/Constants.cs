@@ -15,6 +15,8 @@ namespace CustomUserControl
         public const int LIMIT_HOUR = 21;
         public const int LIMIT_MIN = 0;
         public const int MIN_DURATION_MINS = THSST1_DEFDURATION_MINS;
+        public const String DEFENSE_TYPE = "defense";
+        public const String REDEFENSE_TYPE = "redefense";
 
     }
 }
