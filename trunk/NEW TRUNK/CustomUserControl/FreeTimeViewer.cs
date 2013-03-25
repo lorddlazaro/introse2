@@ -29,6 +29,8 @@ namespace CustomUserControl
         private const int VIEW_INDEX_CLUSTER = 0;
         private const int VIEW_INDEX_ISOLATED = 1;
 
+       
+
         //check
         bool isGroupBoxWidened;
         bool defenseRecordExistsInDatabase;
@@ -70,7 +72,9 @@ namespace CustomUserControl
             treeViewIsolatedGroups.BeginUpdate();
             schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes);
             treeViewIsolatedGroups.EndUpdate();
-    
+
+
+            MarkAllScheduledGroups();
             //check
             isGroupBoxWidened = true;
         }
@@ -202,36 +206,34 @@ namespace CustomUserControl
         {
             if (e.Node.Level == 0)
             {
+                /* Progress Bar 
                 int numTasks = 3;
                 int progressBarIncrement = progressBar1.Maximum / numTasks;
+                /* Progress Bar */
+
 
                 //Task1: Refresh Cluster Defense Schedules
                 currPanelistID = e.Node.Name;
                 schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
-                UpdateProgressBar(progressBar1, progressBarIncrement);
-
-                /* For scheduling defenses
-                if (form2 != null)
-                    try { form2.Dispose(); }
-                    catch (Exception ex) { }
-                form2 = new DefenseScheduleForm(this, "");
-                 * */
+                //UpdateProgressBar(progressBar1, progressBarIncrement);
 
                 //Task 2: Deselect the currently selected thesis group if any.
                 if(!currGroupID.Equals(""))
                     ChangeSelectedGroup("");
-                UpdateProgressBar(progressBar1, progressBarIncrement);
+                //UpdateProgressBar(progressBar1, progressBarIncrement);
 
                 //Task 3: Refresh 
                 panelCalendar.Refresh();
-                UpdateProgressBar(progressBar1, progressBarIncrement);
+               // UpdateProgressBar(progressBar1, progressBarIncrement);
 
-                UpdateProgressBar(progressBar1, progressBar1.Maximum); //Just to make the progress bar reach its maximum.
+                //UpdateProgressBar(progressBar1, progressBar1.Maximum); //Just to make the progress bar reach its maximum.
             }
             else if (e.Node.Level == 1)
             {
+                /* Progress Bar
                 int numTasks = 3;
                 int progressBarIncrement = progressBar1.Maximum / numTasks;
+                /* Progress Bar */
 
                 //Task 1: Change panelists if user clicked on another cluster.
                 if (!e.Node.Parent.Name.Equals(currPanelistID))
@@ -239,37 +241,48 @@ namespace CustomUserControl
                     currPanelistID = e.Node.Parent.Name;
                     schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
                 }
-                UpdateProgressBar(progressBar1, progressBarIncrement);
+                //UpdateProgressBar(progressBar1, progressBarIncrement);
 
                 //Task 2: Change selected group if user clicked on a different one.
                 if (!currGroupID.Equals(e.Node.Name))
                 {
                     ChangeSelectedGroup(e.Node.Name);
                 } 
-                UpdateProgressBar(progressBar1, progressBarIncrement);
+                //UpdateProgressBar(progressBar1, progressBarIncrement);
 
                 //Task 3: Refresh
                 panelCalendar.Refresh();
-                UpdateProgressBar(progressBar1, progressBarIncrement);
+                //UpdateProgressBar(progressBar1, progressBarIncrement);
 
                 //Just to make sure the progress bar reaches its maximum.
-                UpdateProgressBar(progressBar1, progressBar1.Maximum);             
+                //UpdateProgressBar(progressBar1, progressBar1.Maximum);             
             }
         }
 
+        /*
         //Updates the progress bar until its maximum. The bar is reset to zero only during the next time it is made to update.
         private void UpdateProgressBar(ProgressBar progressBar1, int increment) 
         {
             if (progressBar1.Value == progressBar1.Maximum)
+            {
                 progressBar1.Value = progressBar1.Minimum;
+                progressBar1.Show();
+            }
             else if (progressBar1.Value + increment < progressBar1.Maximum)
+            {
                 progressBar1.Value += increment;
+                progressBar1.Show();
+            }
             else
+            {
                 progressBar1.Value = progressBar1.Maximum;
+                progressBar1.Hide();
+            }
 
             progressBar1.Refresh();
         }
-
+         * */
+        
         //Switches the view between cluster and isolated depending on the user's selected item in the combobox.
         private void comboBoxView_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -277,14 +290,50 @@ namespace CustomUserControl
             {
                 treeViewClusters.Show();
                 treeViewIsolatedGroups.Hide();
+                MarkAllScheduledGroups();
             }
             else if (comboBoxView.SelectedIndex == VIEW_INDEX_ISOLATED)
             {
                 treeViewClusters.Hide();
                 treeViewIsolatedGroups.Show();
+                MarkAllScheduledGroups();
             }
         }
 
+        private void treeViewIsolatedGroups_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            /*
+            int numTasks = 3;
+            int progressBarIncrement = progressBar1.Maximum / numTasks;
+            */
+
+            currPanelistID = "";
+
+            //Task 1: Refresh the current free times.
+            ChangeSelectedGroup(e.Node.Name);
+            //UpdateProgressBar(progressBar1, progressBarIncrement);
+
+            //Task 2: Refresh
+            panelCalendar.Refresh();
+            //UpdateProgressBar(progressBar1, progressBarIncrement);
+
+            //Just to make sure the progress bar reaches its maximum.
+            //UpdateProgressBar(progressBar1, progressBar1.Maximum); 
+        }
+
+        /*This action listener prevents manual checking of checkboxes in the treeviews. 
+        This method allows only the checks created by the method MarkAllScheduledGroups().
+         * */
+        private void treeViewClusters_BeforeCheck(object sender, TreeViewCancelEventArgs e)
+        {
+            if (e.Node.Checked)
+                e.Cancel = true;
+            else 
+            {
+                if (!schedulingDM.ScheduledGroupIDs.Contains(e.Node.Name))
+                    e.Cancel = true;
+            }
+        }
 
         /****** END: EVENT LISTENERS*******/
 
@@ -332,23 +381,63 @@ namespace CustomUserControl
             /*For debugging purposes*/
         }
 
-        private void treeViewIsolatedGroups_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+      
+        //Check the checkboxes of groups that already have a defense schedule.
+        private void MarkAllScheduledGroups() 
         {
-            int numTasks = 3;
-            int progressBarIncrement = progressBar1.Maximum / numTasks;
+            if (schedulingDM != null)
+            {
+                  
+                schedulingDM.RefreshScheduledGroupIDs("defense");
+                TreeView currTreeView;
 
-            currPanelistID = "";
+                if (comboBoxView.SelectedIndex == VIEW_INDEX_CLUSTER) 
+                {
+                    currTreeView = treeViewClusters;
+                    //Console.WriteLine("currTreeView = clusters");
+                }
+                else// if (comboBoxView.SelectedIndex == VIEW_INDEX_ISOLATED) 
+                {
+                    currTreeView = treeViewIsolatedGroups;
+                    
+                    //Console.WriteLine("currTreeView = isolated");
+                }
+           
+                currTreeView.BeginUpdate();
+                //Console.WriteLine("has children: "+currTreeView.HasChildren);
+                if (currTreeView.Nodes[0].Nodes.Count > 0)
+                {
+                    //Console.WriteLine("cluster!");
+                    foreach (TreeNode level1 in currTreeView.Nodes)
+                    {
+                        //Console.WriteLine("Panelist: " + level1.Name);
+                        foreach (TreeNode group in level1.Nodes)
+                        {
+                            //Console.WriteLine("is " + group.Name + " in the list?");
+                            if (schedulingDM.ScheduledGroupIDs.Contains(group.Name))
+                            {
+                                //Console.WriteLine("Group " + group.Name + " IS NOW CHECKED!!!");
+                                group.Checked = true;
+                            }
+                        }
+                    }
+                }
+                else 
+                {
+                    //Console.WriteLine("isolated!");
+                    foreach (TreeNode level1 in currTreeView.Nodes)
+                    {
+                        if (schedulingDM.ScheduledGroupIDs.Contains(level1.Name))
+                            level1.Checked = true;
+                    }
+                }
+              
+                currTreeView.EndUpdate();
 
-            //Task 1: Refresh the current free times.
-            ChangeSelectedGroup(e.Node.Name);
-            UpdateProgressBar(progressBar1, progressBarIncrement);
+                currTreeView.Refresh();
 
-            //Task 2: Refresh
-            panelCalendar.Refresh();
-            UpdateProgressBar(progressBar1, progressBarIncrement);
-
-            //Just to make sure the progress bar reaches its maximum.
-            UpdateProgressBar(progressBar1, progressBar1.Maximum); 
+            }
+          
         }
 
         //check
@@ -519,6 +608,7 @@ namespace CustomUserControl
                         schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID);
 
                     RefreshCalendar();
+                    MarkAllScheduledGroups();
                 }
             }
             else
@@ -528,7 +618,7 @@ namespace CustomUserControl
                     string dateTime = string.Format("{0:M/d/yyyy h:mm:ss tt}", defenseDateTimePicker.Value);
                     Console.WriteLine(dateTime);
 
-                    query = "insert into defenseschedule (defensedatetime,place,thesisgroupid) values('" + dateTime + "','" + venueTextBox.Text + "','" + currGroupID + "');";
+                    query = "insert into defenseschedule (defensedatetime,place,thesisgroupid, calendarType) values('" + dateTime + "','" + venueTextBox.Text + "','" + currGroupID + "','"+ Constants.DEFENSE_TYPE+"');";
                     dbHandler.Insert(query);
 
                     query = "select defenseid from defenseschedule where defensedatetime= '"+dateTime+"' and place='"+venueTextBox.Text+"' and thesisgroupid='"+currGroupID+"';";
@@ -537,6 +627,7 @@ namespace CustomUserControl
                     Console.WriteLine("Inserting into database");
 
                     RefreshCalendar();
+                    MarkAllScheduledGroups();
                     defenseRecordExistsInDatabase = true;
                 }
             }
@@ -722,5 +813,6 @@ namespace CustomUserControl
             schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes);
             treeViewIsolatedGroups.EndUpdate();
         }
+
     }
 }
