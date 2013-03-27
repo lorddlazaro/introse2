@@ -30,7 +30,6 @@
         {
             this.studentsPanel = new System.Windows.Forms.Panel();
             this.selStudent = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
@@ -42,9 +41,16 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
             this.student1 = new System.Windows.Forms.Panel();
+            this.studentBox4 = new System.Windows.Forms.ComboBox();
+            this.studentBox3 = new System.Windows.Forms.ComboBox();
+            this.studentBox2 = new System.Windows.Forms.ComboBox();
+            this.studentBox1 = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.panelistControl = new System.Windows.Forms.Panel();
             this.selPanelist = new System.Windows.Forms.Panel();
-            this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
@@ -53,13 +59,13 @@
             this.label32 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
-            this.selectedPanelist = new System.Windows.Forms.Label();
+            this.ppp = new System.Windows.Forms.Label();
             this.label44 = new System.Windows.Forms.Label();
             this.panelist1 = new System.Windows.Forms.Panel();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.panelistBox4 = new System.Windows.Forms.ComboBox();
+            this.panelistBox3 = new System.Windows.Forms.ComboBox();
+            this.panelistBox2 = new System.Windows.Forms.ComboBox();
+            this.panelistBox1 = new System.Windows.Forms.ComboBox();
             this.label29 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
@@ -83,14 +89,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.thesisGroupTreeView = new System.Windows.Forms.TreeView();
-            this.comboBox5 = new System.Windows.Forms.ComboBox();
-            this.comboBox6 = new System.Windows.Forms.ComboBox();
-            this.comboBox7 = new System.Windows.Forms.ComboBox();
-            this.comboBox8 = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.studentsPanel.SuspendLayout();
             this.selStudent.SuspendLayout();
             this.student1.SuspendLayout();
@@ -129,15 +129,6 @@
             this.selStudent.Name = "selStudent";
             this.selStudent.Size = new System.Drawing.Size(484, 180);
             this.selStudent.TabIndex = 44;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(349, 143);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(117, 27);
-            this.button1.TabIndex = 43;
-            this.button1.Text = "Delete Student";
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // button7
             // 
@@ -234,10 +225,10 @@
             // 
             this.student1.BackColor = System.Drawing.Color.Transparent;
             this.student1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.student1.Controls.Add(this.comboBox5);
-            this.student1.Controls.Add(this.comboBox6);
-            this.student1.Controls.Add(this.comboBox7);
-            this.student1.Controls.Add(this.comboBox8);
+            this.student1.Controls.Add(this.studentBox4);
+            this.student1.Controls.Add(this.studentBox3);
+            this.student1.Controls.Add(this.studentBox2);
+            this.student1.Controls.Add(this.studentBox1);
             this.student1.Controls.Add(this.label6);
             this.student1.Controls.Add(this.label7);
             this.student1.Controls.Add(this.label8);
@@ -246,6 +237,74 @@
             this.student1.Name = "student1";
             this.student1.Size = new System.Drawing.Size(240, 180);
             this.student1.TabIndex = 16;
+            // 
+            // studentBox4
+            // 
+            this.studentBox4.FormattingEnabled = true;
+            this.studentBox4.Location = new System.Drawing.Point(7, 150);
+            this.studentBox4.Name = "studentBox4";
+            this.studentBox4.Size = new System.Drawing.Size(225, 21);
+            this.studentBox4.TabIndex = 24;
+            // 
+            // studentBox3
+            // 
+            this.studentBox3.FormattingEnabled = true;
+            this.studentBox3.Location = new System.Drawing.Point(7, 109);
+            this.studentBox3.Name = "studentBox3";
+            this.studentBox3.Size = new System.Drawing.Size(225, 21);
+            this.studentBox3.TabIndex = 23;
+            // 
+            // studentBox2
+            // 
+            this.studentBox2.FormattingEnabled = true;
+            this.studentBox2.Location = new System.Drawing.Point(7, 65);
+            this.studentBox2.Name = "studentBox2";
+            this.studentBox2.Size = new System.Drawing.Size(225, 21);
+            this.studentBox2.TabIndex = 22;
+            // 
+            // studentBox1
+            // 
+            this.studentBox1.FormattingEnabled = true;
+            this.studentBox1.Location = new System.Drawing.Point(8, 24);
+            this.studentBox1.Name = "studentBox1";
+            this.studentBox1.Size = new System.Drawing.Size(225, 21);
+            this.studentBox1.TabIndex = 21;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 134);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(57, 13);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "Member 4:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 93);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(57, 13);
+            this.label7.TabIndex = 19;
+            this.label7.Text = "Member 3:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(7, 49);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(57, 13);
+            this.label8.TabIndex = 18;
+            this.label8.Text = "Member 2:";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 7);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(57, 13);
+            this.label9.TabIndex = 17;
+            this.label9.Text = "Member 1:";
             // 
             // panelistControl
             // 
@@ -271,20 +330,11 @@
             this.selPanelist.Controls.Add(this.label32);
             this.selPanelist.Controls.Add(this.label33);
             this.selPanelist.Controls.Add(this.label34);
-            this.selPanelist.Controls.Add(this.selectedPanelist);
+            this.selPanelist.Controls.Add(this.ppp);
             this.selPanelist.Location = new System.Drawing.Point(235, 39);
             this.selPanelist.Name = "selPanelist";
             this.selPanelist.Size = new System.Drawing.Size(487, 188);
             this.selPanelist.TabIndex = 29;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(346, 142);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(117, 27);
-            this.button2.TabIndex = 43;
-            this.button2.Text = "Delete Panelist";
-            this.button2.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
@@ -358,14 +408,14 @@
             this.label34.Text = "Middle Initial:";
             this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // selectedPanelist
+            // ppp
             // 
-            this.selectedPanelist.AutoSize = true;
-            this.selectedPanelist.Location = new System.Drawing.Point(4, 11);
-            this.selectedPanelist.Name = "selectedPanelist";
-            this.selectedPanelist.Size = new System.Drawing.Size(92, 13);
-            this.selectedPanelist.TabIndex = 9;
-            this.selectedPanelist.Text = "Selected Panelist:";
+            this.ppp.AutoSize = true;
+            this.ppp.Location = new System.Drawing.Point(4, 11);
+            this.ppp.Name = "ppp";
+            this.ppp.Size = new System.Drawing.Size(92, 13);
+            this.ppp.TabIndex = 9;
+            this.ppp.Text = "Selected Panelist:";
             // 
             // label44
             // 
@@ -381,10 +431,10 @@
             // 
             this.panelist1.BackColor = System.Drawing.Color.Transparent;
             this.panelist1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelist1.Controls.Add(this.comboBox4);
-            this.panelist1.Controls.Add(this.comboBox3);
-            this.panelist1.Controls.Add(this.comboBox2);
-            this.panelist1.Controls.Add(this.comboBox1);
+            this.panelist1.Controls.Add(this.panelistBox4);
+            this.panelist1.Controls.Add(this.panelistBox3);
+            this.panelist1.Controls.Add(this.panelistBox2);
+            this.panelist1.Controls.Add(this.panelistBox1);
             this.panelist1.Controls.Add(this.label29);
             this.panelist1.Controls.Add(this.label28);
             this.panelist1.Controls.Add(this.label26);
@@ -394,37 +444,37 @@
             this.panelist1.Size = new System.Drawing.Size(240, 188);
             this.panelist1.TabIndex = 27;
             // 
-            // comboBox4
+            // panelistBox4
             // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(6, 155);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(225, 21);
-            this.comboBox4.TabIndex = 16;
+            this.panelistBox4.FormattingEnabled = true;
+            this.panelistBox4.Location = new System.Drawing.Point(6, 155);
+            this.panelistBox4.Name = "panelistBox4";
+            this.panelistBox4.Size = new System.Drawing.Size(225, 21);
+            this.panelistBox4.TabIndex = 16;
             // 
-            // comboBox3
+            // panelistBox3
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(6, 114);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(225, 21);
-            this.comboBox3.TabIndex = 15;
+            this.panelistBox3.FormattingEnabled = true;
+            this.panelistBox3.Location = new System.Drawing.Point(6, 114);
+            this.panelistBox3.Name = "panelistBox3";
+            this.panelistBox3.Size = new System.Drawing.Size(225, 21);
+            this.panelistBox3.TabIndex = 15;
             // 
-            // comboBox2
+            // panelistBox2
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(6, 70);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(225, 21);
-            this.comboBox2.TabIndex = 14;
+            this.panelistBox2.FormattingEnabled = true;
+            this.panelistBox2.Location = new System.Drawing.Point(6, 70);
+            this.panelistBox2.Name = "panelistBox2";
+            this.panelistBox2.Size = new System.Drawing.Size(225, 21);
+            this.panelistBox2.TabIndex = 14;
             // 
-            // comboBox1
+            // panelistBox1
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(7, 29);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(225, 21);
-            this.comboBox1.TabIndex = 13;
+            this.panelistBox1.FormattingEnabled = true;
+            this.panelistBox1.Location = new System.Drawing.Point(7, 29);
+            this.panelistBox1.Name = "panelistBox1";
+            this.panelistBox1.Size = new System.Drawing.Size(225, 21);
+            this.panelistBox1.TabIndex = 13;
             // 
             // label29
             // 
@@ -504,7 +554,6 @@
             this.deleteGroup.TabIndex = 38;
             this.deleteGroup.Text = "Delete Group";
             this.deleteGroup.UseVisualStyleBackColor = true;
-            this.deleteGroup.Click += new System.EventHandler(this.deleteGroup_Click);
             // 
             // cancelEdits
             // 
@@ -514,7 +563,6 @@
             this.cancelEdits.TabIndex = 37;
             this.cancelEdits.Text = "Cancel Changes";
             this.cancelEdits.UseVisualStyleBackColor = true;
-            this.cancelEdits.Click += new System.EventHandler(this.cancelEdits_Click);
             // 
             // saveDetails
             // 
@@ -524,7 +572,6 @@
             this.saveDetails.TabIndex = 36;
             this.saveDetails.Text = "Save Details";
             this.saveDetails.UseVisualStyleBackColor = true;
-            this.saveDetails.Click += new System.EventHandler(this.save_groupDetails_Click);
             // 
             // editThesisGroup
             // 
@@ -534,7 +581,6 @@
             this.editThesisGroup.TabIndex = 35;
             this.editThesisGroup.Text = "Edit Selected";
             this.editThesisGroup.UseVisualStyleBackColor = true;
-            this.editThesisGroup.Click += new System.EventHandler(this.edit_groupDetails_Click);
             // 
             // groupStartSY
             // 
@@ -552,7 +598,6 @@
             this.newThesisGroup.TabIndex = 34;
             this.newThesisGroup.Text = "New";
             this.newThesisGroup.UseVisualStyleBackColor = true;
-            this.newThesisGroup.Click += new System.EventHandler(this.new_thesisGroup_Click);
             // 
             // groupStartTerm
             // 
@@ -656,75 +701,24 @@
             this.thesisGroupTreeView.Name = "thesisGroupTreeView";
             this.thesisGroupTreeView.Size = new System.Drawing.Size(263, 625);
             this.thesisGroupTreeView.TabIndex = 35;
-            this.thesisGroupTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.thesisGroupTreeView_NodeMouseClick);
             // 
-            // comboBox5
+            // button2
             // 
-            this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Location = new System.Drawing.Point(7, 150);
-            this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(225, 21);
-            this.comboBox5.TabIndex = 24;
+            this.button2.Location = new System.Drawing.Point(346, 142);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(117, 27);
+            this.button2.TabIndex = 43;
+            this.button2.Text = "Delete Panelist";
+            this.button2.UseVisualStyleBackColor = true;
             // 
-            // comboBox6
+            // button1
             // 
-            this.comboBox6.FormattingEnabled = true;
-            this.comboBox6.Location = new System.Drawing.Point(7, 109);
-            this.comboBox6.Name = "comboBox6";
-            this.comboBox6.Size = new System.Drawing.Size(225, 21);
-            this.comboBox6.TabIndex = 23;
-            // 
-            // comboBox7
-            // 
-            this.comboBox7.FormattingEnabled = true;
-            this.comboBox7.Location = new System.Drawing.Point(7, 65);
-            this.comboBox7.Name = "comboBox7";
-            this.comboBox7.Size = new System.Drawing.Size(225, 21);
-            this.comboBox7.TabIndex = 22;
-            // 
-            // comboBox8
-            // 
-            this.comboBox8.FormattingEnabled = true;
-            this.comboBox8.Location = new System.Drawing.Point(8, 24);
-            this.comboBox8.Name = "comboBox8";
-            this.comboBox8.Size = new System.Drawing.Size(225, 21);
-            this.comboBox8.TabIndex = 21;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 134);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(57, 13);
-            this.label6.TabIndex = 20;
-            this.label6.Text = "Member 4:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 93);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(57, 13);
-            this.label7.TabIndex = 19;
-            this.label7.Text = "Member 3:";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 49);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(57, 13);
-            this.label8.TabIndex = 18;
-            this.label8.Text = "Member 2:";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 7);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(57, 13);
-            this.label9.TabIndex = 17;
-            this.label9.Text = "Member 1:";
+            this.button1.Location = new System.Drawing.Point(349, 143);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(117, 27);
+            this.button1.TabIndex = 43;
+            this.button1.Text = "Delete Student";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // ThesisGroupControl
             // 
@@ -784,7 +778,6 @@
         private System.Windows.Forms.Button saveDetails;
         private System.Windows.Forms.Button deleteGroup;
         private System.Windows.Forms.Panel selStudent;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button9;
@@ -795,7 +788,6 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Panel selPanelist;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
@@ -804,21 +796,23 @@
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.Label selectedPanelist;
-        private System.Windows.Forms.ComboBox comboBox4;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label ppp;
+        private System.Windows.Forms.ComboBox panelistBox4;
+        private System.Windows.Forms.ComboBox panelistBox3;
+        private System.Windows.Forms.ComboBox panelistBox2;
+        private System.Windows.Forms.ComboBox panelistBox1;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.ComboBox comboBox5;
-        private System.Windows.Forms.ComboBox comboBox6;
-        private System.Windows.Forms.ComboBox comboBox7;
-        private System.Windows.Forms.ComboBox comboBox8;
+        private System.Windows.Forms.ComboBox studentBox4;
+        private System.Windows.Forms.ComboBox studentBox3;
+        private System.Windows.Forms.ComboBox studentBox2;
+        private System.Windows.Forms.ComboBox studentBox1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }
