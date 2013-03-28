@@ -30,31 +30,41 @@
         {
             this.studentsPanel = new System.Windows.Forms.Panel();
             this.selStudent = new System.Windows.Forms.Panel();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
+            this.studentMI = new System.Windows.Forms.TextBox();
+            this.studentLN = new System.Windows.Forms.TextBox();
+            this.studentFN = new System.Windows.Forms.TextBox();
+            this.studentID = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
+            this.deleteStudent = new System.Windows.Forms.Button();
+            this.cancelStudent = new System.Windows.Forms.Button();
+            this.saveStudent = new System.Windows.Forms.Button();
+            this.editStudent = new System.Windows.Forms.Button();
+            this.newStudent = new System.Windows.Forms.Button();
+            this.sss = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
             this.student1 = new System.Windows.Forms.Panel();
             this.studentBox4 = new System.Windows.Forms.ComboBox();
             this.studentBox3 = new System.Windows.Forms.ComboBox();
             this.studentBox2 = new System.Windows.Forms.ComboBox();
             this.studentBox1 = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.selectStudent4 = new System.Windows.Forms.Label();
+            this.selectStudent3 = new System.Windows.Forms.Label();
+            this.selectStudent2 = new System.Windows.Forms.Label();
+            this.selectStudent1 = new System.Windows.Forms.Label();
             this.panelistControl = new System.Windows.Forms.Panel();
             this.selPanelist = new System.Windows.Forms.Panel();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.panelMI = new System.Windows.Forms.TextBox();
+            this.panelLN = new System.Windows.Forms.TextBox();
+            this.panelFN = new System.Windows.Forms.TextBox();
+            this.panelID = new System.Windows.Forms.TextBox();
+            this.deletePanelist = new System.Windows.Forms.Button();
+            this.cancelPanelist = new System.Windows.Forms.Button();
+            this.savePanelist = new System.Windows.Forms.Button();
+            this.editPanelist = new System.Windows.Forms.Button();
+            this.newPanelist = new System.Windows.Forms.Button();
             this.label31 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
@@ -66,10 +76,10 @@
             this.panelistBox3 = new System.Windows.Forms.ComboBox();
             this.panelistBox2 = new System.Windows.Forms.ComboBox();
             this.panelistBox1 = new System.Windows.Forms.ComboBox();
-            this.label29 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
+            this.selectPanel4 = new System.Windows.Forms.Label();
+            this.selectPanel3 = new System.Windows.Forms.Label();
+            this.selectPanel2 = new System.Windows.Forms.Label();
+            this.selectPanel1 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.thesisGroupPanel = new System.Windows.Forms.Panel();
             this.deleteGroup = new System.Windows.Forms.Button();
@@ -89,8 +99,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.thesisGroupTreeView = new System.Windows.Forms.TreeView();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.studentsPanel.SuspendLayout();
             this.selStudent.SuspendLayout();
             this.student1.SuspendLayout();
@@ -115,101 +123,142 @@
             // 
             this.selStudent.BackColor = System.Drawing.Color.Transparent;
             this.selStudent.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.selStudent.Controls.Add(this.button1);
-            this.selStudent.Controls.Add(this.button7);
-            this.selStudent.Controls.Add(this.button8);
-            this.selStudent.Controls.Add(this.button9);
-            this.selStudent.Controls.Add(this.button10);
+            this.selStudent.Controls.Add(this.studentMI);
+            this.selStudent.Controls.Add(this.studentLN);
+            this.selStudent.Controls.Add(this.studentFN);
+            this.selStudent.Controls.Add(this.studentID);
             this.selStudent.Controls.Add(this.label10);
             this.selStudent.Controls.Add(this.label11);
             this.selStudent.Controls.Add(this.label12);
             this.selStudent.Controls.Add(this.label13);
-            this.selStudent.Controls.Add(this.label14);
+            this.selStudent.Controls.Add(this.deleteStudent);
+            this.selStudent.Controls.Add(this.cancelStudent);
+            this.selStudent.Controls.Add(this.saveStudent);
+            this.selStudent.Controls.Add(this.editStudent);
+            this.selStudent.Controls.Add(this.newStudent);
+            this.selStudent.Controls.Add(this.sss);
             this.selStudent.Location = new System.Drawing.Point(235, 46);
             this.selStudent.Name = "selStudent";
             this.selStudent.Size = new System.Drawing.Size(484, 180);
             this.selStudent.TabIndex = 44;
             // 
-            // button7
+            // studentMI
             // 
-            this.button7.Location = new System.Drawing.Point(349, 110);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(117, 27);
-            this.button7.TabIndex = 42;
-            this.button7.Text = "Cancel Changes";
-            this.button7.UseVisualStyleBackColor = true;
+            this.studentMI.Location = new System.Drawing.Point(79, 135);
+            this.studentMI.Name = "studentMI";
+            this.studentMI.Size = new System.Drawing.Size(246, 20);
+            this.studentMI.TabIndex = 55;
             // 
-            // button8
+            // studentLN
             // 
-            this.button8.Location = new System.Drawing.Point(349, 78);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(117, 27);
-            this.button8.TabIndex = 41;
-            this.button8.Text = "Save Details";
-            this.button8.UseVisualStyleBackColor = true;
+            this.studentLN.Location = new System.Drawing.Point(79, 105);
+            this.studentLN.Name = "studentLN";
+            this.studentLN.Size = new System.Drawing.Size(246, 20);
+            this.studentLN.TabIndex = 54;
             // 
-            // button9
+            // studentFN
             // 
-            this.button9.Location = new System.Drawing.Point(349, 45);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(117, 27);
-            this.button9.TabIndex = 40;
-            this.button9.Text = "Edit Selected";
-            this.button9.UseVisualStyleBackColor = true;
+            this.studentFN.Location = new System.Drawing.Point(79, 75);
+            this.studentFN.Name = "studentFN";
+            this.studentFN.Size = new System.Drawing.Size(246, 20);
+            this.studentFN.TabIndex = 53;
             // 
-            // button10
+            // studentID
             // 
-            this.button10.Location = new System.Drawing.Point(349, 12);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(117, 27);
-            this.button10.TabIndex = 39;
-            this.button10.Text = "New";
-            this.button10.UseVisualStyleBackColor = true;
+            this.studentID.Location = new System.Drawing.Point(79, 45);
+            this.studentID.Name = "studentID";
+            this.studentID.Size = new System.Drawing.Size(246, 20);
+            this.studentID.TabIndex = 52;
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(4, 36);
+            this.label10.Location = new System.Drawing.Point(4, 45);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(69, 20);
-            this.label10.TabIndex = 28;
+            this.label10.TabIndex = 51;
             this.label10.Text = "ID Number:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label11
             // 
-            this.label11.Location = new System.Drawing.Point(4, 66);
+            this.label11.Location = new System.Drawing.Point(4, 75);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(68, 20);
-            this.label11.TabIndex = 25;
+            this.label11.TabIndex = 48;
             this.label11.Text = "First Name:";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(4, 96);
+            this.label12.Location = new System.Drawing.Point(4, 105);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(69, 20);
-            this.label12.TabIndex = 26;
+            this.label12.TabIndex = 49;
             this.label12.Text = "Last Name:";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label13
             // 
-            this.label13.Location = new System.Drawing.Point(4, 126);
+            this.label13.Location = new System.Drawing.Point(4, 135);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(69, 20);
-            this.label13.TabIndex = 27;
+            this.label13.TabIndex = 50;
             this.label13.Text = "Middle Initial:";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label14
+            // deleteStudent
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(4, 11);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(92, 13);
-            this.label14.TabIndex = 9;
-            this.label14.Text = "Selected Student:";
+            this.deleteStudent.Location = new System.Drawing.Point(349, 143);
+            this.deleteStudent.Name = "deleteStudent";
+            this.deleteStudent.Size = new System.Drawing.Size(117, 27);
+            this.deleteStudent.TabIndex = 43;
+            this.deleteStudent.Text = "Delete Student";
+            this.deleteStudent.UseVisualStyleBackColor = true;
+            // 
+            // cancelStudent
+            // 
+            this.cancelStudent.Location = new System.Drawing.Point(349, 110);
+            this.cancelStudent.Name = "cancelStudent";
+            this.cancelStudent.Size = new System.Drawing.Size(117, 27);
+            this.cancelStudent.TabIndex = 42;
+            this.cancelStudent.Text = "Cancel Changes";
+            this.cancelStudent.UseVisualStyleBackColor = true;
+            // 
+            // saveStudent
+            // 
+            this.saveStudent.Location = new System.Drawing.Point(349, 78);
+            this.saveStudent.Name = "saveStudent";
+            this.saveStudent.Size = new System.Drawing.Size(117, 27);
+            this.saveStudent.TabIndex = 41;
+            this.saveStudent.Text = "Save Details";
+            this.saveStudent.UseVisualStyleBackColor = true;
+            // 
+            // editStudent
+            // 
+            this.editStudent.Location = new System.Drawing.Point(349, 45);
+            this.editStudent.Name = "editStudent";
+            this.editStudent.Size = new System.Drawing.Size(117, 27);
+            this.editStudent.TabIndex = 40;
+            this.editStudent.Text = "Edit Selected";
+            this.editStudent.UseVisualStyleBackColor = true;
+            // 
+            // newStudent
+            // 
+            this.newStudent.Location = new System.Drawing.Point(349, 12);
+            this.newStudent.Name = "newStudent";
+            this.newStudent.Size = new System.Drawing.Size(117, 27);
+            this.newStudent.TabIndex = 39;
+            this.newStudent.Text = "New";
+            this.newStudent.UseVisualStyleBackColor = true;
+            // 
+            // sss
+            // 
+            this.sss.AutoSize = true;
+            this.sss.Location = new System.Drawing.Point(4, 11);
+            this.sss.Name = "sss";
+            this.sss.Size = new System.Drawing.Size(92, 13);
+            this.sss.TabIndex = 9;
+            this.sss.Text = "Selected Student:";
             // 
             // label43
             // 
@@ -229,11 +278,11 @@
             this.student1.Controls.Add(this.studentBox3);
             this.student1.Controls.Add(this.studentBox2);
             this.student1.Controls.Add(this.studentBox1);
-            this.student1.Controls.Add(this.label6);
-            this.student1.Controls.Add(this.label7);
-            this.student1.Controls.Add(this.label8);
-            this.student1.Controls.Add(this.label9);
-            this.student1.Location = new System.Drawing.Point(-2, 46);
+            this.student1.Controls.Add(this.selectStudent4);
+            this.student1.Controls.Add(this.selectStudent3);
+            this.student1.Controls.Add(this.selectStudent2);
+            this.student1.Controls.Add(this.selectStudent1);
+            this.student1.Location = new System.Drawing.Point(-3, 46);
             this.student1.Name = "student1";
             this.student1.Size = new System.Drawing.Size(240, 180);
             this.student1.TabIndex = 16;
@@ -270,41 +319,41 @@
             this.studentBox1.Size = new System.Drawing.Size(225, 21);
             this.studentBox1.TabIndex = 21;
             // 
-            // label6
+            // selectStudent4
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 134);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(57, 13);
-            this.label6.TabIndex = 20;
-            this.label6.Text = "Member 4:";
+            this.selectStudent4.AutoSize = true;
+            this.selectStudent4.Location = new System.Drawing.Point(6, 134);
+            this.selectStudent4.Name = "selectStudent4";
+            this.selectStudent4.Size = new System.Drawing.Size(57, 13);
+            this.selectStudent4.TabIndex = 20;
+            this.selectStudent4.Text = "Member 4:";
             // 
-            // label7
+            // selectStudent3
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 93);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(57, 13);
-            this.label7.TabIndex = 19;
-            this.label7.Text = "Member 3:";
+            this.selectStudent3.AutoSize = true;
+            this.selectStudent3.Location = new System.Drawing.Point(6, 93);
+            this.selectStudent3.Name = "selectStudent3";
+            this.selectStudent3.Size = new System.Drawing.Size(57, 13);
+            this.selectStudent3.TabIndex = 19;
+            this.selectStudent3.Text = "Member 3:";
             // 
-            // label8
+            // selectStudent2
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 49);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(57, 13);
-            this.label8.TabIndex = 18;
-            this.label8.Text = "Member 2:";
+            this.selectStudent2.AutoSize = true;
+            this.selectStudent2.Location = new System.Drawing.Point(7, 49);
+            this.selectStudent2.Name = "selectStudent2";
+            this.selectStudent2.Size = new System.Drawing.Size(57, 13);
+            this.selectStudent2.TabIndex = 18;
+            this.selectStudent2.Text = "Member 2:";
             // 
-            // label9
+            // selectStudent1
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 7);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(57, 13);
-            this.label9.TabIndex = 17;
-            this.label9.Text = "Member 1:";
+            this.selectStudent1.AutoSize = true;
+            this.selectStudent1.Location = new System.Drawing.Point(6, 7);
+            this.selectStudent1.Name = "selectStudent1";
+            this.selectStudent1.Size = new System.Drawing.Size(57, 13);
+            this.selectStudent1.TabIndex = 17;
+            this.selectStudent1.Text = "Member 1:";
             // 
             // panelistControl
             // 
@@ -321,11 +370,15 @@
             // 
             this.selPanelist.BackColor = System.Drawing.Color.Transparent;
             this.selPanelist.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.selPanelist.Controls.Add(this.button2);
-            this.selPanelist.Controls.Add(this.button3);
-            this.selPanelist.Controls.Add(this.button4);
-            this.selPanelist.Controls.Add(this.button5);
-            this.selPanelist.Controls.Add(this.button6);
+            this.selPanelist.Controls.Add(this.panelMI);
+            this.selPanelist.Controls.Add(this.panelLN);
+            this.selPanelist.Controls.Add(this.panelFN);
+            this.selPanelist.Controls.Add(this.panelID);
+            this.selPanelist.Controls.Add(this.deletePanelist);
+            this.selPanelist.Controls.Add(this.cancelPanelist);
+            this.selPanelist.Controls.Add(this.savePanelist);
+            this.selPanelist.Controls.Add(this.editPanelist);
+            this.selPanelist.Controls.Add(this.newPanelist);
             this.selPanelist.Controls.Add(this.label31);
             this.selPanelist.Controls.Add(this.label32);
             this.selPanelist.Controls.Add(this.label33);
@@ -336,45 +389,82 @@
             this.selPanelist.Size = new System.Drawing.Size(487, 188);
             this.selPanelist.TabIndex = 29;
             // 
-            // button3
+            // panelMI
             // 
-            this.button3.Location = new System.Drawing.Point(346, 109);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(117, 27);
-            this.button3.TabIndex = 42;
-            this.button3.Text = "Cancel Changes";
-            this.button3.UseVisualStyleBackColor = true;
+            this.panelMI.Location = new System.Drawing.Point(79, 132);
+            this.panelMI.Name = "panelMI";
+            this.panelMI.Size = new System.Drawing.Size(246, 20);
+            this.panelMI.TabIndex = 47;
             // 
-            // button4
+            // panelLN
             // 
-            this.button4.Location = new System.Drawing.Point(346, 77);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(117, 27);
-            this.button4.TabIndex = 41;
-            this.button4.Text = "Save Details";
-            this.button4.UseVisualStyleBackColor = true;
+            this.panelLN.Location = new System.Drawing.Point(79, 102);
+            this.panelLN.Name = "panelLN";
+            this.panelLN.Size = new System.Drawing.Size(246, 20);
+            this.panelLN.TabIndex = 46;
             // 
-            // button5
+            // panelFN
             // 
-            this.button5.Location = new System.Drawing.Point(346, 44);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(117, 27);
-            this.button5.TabIndex = 40;
-            this.button5.Text = "Edit Selected";
-            this.button5.UseVisualStyleBackColor = true;
+            this.panelFN.Location = new System.Drawing.Point(79, 72);
+            this.panelFN.Name = "panelFN";
+            this.panelFN.Size = new System.Drawing.Size(246, 20);
+            this.panelFN.TabIndex = 45;
             // 
-            // button6
+            // panelID
             // 
-            this.button6.Location = new System.Drawing.Point(346, 11);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(117, 27);
-            this.button6.TabIndex = 39;
-            this.button6.Text = "New";
-            this.button6.UseVisualStyleBackColor = true;
+            this.panelID.Location = new System.Drawing.Point(79, 42);
+            this.panelID.Name = "panelID";
+            this.panelID.Size = new System.Drawing.Size(246, 20);
+            this.panelID.TabIndex = 44;
+            // 
+            // deletePanelist
+            // 
+            this.deletePanelist.Location = new System.Drawing.Point(346, 142);
+            this.deletePanelist.Name = "deletePanelist";
+            this.deletePanelist.Size = new System.Drawing.Size(117, 27);
+            this.deletePanelist.TabIndex = 43;
+            this.deletePanelist.Text = "Delete Panelist";
+            this.deletePanelist.UseVisualStyleBackColor = true;
+            // 
+            // cancelPanelist
+            // 
+            this.cancelPanelist.Location = new System.Drawing.Point(346, 109);
+            this.cancelPanelist.Name = "cancelPanelist";
+            this.cancelPanelist.Size = new System.Drawing.Size(117, 27);
+            this.cancelPanelist.TabIndex = 42;
+            this.cancelPanelist.Text = "Cancel Changes";
+            this.cancelPanelist.UseVisualStyleBackColor = true;
+            // 
+            // savePanelist
+            // 
+            this.savePanelist.Location = new System.Drawing.Point(346, 77);
+            this.savePanelist.Name = "savePanelist";
+            this.savePanelist.Size = new System.Drawing.Size(117, 27);
+            this.savePanelist.TabIndex = 41;
+            this.savePanelist.Text = "Save Details";
+            this.savePanelist.UseVisualStyleBackColor = true;
+            // 
+            // editPanelist
+            // 
+            this.editPanelist.Location = new System.Drawing.Point(346, 44);
+            this.editPanelist.Name = "editPanelist";
+            this.editPanelist.Size = new System.Drawing.Size(117, 27);
+            this.editPanelist.TabIndex = 40;
+            this.editPanelist.Text = "Edit Selected";
+            this.editPanelist.UseVisualStyleBackColor = true;
+            // 
+            // newPanelist
+            // 
+            this.newPanelist.Location = new System.Drawing.Point(346, 11);
+            this.newPanelist.Name = "newPanelist";
+            this.newPanelist.Size = new System.Drawing.Size(117, 27);
+            this.newPanelist.TabIndex = 39;
+            this.newPanelist.Text = "New";
+            this.newPanelist.UseVisualStyleBackColor = true;
             // 
             // label31
             // 
-            this.label31.Location = new System.Drawing.Point(4, 36);
+            this.label31.Location = new System.Drawing.Point(4, 42);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(69, 20);
             this.label31.TabIndex = 28;
@@ -383,7 +473,7 @@
             // 
             // label32
             // 
-            this.label32.Location = new System.Drawing.Point(4, 66);
+            this.label32.Location = new System.Drawing.Point(4, 72);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(68, 20);
             this.label32.TabIndex = 25;
@@ -392,7 +482,7 @@
             // 
             // label33
             // 
-            this.label33.Location = new System.Drawing.Point(4, 96);
+            this.label33.Location = new System.Drawing.Point(4, 102);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(69, 20);
             this.label33.TabIndex = 26;
@@ -401,7 +491,7 @@
             // 
             // label34
             // 
-            this.label34.Location = new System.Drawing.Point(4, 126);
+            this.label34.Location = new System.Drawing.Point(4, 132);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(69, 20);
             this.label34.TabIndex = 27;
@@ -435,11 +525,11 @@
             this.panelist1.Controls.Add(this.panelistBox3);
             this.panelist1.Controls.Add(this.panelistBox2);
             this.panelist1.Controls.Add(this.panelistBox1);
-            this.panelist1.Controls.Add(this.label29);
-            this.panelist1.Controls.Add(this.label28);
-            this.panelist1.Controls.Add(this.label26);
-            this.panelist1.Controls.Add(this.label27);
-            this.panelist1.Location = new System.Drawing.Point(-2, 39);
+            this.panelist1.Controls.Add(this.selectPanel4);
+            this.panelist1.Controls.Add(this.selectPanel3);
+            this.panelist1.Controls.Add(this.selectPanel2);
+            this.panelist1.Controls.Add(this.selectPanel1);
+            this.panelist1.Location = new System.Drawing.Point(-3, 39);
             this.panelist1.Name = "panelist1";
             this.panelist1.Size = new System.Drawing.Size(240, 188);
             this.panelist1.TabIndex = 27;
@@ -476,41 +566,41 @@
             this.panelistBox1.Size = new System.Drawing.Size(225, 21);
             this.panelistBox1.TabIndex = 13;
             // 
-            // label29
+            // selectPanel4
             // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(5, 139);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(56, 13);
-            this.label29.TabIndex = 12;
-            this.label29.Text = "Panelist 4:";
+            this.selectPanel4.AutoSize = true;
+            this.selectPanel4.Location = new System.Drawing.Point(5, 139);
+            this.selectPanel4.Name = "selectPanel4";
+            this.selectPanel4.Size = new System.Drawing.Size(56, 13);
+            this.selectPanel4.TabIndex = 12;
+            this.selectPanel4.Text = "Panelist 4:";
             // 
-            // label28
+            // selectPanel3
             // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(5, 98);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(56, 13);
-            this.label28.TabIndex = 11;
-            this.label28.Text = "Panelist 3:";
+            this.selectPanel3.AutoSize = true;
+            this.selectPanel3.Location = new System.Drawing.Point(5, 98);
+            this.selectPanel3.Name = "selectPanel3";
+            this.selectPanel3.Size = new System.Drawing.Size(56, 13);
+            this.selectPanel3.TabIndex = 11;
+            this.selectPanel3.Text = "Panelist 3:";
             // 
-            // label26
+            // selectPanel2
             // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(6, 54);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(56, 13);
-            this.label26.TabIndex = 10;
-            this.label26.Text = "Panelist 2:";
+            this.selectPanel2.AutoSize = true;
+            this.selectPanel2.Location = new System.Drawing.Point(6, 54);
+            this.selectPanel2.Name = "selectPanel2";
+            this.selectPanel2.Size = new System.Drawing.Size(56, 13);
+            this.selectPanel2.TabIndex = 10;
+            this.selectPanel2.Text = "Panelist 2:";
             // 
-            // label27
+            // selectPanel1
             // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(5, 12);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(74, 13);
-            this.label27.TabIndex = 9;
-            this.label27.Text = "Lead Panelist:";
+            this.selectPanel1.AutoSize = true;
+            this.selectPanel1.Location = new System.Drawing.Point(5, 12);
+            this.selectPanel1.Name = "selectPanel1";
+            this.selectPanel1.Size = new System.Drawing.Size(74, 13);
+            this.selectPanel1.TabIndex = 9;
+            this.selectPanel1.Text = "Lead Panelist:";
             // 
             // label1
             // 
@@ -702,24 +792,6 @@
             this.thesisGroupTreeView.Size = new System.Drawing.Size(263, 625);
             this.thesisGroupTreeView.TabIndex = 35;
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(346, 142);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(117, 27);
-            this.button2.TabIndex = 43;
-            this.button2.Text = "Delete Panelist";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(349, 143);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(117, 27);
-            this.button1.TabIndex = 43;
-            this.button1.Text = "Delete Student";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // ThesisGroupControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -755,7 +827,7 @@
         private System.Windows.Forms.Panel student1;
         private System.Windows.Forms.Panel panelistControl;
         private System.Windows.Forms.Panel panelist1;
-        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label selectPanel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel thesisGroupPanel;
         private System.Windows.Forms.TextBox groupStartSY;
@@ -778,20 +850,16 @@
         private System.Windows.Forms.Button saveDetails;
         private System.Windows.Forms.Button deleteGroup;
         private System.Windows.Forms.Panel selStudent;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button cancelStudent;
+        private System.Windows.Forms.Button saveStudent;
+        private System.Windows.Forms.Button editStudent;
+        private System.Windows.Forms.Button newStudent;
+        private System.Windows.Forms.Label sss;
         private System.Windows.Forms.Panel selPanelist;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button cancelPanelist;
+        private System.Windows.Forms.Button savePanelist;
+        private System.Windows.Forms.Button editPanelist;
+        private System.Windows.Forms.Button newPanelist;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label33;
@@ -801,18 +869,30 @@
         private System.Windows.Forms.ComboBox panelistBox3;
         private System.Windows.Forms.ComboBox panelistBox2;
         private System.Windows.Forms.ComboBox panelistBox1;
-        private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label selectPanel4;
+        private System.Windows.Forms.Label selectPanel3;
+        private System.Windows.Forms.Label selectPanel2;
         private System.Windows.Forms.ComboBox studentBox4;
         private System.Windows.Forms.ComboBox studentBox3;
         private System.Windows.Forms.ComboBox studentBox2;
         private System.Windows.Forms.ComboBox studentBox1;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label selectStudent4;
+        private System.Windows.Forms.Label selectStudent3;
+        private System.Windows.Forms.Label selectStudent2;
+        private System.Windows.Forms.Label selectStudent1;
+        private System.Windows.Forms.Button deleteStudent;
+        private System.Windows.Forms.Button deletePanelist;
+        private System.Windows.Forms.TextBox studentMI;
+        private System.Windows.Forms.TextBox studentLN;
+        private System.Windows.Forms.TextBox studentFN;
+        private System.Windows.Forms.TextBox studentID;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox panelMI;
+        private System.Windows.Forms.TextBox panelLN;
+        private System.Windows.Forms.TextBox panelFN;
+        private System.Windows.Forms.TextBox panelID;
     }
 }
