@@ -8,14 +8,15 @@ namespace CustomUserControl
 {
     public class SchedulingDataManager
     {
-        private const int DEFWEEK_DAYS = 6;
-        private const int THSST1_DEF_DURATION_MINS = 60;
-        private const int THSST3_DEF_DURATION_MINS = 120;
-        private const int START_HOUR = 8;
-        private const int START_MIN = 0;
-        private const int LIMIT_HOUR = 21;
-        private const int LIMIT_MIN = 0;
-
+        /*
+        private const int Constants.DAYS_IN_DEF_WEEK = 6;
+        private const int Constants.THSST1_DEFDURATION_MINS = 60;
+        private const int Constants.THSST3_DEFDURATION_MINS = 120;
+        private const int Constants.START_HOUR = 8;
+        private const int Constants.START_MIN = 0;
+        private const int Constants.LIMIT_HOUR = 21;
+        private const int Constants.LIMIT_MIN = 0;
+        */
         private DBce dbHandler;
 
         /*This will be used to draw the rectangles representing the defense schedules of
@@ -23,10 +24,10 @@ namespace CustomUserControl
          * */
         private List<DefenseSchedule> clusterDefScheds;
 
+        private List<String> scheduledGroupIDs;
+
         //This will be used to store the free times of the selected thesis group
         private List<TimePeriod>[] selectedGroupFreeTimes;
-
-        private List<String> scheduledGroupIDs;
 
         //This will be used to draw the rectangles representing the free slots of the selected thesis group.
         //private List<TimePeriod> selectedGroupFreeSlots;
@@ -34,99 +35,20 @@ namespace CustomUserControl
         //Getters
 
         public List<DefenseSchedule> ClusterDefScheds { get { return clusterDefScheds; } }
-        public List<TimePeriod>[] SelectedGroupFreeTimes { get { return selectedGroupFreeTimes; } }
         public List<String> ScheduledGroupIDs { get { return scheduledGroupIDs; } }
-
+        public List<TimePeriod>[] SelectedGroupFreeTimes { get { return selectedGroupFreeTimes; } }
+        
         public SchedulingDataManager()
         {
             clusterDefScheds = new List<DefenseSchedule>();
-            selectedGroupFreeTimes = new List<TimePeriod>[DEFWEEK_DAYS];
+            selectedGroupFreeTimes = new List<TimePeriod>[Constants.DAYS_IN_DEF_WEEK];
             scheduledGroupIDs = new List<String>();
             InitListTimePeriodArray(selectedGroupFreeTimes);
             dbHandler = new DBce();
         }
 
-        /* This method will be called by the GUI to add multigrouped panelists to the tree.
-         * */
-        public void AddPanelistsToTree(TreeNodeCollection tree, String eligibilityColumnName)
-        {
-            String query = "select panelistID from panelassignment group by panelistID having count(*) > 1;";
-            List<String>[] parentList = dbHandler.Select(query, 1);
-            List<String>[] parentInfo;
-            List<String>[] childList;
-            TreeNode parent;
-            TreeNode[] child;
-            TreeNodeCollection children;
-
-            for (int i = 0; i < parentList[0].Count(); i++)
-            {
-                query = "Select firstName, MI, lastName from panelist where panelistid = " + parentList[0].ElementAt(i) + ";";
-                parentInfo = dbHandler.Select(query, 3);
-
-                //query = "Select t.thesisgroupID,t.title from thesisgroup t, panelassignment p where t.thesisgroupid = p.thesisgroupid and p.panelistID =" + parentList[0].ElementAt(i) + ";";
-                query = "Select thesisgroupID, title from thesisgroup where " + eligibilityColumnName + " = 'True' AND thesisgroupid in( select thesisgroupid from panelassignment where panelistID =" + parentList[0].ElementAt(i) + ");";
-                childList = dbHandler.Select(query, 2);
-
-                parent = new TreeNode();
-                child = new TreeNode[childList[0].Count()];
-                children = parent.Nodes;
-
-                parent.Name = parentList[0].ElementAt(i);
-                parent.Text = parentInfo[0].ElementAt(0) + " " + parentInfo[1].ElementAt(0) + " " + parentInfo[2].ElementAt(0);
-
-                for (int j = 0; j < childList[0].Count(); j++)
-                {
-                    // check whether thesis group has >= 1 student and 3 panelists
-                    String subq1 = "select count(*) from panelassignment where thesisgroupid = " + childList[0].ElementAt(j) + ";";
-                    String subq2 = "select count(*) from student where thesisgroupid = " + childList[0].ElementAt(j) + ";";
-
-                    int panelCount = Convert.ToInt32(dbHandler.Select(subq1, 1)[0].ElementAt(0));
-                    int memberCount = Convert.ToInt32(dbHandler.Select(subq2, 1)[0].ElementAt(0));
-
-                    if (panelCount == 3 && memberCount >= 1)
-                    {
-                        child[j] = new TreeNode();
-                        child[j].Name = childList[0].ElementAt(j);
-                        child[j].Text = childList[1].ElementAt(j);
-                        children.Add(child[j]);
-                    }
-                }
-
-                // check whether there are children
-                if (children.Count > 0)
-                    tree.Add(parent);
-            }
-        }
-
-        public void AddIsolatedGroupsToTree(TreeNodeCollection tree, String eligibilityColumnName)
-        {
-            String query = "select thesisgroupID,title from thesisgroup where "+eligibilityColumnName+" = 'True' AND thesisgroupID not in (select thesisgroupID from panelassignment where panelistID in (select panelistID from panelassignment group by panelistID having count(*) > 1));";
-            List<String>[] list = dbHandler.Select(query, 2);
-            TreeNode node;
-            for (int i = 0; i < list[0].Count(); i++)
-            {
-                node = new TreeNode();
-
-                // check whether thesis group has >= 1 student and 3 panelists
-                String subq1 = "select count(*) from panelassignment where thesisgroupid = " + list[0].ElementAt(i) + ";";
-                String subq2 = "select count(*) from student where thesisgroupid = " + list[0].ElementAt(i) + ";";
-
-                int panelCount = Convert.ToInt32(dbHandler.Select(subq1, 1)[0].ElementAt(0));
-                int memberCount = Convert.ToInt32(dbHandler.Select(subq2, 1)[0].ElementAt(0));
-
-                if (panelCount == 3 && memberCount >= 1)
-                {
-                    node.Name = list[0].ElementAt(i);
-                    node.Text = list[1].ElementAt(i);
-                }
-
-                tree.Add(node);
-            }
-        }
-
-        /*The following two methods are the important ones for initializing the lists 
-         * to be used for drawing the available times and defense schedules.
-         * */
+        
+        /* REFRESH METHODS - START */
 
         /* This method will be called by the UI to refresh clusterDefSchedules when a cluster is selected.
          * Note: this was previously named initDefenseSchedules()
@@ -153,53 +75,6 @@ namespace CustomUserControl
             }   
         }
 
-        /* This method returns a DefenseSchedule object within the specified startDate and endDDate 
-         * for the specified thesis group. If there is none, the method returns null.
-         */
-        private DefenseSchedule GetDefSched(DateTime startDate, DateTime endDate, String thesisGroupID)
-        {
-            String query = "SELECT defenseDateTime, place FROM defenseSchedule WHERE thesisGroupID = " + thesisGroupID + " AND defenseDateTime >='" + startDate.Date + "' AND defenseDateTime <='" + endDate.AddDays(1).Date + "';";
-           
-            List<String>[] columns = dbHandler.Select(query, 2);
-
-            if (columns[0].Count == 0)//If the query result is an empty set.
-                return null;
-
-            int defDuration = GetMinsDuration(thesisGroupID);
-            if (defDuration == -1) //If course is neither THSST-1 nor THSST-3. There must be some input error.
-                return null;
-
-            DateTime startTime = Convert.ToDateTime(columns[0].ElementAt(0));
-            DateTime endTime = startTime.AddMinutes(defDuration);
-            String place = columns[1].ElementAt(0);
-            String groupTitle;
-            query = "SELECT title from thesisGroup WHERE thesisGroupID = " + thesisGroupID + ";";
-            groupTitle = dbHandler.Select(query, 1)[0].ElementAt(0);
-
-            return new DefenseSchedule(startTime, endTime, place, groupTitle);
-        }
-
-        /* This method returns the defense schedule duration in minutes depending on the thesis group's course (THSST-1 or THSST-3)
-         * This method is used in GetDefSched().
-         */
-        private int GetMinsDuration(String thesisGroupID)
-        {
-            String query = "SELECT course from thesisGroup where thesisGroupID = " + thesisGroupID + ";";
-            String course = dbHandler.Select(query, 1)[0].ElementAt(0);
-            if (course.Equals("THSST-1"))
-                return THSST1_DEF_DURATION_MINS;
-            else if (course.Equals("THSST-3"))
-                return THSST3_DEF_DURATION_MINS;
-
-            return -1;
-        }
-
-        private void InitListTimePeriodArray(List<TimePeriod>[] list)
-        {
-            for (int i = 0; i < DEFWEEK_DAYS; i++)
-                list[i] = new List<TimePeriod>();
-        }
-
         /* This method will be called by the UI to refresh selectedGroupFreeSlots when
          * a thesis group is selected, whether in tree view (for clusters) or listbox (for isolated groups).
          * The parameters are still to be changed.
@@ -213,11 +88,11 @@ namespace CustomUserControl
                 return;
             }
 
-            List<TimePeriod>[] days = new List<TimePeriod>[DEFWEEK_DAYS];
+            List<TimePeriod>[] days = new List<TimePeriod>[Constants.DAYS_IN_DEF_WEEK];
             InitListTimePeriodArray(days);
             AddBusyTimePeriods(thesisGroupID, startDate, endDate, days);
 
-            for (int i = 0; i < DEFWEEK_DAYS; i++)
+            for (int i = 0; i < Constants.DAYS_IN_DEF_WEEK; i++)
             {
                 //Console.WriteLine("Day " + i);
                 List<TimePeriod> mergedPeriods = new List<TimePeriod>();
@@ -257,7 +132,7 @@ namespace CustomUserControl
                 //Console.WriteLine("After merging: Day" + i);
                 //DateTimeHelper.PrintTimePeriods(mergedPeriods);
 
-                DateTime currStart = new DateTime(2013, 1, 1, START_HOUR, START_MIN, 0);
+                DateTime currStart = new DateTime(2013, 1, 1, Constants.START_HOUR, Constants.START_MIN, 0);
                 DateTime currEnd;
                 size = mergedPeriods.Count;
                 List<TimePeriod> currDayFreeSlots = new List<TimePeriod>();
@@ -275,20 +150,27 @@ namespace CustomUserControl
                 //The following makes sure the free times end at 9pm.
 
 
-                if (currStart.Hour < LIMIT_HOUR || currStart.Hour == LIMIT_HOUR && currStart.Minute < LIMIT_MIN)
+                if (currStart.Hour < Constants.LIMIT_HOUR || currStart.Hour == Constants.LIMIT_HOUR && currStart.Minute < Constants.LIMIT_MIN)
                 {
-                    currDayFreeSlots.Add(new TimePeriod(currStart, new DateTime(currStart.Year, currStart.Month, currStart.Day, LIMIT_HOUR, LIMIT_MIN, 0)));
+                    currDayFreeSlots.Add(new TimePeriod(currStart, new DateTime(currStart.Year, currStart.Month, currStart.Day, Constants.LIMIT_HOUR, Constants.LIMIT_MIN, 0)));
                 }
 
                 selectedGroupFreeTimes[i] = currDayFreeSlots;
             }
         }
 
-        public void RefreshScheduledGroupIDs(String defenseType) 
+        /* This method is used to refresh all scheduled groups based on defense type (defense or redefense)*/
+        public void RefreshScheduledGroupIDs(String defenseType)
         {
             String query = "SELECT thesisGroupID FROM DefenseSchedule where defenseType = '" + defenseType + "'";
             scheduledGroupIDs = dbHandler.Select(query, 1)[0];
         }
+
+        /* REFRESH METHODS - END */
+
+
+
+        /*** Support Methods for RefreshSelectedGroupFreeTimes() - START ***/
 
         //This method adds the busy time periods to the List<TimePeriod>[] representing the days in a def week.
         private void AddBusyTimePeriods(String thesisGroupID, DateTime startDate, DateTime endDate, List<TimePeriod>[] days)
@@ -402,26 +284,33 @@ namespace CustomUserControl
             /* End */
         }
 
-   
-        //This method merges two intersecting timeperiods into one timeperiod to represent both.
-        private TimePeriod MergeTimePeriods(TimePeriod tp1, TimePeriod tp2)
+        /* This method is called by RefreshSelectedGroupFreeTimes() to add new distinct timeslots to the list. 
+       * It is only a support method for RefreshSelectedGroupFreeTimes(). This is used both for class timeslots
+       * and event timeslots.
+       * */
+        private void AddUniqueTimeSlots(List<String> timeslotIDs, List<String> newSlots)
         {
-            DateTime minStart;
-            DateTime maxEnd;
+            int numTimeslots = newSlots.Count;
+            for (int j = 0; j < numTimeslots; j++)
+            {
+                if (!timeslotIDs.Contains(newSlots.ElementAt(j))) //potentially not needed since all calls to this pass slots with distinct members
+                    timeslotIDs.Add(newSlots.ElementAt(j));
+            }
+        }
 
-            if (tp1.StartTime.TimeOfDay.CompareTo(tp2.StartTime.TimeOfDay) <= 0)
-                //if (DateTimeHelper.CompareTimes(tp1.StartTime, tp2.StartTime) <= 0)
-                minStart = tp1.StartTime;
-            else
-                minStart = tp2.StartTime;
+        /* This method returns the defense schedule duration in minutes depending on the thesis group's course (THSST-1 or THSST-3)
+        * This method is used in GetDefSched(), and the parameter is the thesis group's ID.
+        */
+        private int GetMinsDuration(String thesisGroupID)
+        {
+            String query = "SELECT course from thesisGroup where thesisGroupID = " + thesisGroupID + ";";
+            String course = dbHandler.Select(query, 1)[0].ElementAt(0);
+            if (course.Equals("THSST-1"))
+                return Constants.THSST1_DEFDURATION_MINS;
+            else if (course.Equals("THSST-3"))
+                return Constants.THSST3_DEFDURATION_MINS;
 
-            if (tp1.EndTime.TimeOfDay.CompareTo(tp2.EndTime.TimeOfDay) >= 0)
-                //if (DateTimeHelper.CompareTimes(tp1.EndTime, tp2.EndTime) >= 0)
-                maxEnd = tp1.EndTime;
-            else
-                maxEnd = tp2.EndTime;
-
-            return new TimePeriod(minStart, maxEnd);
+            return -1;
         }
 
         private List<TimePeriod>[] GetUniqueEventSlots(List<String> eventIDs, DateTime startDate, DateTime endDate)
@@ -430,14 +319,14 @@ namespace CustomUserControl
             String query;
             List<String>[] columns;
 
-            List<TimePeriod>[] busySlots = new List<TimePeriod>[DEFWEEK_DAYS];
+            List<TimePeriod>[] busySlots = new List<TimePeriod>[Constants.DAYS_IN_DEF_WEEK];
             InitListTimePeriodArray(busySlots);
 
             int currDay;
             TimePeriod newTimePeriod;
 
-            DateTime earliestTime = new DateTime(2013, 1, 1, START_HOUR, START_MIN, 0);
-            DateTime latestTime = new DateTime(2013, 1, 1, LIMIT_HOUR, LIMIT_MIN, 0);
+            DateTime earliestTime = new DateTime(2013, 1, 1, Constants.START_HOUR, Constants.START_MIN, 0);
+            DateTime latestTime = new DateTime(2013, 1, 1, Constants.LIMIT_HOUR, Constants.LIMIT_MIN, 0);
             /*For Debugging Purposes
             Console.WriteLine("EventIDs size:"+size);
             /*For Debugging Purposes*/
@@ -492,7 +381,7 @@ namespace CustomUserControl
 
             /*For debugging purposes
             Console.WriteLine("Event busy slots:");
-            for (int i = 0; i < DEFWEEK_DAYS; i++) 
+            for (int i = 0; i < Constants.DAYS_IN_DEF_WEEK; i++) 
             {
                 Console.WriteLine("Day:" + i);
                 DateTimeHelper.PrintTimePeriods(busySlots[i]);
@@ -507,7 +396,7 @@ namespace CustomUserControl
         {
             String query;
             List<String>[] columns;
-            List<TimePeriod>[] busySlots = new List<TimePeriod>[DEFWEEK_DAYS];
+            List<TimePeriod>[] busySlots = new List<TimePeriod>[Constants.DAYS_IN_DEF_WEEK];
 
             InitListTimePeriodArray(busySlots);
 
@@ -559,7 +448,7 @@ namespace CustomUserControl
             List<String> defDateTimes;
             List<String> courses;
             List<String> groupIDs;
-            List<TimePeriod>[] busySlots = new List<TimePeriod>[DEFWEEK_DAYS];
+            List<TimePeriod>[] busySlots = new List<TimePeriod>[Constants.DAYS_IN_DEF_WEEK];
             InitListTimePeriodArray(busySlots);
 
             if(size == 0)
@@ -609,9 +498,9 @@ namespace CustomUserControl
                 start= Convert.ToDateTime(defDateTimes.ElementAt(i));
                 course = courses.ElementAt(i);
                 if (course.Equals("THSST-1"))
-                    end = start.AddMinutes(THSST1_DEF_DURATION_MINS);
+                    end = start.AddMinutes(Constants.THSST1_DEFDURATION_MINS);
                 else
-                    end = start.AddMinutes(THSST3_DEF_DURATION_MINS);
+                    end = start.AddMinutes(Constants.THSST3_DEFDURATION_MINS);
                 
                 if(start.DayOfWeek > 0)
                     busySlots[(int)start.DayOfWeek - 1].Add(new TimePeriod(start, end));
@@ -620,30 +509,125 @@ namespace CustomUserControl
             return busySlots;
         }
 
-        /* This method is called by RefreshSelectedGroupFreeTimes() to add new distinct timeslots to the list. 
-         * It is only a support method for RefreshSelectedGroupFreeTimes(). This is used both for class timeslots
-         * and event timeslots.
-         * */
-        private void AddUniqueTimeSlots(List<String> timeslotIDs, List<String> newSlots)
+        /* Just a support method called by other methods 
+       * to initialize the List<TimePeriod> objects in a List<TimePeriod>[].
+       */
+        private void InitListTimePeriodArray(List<TimePeriod>[] list)
         {
-            int numTimeslots = newSlots.Count;
-            for (int j = 0; j < numTimeslots; j++)
+            for (int i = 0; i < Constants.DAYS_IN_DEF_WEEK; i++)
+                list[i] = new List<TimePeriod>();
+        }
+
+        //This method merges two intersecting timeperiods into one timeperiod to represent both.
+        private TimePeriod MergeTimePeriods(TimePeriod tp1, TimePeriod tp2)
+        {
+            DateTime minStart;
+            DateTime maxEnd;
+
+            if (tp1.StartTime.TimeOfDay.CompareTo(tp2.StartTime.TimeOfDay) <= 0)
+                //if (DateTimeHelper.CompareTimes(tp1.StartTime, tp2.StartTime) <= 0)
+                minStart = tp1.StartTime;
+            else
+                minStart = tp2.StartTime;
+
+            if (tp1.EndTime.TimeOfDay.CompareTo(tp2.EndTime.TimeOfDay) >= 0)
+                //if (DateTimeHelper.CompareTimes(tp1.EndTime, tp2.EndTime) >= 0)
+                maxEnd = tp1.EndTime;
+            else
+                maxEnd = tp2.EndTime;
+
+            return new TimePeriod(minStart, maxEnd);
+        }
+        
+        /*** Support Methods for RefreshSelectedGroupFreeTimes() - END ***/
+
+
+        /*** Miscellaneous Methods - START ***/
+
+        /* This method will be called by the GUI to add multigrouped panelists to the tree.
+         * */
+        public void AddPanelistsToTree(TreeNodeCollection tree, String eligibilityColumnName)
+        {
+            String query = "select panelistID from panelassignment group by panelistID having count(*) > 1;";
+            List<String>[] parentList = dbHandler.Select(query, 1);
+            List<String>[] parentInfo;
+            List<String>[] childList;
+            TreeNode parent;
+            TreeNode[] child;
+            TreeNodeCollection children;
+
+            for (int i = 0; i < parentList[0].Count(); i++)
             {
-                if (!timeslotIDs.Contains(newSlots.ElementAt(j))) //potentially not needed since all calls to this pass slots with distinct members
-                    timeslotIDs.Add(newSlots.ElementAt(j));
+                query = "Select firstName, MI, lastName from panelist where panelistid = " + parentList[0].ElementAt(i) + ";";
+                parentInfo = dbHandler.Select(query, 3);
+
+                //query = "Select t.thesisgroupID,t.title from thesisgroup t, panelassignment p where t.thesisgroupid = p.thesisgroupid and p.panelistID =" + parentList[0].ElementAt(i) + ";";
+                query = "Select thesisgroupID, title from thesisgroup where " + eligibilityColumnName + " = 'True' AND thesisgroupid in( select thesisgroupid from panelassignment where panelistID =" + parentList[0].ElementAt(i) + ");";
+                childList = dbHandler.Select(query, 2);
+
+                parent = new TreeNode();
+                child = new TreeNode[childList[0].Count()];
+                children = parent.Nodes;
+
+                parent.Name = parentList[0].ElementAt(i);
+                parent.Text = parentInfo[0].ElementAt(0) + " " + parentInfo[1].ElementAt(0) + " " + parentInfo[2].ElementAt(0);
+
+                for (int j = 0; j < childList[0].Count(); j++)
+                {
+                    // check whether thesis group has >= 1 student and 3 panelists
+                    String subq1 = "select count(*) from panelassignment where thesisgroupid = " + childList[0].ElementAt(j) + ";";
+                    String subq2 = "select count(*) from student where thesisgroupid = " + childList[0].ElementAt(j) + ";";
+
+                    int panelCount = Convert.ToInt32(dbHandler.Select(subq1, 1)[0].ElementAt(0));
+                    int memberCount = Convert.ToInt32(dbHandler.Select(subq2, 1)[0].ElementAt(0));
+
+                    if (panelCount == 3 && memberCount >= 1)
+                    {
+                        child[j] = new TreeNode();
+                        child[j].Name = childList[0].ElementAt(j);
+                        child[j].Text = childList[1].ElementAt(j);
+                        children.Add(child[j]);
+                    }
+                }
+
+                // check whether there are children
+                if (children.Count > 0)
+                    tree.Add(parent);
             }
         }
 
-        public String GetGroupInfo(String thesisGroupID) 
+        public void AddIsolatedGroupsToTree(TreeNodeCollection tree, String eligibilityColumnName)
         {
-            String query = "SELECT section, course, title from ThesisGroup WHERE thesisGroupID = '" + thesisGroupID + "';";
-            List<String>[] columns = dbHandler.Select(query, 3);
-            if(columns[0].Count > 0)
-                return columns[0].ElementAt(0) + " " + columns[1].ElementAt(0) + ": " + columns[2].ElementAt(0);
-            return "";
+            String query = "select thesisgroupID,title from thesisgroup where " + eligibilityColumnName + " = 'True' AND thesisgroupID not in (select thesisgroupID from panelassignment where panelistID in (select panelistID from panelassignment group by panelistID having count(*) > 1));";
+            List<String>[] list = dbHandler.Select(query, 2);
+            TreeNode node;
+            for (int i = 0; i < list[0].Count(); i++)
+            {
+                node = new TreeNode();
+
+                // check whether thesis group has >= 1 student and 3 panelists
+                String subq1 = "select count(*) from panelassignment where thesisgroupid = " + list[0].ElementAt(i) + ";";
+                String subq2 = "select count(*) from student where thesisgroupid = " + list[0].ElementAt(i) + ";";
+
+                int panelCount = Convert.ToInt32(dbHandler.Select(subq1, 1)[0].ElementAt(0));
+                int memberCount = Convert.ToInt32(dbHandler.Select(subq2, 1)[0].ElementAt(0));
+
+                if (panelCount == 3 && memberCount >= 1)
+                {
+                    node.Name = list[0].ElementAt(i);
+                    node.Text = list[1].ElementAt(i);
+                }
+
+                tree.Add(node);
+            }
         }
 
-        public void AddToSelectedGroupFreeTimes(DateTime startDate, DateTime endDate, String thesisGroupID, int dayIndex,  TimePeriod timePeriod)
+        /*  Adds a certain timeslot to the free times. Used specifically by FreeTimeViewer to add a group's
+           defense schedule as part of free times, to allow changes in the schedule that intersects the old
+           one. For example, changing a schedule from 8am-10am to 8:30am-10:30am would cause conflict because
+           the two time periods inetersect. However, it logically should be allowed because the old one would
+           be removed.*/
+        public void AddToSelectedGroupFreeTimes(DateTime startDate, DateTime endDate, String thesisGroupID, int dayIndex, TimePeriod timePeriod)
         {
             if (thesisGroupID.Equals(""))
             {
@@ -651,7 +635,7 @@ namespace CustomUserControl
                 return;
             }
 
-            List<TimePeriod>[] days = new List<TimePeriod>[DEFWEEK_DAYS];
+            List<TimePeriod>[] days = new List<TimePeriod>[Constants.DAYS_IN_DEF_WEEK];
             InitListTimePeriodArray(days);
             AddBusyTimePeriods(thesisGroupID, startDate, endDate, days);
 
@@ -666,7 +650,7 @@ namespace CustomUserControl
                 for (int j = 1; j < size; j++)
                 {
                     //Console.WriteLine(curr.StartTime +"  "+curr.EndTime + "      AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            
+
                     if (curr.IntersectsInclusive(currDay.ElementAt(j)))
                         curr = MergeTimePeriods(curr, currDay.ElementAt(j));
                     else
@@ -675,29 +659,72 @@ namespace CustomUserControl
                         curr = currDay.ElementAt(j);
                     }
                     //Console.WriteLine(curr.StartTime + "  " + curr.EndTime + "      JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ");
-            
+
                 }
                 if (!isNewSet)
                     mergedPeriods.Add(curr);
-             }
-             DateTime currStart = new DateTime(2013, 1, 1, START_HOUR, START_MIN, 0);
-             DateTime currEnd;
-             size = mergedPeriods.Count;
-             List<TimePeriod> currDayFreeSlots = new List<TimePeriod>();
-             for (int j = 0; j < size; j++)
-             {
+            }
+            DateTime currStart = new DateTime(2013, 1, 1, Constants.START_HOUR, Constants.START_MIN, 0);
+            DateTime currEnd;
+            size = mergedPeriods.Count;
+            List<TimePeriod> currDayFreeSlots = new List<TimePeriod>();
+            for (int j = 0; j < size; j++)
+            {
                 currEnd = mergedPeriods.ElementAt(j).StartTime;
                 if (currStart.TimeOfDay.CompareTo(currEnd.TimeOfDay) != 0)
                     currDayFreeSlots.Add(new TimePeriod(currStart, currEnd));
 
                 currStart = mergedPeriods.ElementAt(j).EndTime;
-             }
-             if (currStart.Hour < LIMIT_HOUR || currStart.Hour == LIMIT_HOUR && currStart.Minute < LIMIT_MIN)
-             {
-                currDayFreeSlots.Add(new TimePeriod(currStart, new DateTime(currStart.Year, currStart.Month, currStart.Day, LIMIT_HOUR, LIMIT_MIN, 0)));
-             }
+            }
+            if (currStart.Hour < Constants.LIMIT_HOUR || currStart.Hour == Constants.LIMIT_HOUR && currStart.Minute < Constants.LIMIT_MIN)
+            {
+                currDayFreeSlots.Add(new TimePeriod(currStart, new DateTime(currStart.Year, currStart.Month, currStart.Day, Constants.LIMIT_HOUR, Constants.LIMIT_MIN, 0)));
+            }
 
-             selectedGroupFreeTimes[dayIndex] = currDayFreeSlots;
-        }        
-    }
+            selectedGroupFreeTimes[dayIndex] = currDayFreeSlots;
+        }
+
+        /* This method returns a DefenseSchedule object within the specified startDate and endDDate 
+         * for the specified thesis group. If there is none, the method returns null.
+         */
+        private DefenseSchedule GetDefSched(DateTime startDate, DateTime endDate, String thesisGroupID)
+        {
+            String query = "SELECT defenseDateTime, place FROM defenseSchedule WHERE thesisGroupID = " + thesisGroupID + " AND defenseDateTime >='" + startDate.Date + "' AND defenseDateTime <='" + endDate.AddDays(1).Date + "';";
+
+            List<String>[] columns = dbHandler.Select(query, 2);
+
+            if (columns[0].Count == 0)//If the query result is an empty set.
+                return null;
+
+            int defDuration = GetMinsDuration(thesisGroupID);
+            if (defDuration == -1) //If course is neither THSST-1 nor THSST-3. There must be some input error.
+                return null;
+
+            DateTime startTime = Convert.ToDateTime(columns[0].ElementAt(0));
+            DateTime endTime = startTime.AddMinutes(defDuration);
+            String place = columns[1].ElementAt(0);
+            String groupTitle;
+            query = "SELECT title from thesisGroup WHERE thesisGroupID = " + thesisGroupID + ";";
+            groupTitle = dbHandler.Select(query, 1)[0].ElementAt(0);
+
+            return new DefenseSchedule(startTime, endTime, place, groupTitle);
+        }
+
+        /* The method returns the section, course and title of a group given its ID. 
+         * The String format is: section+" "+course+": "+title
+            */
+        public String GetGroupInfo(String thesisGroupID)
+        {
+            String query = "SELECT section, course, title from ThesisGroup WHERE thesisGroupID = '" + thesisGroupID + "';";
+            List<String>[] columns = dbHandler.Select(query, 3);
+            if (columns[0].Count > 0)
+                return columns[0].ElementAt(0) + " " + columns[1].ElementAt(0) + ": " + columns[2].ElementAt(0);
+            return "";
+        }
+       
+        /*** Miscellaneous Methods - END ***/
+
+
+
+        }
 }
