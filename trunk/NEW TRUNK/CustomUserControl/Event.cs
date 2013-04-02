@@ -12,6 +12,8 @@ namespace CustomUserControl
         private int id;
         private String name;
 
+        public String Name { get { return name; } }
+
         public Event(int id, String name, DateTime start, DateTime end) 
             :base(start, end)
         {
