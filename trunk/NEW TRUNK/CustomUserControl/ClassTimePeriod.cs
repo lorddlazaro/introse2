@@ -8,9 +8,16 @@ namespace CustomUserControl
     class ClassTimePeriod : TimePeriod
     {
         private int id;
-        private String section;
+        
         private String course;
+        private String section;
         private String day;
+
+        //Not in the uml
+        public String Course { get { return course; } }
+        public String Section { get { return section; } }
+        public String Day { get { return day; } }
+        //end
         
         public ClassTimePeriod(int id, String section, String course, String day, DateTime startTime, DateTime endTime) 
             :base(startTime, endTime)
