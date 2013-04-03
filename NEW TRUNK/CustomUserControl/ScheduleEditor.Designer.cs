@@ -28,6 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Monday");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Tuesday");
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Wednesday");
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Thursday");
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("Friday");
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("Saturday");
             this.personLabel = new System.Windows.Forms.Label();
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.studentTreeView = new System.Windows.Forms.TreeView();
@@ -44,7 +50,6 @@
             this.dateTimePickerWeeklyTimeslotEndTime = new System.Windows.Forms.DateTimePicker();
             this.buttonDeleteWeeklyTimeslot = new System.Windows.Forms.Button();
             this.dateTimePickerWeeklyTimeslotStartTime = new System.Windows.Forms.DateTimePicker();
-            this.checkedListBoxWeeklyTimeslotDay = new System.Windows.Forms.CheckedListBox();
             this.textBoxWeeklyTimeslotSection = new System.Windows.Forms.TextBox();
             this.buttonAddWeeklyTimeslot = new System.Windows.Forms.Button();
             this.textBoxWeeklyTimeslotCourse = new System.Windows.Forms.TextBox();
@@ -69,6 +74,7 @@
             this.textBoxEventName = new System.Windows.Forms.TextBox();
             this.dataGridViewWeeklyTimeslot = new System.Windows.Forms.DataGridView();
             this.dataGridViewEvent = new System.Windows.Forms.DataGridView();
+            this.listViewWeeklyTimeslotDay = new System.Windows.Forms.ListView();
             this.groupBoxWeeklyTimeslot.SuspendLayout();
             this.groupBoxEvent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWeeklyTimeslot)).BeginInit();
@@ -122,6 +128,7 @@
             // 
             // groupBoxWeeklyTimeslot
             // 
+            this.groupBoxWeeklyTimeslot.Controls.Add(this.listViewWeeklyTimeslotDay);
             this.groupBoxWeeklyTimeslot.Controls.Add(this.buttonWeeklyTimeslotEdit);
             this.groupBoxWeeklyTimeslot.Controls.Add(this.labelWeeklyTimeslot);
             this.groupBoxWeeklyTimeslot.Controls.Add(this.dataGridViewWeeklyTimeslot);
@@ -133,7 +140,6 @@
             this.groupBoxWeeklyTimeslot.Controls.Add(this.dateTimePickerWeeklyTimeslotEndTime);
             this.groupBoxWeeklyTimeslot.Controls.Add(this.buttonDeleteWeeklyTimeslot);
             this.groupBoxWeeklyTimeslot.Controls.Add(this.dateTimePickerWeeklyTimeslotStartTime);
-            this.groupBoxWeeklyTimeslot.Controls.Add(this.checkedListBoxWeeklyTimeslotDay);
             this.groupBoxWeeklyTimeslot.Controls.Add(this.textBoxWeeklyTimeslotSection);
             this.groupBoxWeeklyTimeslot.Controls.Add(this.buttonAddWeeklyTimeslot);
             this.groupBoxWeeklyTimeslot.Controls.Add(this.textBoxWeeklyTimeslotCourse);
@@ -243,22 +249,6 @@
             this.dateTimePickerWeeklyTimeslotStartTime.ShowUpDown = true;
             this.dateTimePickerWeeklyTimeslotStartTime.Size = new System.Drawing.Size(120, 20);
             this.dateTimePickerWeeklyTimeslotStartTime.TabIndex = 9;
-            // 
-            // checkedListBoxWeeklyTimeslotDay
-            // 
-            this.checkedListBoxWeeklyTimeslotDay.CheckOnClick = true;
-            this.checkedListBoxWeeklyTimeslotDay.FormattingEnabled = true;
-            this.checkedListBoxWeeklyTimeslotDay.Items.AddRange(new object[] {
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday"});
-            this.checkedListBoxWeeklyTimeslotDay.Location = new System.Drawing.Point(213, 21);
-            this.checkedListBoxWeeklyTimeslotDay.Name = "checkedListBoxWeeklyTimeslotDay";
-            this.checkedListBoxWeeklyTimeslotDay.Size = new System.Drawing.Size(120, 94);
-            this.checkedListBoxWeeklyTimeslotDay.TabIndex = 7;
             // 
             // textBoxWeeklyTimeslotSection
             // 
@@ -508,6 +498,32 @@
             this.dataGridViewEvent.TabIndex = 16;
             this.dataGridViewEvent.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewEvent_RowEnter);
             // 
+            // listViewWeeklyTimeslotDay
+            // 
+            this.listViewWeeklyTimeslotDay.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.listViewWeeklyTimeslotDay.CheckBoxes = true;
+            this.listViewWeeklyTimeslotDay.HotTracking = true;
+            this.listViewWeeklyTimeslotDay.HoverSelection = true;
+            listViewItem1.StateImageIndex = 0;
+            listViewItem2.StateImageIndex = 0;
+            listViewItem3.StateImageIndex = 0;
+            listViewItem4.StateImageIndex = 0;
+            listViewItem5.StateImageIndex = 0;
+            listViewItem6.StateImageIndex = 0;
+            this.listViewWeeklyTimeslotDay.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1,
+            listViewItem2,
+            listViewItem3,
+            listViewItem4,
+            listViewItem5,
+            listViewItem6});
+            this.listViewWeeklyTimeslotDay.Location = new System.Drawing.Point(213, 8);
+            this.listViewWeeklyTimeslotDay.Name = "listViewWeeklyTimeslotDay";
+            this.listViewWeeklyTimeslotDay.Size = new System.Drawing.Size(109, 112);
+            this.listViewWeeklyTimeslotDay.TabIndex = 21;
+            this.listViewWeeklyTimeslotDay.UseCompatibleStateImageBehavior = false;
+            this.listViewWeeklyTimeslotDay.View = System.Windows.Forms.View.SmallIcon;
+            // 
             // ScheduleEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -541,7 +557,6 @@
         private System.Windows.Forms.Button btnSwitchView;
         private System.Windows.Forms.GroupBox groupBoxWeeklyTimeslot;
         private System.Windows.Forms.DateTimePicker dateTimePickerWeeklyTimeslotStartTime;
-        private System.Windows.Forms.CheckedListBox checkedListBoxWeeklyTimeslotDay;
         private System.Windows.Forms.TextBox textBoxWeeklyTimeslotSection;
         private System.Windows.Forms.TextBox textBoxWeeklyTimeslotCourse;
         private System.Windows.Forms.Label labelWeeklyTimeslotDay;
@@ -575,5 +590,6 @@
         private System.Windows.Forms.ComboBox comboBoxEvent;
         private System.Windows.Forms.Button buttonWeeklyTimeslotEdit;
         private System.Windows.Forms.Button buttonEventEdit;
+        private System.Windows.Forms.ListView listViewWeeklyTimeslotDay;
     }
 }

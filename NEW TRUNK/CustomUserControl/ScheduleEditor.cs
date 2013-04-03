@@ -130,10 +130,77 @@ namespace CustomUserControl
         }
 
         private void buttonAddWeeklyTimeslot_Click(object sender, EventArgs e)
-        {
-           // if(checkedListBoxWeeklyTimeslotDay.
-            //String query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES('"+textBoxWeeklyTimeslotCourse+"','"+textBoxWeeklyTimeslotSection+"','"+days+"',"+dateTimePickerWeeklyTimeslotStartTime+","+dateTimePickerWeeklyTimeslotEndTime+",'"+comboBoxPanelist+"');"
-            //dbHandler.Insert(query);
+        {   
+            String query;
+            String day="";
+            for(int i=0;i<6;i++)
+            {
+                if (listViewWeeklyTimeslotDay.Items[i].Checked == true) 
+                {
+                    switch (listViewWeeklyTimeslotDay.Items[i].Text) 
+                    {
+                        case "Monday": 
+                            Console.WriteLine("Monday"); 
+                            day = "M"; 
+                            break;
+                        case "Tuesday": 
+                            Console.WriteLine("Tuesday"); 
+                            day = "T";
+                            break;
+                        case "Wednesday": Console.WriteLine("Wednesday"); 
+                            day = "W";
+                            break;
+                        case "Thursday": Console.WriteLine("Thursday"); 
+                            day = "H";
+                            break;
+                        case "Friday": Console.WriteLine("Friday"); 
+                            day = "F";
+                            break;
+                        case "Saturday": Console.WriteLine("Saturday"); 
+                            day = "S";
+                            break;
+                        default: break;
+
+                    }
+                    Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToLongDateString());
+                    Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToLongTimeString());
+                    Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToShortDateString());
+                    Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToShortTimeString());
+                    Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToString());
+                    //query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES('" + textBoxWeeklyTimeslotCourse + "','" + textBoxWeeklyTimeslotSection + "','" + day + "'," + dateTimePickerWeeklyTimeslotStartTime + "," + dateTimePickerWeeklyTimeslotEndTime + ",'" + comboBoxPanelist + "');";
+                    query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES(N'" + textBoxWeeklyTimeslotCourse.Text + "', N'" + textBoxWeeklyTimeslotSection.Text + "', N'" + day + "',CONVERT(DATETIME, '"+dateTimePickerWeeklyTimeslotStartTime.Value.ToString()+"', 102), CONVERT(DATETIME, '"+dateTimePickerWeeklyTimeslotEndTime.Value.ToString()+"', 102), N'" + comboBoxPanelist.Text + "')";
+                    //query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES(" + textBoxWeeklyTimeslotCourse.Text + "', " + textBoxWeeklyTimeslotSection.Text + "', " + day + "',CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString() + "', 102), CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString() + "', 102), " + comboBoxPanelist.Text + "')";
+                    Console.WriteLine(query);
+                    dbHandler.Insert(query);
+                    //query = "INSERT INTO StudentSchedule (timeslotID, studentID) VALUES ("", N'"+currStudent+"')";
+
+                    if (studentTreeView.Enabled)
+                    {
+                        query = "SELECT timeslotID FROM Timeslot WHERE courseName = '"+textBoxWeeklyTimeslotCourse.Text+"' AND section = '"+textBoxWeeklyTimeslotSection.Text+"';";
+                        Console.WriteLine(query);
+                        List<String> timeSlots = dbHandler.Select(query, 1)[0];
+
+                        foreach (String slots in timeSlots) 
+                        {
+                            
+                            query = "INSERT INTO StudentSchedule(studentID, timeslotID)VALUES(N'"+currStudent+"', "+slots+")";
+                            Console.WriteLine(query);
+                            dbHandler.Insert(query);
+
+                        }
+
+                        RefreshStudentClassScheds(currStudent);
+
+
+                    }
+                    else if (panelistTreeView.Enabled)
+                    {
+                        RefreshStudentClassScheds(currPanelist);
+                    }
+                    dataGridViewWeeklyTimeslot.DataSource = classSchedList;
+                    dataGridViewWeeklyTimeslot.Refresh();
+                }
+            }
         }
 
         private void buttonAddExistingWeeklyTimeslot_Click(object sender, EventArgs e)
@@ -422,10 +489,48 @@ namespace CustomUserControl
 
         private void dataGridViewWeeklyTimeslot_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            textBoxWeeklyTimeslotCourse.Text = timeSlotTable[1][e.RowIndex];
-            textBoxWeeklyTimeslotSection.Text = timeSlotTable[2][e.RowIndex];
+            textBoxWeeklyTimeslotCourse.Text = timeSlotTable[2][e.RowIndex];
+            textBoxWeeklyTimeslotSection.Text = timeSlotTable[1][e.RowIndex];
+
+            for (int i = 0; i < 6; i++)
+            {
+                listViewWeeklyTimeslotDay.Items[i].Checked = false;
+            }
+
+            switch (timeSlotTable[3][e.RowIndex])
+            {
+                case "M": listViewWeeklyTimeslotDay.Items[0].Checked = true; break;
+                case "T": listViewWeeklyTimeslotDay.Items[1].Checked = true; break;
+                case "W": listViewWeeklyTimeslotDay.Items[2].Checked = true; break;
+                case "H": listViewWeeklyTimeslotDay.Items[3].Checked = true; break;
+                case "F": listViewWeeklyTimeslotDay.Items[4].Checked = true; break;
+                case "S": listViewWeeklyTimeslotDay.Items[5].Checked = true; break;
+                default: break;
+            }
+
             dateTimePickerWeeklyTimeslotStartTime.Value = Convert.ToDateTime(timeSlotTable[4][e.RowIndex]);
             dateTimePickerWeeklyTimeslotEndTime.Value = Convert.ToDateTime(timeSlotTable[5][e.RowIndex]);
+
+            
+            
+            for(int i=0;i<6;i++)
+            {
+                if (listViewWeeklyTimeslotDay.Items[i].Checked == true) 
+                {
+                    switch (listViewWeeklyTimeslotDay.Items[i].Text) 
+                    {
+                        case "Monday": Console.WriteLine("Monday"); break;
+                        case "Tuesday": break;
+                        case "Wednesday": break;
+                        case "Thursday": break;
+                        case "Friday": break;
+                        case "Saturday": break;
+                        default: break;
+
+                    }
+                }
+            }
+
         }
 
         private void dataGridViewEvent_RowEnter(object sender, DataGridViewCellEventArgs e)
