@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace CustomUserControl
 {
@@ -14,10 +15,13 @@ namespace CustomUserControl
         private String currStudent;
         private String currPanelist;
         const int DEFWEEK_DAYS = 6;
-        private DBce dbHandler =new DBce();
+        private DBce dbHandler = new DBce();
         private BindingList<ClassTimePeriod> classSchedList = new BindingList<ClassTimePeriod>();
-        private BindingList<Event> eventList = new BindingList<Event>();
-
+        private BindingList<Event> eventList = new BindingList<Event>(); 
+        private TimeslotCreator timeslotAdder = new TimeslotCreator();
+        private EventCreator eventAdder = new EventCreator();
+        List<String>[] existingTimeslots;
+        List<String>[] existingEvents;
         List<String>[] timeSlotTable;
         List<String>[] eventTable;
 
@@ -29,8 +33,12 @@ namespace CustomUserControl
             studentTreeView.Show();
             panelistTreeView.Hide();
             InitStudentListBox();
+            update_courses();
+            update_events();
+            timeslotAdder.Visible = false;
+            eventAdder.Visible = false;
         }
-
+        //Tree View
         private void InitStudentListBox() 
         {
             UpdateStudentList(studentTreeView.Nodes);
@@ -50,10 +58,8 @@ namespace CustomUserControl
                 currStudent = e.Node.Name;
                 RefreshStudentClassScheds(currStudent);
                 RefreshStudentEvents(currStudent);
-                dataGridViewWeeklyTimeslot.DataSource = classSchedList;
-                dataGridViewWeeklyTimeslot.Refresh();
-                dataGridViewEvent.DataSource = eventList;
-                dataGridViewEvent.Refresh();
+                
+                
             }
             else
             {
@@ -77,11 +83,6 @@ namespace CustomUserControl
                 currPanelist = e.Node.Name;
                 RefreshPanelistClassScheds(currPanelist);
                 RefreshPanelistEvents(currPanelist);
-                dataGridViewWeeklyTimeslot.DataSource = classSchedList;
-                dataGridViewWeeklyTimeslot.Refresh();
-                dataGridViewEvent.DataSource = eventList;
-                dataGridViewEvent.Refresh();
-
             }
             else
             {
@@ -90,7 +91,7 @@ namespace CustomUserControl
                 buttondeleteEvent.Enabled = false;
             }
         }
-
+        // RefreshButton
         private void btnSwitchView_Click(object sender, EventArgs e)
         {
             if (btnSwitchView.Text.Equals("Switch to Panelists"))
@@ -121,69 +122,109 @@ namespace CustomUserControl
             {
                 RefreshStudentClassScheds(currStudent);
                 RefreshStudentEvents(currStudent);
+                
             }
             else 
             {
                 RefreshPanelistClassScheds(currPanelist);
                 RefreshPanelistEvents(currPanelist);
             }
+            update_courses();
+            update_events();
         }
-
+        //Add
         private void buttonAddWeeklyTimeslot_Click(object sender, EventArgs e)
-        {   
-            String query;
-            String day="";
-            for(int i=0;i<6;i++)
+        {
+            timeslotAdder.Visible = true;
+            timeslotAdder.initializePanel();
+            /*
+            if (buttonAddWeeklyTimeslot.Text == "Add New Timeslot")
             {
-                if (listViewWeeklyTimeslotDay.Items[i].Checked == true) 
+                textBoxWeeklyTimeslotCourse.Enabled = true;
+                textBoxWeeklyTimeslotSection.Enabled = true;
+                listViewWeeklyTimeslotDay.Enabled = true;
+                dateTimePickerWeeklyTimeslotStartTime.Enabled = true;
+                dateTimePickerWeeklyTimeslotEndTime.Enabled = true;
+                comboBoxPanelist.Enabled = true;
+                buttonAddWeeklyTimeslot.Text = "Save";
+            }
+            else if(true)
+            {
+                buttonAddWeeklyTimeslot.Text = "Add New";
+                textBoxWeeklyTimeslotCourse.Enabled = false;
+                textBoxWeeklyTimeslotSection.Enabled = false;
+                listViewWeeklyTimeslotDay.Enabled = false;
+                dateTimePickerWeeklyTimeslotStartTime.Enabled = false;
+                dateTimePickerWeeklyTimeslotEndTime.Enabled = false;
+                comboBoxPanelist.Enabled = false;*/
+            
+            
+            /*
+            
+            
+
+            String query;
+            String day = "";
+            for (int i = 0; i < 6; i++)
+            {
+                if (listViewWeeklyTimeslotDay.Items[i].Checked == true)
                 {
-                    switch (listViewWeeklyTimeslotDay.Items[i].Text) 
+                    switch (listViewWeeklyTimeslotDay.Items[i].Index)
                     {
-                        case "Monday": 
-                            Console.WriteLine("Monday"); 
-                            day = "M"; 
+                        case 0:
+                            Console.WriteLine("Monday");
+                            day = "M";
                             break;
-                        case "Tuesday": 
-                            Console.WriteLine("Tuesday"); 
+                        case 1:
+                            Console.WriteLine("Tuesday");
                             day = "T";
                             break;
-                        case "Wednesday": Console.WriteLine("Wednesday"); 
+                        case 2: Console.WriteLine("Wednesday");
                             day = "W";
                             break;
-                        case "Thursday": Console.WriteLine("Thursday"); 
+                        case 3: Console.WriteLine("Thursday");
                             day = "H";
                             break;
-                        case "Friday": Console.WriteLine("Friday"); 
+                        case 4: Console.WriteLine("Friday");
                             day = "F";
                             break;
-                        case "Saturday": Console.WriteLine("Saturday"); 
+                        case 5: Console.WriteLine("Saturday");
                             day = "S";
                             break;
                         default: break;
 
-                    }
+                    }*/
+                    /*
                     Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToLongDateString());
                     Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToLongTimeString());
                     Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToShortDateString());
                     Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToShortTimeString());
-                    Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToString());
-                    //query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES('" + textBoxWeeklyTimeslotCourse + "','" + textBoxWeeklyTimeslotSection + "','" + day + "'," + dateTimePickerWeeklyTimeslotStartTime + "," + dateTimePickerWeeklyTimeslotEndTime + ",'" + comboBoxPanelist + "');";
-                    query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES(N'" + textBoxWeeklyTimeslotCourse.Text + "', N'" + textBoxWeeklyTimeslotSection.Text + "', N'" + day + "',CONVERT(DATETIME, '"+dateTimePickerWeeklyTimeslotStartTime.Value.ToString()+"', 102), CONVERT(DATETIME, '"+dateTimePickerWeeklyTimeslotEndTime.Value.ToString()+"', 102), N'" + comboBoxPanelist.Text + "')";
-                    //query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES(" + textBoxWeeklyTimeslotCourse.Text + "', " + textBoxWeeklyTimeslotSection.Text + "', " + day + "',CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString() + "', 102), CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString() + "', 102), " + comboBoxPanelist.Text + "')";
-                    Console.WriteLine(query);
-                    dbHandler.Insert(query);
-                    //query = "INSERT INTO StudentSchedule (timeslotID, studentID) VALUES ("", N'"+currStudent+"')";
-
+                    Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToString());*/
+                    /*
+                    query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES(N'" + textBoxWeeklyTimeslotCourse.Text + "', N'" + textBoxWeeklyTimeslotSection.Text + "', N'" + day + "',CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString() + "', 102), CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString() + "', 102), N'" + comboBoxPanelist.Text + "')";
+                    try
+                    {
+                        dbHandler.Insert(query);
+                        Console.WriteLine("ADD NEW-INSERT SUCCESS");
+                    }
+                    catch (SqlException sqlEx)
+                    {
+                        if (sqlEx.Source != null)
+                            Console.WriteLine("IOException source: {0}", sqlEx.Source);
+                        Console.WriteLine("query= " + query);
+                        //if(textBoxWeeklyTimeslotCourse.Text == null)
+                    }
+                    
                     if (studentTreeView.Enabled)
                     {
-                        query = "SELECT timeslotID FROM Timeslot WHERE courseName = '"+textBoxWeeklyTimeslotCourse.Text+"' AND section = '"+textBoxWeeklyTimeslotSection.Text+"';";
+                        query = "SELECT timeslotID FROM Timeslot WHERE courseName = '" + textBoxWeeklyTimeslotCourse.Text + "' AND section = '" + textBoxWeeklyTimeslotSection.Text + "';";
                         Console.WriteLine(query);
                         List<String> timeSlots = dbHandler.Select(query, 1)[0];
 
-                        foreach (String slots in timeSlots) 
+                        foreach (String slots in timeSlots)
                         {
-                            
-                            query = "INSERT INTO StudentSchedule(studentID, timeslotID)VALUES(N'"+currStudent+"', "+slots+")";
+
+                            query = "INSERT INTO StudentSchedule(studentID, timeslotID)VALUES(N'" + currStudent + "', " + slots + ")";
                             Console.WriteLine(query);
                             dbHandler.Insert(query);
 
@@ -201,54 +242,51 @@ namespace CustomUserControl
                     dataGridViewWeeklyTimeslot.Refresh();
                 }
             }
-        }
-
-        private void buttonAddExistingWeeklyTimeslot_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void buttonDeleteWeeklyTimeslot_Click(object sender, EventArgs e)
-        {
-            String selectedRowIndex = dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString();
-            Console.WriteLine("selected row index(string): " + dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString());
-            String currTimeslot = timeSlotTable[0][dataGridViewWeeklyTimeslot.SelectedRows[0].Index];
-            if (studentTreeView.Enabled)
-            {
-                Console.WriteLine(currTimeslot + "-" + currStudent + "-");
-                String query = "DELETE FROM StudentSchedule WHERE studentID = " + currStudent + " AND timeslotID = " + currTimeslot+";";
-                dbHandler.Delete(query);
-                Console.WriteLine(query);
-                RefreshStudentClassScheds(currStudent);
-                dataGridViewWeeklyTimeslot.DataSource = classSchedList;
-                dataGridViewWeeklyTimeslot.Refresh();
-            }
-            else if (panelistTreeView.Enabled)
-            {
-                Console.WriteLine(currTimeslot + "-" + currPanelist + "-");
-                String query = "UPDATE Timeslot SET panelistID = NULL WHERE panelistID = " + currPanelist + " AND timeslotID = " + currTimeslot + ";";
-                dbHandler.Update(query);
-                Console.WriteLine(query);
-                RefreshPanelistClassScheds(currPanelist);
-                dataGridViewWeeklyTimeslot.DataSource = classSchedList;
-                dataGridViewWeeklyTimeslot.Refresh();
-            }
-            else 
-            {
-                return;
-            }
+            */
             
-             
-
-        }
-
-        private void buttonClearWeeklyTimeslot_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void buttonAddEvent_Click(object sender, EventArgs e)
         {
+            eventAdder.Visible = true;
+        }
+        //Add Existing
+        private void buttonAddExistingWeeklyTimeslot_Click(object sender, EventArgs e)
+        {
+            if(studentTreeView.Enabled)
+            {
+                int rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index;
+                Console.WriteLine("rowindex: "+rowIndex);
+                /*Console.WriteLine("existingtimeslots: "+existingTimeslots[rowIndex][0].ToString());
+                Console.WriteLine("existingtimeslots: " + existingTimeslots[rowIndex][1].ToString());
+                Console.WriteLine("existingtimeslots: " + existingTimeslots[rowIndex][2].ToString());
+                Console.WriteLine("existingtimeslots: " + existingTimeslots[rowIndex][3].ToString());
+                Console.WriteLine("existingtimeslots: " + existingTimeslots[rowIndex][4].ToString());
+                //Console.WriteLine("timeslotID: " + Convert.ToInt32(existingTimeslots[rowIndex][0].ToString()));
+                Console.WriteLine(existingTimeslots[1][rowIndex]);
+                Console.WriteLine(existingTimeslots[2][rowIndex]);
+                Console.WriteLine(existingTimeslots[3][rowIndex]);*/
+                //int timeslotID = Convert.ToInt32(existingTimeslots[rowIndex][0].ToString());
+                String query = "SELECT timeslotID FROM Timeslot WHERE (courseName = '" + existingTimeslots[1][rowIndex] + "') AND (section = '" + existingTimeslots[2][rowIndex] + "') AND (day = '" + existingTimeslots[3][rowIndex] + "');";
+                Console.WriteLine(query);
+                List<String> timeslotID = dbHandler.Select(query, 1)[0];
+                String slot = timeslotID[0];
+                query = "INSERT INTO StudentSchedule(studentID, timeslotID)VALUES (N'"+currStudent+"', "+Convert.ToInt32(timeslotID[0])+")";
+                try
+                {
+                    dbHandler.Insert(query);
+                }
+                catch (SqlException sqlEx) 
+                {
+                    if (sqlEx.Source != null)
+                        Console.WriteLine("IOException source: {0}", sqlEx.Source);
+                    Console.WriteLine(query);
+                }
+            }else if(panelistTreeView.Enabled)
+            {
+                
+            }
+            
 
         }
 
@@ -256,7 +294,7 @@ namespace CustomUserControl
         {
 
         }
-
+        //Delete
         private void buttondeleteEvent_Click(object sender, EventArgs e)
         {
             String selectedRowIndex = dataGridViewEvent.SelectedRows[0].Index.ToString();
@@ -269,8 +307,6 @@ namespace CustomUserControl
                 dbHandler.Delete(query);
                 Console.WriteLine(query);
                 RefreshStudentEvents(currStudent);
-                dataGridViewEvent.DataSource = eventList;
-                dataGridViewEvent.Refresh();
             }
             else if (panelistTreeView.Enabled)
             {
@@ -279,8 +315,6 @@ namespace CustomUserControl
                 dbHandler.Delete(query);
                 Console.WriteLine(query);
                 RefreshPanelistEvents(currPanelist);
-                dataGridViewEvent.DataSource = eventList;
-                dataGridViewEvent.Refresh();
             }
             else
             {
@@ -288,11 +322,33 @@ namespace CustomUserControl
             }
         }
 
-        private void buttonClearEvent_Click(object sender, EventArgs e)
+        private void buttonDeleteWeeklyTimeslot_Click(object sender, EventArgs e)
         {
-
+            String selectedRowIndex = dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString();
+            Console.WriteLine("selected row index(string): " + dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString());
+            String currTimeslot = timeSlotTable[0][dataGridViewWeeklyTimeslot.SelectedRows[0].Index];
+            if (studentTreeView.Enabled)
+            {
+                Console.WriteLine(currTimeslot + "-" + currStudent + "-");
+                String query = "DELETE FROM StudentSchedule WHERE studentID = " + currStudent + " AND timeslotID = " + currTimeslot + ";";
+                dbHandler.Delete(query);
+                Console.WriteLine(query);
+                RefreshStudentClassScheds(currStudent);
+            }
+            else if (panelistTreeView.Enabled)
+            {
+                Console.WriteLine(currTimeslot + "-" + currPanelist + "-");
+                String query = "UPDATE Timeslot SET panelistID = NULL WHERE panelistID = " + currPanelist + " AND timeslotID = " + currTimeslot + ";";
+                dbHandler.Update(query);
+                Console.WriteLine(query);
+                RefreshPanelistClassScheds(currPanelist);
+            }
+            else
+            {
+                return;
+            }
         }
-
+        //Edit
         private void buttonEventEdit_Click(object sender, EventArgs e)
         {
 
@@ -303,49 +359,128 @@ namespace CustomUserControl
 
         }
 
-        private void update_panelists()
+        // Row Enter
+        /*
+        private void dataGridViewWeeklyTimeslot_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
+            textBoxWeeklyTimeslotCourse.Text = timeSlotTable[2][e.RowIndex];
+            textBoxWeeklyTimeslotSection.Text = timeSlotTable[1][e.RowIndex];
+
+            for (int i = 0; i < 6; i++)
+            {
+                listViewWeeklyTimeslotDay.Items[i].Checked = false;
+            }
+
+            switch (timeSlotTable[3][e.RowIndex])
+            {
+                case "M": listViewWeeklyTimeslotDay.Items[0].Checked = true; break;
+                case "T": listViewWeeklyTimeslotDay.Items[1].Checked = true; break;
+                case "W": listViewWeeklyTimeslotDay.Items[2].Checked = true; break;
+                case "H": listViewWeeklyTimeslotDay.Items[3].Checked = true; break;
+                case "F": listViewWeeklyTimeslotDay.Items[4].Checked = true; break;
+                case "S": listViewWeeklyTimeslotDay.Items[5].Checked = true; break;
+                default: break;
+            }
+
+            dateTimePickerWeeklyTimeslotStartTime.Value = Convert.ToDateTime(timeSlotTable[4][e.RowIndex]);
+            dateTimePickerWeeklyTimeslotEndTime.Value = Convert.ToDateTime(timeSlotTable[5][e.RowIndex]);
+
+
+
+            for (int i = 0; i < 6; i++)
+            {
+                if (listViewWeeklyTimeslotDay.Items[i].Checked == true)
+                {
+                    switch (listViewWeeklyTimeslotDay.Items[i].Text)
+                    {
+                        case "Monday": Console.WriteLine("Monday"); break;
+                        case "Tuesday": break;
+                        case "Wednesday": break;
+                        case "Thursday": break;
+                        case "Friday": break;
+                        case "Saturday": break;
+                        default: break;
+
+                    }
+                }
+            }
+
         }
 
+        private void dataGridViewEvent_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            textBoxEventName.Text = eventTable[1][e.RowIndex];
+            dateTimePickerEventStartTime.Value = Convert.ToDateTime(eventTable[2][e.RowIndex]);
+            dateTimePickerEventEndTime.Value = Convert.ToDateTime(eventTable[3][e.RowIndex]);
+        }*/
+
+        // ComboBoxes
         private void update_courses()
         {
+            String query = "SELECT timeslotID, courseName, section, day, startTime,endTime FROM Timeslot;";
+            existingTimeslots = dbHandler.Select(query, 6);
+
+            if (existingTimeslots[0].Count == 0)
+            {
+                return;
+            }
+
+            BindingList<ClassTimePeriod> existingClassScheds = new BindingList<ClassTimePeriod>();
+            int id;
+            String section;
+            String course;
+            String day;
+            DateTime startTime;
+            DateTime endTime;
+            for (int i = 0; i < existingTimeslots[0].Count; i++)
+            {
+                id = Convert.ToInt32(existingTimeslots[0][i]);
+                course = existingTimeslots[1][i];
+                section = existingTimeslots[2][i];
+                day = existingTimeslots[3][i];
+                startTime = Convert.ToDateTime(existingTimeslots[4][i]);
+                //endTime = Convert.ToDateTime(timeSlotTable[5][i]);
+                endTime = Convert.ToDateTime(existingTimeslots[5][i]);
+                existingClassScheds.Add(new ClassTimePeriod(id, section, course, day, startTime, endTime));
+            }
+
+
+            dataGridViewExistingTimeslot.DataSource = existingClassScheds;
+            dataGridViewExistingTimeslot.Columns[3].DefaultCellStyle.Format = "HH:mm:ss tt";
+            dataGridViewExistingTimeslot.Columns[4].DefaultCellStyle.Format = "HH:mm:ss tt";
+            dataGridViewExistingTimeslot.Columns[1].SortMode = DataGridViewColumnSortMode.Automatic;
+            dataGridViewExistingTimeslot.Refresh();
         }
 
         private void update_events()
         {
+            String query = "SELECT eventID, name, eventStart, eventEnd FROM EVENT;";
+
+            existingEvents = dbHandler.Select(query, 4);
+
+            if (existingEvents[0].Count == 0)
+            {
+                return;
+            }
+
+            BindingList<Event> existingEventList = new BindingList<Event>();
+            //Convert from 2D list to list of events
+            int id;
+            String name;
+            DateTime eventStart;
+            DateTime eventEnd;
+            for (int i = 0; i < existingEvents[0].Count; i++)
+            {
+                id = Convert.ToInt32(existingEvents[0][i]);
+                name = existingEvents[1][i];
+                eventStart = Convert.ToDateTime(existingEvents[2][i]);
+                eventEnd = Convert.ToDateTime(existingEvents[3][i]);
+                existingEventList.Add(new Event(id, name, eventStart, eventEnd));
+            }
+            dataGridViewExistingEvent.DataSource = existingEventList;
         }
 
-        //STUDENTS
-        public void UpdateStudentList(TreeNodeCollection tree)
-        {
-            UpdateTreeView(tree, "studentID", "student");
-        }
 
-        public void RefreshStudentClassScheds(String studentID)
-        {
-            RefreshClassScheds(studentID, "studentID");
-        }
-
-        public void RefreshStudentEvents(String studentID)
-        {
-            RefreshEvents(studentID, "studentID", "StudentEventRecord");
-        }
-
-        //PANELISTS
-        public void UpdatePanelistList(TreeNodeCollection tree)
-        {
-            UpdateTreeView(tree, "panelistID", "panelist");
-        }
-
-        public void RefreshPanelistClassScheds(String panelistID)
-        {
-            RefreshClassScheds(panelistID, "panelistID");
-        }
-
-        public void RefreshPanelistEvents(String panelistID)
-        {
-            RefreshEvents(panelistID, "panelistID", "PanelistEventRecord");
-        }
 
         //Algorithm for both students and panelists
         public void UpdateTreeView(TreeNodeCollection tree, String idColumnName, String tableName)
@@ -401,14 +536,11 @@ namespace CustomUserControl
                 query = "SELECT timeslotID from timeslot where panelistID = '" + ID + "';";
             else
                 return;
-
             List<String> timeSlots = dbHandler.Select(query, 1)[0];
             if (timeSlots.Count == 0)
             {
                 return;
             }
-
-
             query = "SELECT timeslotID, section, courseName, day, startTime, endTime FROM timeslot WHERE ";
             for (int i = 0; i < timeSlots.Count; i++)
             {
@@ -436,10 +568,10 @@ namespace CustomUserControl
                 course = timeSlotTable[2][i];
                 day = timeSlotTable[3][i];
                 startTime = Convert.ToDateTime(timeSlotTable[4][i]);
+                //endTime = Convert.ToDateTime(timeSlotTable[5][i]);
                 endTime = Convert.ToDateTime(timeSlotTable[5][i]);
                 classSchedList.Add(new ClassTimePeriod(id, section, course, day, startTime, endTime));
             }
-
             //debugging
             for (int i = 0; i < 6; i++)
             {
@@ -448,6 +580,14 @@ namespace CustomUserControl
                     Console.WriteLine(j);
                 }
             }
+
+            dataGridViewWeeklyTimeslot.DataSource = classSchedList;
+            //dataGridViewWeeklyTimeslot.Columns[4].ValueType = 
+            dataGridViewWeeklyTimeslot.Columns[3].DefaultCellStyle.Format = "HH:mm:ss tt";
+            dataGridViewWeeklyTimeslot.Columns[4].DefaultCellStyle.Format = "HH:mm:ss tt";
+            dataGridViewWeeklyTimeslot.Refresh();
+
+
         }
 
         private void RefreshEvents(String ID, String columnName, String tableName)
@@ -484,61 +624,42 @@ namespace CustomUserControl
                     Console.WriteLine(j);
                 }
             }
+
+            dataGridViewEvent.DataSource = eventList;
+            dataGridViewEvent.Refresh();
             
         }
 
-        private void dataGridViewWeeklyTimeslot_RowEnter(object sender, DataGridViewCellEventArgs e)
+        //STUDENTS
+        public void UpdateStudentList(TreeNodeCollection tree)
         {
-            textBoxWeeklyTimeslotCourse.Text = timeSlotTable[2][e.RowIndex];
-            textBoxWeeklyTimeslotSection.Text = timeSlotTable[1][e.RowIndex];
-
-            for (int i = 0; i < 6; i++)
-            {
-                listViewWeeklyTimeslotDay.Items[i].Checked = false;
-            }
-
-            switch (timeSlotTable[3][e.RowIndex])
-            {
-                case "M": listViewWeeklyTimeslotDay.Items[0].Checked = true; break;
-                case "T": listViewWeeklyTimeslotDay.Items[1].Checked = true; break;
-                case "W": listViewWeeklyTimeslotDay.Items[2].Checked = true; break;
-                case "H": listViewWeeklyTimeslotDay.Items[3].Checked = true; break;
-                case "F": listViewWeeklyTimeslotDay.Items[4].Checked = true; break;
-                case "S": listViewWeeklyTimeslotDay.Items[5].Checked = true; break;
-                default: break;
-            }
-
-            dateTimePickerWeeklyTimeslotStartTime.Value = Convert.ToDateTime(timeSlotTable[4][e.RowIndex]);
-            dateTimePickerWeeklyTimeslotEndTime.Value = Convert.ToDateTime(timeSlotTable[5][e.RowIndex]);
-
-            
-            
-            for(int i=0;i<6;i++)
-            {
-                if (listViewWeeklyTimeslotDay.Items[i].Checked == true) 
-                {
-                    switch (listViewWeeklyTimeslotDay.Items[i].Text) 
-                    {
-                        case "Monday": Console.WriteLine("Monday"); break;
-                        case "Tuesday": break;
-                        case "Wednesday": break;
-                        case "Thursday": break;
-                        case "Friday": break;
-                        case "Saturday": break;
-                        default: break;
-
-                    }
-                }
-            }
-
+            UpdateTreeView(tree, "studentID", "student");
         }
 
-        private void dataGridViewEvent_RowEnter(object sender, DataGridViewCellEventArgs e)
+        public void RefreshStudentClassScheds(String studentID)
         {
-            textBoxEventName.Text = eventTable[1][e.RowIndex];
-            dateTimePickerEventStartTime.Value = Convert.ToDateTime(eventTable[2][e.RowIndex]);
-            dateTimePickerEventEndTime.Value = Convert.ToDateTime(eventTable[3][e.RowIndex]);
+            RefreshClassScheds(studentID, "studentID");
         }
 
+        public void RefreshStudentEvents(String studentID)
+        {
+            RefreshEvents(studentID, "studentID", "StudentEventRecord");
+        }
+
+        //PANELISTS
+        public void UpdatePanelistList(TreeNodeCollection tree)
+        {
+            UpdateTreeView(tree, "panelistID", "panelist");
+        }
+
+        public void RefreshPanelistClassScheds(String panelistID)
+        {
+            RefreshClassScheds(panelistID, "panelistID");
+        }
+
+        public void RefreshPanelistEvents(String panelistID)
+        {
+            RefreshEvents(panelistID, "panelistID", "PanelistEventRecord");
+        }
     }
 }

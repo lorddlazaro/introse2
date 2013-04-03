@@ -35,7 +35,7 @@ namespace CustomUserControl
             UpdateTreeView(tree, "studentID", "student");
         }
        
-        public void RefreshStudentClassScheds(String studentID) 
+        public void RefreshStudentClassScheds(String studentID, DataGridView table) 
         {
             textClassScheds = "********CLASS SCHEDULES********\n";
 
@@ -46,8 +46,6 @@ namespace CustomUserControl
                 textClassScheds += "\n No class schedules for this student.";
                 return;
             }
-
-            
             query = "SELECT timeslotID, section, courseName, day, startTime, endTime FROM timeslot WHERE ";
             for (int i = 0; i < timeSlots.Count; i++) 
             {
@@ -58,7 +56,6 @@ namespace CustomUserControl
                     query += " OR "; 
             }
 
-          
             List<ClassTimePeriod>[] schedules = new List<ClassTimePeriod>[DEFWEEK_DAYS];
             for(int i=0;i<DEFWEEK_DAYS;i++)
             {
@@ -88,6 +85,20 @@ namespace CustomUserControl
 
                 schedules[dayIndex].Add(new ClassTimePeriod(id, section, course, day, startTime, endTime));
             }
+
+            int k;
+            
+            for (int i = 0; i < DEFWEEK_DAYS; i++)
+            {
+                
+                for(k=0;k<schedules[i].Count;k++)
+                {
+                    //table.Rows.Add(1);
+                   // table.Rows[k].Cells[i]. = schedules[i][k].ToString();
+                    //table.Ro = schedules[i][k].ToString();
+                }
+            }
+
 
             int j;
             for (int i = 0; i < DEFWEEK_DAYS; i++) 
@@ -239,7 +250,7 @@ namespace CustomUserControl
             }
         }
 
-        private void RefreshEvents(String ID, String columnName, String tableName ) 
+        private void RefreshEvents(String ID, String columnName, String tableName) 
         {
             textEvents = "***********EVENTS***********\n\n";
             eventList.Clear();

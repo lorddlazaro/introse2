@@ -78,6 +78,19 @@
       <DependentUpon>DefenseSchedulesViewercs.cs</DependentUpon>
     </Compile>
     <Compile Include="Event.cs" />
+    <Compile Include="EventCreator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EventCreator.Designer.cs">
+      <DependentUpon>EventCreator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panelist.cs" />
+    <Compile Include="TimeslotCreator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeslotCreator.Designer.cs">
+      <DependentUpon>TimeslotCreator.cs</DependentUpon>
+    </Compile>
     <Compile Include="FreeTimeViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -109,12 +122,24 @@
     <Compile Include="ThesisGroupControl.designer.cs">
       <DependentUpon>ThesisGroupControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="ThesisGroupControl2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ThesisGroupControl2.designer.cs">
+      <DependentUpon>ThesisGroupControl2.cs</DependentUpon>
+    </Compile>
     <Compile Include="TimePeriod.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DefenseSchedulesViewercs.resx">
       <DependentUpon>DefenseSchedulesViewercs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EventCreator.resx">
+      <DependentUpon>EventCreator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeslotCreator.resx">
+      <DependentUpon>TimeslotCreator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeTimeViewer.resx">
       <DependentUpon>FreeTimeViewer.cs</DependentUpon>
@@ -132,6 +157,9 @@
     <EmbeddedResource Include="ThesisGroupControl.resx">
       <DependentUpon>ThesisGroupControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ThesisGroupControl2.resx">
+      <DependentUpon>ThesisGroupControl2.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -139,6 +167,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
