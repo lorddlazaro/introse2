@@ -115,19 +115,19 @@
             this.dataGridViewExistingTimeslot.AllowUserToDeleteRows = false;
             this.dataGridViewExistingTimeslot.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewExistingTimeslot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewExistingTimeslot.Location = new System.Drawing.Point(407, 55);
+            this.dataGridViewExistingTimeslot.Location = new System.Drawing.Point(92, 182);
             this.dataGridViewExistingTimeslot.MultiSelect = false;
             this.dataGridViewExistingTimeslot.Name = "dataGridViewExistingTimeslot";
             this.dataGridViewExistingTimeslot.ReadOnly = true;
             this.dataGridViewExistingTimeslot.RowHeadersVisible = false;
             this.dataGridViewExistingTimeslot.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewExistingTimeslot.Size = new System.Drawing.Size(330, 276);
+            this.dataGridViewExistingTimeslot.Size = new System.Drawing.Size(645, 149);
             this.dataGridViewExistingTimeslot.TabIndex = 22;
             // 
             // labelWeeklyTimeslot
             // 
             this.labelWeeklyTimeslot.AutoSize = true;
-            this.labelWeeklyTimeslot.Location = new System.Drawing.Point(404, 39);
+            this.labelWeeklyTimeslot.Location = new System.Drawing.Point(89, 166);
             this.labelWeeklyTimeslot.Name = "labelWeeklyTimeslot";
             this.labelWeeklyTimeslot.Size = new System.Drawing.Size(90, 13);
             this.labelWeeklyTimeslot.TabIndex = 17;
@@ -139,18 +139,18 @@
             this.dataGridViewWeeklyTimeslot.AllowUserToDeleteRows = false;
             this.dataGridViewWeeklyTimeslot.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewWeeklyTimeslot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewWeeklyTimeslot.Location = new System.Drawing.Point(5, 55);
+            this.dataGridViewWeeklyTimeslot.Location = new System.Drawing.Point(92, 9);
             this.dataGridViewWeeklyTimeslot.MultiSelect = false;
             this.dataGridViewWeeklyTimeslot.Name = "dataGridViewWeeklyTimeslot";
             this.dataGridViewWeeklyTimeslot.ReadOnly = true;
             this.dataGridViewWeeklyTimeslot.RowHeadersVisible = false;
             this.dataGridViewWeeklyTimeslot.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewWeeklyTimeslot.Size = new System.Drawing.Size(319, 276);
+            this.dataGridViewWeeklyTimeslot.Size = new System.Drawing.Size(645, 151);
             this.dataGridViewWeeklyTimeslot.TabIndex = 15;
             // 
             // buttonWeeklyTimeslotEdit
             // 
-            this.buttonWeeklyTimeslotEdit.Location = new System.Drawing.Point(330, 266);
+            this.buttonWeeklyTimeslotEdit.Location = new System.Drawing.Point(6, 223);
             this.buttonWeeklyTimeslotEdit.Name = "buttonWeeklyTimeslotEdit";
             this.buttonWeeklyTimeslotEdit.Size = new System.Drawing.Size(71, 44);
             this.buttonWeeklyTimeslotEdit.TabIndex = 20;
@@ -160,7 +160,7 @@
             // 
             // buttonAddExistingWeeklyTimeslot
             // 
-            this.buttonAddExistingWeeklyTimeslot.Location = new System.Drawing.Point(330, 209);
+            this.buttonAddExistingWeeklyTimeslot.Location = new System.Drawing.Point(6, 166);
             this.buttonAddExistingWeeklyTimeslot.Name = "buttonAddExistingWeeklyTimeslot";
             this.buttonAddExistingWeeklyTimeslot.Size = new System.Drawing.Size(71, 51);
             this.buttonAddExistingWeeklyTimeslot.TabIndex = 16;
@@ -171,7 +171,7 @@
             // buttonDeleteWeeklyTimeslot
             // 
             this.buttonDeleteWeeklyTimeslot.Enabled = false;
-            this.buttonDeleteWeeklyTimeslot.Location = new System.Drawing.Point(330, 141);
+            this.buttonDeleteWeeklyTimeslot.Location = new System.Drawing.Point(6, 98);
             this.buttonDeleteWeeklyTimeslot.Name = "buttonDeleteWeeklyTimeslot";
             this.buttonDeleteWeeklyTimeslot.Size = new System.Drawing.Size(71, 62);
             this.buttonDeleteWeeklyTimeslot.TabIndex = 13;
@@ -181,7 +181,7 @@
             // 
             // buttonAddWeeklyTimeslot
             // 
-            this.buttonAddWeeklyTimeslot.Location = new System.Drawing.Point(330, 84);
+            this.buttonAddWeeklyTimeslot.Location = new System.Drawing.Point(6, 41);
             this.buttonAddWeeklyTimeslot.Name = "buttonAddWeeklyTimeslot";
             this.buttonAddWeeklyTimeslot.Size = new System.Drawing.Size(71, 51);
             this.buttonAddWeeklyTimeslot.TabIndex = 12;
