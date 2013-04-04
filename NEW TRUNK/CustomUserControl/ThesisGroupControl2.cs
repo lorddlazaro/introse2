@@ -676,7 +676,8 @@ namespace CustomUserControl
                     query += newLastName + "');";
                     dbHandler.Insert(query);
 
-                    query = "insert into panelassignment values(" + currThesisGroupID + ", " + result[0].ElementAt(panelIndex) + ");";
+                    query = "insert into panelassignment values(" + currThesisGroupID + ", " + newID + ");";
+                    dbHandler.Insert(query);
                 }
                 else
                 {
@@ -710,8 +711,9 @@ namespace CustomUserControl
                     query += newLastName + "');";
                     dbHandler.Insert(query);
 
-                    query = "insert into panelassignment values(" + currThesisGroupID + ", " + panelistDetails[panelIndex].ElementAt(0).Text + ");";
+                    query = "insert into panelassignment values(" + currThesisGroupID + ", " + newID + ");";
                     dbHandler.Insert(query);
+                   // Console.WriteLine(dbHandler.Select("select count(*) from panelassignment where thesisgroupid = " + currThesisGroupID + ";", 1)[0].ElementAt(0) + " look here duke");
                 }
                 else
                 {
@@ -789,6 +791,10 @@ namespace CustomUserControl
             ComboBox currPanel = (ComboBox)sender;
             int panelIndex = Convert.ToInt32(currPanel.Name.Substring(11));
             int selected = selPanel[panelIndex].SelectedIndex;
+
+            if (selPanel[panelIndex].SelectedItem + "" == "")
+                return;
+
             String[] name = ((String)selPanel[panelIndex].SelectedItem).Split(' ');
 
             int middleIndex = 0;
