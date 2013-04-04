@@ -497,7 +497,6 @@ namespace CustomUserControl
                 update_students();
             }
         }
-
         private void save_student_Click(object sender, EventArgs e)
         {
             Button pressed = (Button)sender;
@@ -510,6 +509,8 @@ namespace CustomUserControl
 
             String query = "select studentID from student where thesisgroupid = " + currThesisGroupID + ";";
             List<String>[] result = dbHandler.Select(query, 1);
+            query = "select studentid from student;";
+            List<String>[] studentsInGroups = dbHandler.Select(query, 1);
 
             if (newID == "" || newFirstName == "" || newLastName == "")
             {
@@ -519,28 +520,19 @@ namespace CustomUserControl
 
             if (result[0].Count <= studentIndex)
             {
-                query = "select studentID from student;";
-                List<String>[] result2 = dbHandler.Select(query, 1);
-
-                Boolean duplicate = false;
-
-                for (int i = 0; i < result2[0].Count && !duplicate; i++)
+                for (int i = 0; i < studentsInGroups[0].Count; i++)
                 {
-                    if (result2[0].ElementAt(i) == newID)
-                        duplicate = true;
+                    if (studentsInGroups[0].ElementAt(i) == newID)
+                    {
+                        MessageBox.Show("Duplicate Entry, Student already in another thesis group.", "Error", MessageBoxButtons.OK);
+                        update_students();
+                        return;
+                    }
                 }
 
-                if (!duplicate)
-                {
-                    query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
-                    query += newLastName + "', " + currThesisGroupID + ");";
-                    dbHandler.Insert(query);
-                }
-                else
-                {
-                    MessageBox.Show("Duplicate Entry, Student already in another thesis group.", "Error", MessageBoxButtons.OK);
-
-                }
+                query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
+                query += newLastName + "', " + currThesisGroupID + ");";
+                dbHandler.Insert(query);
             }
             else if (result[0].ElementAt(studentIndex) == newID)
             {
@@ -551,38 +543,29 @@ namespace CustomUserControl
             }
             else
             {
-                query = "select studentID from student;";
-                List<String>[] result2 = dbHandler.Select(query, 1);
-
-                Boolean duplicate = false;
-
-                for (int i = 0; i < result2[0].Count && !duplicate; i++)
+                for (int i = 0; i < studentsInGroups[0].Count; i++)
                 {
-                    if (result2[0].ElementAt(i) == newID)
-                        duplicate = true;
+                    if (studentsInGroups[0].ElementAt(i) == newID)
+                    {
+                        MessageBox.Show("Duplicate Entry, Student already in another thesis group.", "Error", MessageBoxButtons.OK);
+                        update_students();
+                        return;
+                    }
                 }
 
-                if (!duplicate)
-                {
-                    String oldID = result[0].ElementAt(studentIndex);
+                String oldID = result[0].ElementAt(studentIndex);
 
-                    query = "delete from student where studentID = " + oldID + ";";
-                    dbHandler.Delete(query);
+                query = "delete from student where studentID = " + oldID + ";";
+                dbHandler.Delete(query);
 
-                    query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
-                    query += newLastName + "', " + currThesisGroupID + ");";
-                    dbHandler.Insert(query);
-                }
-                else
-                {
-                    MessageBox.Show("Duplicate Input, Student already in another thesis group.", "Error", MessageBoxButtons.OK);
-                }
+                query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
+                query += newLastName + "', " + currThesisGroupID + ");";
+                dbHandler.Insert(query);
             }
 
 
             update_students();
         }
-
         private void delete_student_Click(object sender, EventArgs e)
         {
             Button pressed = (Button)sender;
@@ -640,7 +623,6 @@ namespace CustomUserControl
                 update_panelists();
             }
         }
-
         private void save_panel_Click(object sender, EventArgs e)
         {
             Button pressed = (Button)sender;
@@ -653,6 +635,8 @@ namespace CustomUserControl
 
             String query = "select panelistID from panelassignment where thesisgroupid = " + currThesisGroupID + " order by panelistID;";
             List<String>[] result = dbHandler.Select(query, 1);
+            query = "select panelistID from panelist;";
+            List<String>[] result2 = dbHandler.Select(query, 1);
 
             if (newID == "" || newFirstName == "" || newLastName == "")
             {
@@ -662,29 +646,34 @@ namespace CustomUserControl
 
             if (result[0].Count <= panelIndex)
             {
-                Boolean duplicate = false;
-
-                for (int i = 0; i < result[0].Count && !duplicate; i++)
+                for (int i = 0; i < result[0].Count; i++)
                 {
-                    if (result[0].ElementAt(i) == newID)
-                        duplicate = true;
+                    if (result[0].ElementAt(i).Equals(newID))
+                    {
+                        MessageBox.Show("Panelist Already Assigned to Thesis Group", "Error", MessageBoxButtons.OK);
+                        update_components();
+                        return;
+                    }
                 }
 
-                if (!duplicate)
+                for (int i = 0; i < result2[0].Count; i++)
                 {
-                    query = "insert into panelist values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
-                    query += newLastName + "');";
-                    dbHandler.Insert(query);
+                    if (result2[0].ElementAt(i).Equals(newID))
+                    {
+                        MessageBox.Show("Panelist Already Exists, use select existing", "Error", MessageBoxButtons.OK);
+                        update_components();
+                        return;
+                    }
+                }
 
-                    query = "insert into panelassignment values(" + currThesisGroupID + ", " + newID + ");";
-                    dbHandler.Insert(query);
-                }
-                else
-                {
-                    MessageBox.Show("Panelist Already Assigned to Thesis Group", "Error", MessageBoxButtons.OK);
-                }
+                query = "insert into panelist values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
+                query += newLastName + "');";
+                dbHandler.Insert(query);
+
+                query = "insert into panelassignment values(" + currThesisGroupID + ", " + newID + ");";
+                dbHandler.Insert(query);
             }
-            else if (result[0].ElementAt(panelIndex) == newID)
+            else if (result[0].ElementAt(panelIndex).Equals(newID))
             {
 
                 query = "update panelist set firstname = '" + newFirstName + "', lastname = '" + newLastName + "', MI = '" + newMI + "' ";
@@ -694,36 +683,29 @@ namespace CustomUserControl
             }
             else
             {
-                Boolean duplicate = false;
-
-                for (int i = 0; i < result[0].Count && !duplicate; i++)
+                for (int i = 0; i < result[0].Count; i++)
                 {
-                    if (result[0].ElementAt(i) == newID)
-                        duplicate = true;
+                    if (result[0].ElementAt(i).Equals(newID))
+                    {
+                        MessageBox.Show("Panelist Already Assigned to Thesis Group", "Error", MessageBoxButtons.OK);
+                        update_components();
+                        return;
+                    }
                 }
 
-                if (!duplicate)
-                {
-                    query = "delete from panelassignment where thesisgroupid = " + currThesisGroupID + " and panelistid = " + result[0].ElementAt(panelIndex) + ";";
-                    dbHandler.Delete(query);
+                query = "delete from panelassignment where thesisgroupid = " + currThesisGroupID + " and panelistid = " + result[0].ElementAt(panelIndex) + ";";
+                dbHandler.Delete(query);
 
-                    query = "insert into panelist values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
-                    query += newLastName + "');";
-                    dbHandler.Insert(query);
+                query = "insert into panelist values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
+                query += newLastName + "');";
+                dbHandler.Insert(query);
 
-                    query = "insert into panelassignment values(" + currThesisGroupID + ", " + newID + ");";
-                    dbHandler.Insert(query);
-                   // Console.WriteLine(dbHandler.Select("select count(*) from panelassignment where thesisgroupid = " + currThesisGroupID + ";", 1)[0].ElementAt(0) + " look here duke");
-                }
-                else
-                {
-                    MessageBox.Show("Panelist already in thesis group", "Error", MessageBoxButtons.OK);
-                }
+                query = "insert into panelassignment values(" + currThesisGroupID + ", " + newID + ");";
+                dbHandler.Insert(query);
             }
 
             update_components();
         }
-
         private void delete_panel_Click(object sender, EventArgs e)
         {
             Button pressed = (Button)sender;
@@ -750,7 +732,6 @@ namespace CustomUserControl
 
             update_components();
         }
-
         private void select_panel_Click(object sender, EventArgs e)
         {
             Button pressed = (Button)sender;
@@ -785,7 +766,6 @@ namespace CustomUserControl
                 update_components();
             }
         }
-
         private void selPanel_Selected_Index_Changed(object sender, EventArgs e)
         {
             ComboBox currPanel = (ComboBox)sender;
@@ -821,7 +801,6 @@ namespace CustomUserControl
 
             String query;
             List<String>[] result;
-
 
             if (panelistDetails[panelIndex].ElementAt(0).Text == "")
             {
@@ -865,7 +844,6 @@ namespace CustomUserControl
             groupButtons[1].Enabled = false;
             groupButtons[2].Enabled = true;
         }
-
         private void edit_groupDetails_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < 3; i++)
@@ -880,7 +858,6 @@ namespace CustomUserControl
             eligibleN.Enabled = true;
             eligibleY.Enabled = true;
         }
-
         private void save_groupDetails_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < 3; i++)
@@ -940,7 +917,6 @@ namespace CustomUserControl
             update_components();
             update_treeview();
         }
-
         private void cancelEdits_Click(object sender, EventArgs e)
         {
             if (!groupButtons[0].Enabled)
@@ -967,7 +943,6 @@ namespace CustomUserControl
 
             update_components();
         }
-
         private void deleteGroup_Click(object sender, EventArgs e)
         {
             if (currThesisGroupID == "")
