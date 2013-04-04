@@ -93,6 +93,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.thesisGroupTreeView = new System.Windows.Forms.TreeView();
+            this.eligibleY = new System.Windows.Forms.RadioButton();
+            this.eligibleN = new System.Windows.Forms.RadioButton();
+            this.label45 = new System.Windows.Forms.Label();
             this.studentsPanel.SuspendLayout();
             this.student4.SuspendLayout();
             this.student3.SuspendLayout();
@@ -576,6 +579,9 @@
             // thesisGroupPanel
             // 
             this.thesisGroupPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.thesisGroupPanel.Controls.Add(this.label45);
+            this.thesisGroupPanel.Controls.Add(this.eligibleN);
+            this.thesisGroupPanel.Controls.Add(this.eligibleY);
             this.thesisGroupPanel.Controls.Add(this.deleteGroup);
             this.thesisGroupPanel.Controls.Add(this.cancelEdits);
             this.thesisGroupPanel.Controls.Add(this.saveDetails);
@@ -599,7 +605,7 @@
             // 
             // deleteGroup
             // 
-            this.deleteGroup.Location = new System.Drawing.Point(8, 292);
+            this.deleteGroup.Location = new System.Drawing.Point(8, 403);
             this.deleteGroup.Name = "deleteGroup";
             this.deleteGroup.Size = new System.Drawing.Size(117, 27);
             this.deleteGroup.TabIndex = 38;
@@ -609,7 +615,7 @@
             // 
             // cancelEdits
             // 
-            this.cancelEdits.Location = new System.Drawing.Point(155, 259);
+            this.cancelEdits.Location = new System.Drawing.Point(155, 370);
             this.cancelEdits.Name = "cancelEdits";
             this.cancelEdits.Size = new System.Drawing.Size(117, 27);
             this.cancelEdits.TabIndex = 37;
@@ -619,7 +625,7 @@
             // 
             // saveDetails
             // 
-            this.saveDetails.Location = new System.Drawing.Point(8, 259);
+            this.saveDetails.Location = new System.Drawing.Point(8, 370);
             this.saveDetails.Name = "saveDetails";
             this.saveDetails.Size = new System.Drawing.Size(117, 27);
             this.saveDetails.TabIndex = 36;
@@ -629,7 +635,7 @@
             // 
             // editThesisGroup
             // 
-            this.editThesisGroup.Location = new System.Drawing.Point(8, 225);
+            this.editThesisGroup.Location = new System.Drawing.Point(8, 336);
             this.editThesisGroup.Name = "editThesisGroup";
             this.editThesisGroup.Size = new System.Drawing.Size(117, 27);
             this.editThesisGroup.TabIndex = 35;
@@ -647,7 +653,7 @@
             // 
             // newThesisGroup
             // 
-            this.newThesisGroup.Location = new System.Drawing.Point(155, 225);
+            this.newThesisGroup.Location = new System.Drawing.Point(155, 336);
             this.newThesisGroup.Name = "newThesisGroup";
             this.newThesisGroup.Size = new System.Drawing.Size(117, 27);
             this.newThesisGroup.TabIndex = 34;
@@ -759,7 +765,38 @@
             this.thesisGroupTreeView.TabIndex = 35;
             this.thesisGroupTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.thesisGroupTreeView_NodeMouseClick);
             // 
-            // ThesisGroupControl
+            // eligibleY
+            // 
+            this.eligibleY.AutoSize = true;
+            this.eligibleY.Location = new System.Drawing.Point(161, 248);
+            this.eligibleY.Name = "eligibleY";
+            this.eligibleY.Size = new System.Drawing.Size(43, 17);
+            this.eligibleY.TabIndex = 39;
+            this.eligibleY.TabStop = true;
+            this.eligibleY.Text = "Yes";
+            this.eligibleY.UseVisualStyleBackColor = true;
+            // 
+            // eligibleN
+            // 
+            this.eligibleN.AutoSize = true;
+            this.eligibleN.Location = new System.Drawing.Point(161, 274);
+            this.eligibleN.Name = "eligibleN";
+            this.eligibleN.Size = new System.Drawing.Size(39, 17);
+            this.eligibleN.TabIndex = 40;
+            this.eligibleN.TabStop = true;
+            this.eligibleN.Text = "No";
+            this.eligibleN.UseVisualStyleBackColor = true;
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(15, 262);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(104, 13);
+            this.label45.TabIndex = 41;
+            this.label45.Text = "Eligible for Defense?";
+            // 
+            // ThesisGroupControl2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -768,7 +805,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panelistControl);
             this.Controls.Add(this.studentsPanel);
-            this.Name = "ThesisGroupControl";
+            this.Name = "ThesisGroupControl2";
             this.Size = new System.Drawing.Size(1000, 680);
             this.studentsPanel.ResumeLayout(false);
             this.studentsPanel.PerformLayout();
@@ -861,5 +898,8 @@
         private System.Windows.Forms.Button cancelEdits;
         private System.Windows.Forms.Button saveDetails;
         private System.Windows.Forms.Button deleteGroup;
+        private System.Windows.Forms.Label label45;
+        private System.Windows.Forms.RadioButton eligibleN;
+        private System.Windows.Forms.RadioButton eligibleY;
     }
 }

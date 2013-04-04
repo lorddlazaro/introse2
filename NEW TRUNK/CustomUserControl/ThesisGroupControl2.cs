@@ -17,6 +17,7 @@ namespace CustomUserControl
         TextBox[] groupDetails; // details (title, section, SY)
         ComboBox[] groupStuff; // stuff (course, term)
         Button[] groupButtons; // buttons (edit, new, save, cancel)
+        RadioButton[] eligible;
 
         List<TextBox>[] studentDetails;
         List<Button>[] studentButtons;
@@ -50,6 +51,15 @@ namespace CustomUserControl
             groupButtons[2] = saveDetails;
             groupButtons[3] = cancelEdits;
             groupButtons[4] = deleteGroup;
+
+
+            eligible = new RadioButton[2];
+            eligible[0] = eligibleN;
+            eligible[1] = eligibleY;
+
+            eligibleY.Enabled = false;
+            eligibleN.Enabled = false;
+            eligibleN.Checked = true;
 
             // students
             studentButtons = new List<Button>[4]; // 4 students
@@ -269,10 +279,13 @@ namespace CustomUserControl
                 groupButtons[2].Enabled = false;
                 groupButtons[3].Enabled = false;
                 groupButtons[4].Enabled = false;
+
+                eligibleY.Enabled = false;
+                eligibleN.Enabled = false;
                 return;
             }
 
-            String query = "select title, course, section, startSY, startTerm from thesisgroup where thesisgroupid = " + currThesisGroupID + ";";
+            String query = "select title, course, section, startSY, startTerm, eligiblefordefense from thesisgroup where thesisgroupid = " + currThesisGroupID + ";";
             List<String>[] groupInfo = dbHandler.Select(query, 5);
 
             groupDetails[0].Text = groupInfo[0].ElementAt(0);
@@ -292,6 +305,27 @@ namespace CustomUserControl
             groupButtons[2].Enabled = false;
             groupButtons[3].Enabled = false;
             groupButtons[4].Enabled = false;
+
+            eligibleY.Enabled = false;
+            eligibleN.Enabled = false;
+
+            query = "select eligiblefordefense from thesisgroup where thesisgroupid = " + currThesisGroupID + ";";
+            String q2 = "select count(*) from student where thesisgroupid = " + currThesisGroupID + ";";
+            String q3 = "select count(*) from panelassignment where thesisgroupid = " + currThesisGroupID + ";";
+            Boolean eligible = Convert.ToBoolean(dbHandler.Select(query, 1)[0].ElementAt(0)) && (Convert.ToInt32(dbHandler.Select(q2, 1)[0].ElementAt(0)) >= 1) && (Convert.ToInt32(dbHandler.Select(q3, 1)[0].ElementAt(0)) >= 3);
+
+            if (eligible)
+            {
+                eligibleY.Checked = true;
+            }
+            else
+            {
+                eligibleN.Checked = true;
+                if (Convert.ToBoolean(dbHandler.Select(query, 1)[0].ElementAt(0))) {
+                    String update = "update thesisgroup set eligiblefordefense = 'false' where thesisgroupid = " + currThesisGroupID + ";";
+                    dbHandler.Update(update);
+                }
+            }
         }
 
         private void update_students()
@@ -475,7 +509,10 @@ namespace CustomUserControl
             List<String>[] result = dbHandler.Select(query, 1);
 
             if (newID == "" || newFirstName == "" || newLastName == "")
+            {
+                MessageBox.Show("Please fill incomplete fields.", "Error", MessageBoxButtons.OK);
                 return;
+            }
 
             if (result[0].Count <= studentIndex)
             {
@@ -495,6 +532,11 @@ namespace CustomUserControl
                     query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
                     query += newLastName + "', " + currThesisGroupID + ");";
                     dbHandler.Insert(query);
+                }
+                else
+                {
+                    MessageBox.Show("Duplicate Entry, Student already in another thesis group.", "Error", MessageBoxButtons.OK);
+
                 }
             }
             else if (result[0].ElementAt(studentIndex) == newID)
@@ -528,6 +570,10 @@ namespace CustomUserControl
                     query += newLastName + "', " + currThesisGroupID + ");";
                     dbHandler.Insert(query);
                 }
+                else
+                {
+                    MessageBox.Show("Duplicate Input, Student already in another thesis group.", "Error", MessageBoxButtons.OK);
+                }
             }
 
 
@@ -542,10 +588,18 @@ namespace CustomUserControl
             if (currThesisGroupID == "")
                 return;
 
-            String query;
+            String query = "select studentid, firstname, mi, lastname from student where studentid = " + studentDetails[studentIndex].ElementAt(0).Text + ";";
+            List<String>[] result = dbHandler.Select(query, 4);
 
-            query = "delete from student where studentid = " + studentDetails[studentIndex].ElementAt(0).Text + ";";
-            dbHandler.Delete(query);
+            String name = result[0].ElementAt(0) + " - " + result[1].ElementAt(0) + " " + result[2].ElementAt(0) + ". " + result[3].ElementAt(0);
+
+            DialogResult input = MessageBox.Show("Are you sure you want to delete student " + name + "?", "Confirm", MessageBoxButtons.YesNo);
+
+            if (input == DialogResult.Yes)
+            {
+                query = "delete from student where studentid = " + studentDetails[studentIndex].ElementAt(0).Text + ";";
+                dbHandler.Delete(query);
+            }
 
             update_components();
         }
@@ -596,9 +650,12 @@ namespace CustomUserControl
 
             String query = "select panelistID from panelassignment where thesisgroupid = " + currThesisGroupID + " order by panelistID;";
             List<String>[] result = dbHandler.Select(query, 1);
-            
+
             if (newID == "" || newFirstName == "" || newLastName == "")
+            {
+                MessageBox.Show("Please fill incomplete fields.", "Error", MessageBoxButtons.OK);
                 return;
+            }
 
             if (result[0].Count <= panelIndex)
             {
@@ -617,6 +674,10 @@ namespace CustomUserControl
                     dbHandler.Insert(query);
 
                     query = "insert into panelassignment values(" + currThesisGroupID + ", " + result[0].ElementAt(panelIndex) + ");";
+                }
+                else
+                {
+                    MessageBox.Show("Panelist Already Assigned to Thesis Group", "Error", MessageBoxButtons.OK);
                 }
             }
             else if (result[0].ElementAt(panelIndex) == newID)
@@ -649,6 +710,10 @@ namespace CustomUserControl
                     query = "insert into panelassignment values(" + currThesisGroupID + ", " + panelistDetails[panelIndex].ElementAt(0).Text + ");";
                     dbHandler.Insert(query);
                 }
+                else
+                {
+                    MessageBox.Show("Panelist already in thesis group", "Error", MessageBoxButtons.OK);
+                }
             }
 
             update_components();
@@ -663,9 +728,20 @@ namespace CustomUserControl
                 return;
 
             String query;
+            List<String>[] result;
 
-            query = "delete from panelassignment where panelistid = " + panelistDetails[panelIndex].ElementAt(0).Text + " and thesisgroupid = " + currThesisGroupID + ";";
-            dbHandler.Delete(query);
+            query = "select firstname, MI, lastname from panelist where panelistid = " + panelistDetails[panelIndex].ElementAt(0).Text + ";";
+            result = dbHandler.Select(query, 3);
+
+            String name = result[0].ElementAt(0) + " " + result[1].ElementAt(0) + ". " + result[2].ElementAt(0);
+
+            DialogResult input = MessageBox.Show("Are you sure you want to remove panelist " + name + "?", "Confirm", MessageBoxButtons.YesNo);
+
+            if (input == DialogResult.Yes)
+            {
+                query = "delete from panelassignment where panelistid = " + panelistDetails[panelIndex].ElementAt(0).Text + " and thesisgroupid = " + currThesisGroupID + ";";
+                dbHandler.Delete(query);
+            }
 
             update_components();
         }
@@ -791,37 +867,59 @@ namespace CustomUserControl
             groupButtons[0].Enabled = false;
             groupButtons[2].Enabled = true;
             groupButtons[3].Enabled = true;
+
+            eligibleN.Enabled = true;
+            eligibleY.Enabled = true;
         }
 
         private void save_groupDetails_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < 3; i++)
                 if (groupDetails[i].Text == "")
+                {
+                    MessageBox.Show("Please fill incomplete fields.", "Error", MessageBoxButtons.OK);
                     return;
+                }
             for (int i = 0; i < 2; i++)
                 if (groupStuff[i].SelectedItem == null)
+                {
+                    MessageBox.Show("Please fill incomplete fields.", "Error", MessageBoxButtons.OK);
                     return;
+                }
 
             String newTitle = groupDetails[0].Text;
             String newSection = groupDetails[1].Text;
             String newSY = groupDetails[2].Text;
             String newCourse = (String)groupStuff[0].SelectedItem;
             String newTerm = (String)groupStuff[1].SelectedItem;
+            Boolean eligibility = eligibleY.Checked;
 
-            if (currThesisGroupID != "")
+            String query;
+
+            if (!currThesisGroupID.Equals(""))
             {
-                String query = "update thesisgroup set title = '" + newTitle + "', course = '" + newCourse + "', section = '" + newSection + "', startSY = '" + newSY + "', startTerm = '" + newTerm + "' ";
-                query += "where thesisgroupid = " + currThesisGroupID + ";";
+                query = "select count(*) from thesisgroup where title = '" + newTitle + "' and thesisgroupid != " + currThesisGroupID + ";";
+                int duplicate = Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
 
-                dbHandler.Update(query);
+                if (duplicate == 0)
+                {
+                    query = "update thesisgroup set title = '" + newTitle + "', course = '" + newCourse + "', section = '" + newSection + "', startSY = '" + newSY + "', startTerm = '" + newTerm + "', eligiblefordefense = '" + eligibility + "' ";
+                    
+                    query += "where thesisgroupid = " + currThesisGroupID + ";";
+                    Console.WriteLine("Edit: "+query);
+                    dbHandler.Update(query);
+                }
+                else
+                {
+                    MessageBox.Show("Thesis Title \"" + newTitle + "\" already taken.", "Error", MessageBoxButtons.OK);
+                }
             }
             else
             {
-                String query;
                 List<String>[] result;
 
-                String insert = "('" + newTitle + "', '" + newCourse + "', '" + newSection + "', '" + newSY + "', '" + newTerm + "')";
-                query = "insert into thesisgroup (title, course, section, startsy, startterm) values" + insert + ";";
+                String insert = "('" + newTitle + "', '" + newCourse + "', '" + newSection + "', '" + newSY + "', '" + newTerm + "', " + eligibility + ")";
+                query = "insert into thesisgroup (title, course, section, startsy, startterm, eligiblefordefense) values" + insert + ";";
                 dbHandler.Insert(query);
 
                 query = "select thesisgroupid from thesisgroup where title = '" + newTitle + "';";

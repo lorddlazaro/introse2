@@ -22,8 +22,8 @@ namespace introse
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.TabIndex == 0)
-                freeTimeViewer1.refreshTreeViews();
+            //if (tabControl1.TabIndex == 0)
+            freeTimeViewer.RefreshTreeViews();
         }
     }
 }
