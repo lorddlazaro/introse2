@@ -100,6 +100,7 @@
             this.buttonSaveEvent.TabIndex = 23;
             this.buttonSaveEvent.Text = "Save";
             this.buttonSaveEvent.UseVisualStyleBackColor = true;
+            this.buttonSaveEvent.Click += new System.EventHandler(this.buttonSaveEvent_Click);
             // 
             // buttonCancelEvent
             // 
@@ -109,6 +110,7 @@
             this.buttonCancelEvent.TabIndex = 24;
             this.buttonCancelEvent.Text = "Cancel";
             this.buttonCancelEvent.UseVisualStyleBackColor = true;
+            this.buttonCancelEvent.Click += new System.EventHandler(this.buttonCancelEvent_Click);
             // 
             // EventCreator
             // 
