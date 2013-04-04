@@ -160,6 +160,7 @@
             // 
             // buttonAddExistingWeeklyTimeslot
             // 
+            this.buttonAddExistingWeeklyTimeslot.Enabled = false;
             this.buttonAddExistingWeeklyTimeslot.Location = new System.Drawing.Point(6, 166);
             this.buttonAddExistingWeeklyTimeslot.Name = "buttonAddExistingWeeklyTimeslot";
             this.buttonAddExistingWeeklyTimeslot.Size = new System.Drawing.Size(71, 51);
@@ -206,11 +207,16 @@
             // 
             // dataGridViewExistingEvent
             // 
+            this.dataGridViewExistingEvent.AllowUserToAddRows = false;
+            this.dataGridViewExistingEvent.AllowUserToDeleteRows = false;
             this.dataGridViewExistingEvent.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewExistingEvent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewExistingEvent.Location = new System.Drawing.Point(407, 14);
+            this.dataGridViewExistingEvent.MultiSelect = false;
             this.dataGridViewExistingEvent.Name = "dataGridViewExistingEvent";
+            this.dataGridViewExistingEvent.ReadOnly = true;
             this.dataGridViewExistingEvent.RowHeadersVisible = false;
+            this.dataGridViewExistingEvent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewExistingEvent.Size = new System.Drawing.Size(330, 237);
             this.dataGridViewExistingEvent.TabIndex = 24;
             // 
@@ -241,6 +247,7 @@
             // 
             // buttonAddExistingEvent
             // 
+            this.buttonAddExistingEvent.Enabled = false;
             this.buttonAddExistingEvent.Location = new System.Drawing.Point(330, 141);
             this.buttonAddExistingEvent.Name = "buttonAddExistingEvent";
             this.buttonAddExistingEvent.Size = new System.Drawing.Size(71, 66);
