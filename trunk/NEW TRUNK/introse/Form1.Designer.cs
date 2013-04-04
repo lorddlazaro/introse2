@@ -29,20 +29,19 @@
         private void InitializeComponent()
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.freeTimeViewerControl = new System.Windows.Forms.TabPage();
-            this.freeTimeViewer2 = new CustomUserControl.FreeTimeViewer();
             this.defSchedViewerControl = new System.Windows.Forms.TabPage();
             this.defenseSchedulesViewercs1 = new CustomUserControl.DefenseSchedulesViewercs();
             this.scheduleEditorControl = new System.Windows.Forms.TabPage();
             this.scheduleEditor2 = new CustomUserControl.ScheduleEditor();
             this.thesisGroupControl = new System.Windows.Forms.TabPage();
             this.thesisGroupControl1 = new CustomUserControl.ThesisGroupControl2();
-            this.freeTimeViewer1 = new CustomUserControl.FreeTimeViewer();
+            this.freeTimeViewer = new CustomUserControl.FreeTimeViewer();
+            this.freeTimeViewerControl = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
-            this.freeTimeViewerControl.SuspendLayout();
             this.defSchedViewerControl.SuspendLayout();
             this.scheduleEditorControl.SuspendLayout();
             this.thesisGroupControl.SuspendLayout();
+            this.freeTimeViewerControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -57,23 +56,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1007, 705);
             this.tabControl1.TabIndex = 0;
-            // 
-            // freeTimeViewerControl
-            // 
-            this.freeTimeViewerControl.Controls.Add(this.freeTimeViewer2);
-            this.freeTimeViewerControl.Location = new System.Drawing.Point(4, 22);
-            this.freeTimeViewerControl.Name = "freeTimeViewerControl";
-            this.freeTimeViewerControl.Size = new System.Drawing.Size(999, 679);
-            this.freeTimeViewerControl.TabIndex = 6;
-            this.freeTimeViewerControl.Text = "Schedule Defenses";
-            this.freeTimeViewerControl.UseVisualStyleBackColor = true;
-            // 
-            // freeTimeViewer2
-            // 
-            this.freeTimeViewer2.Location = new System.Drawing.Point(3, 52);
-            this.freeTimeViewer2.Name = "freeTimeViewer2";
-            this.freeTimeViewer2.Size = new System.Drawing.Size(1000, 600);
-            this.freeTimeViewer2.TabIndex = 0;
             // 
             // defSchedViewerControl
             // 
@@ -126,12 +108,22 @@
             this.thesisGroupControl1.Size = new System.Drawing.Size(1000, 680);
             this.thesisGroupControl1.TabIndex = 0;
             // 
-            // freeTimeViewer1
+            // freeTimeViewer
             // 
-            this.freeTimeViewer1.Location = new System.Drawing.Point(3, 22);
-            this.freeTimeViewer1.Name = "freeTimeViewer1";
-            this.freeTimeViewer1.Size = new System.Drawing.Size(1000, 600);
-            this.freeTimeViewer1.TabIndex = 0;
+            this.freeTimeViewer.Location = new System.Drawing.Point(3, 52);
+            this.freeTimeViewer.Name = "freeTimeViewer";
+            this.freeTimeViewer.Size = new System.Drawing.Size(1000, 600);
+            this.freeTimeViewer.TabIndex = 0;
+            // 
+            // freeTimeViewerControl
+            // 
+            this.freeTimeViewerControl.Controls.Add(this.freeTimeViewer);
+            this.freeTimeViewerControl.Location = new System.Drawing.Point(4, 22);
+            this.freeTimeViewerControl.Name = "freeTimeViewerControl";
+            this.freeTimeViewerControl.Size = new System.Drawing.Size(999, 679);
+            this.freeTimeViewerControl.TabIndex = 6;
+            this.freeTimeViewerControl.Text = "Schedule Defenses";
+            this.freeTimeViewerControl.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -143,10 +135,10 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Thesis Scheduling Aid";
             this.tabControl1.ResumeLayout(false);
-            this.freeTimeViewerControl.ResumeLayout(false);
             this.defSchedViewerControl.ResumeLayout(false);
             this.scheduleEditorControl.ResumeLayout(false);
             this.thesisGroupControl.ResumeLayout(false);
+            this.freeTimeViewerControl.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -155,16 +147,15 @@
 
         private CustomUserControl.ScheduleEditor scheduleEditor1;
         private System.Windows.Forms.TabPage scheduleDefense;
-        private CustomUserControl.FreeTimeViewer freeTimeViewer1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage thesisGroupControl;
         private CustomUserControl.ThesisGroupControl2 thesisGroupControl1;
-        private System.Windows.Forms.TabPage freeTimeViewerControl;
-        private CustomUserControl.FreeTimeViewer freeTimeViewer2;
         private System.Windows.Forms.TabPage defSchedViewerControl;
         private CustomUserControl.DefenseSchedulesViewercs defenseSchedulesViewercs1;
         private System.Windows.Forms.TabPage scheduleEditorControl;
         private CustomUserControl.ScheduleEditor scheduleEditor2;
+        private System.Windows.Forms.TabPage freeTimeViewerControl;
+        private CustomUserControl.FreeTimeViewer freeTimeViewer;
 
 
     }
