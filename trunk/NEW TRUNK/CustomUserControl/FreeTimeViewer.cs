@@ -61,7 +61,7 @@ namespace CustomUserControl
 
             datePicker_ValueChanged(new Object(), new EventArgs());
 
-            comboBoxView.SelectedIndex = 0;
+            comboBoxView.SelectedIndex = VIEW_INDEX_ISOLATED;
 
             schedulingDM = new SchedulingDataManager();
             treeViewClusters.BeginUpdate();
@@ -90,12 +90,38 @@ namespace CustomUserControl
         /****** START: Drawing Methods*******/
         private void panelCalendar_Paint(object sender, PaintEventArgs e)
         {
-            if(!currPanelistID.Equals(""))
-                DrawClusterDefScheds(e.Graphics, panelCalendar.DisplayRectangle);
-            if(!currGroupID.Equals(""))
+            //if(!currPanelistID.Equals(""))
+                //DrawClusterDefScheds(e.Graphics, panelCalendar.DisplayRectangle);
+            if (!currGroupID.Equals(""))
+            {
                 DrawFreeTimes(e.Graphics, panelCalendar.DisplayRectangle);
+                DrawCurrGroupDefSched(e.Graphics, panelCalendar.DisplayRectangle);
+            }
 
             DrawCalendarDivisions();
+        }
+
+        private void DrawCurrGroupDefSched(Graphics g, Rectangle panelRectangle) 
+        {
+            if (schedulingDM.CurrGroupDefSched != null)
+            {
+                /* The following two variables represent unadjusted day indices.
+                * That is, Mon = 0, Tues = 1, Wed = 2, Thu = 3, Fri = 4, Sat = 5.
+                * */
+                int dayIndex;
+                int startOfTheWeekDayIndex = GetDayIndex(startOfTheWeek.DayOfWeek);
+
+                /* Represents the adjusted index depending on the starting day in the calendar. 
+                 * Example, Monday, which is supposed to be 0, becomes 1 if the day starts with Saturday(which is the 0 in this case)),
+                 * because Monday becomes the second day in the calendar.
+                * */
+                int adjustedDayIndex;
+
+                dayIndex = GetDayIndex(schedulingDM.CurrGroupDefSched.StartTime.DayOfWeek);
+                adjustedDayIndex = (dayIndex + (Constants.DAYS_IN_DEF_WEEK - startOfTheWeekDayIndex)) % Constants.DAYS_IN_DEF_WEEK;
+
+                DrawTimePeriod(g, Color.CadetBlue, panelRectangle, adjustedDayIndex, schedulingDM.CurrGroupDefSched);
+            }
         }
 
         private void DrawClusterDefScheds(Graphics g, Rectangle panelRectangle) 
@@ -401,7 +427,7 @@ namespace CustomUserControl
                     ChangeGroupBox(queryResult);
             }
             schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID);
-            
+            schedulingDM.RefreshGroupDefSched(startOfTheWeek, endOfTheWeek, currGroupID);
 
             /*For debugging purposes
             for (int currDay = 0; currDay < 6; currDay++)
@@ -451,6 +477,8 @@ namespace CustomUserControl
                                 //Console.WriteLine("Group " + group.Name + " IS NOW CHECKED!!!");
                                 group.Checked = true;
                             }
+                            else
+                                group.Checked = false;
                         }
                     }
                 }
@@ -597,6 +625,7 @@ namespace CustomUserControl
                     Console.WriteLine("Deleting from database");
 
                     RefreshCalendar();
+                    MarkAllScheduledGroups();
                     defenseRecordExistsInDatabase = false;
                 }
             }
@@ -610,6 +639,7 @@ namespace CustomUserControl
                     Console.WriteLine("Clearing data");
 
                     RefreshCalendar();
+                    MarkAllScheduledGroups();
                 }
             }
         }
@@ -834,7 +864,7 @@ namespace CustomUserControl
         }
 
         // refresh treeviews from form1
-        public void refreshTreeViews()
+        public void RefreshTreeViews()
         {
             treeViewClusters.BeginUpdate();
             treeViewClusters.Nodes.Clear();
@@ -847,6 +877,7 @@ namespace CustomUserControl
             treeViewIsolatedGroups.Nodes.Clear();
             schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes, "eligibleFor"+currDefenseType);
             treeViewIsolatedGroups.EndUpdate();
+            MarkAllScheduledGroups();
         }
 
     }
