@@ -29,6 +29,8 @@ namespace CustomUserControl
         //This will be used to store the free times of the selected thesis group
         private List<TimePeriod>[] selectedGroupFreeTimes;
 
+        private DefenseSchedule currGroupDefSched;
+
         //This will be used to draw the rectangles representing the free slots of the selected thesis group.
         //private List<TimePeriod> selectedGroupFreeSlots;
 
@@ -37,7 +39,8 @@ namespace CustomUserControl
         public List<DefenseSchedule> ClusterDefScheds { get { return clusterDefScheds; } }
         public List<String> ScheduledGroupIDs { get { return scheduledGroupIDs; } }
         public List<TimePeriod>[] SelectedGroupFreeTimes { get { return selectedGroupFreeTimes; } }
-        
+        public DefenseSchedule CurrGroupDefSched { get { return currGroupDefSched; } }
+
         public SchedulingDataManager()
         {
             clusterDefScheds = new List<DefenseSchedule>();
@@ -73,6 +76,14 @@ namespace CustomUserControl
                         clusterDefScheds.Add(defSched);
                 }
             }   
+        }
+
+        public void RefreshGroupDefSched(DateTime startDate, DateTime endDate, String thesisGroupID) 
+        {
+            if (thesisGroupID.Equals(""))
+                currGroupDefSched = null;
+            else
+                currGroupDefSched = GetDefSched(startDate, endDate, thesisGroupID);
         }
 
         /* This method will be called by the UI to refresh selectedGroupFreeSlots when
@@ -562,7 +573,7 @@ namespace CustomUserControl
                 parentInfo = dbHandler.Select(query, 3);
 
                 //query = "Select t.thesisgroupID,t.title from thesisgroup t, panelassignment p where t.thesisgroupid = p.thesisgroupid and p.panelistID =" + parentList[0].ElementAt(i) + ";";
-                query = "Select thesisgroupID, title from thesisgroup where " + eligibilityColumnName + " = 'True' AND thesisgroupid in( select thesisgroupid from panelassignment where panelistID =" + parentList[0].ElementAt(i) + ");";
+                query = "Select thesisgroupID, title from thesisgroup where " + eligibilityColumnName + " = 'True' AND thesisgroupid in( select thesisgroupid from panelassignment where panelistID =" + parentList[0].ElementAt(i) + ") ORDER BY title;";
                 childList = dbHandler.Select(query, 2);
 
                 parent = new TreeNode();
@@ -598,6 +609,40 @@ namespace CustomUserControl
 
         public void AddIsolatedGroupsToTree(TreeNodeCollection tree, String eligibilityColumnName)
         {
+
+            String query = "select thesisgroupID, title from thesisgroup where " + eligibilityColumnName + "= 'True' AND course = 'THSST-1' ORDER BY title;";
+
+            TreeNode courseNode = new TreeNode();
+            TreeNode groupNode;
+            courseNode.Text = "THSST-1";
+            tree.Add(courseNode);
+
+
+            List<String>[] groupTable = dbHandler.Select(query, 2);
+            for (int i = 0; i < groupTable[0].Count; i++) 
+            {
+                groupNode = new TreeNode();
+                groupNode.Text = groupTable[1].ElementAt(i);
+                groupNode.Name = groupTable[0].ElementAt(i);
+                courseNode.Nodes.Add(groupNode);
+            }
+
+            query = "select thesisgroupID, title from thesisgroup where " + eligibilityColumnName + "= 'True' AND course = 'THSST-3';";
+            courseNode = new TreeNode();
+            courseNode.Text = "THSST-3";
+            tree.Add(courseNode);
+
+            groupTable = dbHandler.Select(query, 2);
+
+            for (int i = 0; i < groupTable[0].Count; i++)
+            {
+                groupNode = new TreeNode();
+                groupNode.Text = groupTable[1].ElementAt(i);
+                groupNode.Name = groupTable[0].ElementAt(i);
+                courseNode.Nodes.Add(groupNode);
+            }
+
+            /*
             String query = "select thesisgroupID,title from thesisgroup where " + eligibilityColumnName + " = 'True' AND thesisgroupID not in (select thesisgroupID from panelassignment where panelistID in (select panelistID from panelassignment group by panelistID having count(*) > 1));";
             List<String>[] list = dbHandler.Select(query, 2);
             TreeNode node;
@@ -620,6 +665,7 @@ namespace CustomUserControl
 
                 tree.Add(node);
             }
+             * */
         }
 
         /*  Adds a certain timeslot to the free times. Used specifically by FreeTimeViewer to add a group's
