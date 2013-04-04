@@ -12,6 +12,7 @@ namespace CustomUserControl
         private int id;
         private String name;
 
+        public int Id { get { return id; } }
         public String Name { get { return name; } }
 
         public Event(int id, String name, DateTime start, DateTime end) 
