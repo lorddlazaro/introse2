@@ -114,7 +114,6 @@
       <DependentUpon>ScheduleEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScheduleEditorDataManager.cs" />
     <Compile Include="SchedulingDataManager.cs" />
     <Compile Include="ThesisGroupControl.cs">
       <SubType>UserControl</SubType>
@@ -166,8 +165,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
