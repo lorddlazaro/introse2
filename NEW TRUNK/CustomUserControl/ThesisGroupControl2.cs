@@ -52,6 +52,9 @@ namespace CustomUserControl
             groupButtons[3] = cancelEdits;
             groupButtons[4] = deleteGroup;
 
+            for (int i = 0; i < 5; i++)
+                groupButtons[i].Enabled = false;
+            groupButtons[1].Enabled = true;
 
             eligible = new RadioButton[2];
             eligible[0] = eligibleN;
@@ -281,7 +284,7 @@ namespace CustomUserControl
                 groupButtons[4].Enabled = false;
 
                 eligibleY.Enabled = false;
-                eligibleN.Enabled = false;
+                eligibleN.Enabled = true;
                 return;
             }
 
@@ -918,7 +921,7 @@ namespace CustomUserControl
             {
                 List<String>[] result;
 
-                String insert = "('" + newTitle + "', '" + newCourse + "', '" + newSection + "', '" + newSY + "', '" + newTerm + "', " + eligibility + ")";
+                String insert = "('" + newTitle + "', '" + newCourse + "', '" + newSection + "', '" + newSY + "', '" + newTerm + "', '" + eligibility + "')";
                 query = "insert into thesisgroup (title, course, section, startsy, startterm, eligiblefordefense) values" + insert + ";";
                 dbHandler.Insert(query);
 
