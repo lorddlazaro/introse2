@@ -12,16 +12,18 @@ namespace CustomUserControl
 {
     public partial class TimeslotCreator : Form
     {
-        DBce dbHandler = new DBce();
-        List<String>[] panelTable;
-        BindingList<Panelist> panelList = new BindingList<Panelist>();
+        private DBce dbHandler = new DBce();
+        private List<String>[] panelTable;
+        private BindingList<Panelist> panelList = new BindingList<Panelist>();
+        public List<String> forEditing;
+        public bool isEditMode = false;
+
 
         public String panelistID;
 
         public TimeslotCreator()
         {
             InitializeComponent();
-            initializePanel();
         }
 
         public void initializePanel()
@@ -61,59 +63,67 @@ namespace CustomUserControl
 
         private void buttonSaveTimeslot_Click(object sender, EventArgs e)
         {
-            String query;
-            String day = "";
-            for (int i = 0; i < 6; i++)
+            if (isEditMode)
             {
-                if (listViewWeeklyTimeslotDay.Items[i].Checked == true)
+
+                isEditMode = false;
+            }
+            else
+            {
+                String query;
+                String day = "";
+                for (int i = 0; i < 6; i++)
                 {
-                    switch (listViewWeeklyTimeslotDay.Items[i].Index)
+                    if (listViewWeeklyTimeslotDay.Items[i].Checked == true)
                     {
-                        case 0:
-                            Console.WriteLine("Monday");
-                            day = "M";
-                            break;
-                        case 1:
-                            Console.WriteLine("Tuesday");
-                            day = "T";
-                            break;
-                        case 2: Console.WriteLine("Wednesday");
-                            day = "W";
-                            break;
-                        case 3: Console.WriteLine("Thursday");
-                            day = "H";
-                            break;
-                        case 4: Console.WriteLine("Friday");
-                            day = "F";
-                            break;
-                        case 5: Console.WriteLine("Saturday");
-                            day = "S";
-                            break;
-                        default: break;
+                        switch (listViewWeeklyTimeslotDay.Items[i].Index)
+                        {
+                            case 0:
+                                Console.WriteLine("Monday");
+                                day = "M";
+                                break;
+                            case 1:
+                                Console.WriteLine("Tuesday");
+                                day = "T";
+                                break;
+                            case 2: Console.WriteLine("Wednesday");
+                                day = "W";
+                                break;
+                            case 3: Console.WriteLine("Thursday");
+                                day = "H";
+                                break;
+                            case 4: Console.WriteLine("Friday");
+                                day = "F";
+                                break;
+                            case 5: Console.WriteLine("Saturday");
+                                day = "S";
+                                break;
+                            default: break;
+
+                        }
+                        /*
+                        Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToLongDateString());
+                        Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToLongTimeString());
+                        Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToShortDateString());
+                        Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToShortTimeString());
+                        Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToString());*/
+                        panelistID = panelTable[0][comboBoxPanelist.SelectedIndex];
+                        Console.WriteLine("panelistID: " + panelistID);
+                        query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES(N'" + textBoxWeeklyTimeslotCourse.Text + "', N'" + textBoxWeeklyTimeslotSection.Text + "', N'" + day + "',CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString() + "', 102), CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString() + "', 102), N'" + panelistID + "')";
+                        try
+                        {
+                            dbHandler.Insert(query);
+                            Console.WriteLine("ADD NEW-INSERT SUCCESS");
+                        }
+                        catch (SqlException sqlEx)
+                        {
+                            if (sqlEx.Source != null)
+                                Console.WriteLine("IOException source: {0}", sqlEx.Source);
+                            Console.WriteLine("query= " + query);
+                            //if(textBoxWeeklyTimeslotCourse.Text == null)
+                        }
 
                     }
-                    /*
-                    Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToLongDateString());
-                    Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToLongTimeString());
-                    Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToShortDateString());
-                    Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToShortTimeString());
-                    Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToString());*/
-                    panelistID = panelTable[0][comboBoxPanelist.SelectedIndex];
-                    Console.WriteLine("panelistID: "+panelistID);
-                    query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES(N'" + textBoxWeeklyTimeslotCourse.Text + "', N'" + textBoxWeeklyTimeslotSection.Text + "', N'" + day + "',CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString() + "', 102), CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString() + "', 102), N'" + panelistID + "')";
-                    try
-                    {
-                        dbHandler.Insert(query);
-                        Console.WriteLine("ADD NEW-INSERT SUCCESS");
-                    }
-                    catch (SqlException sqlEx)
-                    {
-                        if (sqlEx.Source != null)
-                            Console.WriteLine("IOException source: {0}", sqlEx.Source);
-                        Console.WriteLine("query= " + query);
-                        //if(textBoxWeeklyTimeslotCourse.Text == null)
-                    }
-
                 }
             }
             this.Visible = false;
