@@ -576,11 +576,11 @@ namespace CustomUserControl
             {
                 defenseRecordExistsInDatabase = true;
 
-                //if(!isGroupBoxWidened)
-                   // WidenGroupBox();
+                if(!isGroupBoxWidened)
+                    WidenGroupBox();
 
-                if (isGroupBoxWidened)
-                    ShortenGroupBox();
+                //if (isGroupBoxWidened)
+                    //ShortenGroupBox();
 
                 string date = queryResult[2].ElementAt(0).Split(' ')[0];
                 string time = queryResult[2].ElementAt(0).Split(' ')[1] + " " + queryResult[2].ElementAt(0).Split(' ')[2];
