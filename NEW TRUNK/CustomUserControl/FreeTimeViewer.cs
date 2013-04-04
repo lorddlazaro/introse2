@@ -120,7 +120,7 @@ namespace CustomUserControl
                 dayIndex = GetDayIndex(schedulingDM.CurrGroupDefSched.StartTime.DayOfWeek);
                 adjustedDayIndex = (dayIndex + (Constants.DAYS_IN_DEF_WEEK - startOfTheWeekDayIndex)) % Constants.DAYS_IN_DEF_WEEK;
 
-                DrawTimePeriod(g, Color.CadetBlue, panelRectangle, adjustedDayIndex, schedulingDM.CurrGroupDefSched);
+                DrawTimePeriod(g, Color.Tomato, panelRectangle, adjustedDayIndex, schedulingDM.CurrGroupDefSched);
             }
         }
 
@@ -192,7 +192,7 @@ namespace CustomUserControl
             Console.WriteLine();
             /* For Debugging Purposes*/
 
-            Font font1 = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Point);
+            Font font1 = new Font("Arial", 11, FontStyle.Bold, GraphicsUnit.Point);
             Rectangle rect = new Rectangle(leftX + dayIndex * dayWidth + margin, (int)(topY + yCoord), dayWidth - margin * 2, (int)schedHeight);
             g.FillRectangle(new SolidBrush(color), rect);
             g.DrawString(timePeriod.ToString(),font1, new SolidBrush(Color.Black),  rect, new StringFormat());
@@ -200,9 +200,10 @@ namespace CustomUserControl
         
         private void DrawCalendarDivisions()
         {
-            Brush aSolidBrush = new SolidBrush(Color.Black);  //Creates a black solid brush for the pen  
+            Brush aSolidBrush = new SolidBrush(Color.Brown);  //Creates a black solid brush for the pen  
             Pen aSolidPen = new Pen(aSolidBrush);  //Assigns the SolidBrush to the Pen  
             Graphics graphics = panelCalendar.CreateGraphics();
+            aSolidPen.DashStyle = DashStyle.Dash;
 
             int numHours = Constants.LIMIT_HOUR - Constants.START_HOUR;
             Rectangle displayRect = panelCalendar.DisplayRectangle;
@@ -241,9 +242,9 @@ namespace CustomUserControl
             int i;
             for (i = 0; i < labelDates.Count; i++)
             {
-                labelDates[i].TextAlign = ContentAlignment.MiddleCenter;
                 labelDates[i].Text = currDate.DayOfWeek + "\n" + currDate.ToString("d");
-
+                labelDates[i].TextAlign = ContentAlignment.MiddleCenter;
+                
                 currDate = currDate.AddDays(1);
                 if (currDate.DayOfWeek.Equals(System.DayOfWeek.Sunday))
                     currDate = currDate.AddDays(1);
@@ -393,6 +394,16 @@ namespace CustomUserControl
             }
         }
 
+        private void treeViewIsolatedGroups_BeforeCheck(object sender, TreeViewCancelEventArgs e)
+        {
+            if (e.Node.Checked)
+                e.Cancel = true;
+            else
+            {
+                if (!schedulingDM.ScheduledGroupIDs.Contains(e.Node.Name))
+                    e.Cancel = true;
+            }
+        }
         /****** END: EVENT LISTENERS*******/
 
 
@@ -439,7 +450,6 @@ namespace CustomUserControl
             /*For debugging purposes*/
         }
 
-      
         //Check the checkboxes of groups that already have a defense schedule.
         private void MarkAllScheduledGroups() 
         {
@@ -529,8 +539,8 @@ namespace CustomUserControl
             int longLength = 153;
             defenseInfoGroupBox.Size = new Size(defaultWidth, longLength);
 
-            int defaultX = 732;
-            int longY = 394;
+            int defaultX = 701;
+            int longY = 433;
             defenseInfoGroupBox.Location = new Point(defaultX, longY);
 
             int treeViewDefaultWidth = 254;
@@ -539,7 +549,6 @@ namespace CustomUserControl
 
             treeViewClusters.Size = newSize;
             treeViewIsolatedGroups.Size = newSize;
-
             this.Refresh();
             isGroupBoxWidened = true;
         }
@@ -555,8 +564,8 @@ namespace CustomUserControl
             int shortLength = 100;
             defenseInfoGroupBox.Size = new Size(defaultWidth, shortLength);
 
-            int defaultX = 732;
-            int shortY = 447;
+            int defaultX = 701;
+            int shortY = 486;
             defenseInfoGroupBox.Location = new Point(defaultX, shortY);
 
             int treeViewDefaultWidth = 254;
@@ -585,7 +594,7 @@ namespace CustomUserControl
                 string date = queryResult[2].ElementAt(0).Split(' ')[0];
                 string time = queryResult[2].ElementAt(0).Split(' ')[1] + " " + queryResult[2].ElementAt(0).Split(' ')[2];
 
-                Console.WriteLine(date + "|" + time);
+                //Console.WriteLine(date + "|" + time);
 
                 int year = Convert.ToInt16(date.Split('/')[2]);
                 int day = Convert.ToInt16(date.Split('/')[1]);
@@ -667,8 +676,8 @@ namespace CustomUserControl
 
                     Console.WriteLine("Updating database");
 
-                    if (!currPanelistID.Equals(""))
-                        schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
+                    //if (!currPanelistID.Equals(""))
+                        //schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
                     if (!currGroupID.Equals(""))
                         schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID);
 
@@ -856,13 +865,26 @@ namespace CustomUserControl
         }
 
         private void RefreshCalendar() {
-            if (!currPanelistID.Equals(""))
-                schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
+            //if (!currPanelistID.Equals(""))
+                //schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
             if (!currGroupID.Equals(""))
+            {
                 schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID);
+                schedulingDM.RefreshGroupDefSched(startOfTheWeek, endOfTheWeek, currGroupID);
+            }
             panelCalendar.Refresh();
         }
 
+        public void RefreshAll() 
+        {
+            Invalidate();
+            RefreshTreeViews();
+            MarkAllScheduledGroups();
+            RefreshCalendar();
+            defenseInfoGroupBox.Refresh();
+            Validate();
+        }
+        
         // refresh treeviews from form1
         public void RefreshTreeViews()
         {
