@@ -298,15 +298,24 @@ namespace CustomUserControl
 
             }else if(panelistTreeView.Enabled)
             {
+                if (timeSlotTable[6][rowIndex] != null)
+                {
+                    DialogResult response = MessageBox.Show("This Timeslot already has a Professor. Overwrite?", "Panelist Overwrite", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                String query;
+                    if (response == DialogResult.Yes)
+                    {
 
-                query = "UPDATE Timeslot SET panelistID = '" + currPanelist + "' WHERE (courseName = '" + existingTimeslots[1][rowIndex] + "') AND ( section = '" + existingTimeslots[2][rowIndex] + "') AND (day ='" + existingTimeslots[3][rowIndex] + "');";
+                        String query;
 
-                dbHandler.Update(query);
-                Console.WriteLine(query);
-                RefreshPanelistClassScheds(currPanelist);
+                        query = "UPDATE Timeslot SET panelistID = '" + currPanelist + "' WHERE (courseName = '" + existingTimeslots[2][rowIndex] + "') AND ( section = '" + existingTimeslots[1][rowIndex] + "') AND (day ='" + existingTimeslots[3][rowIndex] + "');";
+
+                        dbHandler.Update(query);
+                        Console.WriteLine(query);
+                        RefreshPanelistClassScheds(currPanelist);
+                    }
+                }
             }
+                
             
 
         }
@@ -377,7 +386,14 @@ namespace CustomUserControl
 
         private void buttonWeeklyTimeslotEdit_Click(object sender, EventArgs e)
         {
-
+            int rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index;
+            for(int i=0;i<existingTimeslots.Count();i++)
+            {
+                timeslotAdder.forEditing.Add(existingTimeslots[i][rowIndex]);
+            }
+            
+            timeslotAdder.isEditMode = true;
+            timeslotAdder.Visible = true;
         }
 
         // Row Enter
@@ -438,7 +454,7 @@ namespace CustomUserControl
         // ComboBoxes
         private void update_courses()
         {
-            String query = "SELECT Timeslot.timeslotID, Timeslot.section, Timeslot.courseName, Timeslot.day, Timeslot.startTime, Timeslot.endTime ,Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM Panelist INNER JOIN Timeslot ON Panelist.panelistID = Timeslot.panelistID;";
+            String query = "SELECT Timeslot.timeslotID,  Timeslot.courseName, Timeslot.section,Timeslot.day, Timeslot.startTime, Timeslot.endTime ,Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM Panelist INNER JOIN Timeslot ON Panelist.panelistID = Timeslot.panelistID;";
             existingTimeslots = dbHandler.Select(query, 7);
 
             if (existingTimeslots[0].Count == 0)
@@ -564,7 +580,7 @@ namespace CustomUserControl
             {
                 return;
             }
-            query = "SELECT Timeslot.timeslotID, Timeslot.section, Timeslot.courseName, Timeslot.day, Timeslot.startTime, Timeslot.endTime ,Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM Panelist INNER JOIN Timeslot ON Panelist.panelistID = Timeslot.panelistID AND";
+            query = "SELECT Timeslot.timeslotID, Timeslot.section, Timeslot.courseName, Timeslot.day, Timeslot.startTime, Timeslot.endTime ,Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM Panelist INNER JOIN Timeslot ON Panelist.panelistID = Timeslot.panelistID WHERE ";
             for (int i = 0; i < timeSlots.Count; i++)
             {
                 query += " timeslotID = " + timeSlots.ElementAt(i) + " ";
