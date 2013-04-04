@@ -15,6 +15,7 @@ namespace CustomUserControl
         private String panelist;
 
         //Not in the uml
+        public int Id { get { return id; } }
         public String Course { get { return course; } }
         public String Section { get { return section; } }
         public String Day { get { return day; } }
