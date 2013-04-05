@@ -55,16 +55,16 @@ namespace CustomUserControl
                     break;
             }
             for(int i =0;i<7;i++)
-            Console.WriteLine(forEditing[4]);
-            dateTimePickerWeeklyTimeslotStartTime.Value = Convert.ToDateTime(forEditing[4]);
-            dateTimePickerWeeklyTimeslotEndTime.Value = Convert.ToDateTime(forEditing[5]);
+                Console.WriteLine(forEditing[i]);
+            dateTimePickerWeeklyTimeslotStartTime.Value = Convert.ToDateTime(forEditing[5]);
+            dateTimePickerWeeklyTimeslotEndTime.Value = Convert.ToDateTime(forEditing[6]);
             /*int panelIndex=0;
             for(int i=0;i<comboBoxPanelist.Items.Count;i++)
             {
                 if(comboBoxPanelist.Items[i].ToString().Equals(forEditing[6]))
                     panelIndex = i;
             }*/
-            comboBoxPanelist.SelectedIndex = comboBoxPanelist.FindStringExact(forEditing[6]);
+            comboBoxPanelist.SelectedIndex = comboBoxPanelist.FindStringExact(forEditing[4]);
             Console.WriteLine(forEditing[6] + "==");
             //Console.WriteLine(comboBoxPanelist.Items[].ToString());
             //Console.WriteLine(comboBoxPanelist.Items[comboBoxPanelist.FindStringExact(forEditing[6])].ToString());
@@ -107,6 +107,43 @@ namespace CustomUserControl
 
         private void buttonSaveTimeslot_Click(object r, EventArgs e)
         {
+            if (textBoxWeeklyTimeslotCourse.Text.Length > 7 || textBoxWeeklyTimeslotCourse.Text == "") 
+            {
+                MessageBox.Show("Course should be less than 7 characters and shouldn't be null", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (textBoxWeeklyTimeslotSection.Text.Length > 3 || textBoxWeeklyTimeslotSection.Text =="") 
+            {
+                MessageBox.Show("section should be less than 3 characters and shouldn't be null", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            int j=0;
+            for (int i = 0; i < listViewWeeklyTimeslotDay.Items.Count; i++) 
+            {
+
+                
+                if (listViewWeeklyTimeslotDay.Items[i].Checked) 
+                {
+                    j++;
+                }
+            }
+            if (j == 0) 
+            {
+                MessageBox.Show("select at least one checkbox", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (dateTimePickerWeeklyTimeslotStartTime.Value.CompareTo(dateTimePickerWeeklyTimeslotEndTime.Value) >= 0)
+            {
+                Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.CompareTo(dateTimePickerWeeklyTimeslotEndTime.Value));
+                MessageBox.Show("Time is invalid", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (comboBoxPanelist.FindStringExact(comboBoxPanelist.Text)==-1) 
+            {
+                MessageBox.Show("Panelist doesn't exist", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            
             if (isEditMode)
             {
                 
@@ -180,9 +217,22 @@ namespace CustomUserControl
                             default: break;
 
                         }
-                        panelistID = panelTable[0][comboBoxPanelist.SelectedIndex];
-                        Console.WriteLine("panelistID: " + panelistID);
-                        query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES('" + textBoxWeeklyTimeslotCourse.Text + "', '" + textBoxWeeklyTimeslotSection.Text + "', '" + day + "',CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString() + "', 102), CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString() + "', 102), N'" + panelistID + "')";
+                        
+                       
+                        if (comboBoxPanelist.Text == "")
+                        {
+                            Console.WriteLine("comboboxpanelist = null");
+                            query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES('" + textBoxWeeklyTimeslotCourse.Text + "', '" + textBoxWeeklyTimeslotSection.Text + "', '" + day + "',CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString() + "', 102), CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString() + "', 102), NULL)";
+                        }
+                        else
+                        {
+                            panelistID = panelTable[0][comboBoxPanelist.SelectedIndex];
+                            Console.WriteLine("panelistID: " + panelistID);
+                            query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES('" + textBoxWeeklyTimeslotCourse.Text + "', '" + textBoxWeeklyTimeslotSection.Text + "', '" + day + "',CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString() + "', 102), CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString() + "', 102), N'" + panelistID + "')";
+                        }
+                        
+                       
+                        
                         try
                         {
                             dbHandler.Insert(query);
@@ -196,6 +246,7 @@ namespace CustomUserControl
                             Console.WriteLine("query= " + query);
                             //if(textBoxWeeklyTimeslotCourse.Text == null)
                         }
+                            
 
                     }
                 }
