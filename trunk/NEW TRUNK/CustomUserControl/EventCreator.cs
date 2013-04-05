@@ -11,18 +11,29 @@ namespace CustomUserControl
 {
     public partial class EventCreator : Form
     {
-        DBce dbHandler = new DBce();
-        String type="";
-        public EventCreator(String type)
+        private DBce dbHandler = new DBce();
+        public String type="";
+        public bool isEditMode = false;
+        public List<String> forEditing = new List<String>();
+        public EventCreator(bool editMode)
         {
-            this.type = type;
+            this.isEditMode = editMode;
             InitializeComponent();
-            this.Visible = true;
         }
+
+        public void initializeTextBoxes() 
+        {
+                textBoxEventName.Text = forEditing[1];
+                dateTimePickerEventStartTime.Value = Convert.ToDateTime(forEditing[2]);
+                dateTimePickerEventEndTime.Value = Convert.ToDateTime(forEditing[3]);
+            
+        }
+
 
         private void buttonSaveEvent_Click(object sender, EventArgs e)
         {   
-            
+            //CHECKING
+                //Duplicate
             String query;
             query = "SELECT name FROM Event WHERE name ='"+textBoxEventName.Text+"' AND eventStart = CONVERT(DATETIME,'"+dateTimePickerEventStartTime.Value.ToString()+"',102) AND eventEnd = CONVERT(DATETIME,'"+dateTimePickerEventEndTime.Value.ToString()+"',102);";
             Console.WriteLine(query);
@@ -33,17 +44,22 @@ namespace CustomUserControl
                 MessageBox.Show("This event already exists","Warning",MessageBoxButtons.OK,MessageBoxIcon.Warning);
                 return;
             }
-            if (dateTimePickerEventStartTime.Value.CompareTo(dateTimePickerEventStartTime.Value) <= 0) 
+                //time alignment
+            if (dateTimePickerEventStartTime.Value.CompareTo(dateTimePickerEventEndTime.Value) >= 0) 
             {
+                Console.WriteLine(dateTimePickerEventStartTime.Value.CompareTo(dateTimePickerEventEndTime.Value));
                 MessageBox.Show("Time is invalid", "Invalid time", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if(type.Equals("panelist"))
+            //ADD & EDIT
+            if(isEditMode)
             {
+                query = "UPDATE Event SET name = '" + textBoxEventName.Text + "',eventStart = CONVERT(DATETIME,'" + dateTimePickerEventStartTime.Value.ToString() + "',102) ,eventEnd=CONVERT(DATETIME,'" + dateTimePickerEventEndTime.Value.ToString() + "',102) WHERE eventID =" + Convert.ToInt32(forEditing[0]) + "";
+                Console.WriteLine(query);
+                dbHandler.Update(query);
+
+
                
-            }
-            else if(type.Equals("student"))
-            {
             }
             else
             {   //VALIDATION
