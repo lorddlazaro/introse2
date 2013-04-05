@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("Monday");
-            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem("Tuesday");
-            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem("Wednesday");
-            System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem("Thursday");
-            System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem("Friday");
-            System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem("Saturday");
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Monday");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Tuesday");
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Wednesday");
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Thursday");
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("Friday");
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("Saturday");
             this.textBoxWeeklyTimeslotCourse = new System.Windows.Forms.TextBox();
             this.listViewWeeklyTimeslotDay = new System.Windows.Forms.ListView();
             this.labelWeeklyTimeslotCourse = new System.Windows.Forms.Label();
@@ -64,25 +64,26 @@
             this.listViewWeeklyTimeslotDay.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.listViewWeeklyTimeslotDay.HotTracking = true;
             this.listViewWeeklyTimeslotDay.HoverSelection = true;
-            listViewItem7.StateImageIndex = 0;
-            listViewItem8.StateImageIndex = 0;
-            listViewItem9.StateImageIndex = 0;
-            listViewItem10.StateImageIndex = 0;
-            listViewItem11.StateImageIndex = 0;
-            listViewItem12.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
+            listViewItem2.StateImageIndex = 0;
+            listViewItem3.StateImageIndex = 0;
+            listViewItem4.StateImageIndex = 0;
+            listViewItem5.StateImageIndex = 0;
+            listViewItem6.StateImageIndex = 0;
             this.listViewWeeklyTimeslotDay.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem7,
-            listViewItem8,
-            listViewItem9,
-            listViewItem10,
-            listViewItem11,
-            listViewItem12});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3,
+            listViewItem4,
+            listViewItem5,
+            listViewItem6});
             this.listViewWeeklyTimeslotDay.Location = new System.Drawing.Point(206, 3);
             this.listViewWeeklyTimeslotDay.Name = "listViewWeeklyTimeslotDay";
             this.listViewWeeklyTimeslotDay.Size = new System.Drawing.Size(85, 122);
             this.listViewWeeklyTimeslotDay.TabIndex = 33;
             this.listViewWeeklyTimeslotDay.UseCompatibleStateImageBehavior = false;
             this.listViewWeeklyTimeslotDay.View = System.Windows.Forms.View.SmallIcon;
+            this.listViewWeeklyTimeslotDay.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listViewWeeklyTimeslotDay_ItemChecked);
             // 
             // labelWeeklyTimeslotCourse
             // 
