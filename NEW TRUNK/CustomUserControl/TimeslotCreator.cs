@@ -15,17 +15,61 @@ namespace CustomUserControl
         private DBce dbHandler = new DBce();
         private List<String>[] panelTable;
         private BindingList<Panelist> panelList = new BindingList<Panelist>();
-        public List<String> forEditing;
+        public List<String> forEditing = new List<String>();
         public bool isEditMode = false;
-
+        private ListViewItem lastItemChecked;
 
         public String panelistID;
 
-        public TimeslotCreator()
+        public TimeslotCreator(bool editMode)
         {
+            this.isEditMode = editMode;
             InitializeComponent();
+            initializePanel();
+                
         }
+        public void initializeTextBoxes() 
+        {
+            listViewWeeklyTimeslotDay.MultiSelect = false;
+            textBoxWeeklyTimeslotCourse.Text = forEditing[1];
+            textBoxWeeklyTimeslotSection.Text = forEditing[2];
+            switch (forEditing[3]) 
+            {
+                case "M": listViewWeeklyTimeslotDay.Items[0].Checked = true; 
+                    lastItemChecked = listViewWeeklyTimeslotDay.Items[0]; 
+                    break;
+                case "T": listViewWeeklyTimeslotDay.Items[1].Checked = true; 
+                    lastItemChecked = listViewWeeklyTimeslotDay.Items[1]; 
+                    break;
+                case "W": listViewWeeklyTimeslotDay.Items[2].Checked = true; 
+                    lastItemChecked = listViewWeeklyTimeslotDay.Items[2]; 
+                    break;
+                case "H": listViewWeeklyTimeslotDay.Items[3].Checked = true; 
+                    lastItemChecked = listViewWeeklyTimeslotDay.Items[3]; 
+                    break;
+                case "F": listViewWeeklyTimeslotDay.Items[4].Checked = true; 
+                    lastItemChecked = listViewWeeklyTimeslotDay.Items[4]; 
+                    break;
+                case "S": listViewWeeklyTimeslotDay.Items[5].Checked = true; 
+                    lastItemChecked = listViewWeeklyTimeslotDay.Items[5]; 
+                    break;
+            }
+            for(int i =0;i<7;i++)
+            Console.WriteLine(forEditing[4]);
+            dateTimePickerWeeklyTimeslotStartTime.Value = Convert.ToDateTime(forEditing[4]);
+            dateTimePickerWeeklyTimeslotEndTime.Value = Convert.ToDateTime(forEditing[5]);
+            /*int panelIndex=0;
+            for(int i=0;i<comboBoxPanelist.Items.Count;i++)
+            {
+                if(comboBoxPanelist.Items[i].ToString().Equals(forEditing[6]))
+                    panelIndex = i;
+            }*/
+            comboBoxPanelist.SelectedIndex = comboBoxPanelist.FindStringExact(forEditing[6]);
+            Console.WriteLine(forEditing[6] + "==");
+            //Console.WriteLine(comboBoxPanelist.Items[].ToString());
+            //Console.WriteLine(comboBoxPanelist.Items[comboBoxPanelist.FindStringExact(forEditing[6])].ToString());
 
+        }
         public void initializePanel()
         {
             String query = "SELECT panelistID, firstName, MI, lastName FROM Panelist;";
@@ -58,15 +102,50 @@ namespace CustomUserControl
 
         private void buttonCancelTimeslot_Click(object sender, EventArgs e)
         {
-            this.Visible = false;
+            this.Dispose();
         }
 
-        private void buttonSaveTimeslot_Click(object sender, EventArgs e)
+        private void buttonSaveTimeslot_Click(object r, EventArgs e)
         {
             if (isEditMode)
             {
-
-                isEditMode = false;
+                
+                String query;
+                String day = "";
+                for (int i = 0; i < 6; i++)
+                {
+                    if (listViewWeeklyTimeslotDay.Items[i].Checked == true)
+                    {
+                        switch (listViewWeeklyTimeslotDay.Items[i].Index)
+                        {
+                            case 0:
+                                Console.WriteLine("Monday");
+                                day = "M";
+                                break;
+                            case 1:
+                                Console.WriteLine("Tuesday");
+                                day = "T";
+                                break;
+                            case 2: Console.WriteLine("Wednesday");
+                                day = "W";
+                                break;
+                            case 3: Console.WriteLine("Thursday");
+                                day = "H";
+                                break;
+                            case 4: Console.WriteLine("Friday");
+                                day = "F";
+                                break;
+                            case 5: Console.WriteLine("Saturday");
+                                day = "S";
+                                break;
+                            default: break;
+                        }
+                    }
+                }
+                panelistID = panelTable[0][comboBoxPanelist.SelectedIndex];
+                query = "UPDATE Timeslot SET section = N'" + textBoxWeeklyTimeslotSection.Text + "', courseName = N'" + textBoxWeeklyTimeslotCourse.Text + "', day = N'" + day + "', startTime = CONVERT(DATETIME,'" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString("MM/dd/yyy hh:mm tt") + "',102), endTime = CONVERT(DATETIME,'" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString("MM/dd/yyy hh:mm tt") + "',102), panelistID = N'" + panelistID + "' WHERE timeslotID = '" + forEditing[0] + "';";
+                Console.WriteLine(query);
+                dbHandler.Update(query);
             }
             else
             {
@@ -101,18 +180,13 @@ namespace CustomUserControl
                             default: break;
 
                         }
-                        /*
-                        Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToLongDateString());
-                        Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToLongTimeString());
-                        Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToShortDateString());
-                        Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToShortTimeString());
-                        Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.ToString());*/
                         panelistID = panelTable[0][comboBoxPanelist.SelectedIndex];
                         Console.WriteLine("panelistID: " + panelistID);
-                        query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES(N'" + textBoxWeeklyTimeslotCourse.Text + "', N'" + textBoxWeeklyTimeslotSection.Text + "', N'" + day + "',CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString() + "', 102), CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString() + "', 102), N'" + panelistID + "')";
+                        query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES('" + textBoxWeeklyTimeslotCourse.Text + "', '" + textBoxWeeklyTimeslotSection.Text + "', '" + day + "',CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString() + "', 102), CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString() + "', 102), N'" + panelistID + "')";
                         try
                         {
                             dbHandler.Insert(query);
+                            Console.WriteLine(query);
                             Console.WriteLine("ADD NEW-INSERT SUCCESS");
                         }
                         catch (SqlException sqlEx)
@@ -126,7 +200,25 @@ namespace CustomUserControl
                     }
                 }
             }
-            this.Visible = false;
+            this.Dispose();
+        }
+
+        private void listViewWeeklyTimeslotDay_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            // if we have the lastItem set as checked, and it is different
+            // item than the one that fired the event, uncheck it
+            if (isEditMode)
+            {
+                if (lastItemChecked != null && lastItemChecked.Checked && lastItemChecked != listViewWeeklyTimeslotDay.Items[e.Item.Index])
+                {
+                    // uncheck the last item and store the new one
+                    lastItemChecked.Checked = false;
+                }
+
+                // store current item
+                lastItemChecked = listViewWeeklyTimeslotDay.Items[e.Item.Index];
+            }
+            
         }
 
     }
