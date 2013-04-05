@@ -139,6 +139,7 @@ namespace CustomUserControl
             //timeslotAdder.Visible = true;
             //timeslotAdder.initializePanel();
             timeslotAdder = new TimeslotCreator(false);
+            timeslotAdder.Visible = true;
         }
         private void buttonAddExistingWeeklyTimeslot_Click(object sender, EventArgs e)
         {
@@ -148,17 +149,10 @@ namespace CustomUserControl
             {
                 
                 Console.WriteLine("rowindex: "+rowIndex);
-                /*Console.WriteLine("existingtimeslots: "+existingTimeslots[rowIndex][0].ToString());
-                Console.WriteLine("existingtimeslots: " + existingTimeslots[rowIndex][1].ToString());
-                Console.WriteLine("existingtimeslots: " + existingTimeslots[rowIndex][2].ToString());
-                Console.WriteLine("existingtimeslots: " + existingTimeslots[rowIndex][3].ToString());
-                Console.WriteLine("existingtimeslots: " + existingTimeslots[rowIndex][4].ToString());
-                //Console.WriteLine("timeslotID: " + Convert.ToInt32(existingTimeslots[rowIndex][0].ToString()));
-                Console.WriteLine(existingTimeslots[1][rowIndex]);
-                Console.WriteLine(existingTimeslots[2][rowIndex]);
-                Console.WriteLine(existingTimeslots[3][rowIndex]);*/
-                //int timeslotID = Convert.ToInt32(existingTimeslots[rowIndex][0].ToString());
-                String query = "SELECT timeslotID FROM StudentSchedule WHERE (studentID = '" + currStudent + "') AND (timeslotID ='" + existingTimeslots[0][rowIndex] + "');";
+                String query;
+                int slot = Convert.ToInt32(dataGridViewExistingTimeslot["Id", rowIndex].Value.ToString());
+                //CHECK------------
+                query = "SELECT timeslotID FROM StudentSchedule WHERE (studentID = '" + currStudent + "') AND (timeslotID =" + slot + ");";
 
                 List<String>[] duplicateCheck = dbHandler.Select(query, 1);
 
@@ -168,11 +162,18 @@ namespace CustomUserControl
                     return;
                 }
 
-                query = "SELECT timeslotID FROM Timeslot WHERE (courseName = '" + existingTimeslots[1][rowIndex] + "') AND (section = '" + existingTimeslots[2][rowIndex] + "') AND (day = '" + existingTimeslots[3][rowIndex] + "');";
-                Console.WriteLine(query);
-                List<String> timeslotID = dbHandler.Select(query, 1)[0];
-                String slot = timeslotID[0];
-                query = "INSERT INTO StudentSchedule(studentID, timeslotID)VALUES (N'"+currStudent+"', "+Convert.ToInt32(timeslotID[0])+")";
+                //query = "SELECT timeslotID FROM Timeslot WHERE (courseName = '" + existingTimeslots[1][rowIndex] + "') AND (section = '" + existingTimeslots[2][rowIndex] + "') AND (day = '" + existingTimeslots[3][rowIndex] + "');";
+                //Console.WriteLine(query);
+                //List<String> timeslotID = dbHandler.Select(query, 1)[0];
+
+                
+
+                //String slot = timeslotID[0];
+                
+                Console.WriteLine("slot: "+slot);
+                
+                query = "INSERT INTO StudentSchedule(studentID, timeslotID)VALUES ('"+currStudent+"', "+Convert.ToInt32(slot)+")";
+                Console.WriteLine("escape qqq" + query);
                 try
                 {
                     dbHandler.Insert(query);
@@ -183,6 +184,7 @@ namespace CustomUserControl
                         Console.WriteLine("IOException source: {0}", sqlEx.Source);
                     Console.WriteLine(query);
                 }
+                Console.WriteLine("success!");
                 RefreshStudentClassScheds(currStudent);
 
             }else if(panelistTreeView.Enabled)
@@ -204,6 +206,7 @@ namespace CustomUserControl
                     }
                 }
             }
+            update_courses();
                 
             
 
@@ -240,9 +243,10 @@ namespace CustomUserControl
         {
             int rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index;
             timeslotAdder = new TimeslotCreator(true);
-            for(int i=0;i<existingTimeslots.Count();i++)
+            for(int i=0;i<dataGridViewExistingTimeslot.Columns.Count;i++)
             {
-                timeslotAdder.forEditing.Add(existingTimeslots[i][rowIndex]);
+                timeslotAdder.forEditing.Add(dataGridViewExistingTimeslot[i,rowIndex].Value.ToString());
+
             }
             timeslotAdder.initializeTextBoxes();
             timeslotAdder.Visible = true;
@@ -251,7 +255,8 @@ namespace CustomUserControl
         //EVENTS
         private void buttonAddEvent_Click(object sender, EventArgs e)
         {
-            eventAdder = new EventCreator("");
+            eventAdder = new EventCreator(false);
+            eventAdder.Visible = true;
         }
         private void buttonAddExistingEvent_Click(object sender, EventArgs e)
         {
@@ -335,12 +340,82 @@ namespace CustomUserControl
         }
         private void buttonEventEdit_Click(object sender, EventArgs e)
         {
-
+            int rowIndex = dataGridViewExistingEvent.SelectedRows[0].Index;
+            eventAdder = new EventCreator(true);
+            for (int i = 0; i < dataGridViewExistingEvent.Columns.Count; i++)
+            {
+                eventAdder.forEditing.Add(dataGridViewExistingEvent[i,rowIndex].Value.ToString());
+            }
+            eventAdder.initializeTextBoxes();
+            eventAdder.Visible = true;
         }
         // Student's or Panelist's timeslots and events
         private void update_courses()
         {
+            /*
+            String query2 = "SELECT  timeslotID, courseName,section, day, startTime , endTime FROM Timeslot WHERE (panelistID IS NULL)";
+            existingTimeslots = dbHandler.Select(query2, 6);
+
+            if (existingTimeslots[0].Count == 0)
+            {
+                return;
+            }
+
+            BindingList<ClassTimePeriod> existingClassScheds = new BindingList<ClassTimePeriod>();
+            int id;
+            String section;
+            String course;
+            String day;
+            DateTime startTime;
+            DateTime endTime;
+            String panelistID;
+
+            for (int i = 0; i < existingTimeslots[0].Count; i++)
+            {
+                id = Convert.ToInt32(existingTimeslots[0][i]);
+                course = existingTimeslots[1][i];
+                section = existingTimeslots[2][i];
+                day = existingTimeslots[3][i];
+                startTime = Convert.ToDateTime(existingTimeslots[4][i]);
+                //endTime = Convert.ToDateTime(timeSlotTable[5][i]);
+                endTime = Convert.ToDateTime(existingTimeslots[5][i]);
+                panelistID = null;
+                existingClassScheds.Add(new ClassTimePeriod(id, section, course, day, startTime, endTime, panelistID));
+            }
+            
             String query = "SELECT Timeslot.timeslotID,  Timeslot.courseName, Timeslot.section,Timeslot.day, Timeslot.startTime, Timeslot.endTime ,Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM Panelist INNER JOIN Timeslot ON Panelist.panelistID = Timeslot.panelistID;";
+
+            if (studentTreeView.Enabled)
+            {
+                Console.WriteLine(currStudent);
+                query = "SELECT DISTINCT Timeslot.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime, Panelist.firstName +' '+ Panelist.MI+'. '+ Panelist.lastName FROM Timeslot INNER JOIN StudentSchedule ON Timeslot.timeslotID = StudentSchedule.timeslotID INNER JOIN Panelist ON Timeslot.panelistID = Panelist.panelistID WHERE (Timeslot.timeslotID NOT IN (SELECT timeslotID FROM StudentSchedule AS StudentSchedule_1 WHERE(studentID = '"+currStudent+"')));";
+                Console.WriteLine(query);
+            }
+            existingTimeslots = dbHandler.Select(query, 7);
+
+            if (existingTimeslots[0].Count == 0)
+            {
+                return;
+            }
+
+            
+            for (int i = 0; i < existingTimeslots[0].Count; i++)
+            {
+                id = Convert.ToInt32(existingTimeslots[0][i]);
+                course = existingTimeslots[1][i];
+                section = existingTimeslots[2][i];
+                day = existingTimeslots[3][i];
+                startTime = Convert.ToDateTime(existingTimeslots[4][i]);
+                //endTime = Convert.ToDateTime(timeSlotTable[5][i]);
+                endTime = Convert.ToDateTime(existingTimeslots[5][i]);
+                panelistID = existingTimeslots[6][i];
+                existingClassScheds.Add(new ClassTimePeriod(id, section, course, day, startTime, endTime, panelistID));
+
+
+            } */
+
+
+            String query = "SELECT Timeslot.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime, Panelist.firstName +' '+ Panelist.MI +'. '+ Panelist.lastName as Professor FROM Timeslot INNER JOIN Panelist ON Timeslot.panelistID = Panelist.panelistID";
             existingTimeslots = dbHandler.Select(query, 7);
 
             if (existingTimeslots[0].Count == 0)
@@ -356,6 +431,7 @@ namespace CustomUserControl
             DateTime startTime;
             DateTime endTime;
             String panelistID;
+
             for (int i = 0; i < existingTimeslots[0].Count; i++)
             {
                 id = Convert.ToInt32(existingTimeslots[0][i]);
@@ -365,16 +441,17 @@ namespace CustomUserControl
                 startTime = Convert.ToDateTime(existingTimeslots[4][i]);
                 //endTime = Convert.ToDateTime(timeSlotTable[5][i]);
                 endTime = Convert.ToDateTime(existingTimeslots[5][i]);
-                panelistID = existingTimeslots[6][i];
+                panelistID = existingTimeslots[6][i] ;
                 existingClassScheds.Add(new ClassTimePeriod(id, section, course, day, startTime, endTime, panelistID));
             }
 
+            
 
             dataGridViewExistingTimeslot.DataSource = existingClassScheds;
             dataGridViewExistingTimeslot.Columns[4].DefaultCellStyle.Format = "HH:mm:ss tt";
             dataGridViewExistingTimeslot.Columns[5].DefaultCellStyle.Format = "HH:mm:ss tt";
-            dataGridViewExistingTimeslot.Columns[1].SortMode = DataGridViewColumnSortMode.Automatic;
             dataGridViewExistingTimeslot.Refresh();
+            Console.WriteLine("existingtimeslot refreshed");
         }
         private void update_events()
         {
@@ -382,13 +459,13 @@ namespace CustomUserControl
             if (studentTreeView.Enabled) 
             {
                 Console.WriteLine(currStudent);
-                query = "SELECT eventID, name,eventStart,eventEnd FROM Event WHERE eventID NOT IN ( SELECT eventID FROM StudentEventRecord WHERE studentID = '"+currStudent+"');";
+                query = "SELECT DISTINCT eventID, name,eventStart,eventEnd FROM Event WHERE eventID NOT IN ( SELECT eventID FROM StudentEventRecord WHERE studentID = '"+currStudent+"');";
                 Console.WriteLine(query);
             }
             else if (panelistTreeView.Enabled) 
             {
                 Console.WriteLine(currPanelist);
-                query = "SELECT eventID, name,eventStart,eventEnd FROM Event WHERE eventID NOT IN ( SELECT eventID FROM StudentEventRecord WHERE studentID = '"+currPanelist+"');";
+                query = "SELECT DISTINCT eventID, name,eventStart,eventEnd FROM Event WHERE eventID NOT IN ( SELECT eventID FROM StudentEventRecord WHERE studentID = '"+currPanelist+"');";
                 Console.WriteLine(query);
             }
             
