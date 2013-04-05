@@ -314,7 +314,7 @@ namespace CustomUserControl
         private void buttondeleteEvent_Click(object sender, EventArgs e)
         {
             String selectedRowIndex = dataGridViewEvent.SelectedRows[0].Index.ToString();
-            Console.WriteLine("selected row index(string): " + dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString());
+            //Console.WriteLine("selected row index(string): " + dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString());
             String currEvent = eventTable[0][dataGridViewEvent.SelectedRows[0].Index];
             if (studentTreeView.Enabled)
             {
@@ -445,11 +445,32 @@ namespace CustomUserControl
                 existingClassScheds.Add(new ClassTimePeriod(id, section, course, day, startTime, endTime, panelistID));
             }
 
-            
+            query = "SELECT Timeslot.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime FROM Timeslot WHERE panelistID IS NULL";
+            existingTimeslots = dbHandler.Select(query, 6);
 
+            if (existingTimeslots[0].Count == 0)
+            {
+                return;
+            }
+            for (int i = 0; i < existingTimeslots[0].Count; i++)
+            {
+                id = Convert.ToInt32(existingTimeslots[0][i]);
+                course = existingTimeslots[1][i];
+                section = existingTimeslots[2][i];
+                day = existingTimeslots[3][i];
+                startTime = Convert.ToDateTime(existingTimeslots[4][i]);
+                //endTime = Convert.ToDateTime(timeSlotTable[5][i]);
+                endTime = Convert.ToDateTime(existingTimeslots[5][i]);
+                panelistID = null;
+                existingClassScheds.Add(new ClassTimePeriod(id, section, course, day, startTime, endTime, panelistID));
+            }
+
+            //existingClassScheds.
+            //existingClassScheds.
             dataGridViewExistingTimeslot.DataSource = existingClassScheds;
             dataGridViewExistingTimeslot.Columns[4].DefaultCellStyle.Format = "HH:mm:ss tt";
             dataGridViewExistingTimeslot.Columns[5].DefaultCellStyle.Format = "HH:mm:ss tt";
+            //dataGridViewExistingTimeslot.Sort(dataGridViewExistingTimeslot.Columns[1], ListSortDirection.Ascending);
             dataGridViewExistingTimeslot.Refresh();
             Console.WriteLine("existingtimeslot refreshed");
         }
