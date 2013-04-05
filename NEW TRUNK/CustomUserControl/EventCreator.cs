@@ -45,12 +45,17 @@ namespace CustomUserControl
                 return;
             }
                 //time alignment
+            if (textBoxEventName.Text == "") 
+            {
+                MessageBox.Show("name shouldn't be null", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
             if (dateTimePickerEventStartTime.Value.CompareTo(dateTimePickerEventEndTime.Value) >= 0) 
             {
                 Console.WriteLine(dateTimePickerEventStartTime.Value.CompareTo(dateTimePickerEventEndTime.Value));
                 MessageBox.Show("Time is invalid", "Invalid time", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            
             //ADD & EDIT
             if(isEditMode)
             {
