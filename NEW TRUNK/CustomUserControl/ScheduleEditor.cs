@@ -167,7 +167,9 @@ namespace CustomUserControl
                 Console.WriteLine("rowindex: "+rowIndex);
                 String query;
                 int slot = Convert.ToInt32(dataGridViewExistingTimeslot["Id", rowIndex].Value.ToString());
-                //CHECK------------
+                
+                //VALIDATION-DUPLICATION
+                /*
                 query = "SELECT timeslotID FROM StudentSchedule WHERE (studentID = '" + currStudent + "') AND (timeslotID =" + slot + ");";
 
                 List<String>[] duplicateCheck = dbHandler.Select(query, 1);
@@ -178,7 +180,7 @@ namespace CustomUserControl
                     return;
                 }
                 Console.WriteLine("slot: "+slot);
-                
+                */
                 query = "INSERT INTO StudentSchedule(studentID, timeslotID)VALUES ('"+currStudent+"', "+Convert.ToInt32(slot)+")";
                 Console.WriteLine("escape qqq" + query);
                 try
