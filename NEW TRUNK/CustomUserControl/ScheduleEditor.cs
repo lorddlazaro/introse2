@@ -43,11 +43,14 @@ namespace CustomUserControl
         {
             if (e.Node.Level == 0)
             {
-                e.Node.Expand();
+                //e.Node.Expand();
+
+                //disables buttons
                 buttonAddExistingEvent.Enabled = false;
                 buttonAddExistingWeeklyTimeslot.Enabled = false;
                 buttonDeleteWeeklyTimeslot.Enabled = false;
                 buttondeleteEvent.Enabled = false;
+                //clears the tables
                 dataGridViewWeeklyTimeslot.DataSource = null;
                 dataGridViewWeeklyTimeslot.Refresh();
                 dataGridViewEvent.DataSource = null;
@@ -55,20 +58,18 @@ namespace CustomUserControl
             }
             else if (e.Node.Level == 1)
             {
+                //enable buttons
                 buttonAddExistingEvent.Enabled = true;
                 buttonAddExistingWeeklyTimeslot.Enabled = true;
                 buttonDeleteWeeklyTimeslot.Enabled = true;
                 buttondeleteEvent.Enabled = true;
+                //updates tables
                 currStudent = e.Node.Name;
                 RefreshStudentClassScheds(currStudent);
                 RefreshStudentEvents(currStudent);
-                update_courses();
+                update_courses2();
                 update_events();
                 
-                
-            }
-            else
-            {
                 
             }
         }
@@ -76,22 +77,30 @@ namespace CustomUserControl
         {
             if (e.Node.Level == 0)
             {
-                e.Node.Expand();
+                //disables buttons
+                buttonAddExistingEvent.Enabled = false;
+                buttonAddExistingWeeklyTimeslot.Enabled = false;
+                buttonDeleteWeeklyTimeslot.Enabled = false;
+                buttondeleteEvent.Enabled = false;
+                //clears the tables
+                dataGridViewWeeklyTimeslot.DataSource = null;
+                dataGridViewWeeklyTimeslot.Refresh();
+                dataGridViewEvent.DataSource = null;
+                dataGridViewEvent.Refresh();
             }
             else if (e.Node.Level == 1)
             {
-                buttonAddWeeklyTimeslot.Enabled = true;
+                //enable buttons
+                buttonAddExistingEvent.Enabled = true;
+                buttonAddExistingWeeklyTimeslot.Enabled = true;
                 buttonDeleteWeeklyTimeslot.Enabled = true;
                 buttondeleteEvent.Enabled = true;
+                //updates tables
                 currPanelist = e.Node.Name;
-                RefreshPanelistClassScheds(currPanelist);
-                RefreshPanelistEvents(currPanelist);
-            }
-            else
-            {
-                buttonAddWeeklyTimeslot.Enabled = false;
-                buttonDeleteWeeklyTimeslot.Enabled = false;
-                buttondeleteEvent.Enabled = false;
+                RefreshStudentClassScheds(currPanelist);
+                RefreshStudentEvents(currPanelist);
+                update_courses2();
+                update_events();
             }
         }
         private void btnSwitchView_Click(object sender, EventArgs e)
@@ -99,6 +108,7 @@ namespace CustomUserControl
             if (btnSwitchView.Text.Equals("Switch to Panelists"))
             {
                 currPanelist = "";
+                personLabel.Text = "Panelists:";
                 btnSwitchView.Text = "Switch to Students";
                 studentTreeView.Hide();
                 panelistTreeView.Show();
@@ -109,6 +119,7 @@ namespace CustomUserControl
             else 
             {
                 currStudent = "";
+                personLabel.Text = "Students:";
                 btnSwitchView.Text = "Switch to Panelists";
                 studentTreeView.Show();
                 panelistTreeView.Hide();
@@ -352,69 +363,6 @@ namespace CustomUserControl
         // Student's or Panelist's timeslots and events
         private void update_courses()
         {
-            /*
-            String query2 = "SELECT  timeslotID, courseName,section, day, startTime , endTime FROM Timeslot WHERE (panelistID IS NULL)";
-            existingTimeslots = dbHandler.Select(query2, 6);
-
-            if (existingTimeslots[0].Count == 0)
-            {
-                return;
-            }
-
-            BindingList<ClassTimePeriod> existingClassScheds = new BindingList<ClassTimePeriod>();
-            int id;
-            String section;
-            String course;
-            String day;
-            DateTime startTime;
-            DateTime endTime;
-            String panelistID;
-
-            for (int i = 0; i < existingTimeslots[0].Count; i++)
-            {
-                id = Convert.ToInt32(existingTimeslots[0][i]);
-                course = existingTimeslots[1][i];
-                section = existingTimeslots[2][i];
-                day = existingTimeslots[3][i];
-                startTime = Convert.ToDateTime(existingTimeslots[4][i]);
-                //endTime = Convert.ToDateTime(timeSlotTable[5][i]);
-                endTime = Convert.ToDateTime(existingTimeslots[5][i]);
-                panelistID = null;
-                existingClassScheds.Add(new ClassTimePeriod(id, section, course, day, startTime, endTime, panelistID));
-            }
-            
-            String query = "SELECT Timeslot.timeslotID,  Timeslot.courseName, Timeslot.section,Timeslot.day, Timeslot.startTime, Timeslot.endTime ,Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM Panelist INNER JOIN Timeslot ON Panelist.panelistID = Timeslot.panelistID;";
-
-            if (studentTreeView.Enabled)
-            {
-                Console.WriteLine(currStudent);
-                query = "SELECT DISTINCT Timeslot.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime, Panelist.firstName +' '+ Panelist.MI+'. '+ Panelist.lastName FROM Timeslot INNER JOIN StudentSchedule ON Timeslot.timeslotID = StudentSchedule.timeslotID INNER JOIN Panelist ON Timeslot.panelistID = Panelist.panelistID WHERE (Timeslot.timeslotID NOT IN (SELECT timeslotID FROM StudentSchedule AS StudentSchedule_1 WHERE(studentID = '"+currStudent+"')));";
-                Console.WriteLine(query);
-            }
-            existingTimeslots = dbHandler.Select(query, 7);
-
-            if (existingTimeslots[0].Count == 0)
-            {
-                return;
-            }
-
-            
-            for (int i = 0; i < existingTimeslots[0].Count; i++)
-            {
-                id = Convert.ToInt32(existingTimeslots[0][i]);
-                course = existingTimeslots[1][i];
-                section = existingTimeslots[2][i];
-                day = existingTimeslots[3][i];
-                startTime = Convert.ToDateTime(existingTimeslots[4][i]);
-                //endTime = Convert.ToDateTime(timeSlotTable[5][i]);
-                endTime = Convert.ToDateTime(existingTimeslots[5][i]);
-                panelistID = existingTimeslots[6][i];
-                existingClassScheds.Add(new ClassTimePeriod(id, section, course, day, startTime, endTime, panelistID));
-
-
-            } */
-
-
             String query = "SELECT Timeslot.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime, Panelist.firstName +' '+ Panelist.MI +'. '+ Panelist.lastName as Professor FROM Timeslot INNER JOIN Panelist ON Timeslot.panelistID = Panelist.panelistID";
             existingTimeslots = dbHandler.Select(query, 7);
 
@@ -474,6 +422,75 @@ namespace CustomUserControl
             dataGridViewExistingTimeslot.Refresh();
             Console.WriteLine("existingtimeslot refreshed");
         }
+        private void update_courses2() 
+        {
+            
+            String query2 = "SELECT  timeslotID, courseName,section, day, startTime , endTime FROM Timeslot WHERE (panelistID IS NULL)";
+            existingTimeslots = dbHandler.Select(query2, 6);
+
+            if (existingTimeslots[0].Count == 0)
+            {
+                return;
+            }
+
+            BindingList<ClassTimePeriod> existingClassScheds = new BindingList<ClassTimePeriod>();
+            int id;
+            String section;
+            String course;
+            String day;
+            DateTime startTime;
+            DateTime endTime;
+            String panelistID;
+
+            for (int i = 0; i < existingTimeslots[0].Count; i++)
+            {
+                id = Convert.ToInt32(existingTimeslots[0][i]);
+                course = existingTimeslots[1][i];
+                section = existingTimeslots[2][i];
+                day = existingTimeslots[3][i];
+                startTime = Convert.ToDateTime(existingTimeslots[4][i]);
+                //endTime = Convert.ToDateTime(timeSlotTable[5][i]);
+                endTime = Convert.ToDateTime(existingTimeslots[5][i]);
+                panelistID = null;
+                existingClassScheds.Add(new ClassTimePeriod(id, section, course, day, startTime, endTime, panelistID));
+            }
+            
+            String query = "SELECT Timeslot.timeslotID,  Timeslot.courseName, Timeslot.section,Timeslot.day, Timeslot.startTime, Timeslot.endTime ,Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM Panelist INNER JOIN Timeslot ON Panelist.panelistID = Timeslot.panelistID;";
+
+            if (studentTreeView.Enabled)
+            {
+                Console.WriteLine(currStudent);
+                query = "SELECT DISTINCT Timeslot.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime, Panelist.firstName +' '+ Panelist.MI+'. '+ Panelist.lastName FROM Timeslot INNER JOIN StudentSchedule ON Timeslot.timeslotID = StudentSchedule.timeslotID INNER JOIN Panelist ON Timeslot.panelistID = Panelist.panelistID WHERE (Timeslot.timeslotID NOT IN (SELECT timeslotID FROM StudentSchedule AS StudentSchedule_1 WHERE(studentID = '"+currStudent+"')));";
+                Console.WriteLine(query);
+            }
+            existingTimeslots = dbHandler.Select(query, 7);
+
+            if (existingTimeslots[0].Count == 0)
+            {
+                return;
+            }
+
+            
+            for (int i = 0; i < existingTimeslots[0].Count; i++)
+            {
+                id = Convert.ToInt32(existingTimeslots[0][i]);
+                course = existingTimeslots[1][i];
+                section = existingTimeslots[2][i];
+                day = existingTimeslots[3][i];
+                startTime = Convert.ToDateTime(existingTimeslots[4][i]);
+                //endTime = Convert.ToDateTime(timeSlotTable[5][i]);
+                endTime = Convert.ToDateTime(existingTimeslots[5][i]);
+                panelistID = existingTimeslots[6][i];
+                existingClassScheds.Add(new ClassTimePeriod(id, section, course, day, startTime, endTime, panelistID));
+
+                dataGridViewExistingTimeslot.DataSource = existingClassScheds;
+                dataGridViewExistingTimeslot.Columns[4].DefaultCellStyle.Format = "HH:mm:ss tt";
+                dataGridViewExistingTimeslot.Columns[5].DefaultCellStyle.Format = "HH:mm:ss tt";
+                //dataGridViewExistingTimeslot.Sort(dataGridViewExistingTimeslot.Columns[1], ListSortDirection.Ascending);
+                dataGridViewExistingTimeslot.Refresh();
+                Console.WriteLine("existingtimeslot refreshed");
+            } 
+        }
         private void update_events()
         {
             String query = "SELECT eventID, name, eventStart, eventEnd FROM Event";
@@ -516,6 +533,13 @@ namespace CustomUserControl
             dataGridViewExistingEvent.Columns["Id"].Visible = false;
         }
         //Algorithm for both students and panelists
+        public void RefreshTreeView() 
+        {
+            Console.WriteLine("IM BEING CALLED IM BEING CALLED");
+            UpdateStudentList(studentTreeView.Nodes);
+            
+            UpdatePanelistList(panelistTreeView.Nodes);
+        }
         public void UpdateTreeView(TreeNodeCollection tree, String idColumnName, String tableName)
         {
             tree.Clear();
@@ -659,7 +683,10 @@ namespace CustomUserControl
         //STUDENTS
         public void UpdateStudentList(TreeNodeCollection tree)
         {
+            studentTreeView.BeginUpdate();
             UpdateTreeView(tree, "studentID", "student");
+            studentTreeView.EndUpdate();
+            studentTreeView.Refresh();
         }
         public void RefreshStudentClassScheds(String studentID)
         {
@@ -672,7 +699,10 @@ namespace CustomUserControl
         //PANELISTS
         public void UpdatePanelistList(TreeNodeCollection tree)
         {
+            panelistTreeView.BeginUpdate();
             UpdateTreeView(tree, "panelistID", "panelist");
+            panelistTreeView.EndUpdate();
+            panelistTreeView.Refresh();
         }
         public void RefreshPanelistClassScheds(String panelistID)
         {
