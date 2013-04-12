@@ -71,26 +71,26 @@ namespace CustomUserControl
 
                 for (int i = 0; i < size; i++)
                 {
-                    defSched = GetDefSched(startDate, endDate, groupIDs.ElementAt(i));
+                    defSched = GetDefSched(startDate, endDate, groupIDs.ElementAt(i), "defense"); //temporary
                     if (defSched != null)
                         clusterDefScheds.Add(defSched);
                 }
             }   
         }
 
-        public void RefreshGroupDefSched(DateTime startDate, DateTime endDate, String thesisGroupID) 
+        public void RefreshGroupDefSched(DateTime startDate, DateTime endDate, String thesisGroupID, String defenseType) 
         {
             if (thesisGroupID.Equals(""))
                 currGroupDefSched = null;
             else
-                currGroupDefSched = GetDefSched(startDate, endDate, thesisGroupID);
+                currGroupDefSched = GetDefSched(startDate, endDate, thesisGroupID, defenseType);
         }
 
         /* This method will be called by the UI to refresh selectedGroupFreeSlots when
          * a thesis group is selected, whether in tree view (for clusters) or listbox (for isolated groups).
          * The parameters are still to be changed.
          * */
-        public void RefreshSelectedGroupFreeTimes(DateTime startDate, DateTime endDate, String thesisGroupID)
+        public void RefreshSelectedGroupFreeTimes(DateTime startDate, DateTime endDate, String thesisGroupID, String defenseType)
         {
             if (thesisGroupID.Equals(""))
             {
@@ -101,7 +101,7 @@ namespace CustomUserControl
 
             List<TimePeriod>[] days = new List<TimePeriod>[Constants.DAYS_IN_DEF_WEEK];
             InitListTimePeriodArray(days);
-            AddBusyTimePeriods(thesisGroupID, startDate, endDate, days);
+            AddBusyTimePeriods(thesisGroupID, startDate, endDate, days, defenseType);
 
             for (int i = 0; i < Constants.DAYS_IN_DEF_WEEK; i++)
             {
@@ -184,7 +184,7 @@ namespace CustomUserControl
         /*** Support Methods for RefreshSelectedGroupFreeTimes() - START ***/
 
         //This method adds the busy time periods to the List<TimePeriod>[] representing the days in a def week.
-        private void AddBusyTimePeriods(String thesisGroupID, DateTime startDate, DateTime endDate, List<TimePeriod>[] days)
+        private void AddBusyTimePeriods(String thesisGroupID, DateTime startDate, DateTime endDate, List<TimePeriod>[] days, String defenseType)
         {
             List<String> timeSlotIDs = new List<String>(); //Stored as string instead of int because when included in the select statement, it will become a string anyway.
             List<String> eventIDs = new List<String>();
@@ -275,7 +275,7 @@ namespace CustomUserControl
              * */
             List<TimePeriod>[] classSlots = GetUniqueClassTimeSlots(timeSlotIDs);
             List<TimePeriod>[] eventSlots = GetUniqueEventSlots(eventIDs, startDate, endDate);
-            List<TimePeriod>[] defSlots = GetUniqueDefSlots(panelistIDs, startDate, endDate);
+            List<TimePeriod>[] defSlots = GetUniqueDefSlots(panelistIDs, startDate, endDate, defenseType);
 
             for (int i = 0; i < 6; i++)
             {
@@ -452,7 +452,7 @@ namespace CustomUserControl
             return busySlots;
         }
 
-        private List<TimePeriod>[] GetUniqueDefSlots(List<String> panelistIDs, DateTime startDate, DateTime endDate)
+        private List<TimePeriod>[] GetUniqueDefSlots(List<String> panelistIDs, DateTime startDate, DateTime endDate, String defenseType)
         {
             String query;
             int size = panelistIDs.Count;
@@ -485,7 +485,7 @@ namespace CustomUserControl
 
             /*Select all distinct defenseId's that these thesis groups have*/
 
-            query = "Select distinct defenseDateTime, course FROM DefenseSchedule ds, ThesisGroup tg WHERE defenseDateTime > '"+startDate.AddDays(-1)+"' AND defenseDateTime < '"+endDate.AddDays(1)+"' AND ds.thesisGroupID = tg.thesisGroupID AND ( ";
+            query = "Select distinct defenseDateTime, course FROM DefenseSchedule ds, ThesisGroup tg WHERE defenseType ='"+defenseType+"' AND defenseDateTime > '"+startDate.AddDays(-1)+"' AND defenseDateTime < '"+endDate.AddDays(1)+"' AND ds.thesisGroupID = tg.thesisGroupID AND ( ";
             for (int j = 0; j < size; j++) 
             {
                 query += " tg.thesisGroupID = " + groupIDs.ElementAt(j);
@@ -673,7 +673,7 @@ namespace CustomUserControl
            one. For example, changing a schedule from 8am-10am to 8:30am-10:30am would cause conflict because
            the two time periods inetersect. However, it logically should be allowed because the old one would
            be removed.*/
-        public void AddToSelectedGroupFreeTimes(DateTime startDate, DateTime endDate, String thesisGroupID, int dayIndex, TimePeriod timePeriod)
+        public void AddToSelectedGroupFreeTimes(DateTime startDate, DateTime endDate, String thesisGroupID, int dayIndex, TimePeriod timePeriod, String defenseType)
         {
             if (thesisGroupID.Equals(""))
             {
@@ -683,7 +683,7 @@ namespace CustomUserControl
 
             List<TimePeriod>[] days = new List<TimePeriod>[Constants.DAYS_IN_DEF_WEEK];
             InitListTimePeriodArray(days);
-            AddBusyTimePeriods(thesisGroupID, startDate, endDate, days);
+            AddBusyTimePeriods(thesisGroupID, startDate, endDate, days, defenseType);
 
             //Console.WriteLine(dayIndex+"       DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
             List<TimePeriod> mergedPeriods = new List<TimePeriod>();
@@ -733,9 +733,9 @@ namespace CustomUserControl
         /* This method returns a DefenseSchedule object within the specified startDate and endDDate 
          * for the specified thesis group. If there is none, the method returns null.
          */
-        private DefenseSchedule GetDefSched(DateTime startDate, DateTime endDate, String thesisGroupID)
+        private DefenseSchedule GetDefSched(DateTime startDate, DateTime endDate, String thesisGroupID, String defenseType)
         {
-            String query = "SELECT defenseDateTime, place FROM defenseSchedule WHERE thesisGroupID = " + thesisGroupID + " AND defenseDateTime >='" + startDate.Date + "' AND defenseDateTime <='" + endDate.AddDays(1).Date + "';";
+            String query = "SELECT defenseDateTime, place FROM defenseSchedule WHERE defenseType = '"+defenseType+"' AND thesisGroupID = " + thesisGroupID + " AND defenseDateTime >='" + startDate.Date + "' AND defenseDateTime <='" + endDate.AddDays(1).Date + "';";
 
             List<String>[] columns = dbHandler.Select(query, 2);
 
@@ -767,7 +767,24 @@ namespace CustomUserControl
                 return columns[0].ElementAt(0) + " " + columns[1].ElementAt(0) + ": " + columns[2].ElementAt(0);
             return "";
         }
-       
+
+        public String GetPanelists(String thesisGroupID) 
+        {
+            String panelists = "";
+          
+            String query = "SELECT lastName, firstName from Panelist WHERE panelistID IN (SELECT panelistID from panelAssignment WHERE thesisGroupID = '" + thesisGroupID + "')";
+            List<String>[] columns = dbHandler.Select(query, 2);
+         
+            for (int i = 0; i < columns[0].Count; i++)
+            {
+                panelists += columns[0][i] + ", " + columns[1][i];
+                if (i != columns[0].Count - 1)
+                    panelists += "     ";
+            }
+
+            return panelists;
+        }
+
         /*** Miscellaneous Methods - END ***/
 
 

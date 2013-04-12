@@ -29,10 +29,11 @@ namespace CustomUserControl
         private const int VIEW_INDEX_CLUSTER = 0;
         private const int VIEW_INDEX_ISOLATED = 1;
 
-        private String currDefenseType;
+        private const int TYPE_INDEX_DEFENSE = 0;
+        private const int TYPE_INDEX_REDEFENSE = 1;
 
+        private String currDefenseType;
         private bool isCheckingInProgram;
-        private bool isValidSelect;
 
         //check
         bool isGroupBoxWidened;
@@ -40,21 +41,23 @@ namespace CustomUserControl
         DBce dbHandler;
         string currDefenseID;
 
+        /****** START: Initializing Methods *******/
         public FreeTimeViewer()
         {
             InitializeComponent();
 
             isCheckingInProgram = false;
-            isValidSelect = true;
+
             //check
             dbHandler = new DBce();
+            schedulingDM = new SchedulingDataManager();
 
+            //Initialize some variables
             dayWidth = panelCalendar.DisplayRectangle.Width / Constants.DAYS_IN_DEF_WEEK;
-            totalMinsInDay = Convert.ToDateTime(Constants.LIMIT_HOUR+":"+Constants.LIMIT_MIN).Subtract(Convert.ToDateTime(Constants.START_HOUR+":"+Constants.START_MIN)).TotalMinutes;
+            totalMinsInDay = Convert.ToDateTime(Constants.LIMIT_HOUR + ":" + Constants.LIMIT_MIN).Subtract(Convert.ToDateTime(Constants.START_HOUR + ":" + Constants.START_MIN)).TotalMinutes;
 
             currPanelistID = "";
             currGroupID = "";
-            currDefenseType = Constants.DEFENSE_TYPE;
 
             labelDates = new List<Label>();
             labelDates.Add(labelDate1);
@@ -64,32 +67,31 @@ namespace CustomUserControl
             labelDates.Add(labelDate5);
             labelDates.Add(labelDate6);
 
+            //Initialize ComboBoxes
             datePicker_ValueChanged(new Object(), new EventArgs());
-
             comboBoxView.SelectedIndex = VIEW_INDEX_ISOLATED;
+            comboBox1.SelectedIndex = TYPE_INDEX_DEFENSE; //this will trigger a refresh all that will initialize the whole thing
 
-            schedulingDM = new SchedulingDataManager();
+            /*Initialize TreeViews
             treeViewClusters.BeginUpdate();
-            schedulingDM.AddPanelistsToTree(treeViewClusters.Nodes, "eligibleFor"+currDefenseType);
+            schedulingDM.AddPanelistsToTree(treeViewClusters.Nodes, "eligibleFor" + currDefenseType);
             treeViewClusters.EndUpdate();
             treeViewClusters.ExpandAll();
             treeViewClusters.Focus();
 
             treeViewIsolatedGroups.BeginUpdate();
-            schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes, "eligibleFor"+currDefenseType);
-            treeViewIsolatedGroups.ExpandAll(); 
+            schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes, "eligibleFor" + currDefenseType);
+            treeViewIsolatedGroups.ExpandAll();
             treeViewIsolatedGroups.EndUpdate();
+            */
 
 
             MarkAllScheduledGroups();
+
             //check
             isGroupBoxWidened = true;
+
         }
-
-
-        /****** START: Initializing Methods *******/
-        
-
         /****** END: Initializing Methods *******/
 
 
@@ -225,8 +227,6 @@ namespace CustomUserControl
            
 
         }
-         
-         
         /****** END: Drawing Methods*******/
 
 
@@ -261,7 +261,7 @@ namespace CustomUserControl
             if (!currPanelistID.Equals(""))
                 schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
             if (!currGroupID.Equals(""))
-                schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID);
+                schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
             
             panelCalendar.Refresh();
         }
@@ -397,7 +397,6 @@ namespace CustomUserControl
             if (!isCheckingInProgram)
             {
                 e.Cancel = true;
-                isValidSelect = false;
             }
             else
                 isCheckingInProgram = false;
@@ -409,15 +408,11 @@ namespace CustomUserControl
             if (!isCheckingInProgram)
             {
                 e.Cancel = true;
-                isValidSelect = false;
             }
             else
                 isCheckingInProgram = false;
          
         }
-
-       
-
         /****** END: EVENT LISTENERS*******/
 
 
@@ -429,20 +424,21 @@ namespace CustomUserControl
             currGroupID = newThesisGroupID;
             if (newThesisGroupID.Equals(""))
             {
-                labelDisplayMsg.Text = "";
+                labelGroupInfo.Text = "";
+                labelPanelists.Text = "";
                 HideGroupBox();
             }
             else
             {
                 ShowGroupBox();
 
-                labelDisplayMsg.Text = "Selected Group: " + schedulingDM.GetGroupInfo(currGroupID);
-
+                labelGroupInfo.Text = "Selected Group: " + schedulingDM.GetGroupInfo(currGroupID);
+                labelPanelists.Text = "Panelists:"+schedulingDM.GetPanelists(currGroupID);
                 //check
                 titleTextBox.Text = schedulingDM.GetGroupInfo(currGroupID).Split(':')[1];
                 courseSectionTextBox.Text = schedulingDM.GetGroupInfo(currGroupID).Split(':')[0];
 
-                string query = "select defenseid, place, defensedatetime from defenseschedule where thesisgroupid = '" + currGroupID + "';";
+                string query = "select defenseid, place, defensedatetime from defenseschedule where thesisgroupid = '" + currGroupID + "' AND defenseType = '"+currDefenseType+"';";
 
                 List<string>[] queryResult = dbHandler.Select(query, 3);
                 
@@ -451,8 +447,8 @@ namespace CustomUserControl
                 else
                     ChangeGroupBox(queryResult);
             }
-            schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID);
-            schedulingDM.RefreshGroupDefSched(startOfTheWeek, endOfTheWeek, currGroupID);
+            schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID,currDefenseType);
+            schedulingDM.RefreshGroupDefSched(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
 
             /*For debugging purposes
             for (int currDay = 0; currDay < 6; currDay++)
@@ -469,9 +465,7 @@ namespace CustomUserControl
         {
             if (schedulingDM != null)
             {
-                
-                Console.WriteLine("IM IN HERE");
-                schedulingDM.RefreshScheduledGroupIDs("defense");
+                schedulingDM.RefreshScheduledGroupIDs(currDefenseType);
                 TreeView currTreeView;
 
                 if (comboBoxView.SelectedIndex == VIEW_INDEX_CLUSTER) 
@@ -679,17 +673,15 @@ namespace CustomUserControl
                 if (IsDefenseInfoValid() && MessageBox.Show(messageBoxText, messageBoxCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     string dateTime = string.Format("{0:M/d/yyyy h:mm:ss tt}", defenseDateTimePicker.Value);
-                    //Console.WriteLine("Hello"+dateTime+"Bye");
-
-                    query = "update defenseschedule set defensedatetime = '" + dateTime + "', place = '" + venueTextBox.Text + "' where defenseid = '" + currDefenseID + "';";
+           
+                    query = "update defenseschedule set defensedatetime = '" + dateTime + "', place = '" + venueTextBox.Text + "' where defenseid = '" + currDefenseID + "' AND defenseType ='"+currDefenseType+"';";
                     dbHandler.Update(query);
 
-                    //Console.WriteLine("Updating database");
-
+                   
                     //if (!currPanelistID.Equals(""))
                         //schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
                     if (!currGroupID.Equals(""))
-                        schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID);
+                        schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
 
                     RefreshCalendar();
                     Console.WriteLine("I'm here");
@@ -703,7 +695,7 @@ namespace CustomUserControl
                     string dateTime = string.Format("{0:M/d/yyyy h:mm:ss tt}", defenseDateTimePicker.Value);
                     //Console.WriteLine(dateTime);
 
-                    query = "insert into defenseschedule (defensedatetime,place,thesisgroupid, defenseType) values('" + dateTime + "','" + venueTextBox.Text + "','" + currGroupID + "','"+ Constants.DEFENSE_TYPE+"');";
+                    query = "insert into defenseschedule (defensedatetime,place,thesisgroupid, defenseType) values('" + dateTime + "','" + venueTextBox.Text + "','" + currGroupID + "','"+currDefenseType+"');";
                     dbHandler.Insert(query);
 
                     query = "select defenseid from defenseschedule where defensedatetime= '"+dateTime+"' and place='"+venueTextBox.Text+"' and thesisgroupid='"+currGroupID+"';";
@@ -787,13 +779,13 @@ namespace CustomUserControl
                 }
             }
 
-            // Case 3: Time selected is not a multiple of 5 (in minutes)
+            /* Case 3: Time selected is not a multiple of 5 (in minutes)
             if (time.Minutes % 5 != 0)
             {
                 MessageBox.Show("Invalid Time: Must be in 5 minute intevals", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-
+            */
             // Case 4: Date selected is a sunday
             if (defenseDateTimePicker.Value.DayOfWeek == DayOfWeek.Sunday)
             {
@@ -880,8 +872,8 @@ namespace CustomUserControl
                 //schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
             if (!currGroupID.Equals(""))
             {
-                schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID);
-                schedulingDM.RefreshGroupDefSched(startOfTheWeek, endOfTheWeek, currGroupID);
+                schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
+                schedulingDM.RefreshGroupDefSched(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
             }
             panelCalendar.Refresh();
         }
@@ -910,14 +902,19 @@ namespace CustomUserControl
             treeViewIsolatedGroups.Nodes.Clear();
             schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes, "eligibleFor"+currDefenseType);
             treeViewIsolatedGroups.EndUpdate();
+            treeViewIsolatedGroups.ExpandAll();
+
             MarkAllScheduledGroups();
         }
 
-      
-
-       
-      
-        
-
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedIndex == TYPE_INDEX_DEFENSE)
+                currDefenseType = Constants.DEFENSE_TYPE;
+            else
+                currDefenseType = Constants.REDEFENSE_TYPE;
+            ChangeSelectedGroup("");
+            RefreshAll();
+        }
     }
 }
