@@ -154,6 +154,11 @@ namespace CustomUserControl
         }
         private void buttonAddExistingWeeklyTimeslot_Click(object sender, EventArgs e)
         {
+            if(dataGridViewExistingTimeslot.DataSource==null)
+            {
+                return;
+            }
+            
             int rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index;
             
             if(studentTreeView.Enabled)
@@ -172,15 +177,6 @@ namespace CustomUserControl
                     MessageBox.Show("This timeslot is already a duplicate", "Duplicate Timeslot", MessageBoxButtons.OK, MessageBoxIcon.Error); 
                     return;
                 }
-
-                //query = "SELECT timeslotID FROM Timeslot WHERE (courseName = '" + existingTimeslots[1][rowIndex] + "') AND (section = '" + existingTimeslots[2][rowIndex] + "') AND (day = '" + existingTimeslots[3][rowIndex] + "');";
-                //Console.WriteLine(query);
-                //List<String> timeslotID = dbHandler.Select(query, 1)[0];
-
-                
-
-                //String slot = timeslotID[0];
-                
                 Console.WriteLine("slot: "+slot);
                 
                 query = "INSERT INTO StudentSchedule(studentID, timeslotID)VALUES ('"+currStudent+"', "+Convert.ToInt32(slot)+")";
@@ -198,6 +194,7 @@ namespace CustomUserControl
                 Console.WriteLine("success!");
                 RefreshStudentClassScheds(currStudent);
 
+
             }else if(panelistTreeView.Enabled)
             {
                 if (timeSlotTable[6][rowIndex] != null)
@@ -214,9 +211,11 @@ namespace CustomUserControl
                         dbHandler.Update(query);
                         Console.WriteLine(query);
                         RefreshPanelistClassScheds(currPanelist);
+
                     }
                 }
             }
+
             update_courses();
                 
             
@@ -224,7 +223,14 @@ namespace CustomUserControl
         }
         private void buttonDeleteWeeklyTimeslot_Click(object sender, EventArgs e)
         {
+
+            if (dataGridViewWeeklyTimeslot.DataSource==null) 
+            {
+                return;
+            }
             //NO VALIDATION NEEDED
+
+            
 
             String selectedRowIndex = dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString();
             Console.WriteLine("selected row index(string): " + dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString());
@@ -245,10 +251,8 @@ namespace CustomUserControl
                 Console.WriteLine(query);
                 RefreshPanelistClassScheds(currPanelist);
             }
-            else
-            {
-                return;
-            }
+
+            update_courses();
         }
         private void buttonWeeklyTimeslotEdit_Click(object sender, EventArgs e)
         {
@@ -277,15 +281,10 @@ namespace CustomUserControl
                 //Duplicate
                 //Conflict with defense
             //ADD 
-            if (existingEvents[0].Count == 0)
+            if (dataGridViewExistingEvent.DataSource==null)
             { 
-                
-                dataGridViewExistingEvent.DataSource = null;
-                dataGridViewExistingEvent.Refresh();
-                Console.WriteLine("cleared");
                 return;
             }
-                
             int rowIndex = dataGridViewExistingEvent.SelectedRows[0].Index;
             if (studentTreeView.Enabled)
             {
@@ -312,18 +311,14 @@ namespace CustomUserControl
                 
             }
             update_events();
-            if (existingEvents[0].Count == 0)
-            {
-
-                dataGridViewExistingEvent.DataSource = null;
-                dataGridViewExistingEvent.Refresh();
-                Console.WriteLine("cleared");
-                return;
-            }
             
         }
         private void buttondeleteEvent_Click(object sender, EventArgs e)
         {
+            if (dataGridViewEvent.DataSource==null) 
+            {
+                return;
+            }
             String selectedRowIndex = dataGridViewEvent.SelectedRows[0].Index.ToString();
             //Console.WriteLine("selected row index(string): " + dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString());
             String currEvent = eventTable[0][dataGridViewEvent.SelectedRows[0].Index];
@@ -343,10 +338,7 @@ namespace CustomUserControl
                 Console.WriteLine(query);
                 RefreshPanelistEvents(currPanelist);
             }
-            else
-            {
-                return;
-            }
+
             update_events();
         }
         private void buttonEventEdit_Click(object sender, EventArgs e)
@@ -380,6 +372,8 @@ namespace CustomUserControl
             existingTimeslots = dbHandler.Select(query, 7);
             if (existingTimeslots[0].Count == 0)
             {
+                dataGridViewExistingTimeslot.DataSource = null;
+                dataGridViewExistingTimeslot.Refresh();
                 return;
             }
 
@@ -406,14 +400,22 @@ namespace CustomUserControl
             }
 
             dataGridViewExistingTimeslot.DataSource = existingClassScheds;
-            dataGridViewExistingTimeslot.Columns[4].DefaultCellStyle.Format = "HH:mm:ss tt";
             dataGridViewExistingTimeslot.Columns[5].DefaultCellStyle.Format = "HH:mm:ss tt";
+            dataGridViewExistingTimeslot.Columns[6].DefaultCellStyle.Format = "HH:mm:ss tt";
+            dataGridViewExistingTimeslot.Columns["Id"].Visible = false;
+
+            dataGridViewExistingTimeslot.Columns["Course"].Width = 70;
+            dataGridViewExistingTimeslot.Columns["Section"].Width = 50;
+            dataGridViewExistingTimeslot.Columns["Day"].Width = 30;
+            dataGridViewExistingTimeslot.Columns["Panelist"].Width = 130;
+            dataGridViewExistingTimeslot.Columns["StartTime"].Width = 80;
+            dataGridViewExistingTimeslot.Columns["EndTime"].Width = 80;
+
+            
             //dataGridViewExistingTimeslot.Sort(dataGridViewExistingTimeslot.Columns[1], ListSortDirection.Ascending);
             dataGridViewExistingTimeslot.Refresh();
             Console.WriteLine("existingtimeslot refreshed");
         }
-
-
         private void update_events()
         {
             String query = "";
@@ -435,6 +437,8 @@ namespace CustomUserControl
 
             if (existingEvents[0].Count == 0)
             {
+                dataGridViewExistingEvent.DataSource = null;
+                dataGridViewExistingEvent.Refresh();
                 return;
             }
 
@@ -524,6 +528,8 @@ namespace CustomUserControl
             List<String> timeSlots = dbHandler.Select(query, 1)[0];
             if (timeSlots.Count == 0)
             {
+                dataGridViewWeeklyTimeslot.DataSource = null;
+                dataGridViewWeeklyTimeslot.Refresh();
                 return;
             }
             query = "SELECT Timeslot.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime, Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM            Panelist RIGHT OUTER JOIN Timeslot ON Panelist.panelistID = Timeslot.panelistID WHERE ";
@@ -562,8 +568,17 @@ namespace CustomUserControl
             }
 
             dataGridViewWeeklyTimeslot.DataSource = classSchedList;
-            dataGridViewWeeklyTimeslot.Columns[4].DefaultCellStyle.Format = "HH:mm:ss tt";
             dataGridViewWeeklyTimeslot.Columns[5].DefaultCellStyle.Format = "HH:mm:ss tt";
+            dataGridViewWeeklyTimeslot.Columns[6].DefaultCellStyle.Format = "HH:mm:ss tt";
+            dataGridViewWeeklyTimeslot.Columns["Id"].Visible = false;
+
+            dataGridViewWeeklyTimeslot.Columns["Course"].Width = 70;
+            dataGridViewWeeklyTimeslot.Columns["Section"].Width = 50;
+            dataGridViewWeeklyTimeslot.Columns["Day"].Width = 30;
+            dataGridViewWeeklyTimeslot.Columns["Panelist"].Width = 130;
+            dataGridViewWeeklyTimeslot.Columns["StartTime"].Width = 80;
+            dataGridViewWeeklyTimeslot.Columns["EndTime"].Width = 80;
+
             dataGridViewWeeklyTimeslot.Refresh();
             Console.WriteLine("RefreshClassScheds finished, now returning..");
 
@@ -577,6 +592,8 @@ namespace CustomUserControl
 
             if (eventTable[0].Count == 0)
             {
+                dataGridViewEvent.DataSource = null;
+                dataGridViewEvent.Refresh();
                 return;
             }
 
