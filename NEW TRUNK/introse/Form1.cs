@@ -22,8 +22,11 @@ namespace introse
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.TabIndex == 0)
+            //Console.WriteLine("change tab to :" + tabControl1.TabIndex);
+            //if (tabControl1.TabPages. .TabIndex == 0)
                 freeTimeViewer.RefreshAll();
+            //else if (tabControl1.TabIndex == 2)
+                scheduleEditor2.RefreshTreeView();
         }
 
         private void freeTimeViewer_Load(object sender, EventArgs e)
