@@ -517,8 +517,8 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panelCalendar);
-            this.Controls.Add(this.treeViewClusters);
             this.Controls.Add(this.treeViewIsolatedGroups);
+            this.Controls.Add(this.treeViewClusters);
             this.Name = "FreeTimeViewer";
             this.Size = new System.Drawing.Size(1000, 700);
             this.defenseInfoGroupBox.ResumeLayout(false);
