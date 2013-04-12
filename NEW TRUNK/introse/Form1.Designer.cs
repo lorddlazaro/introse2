@@ -30,12 +30,12 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.freeTimeViewerControl = new System.Windows.Forms.TabPage();
-            this.defSchedViewerControl = new System.Windows.Forms.TabPage();
-            this.scheduleEditorControl = new System.Windows.Forms.TabPage();
-            this.thesisGroupControl = new System.Windows.Forms.TabPage();
             this.freeTimeViewer = new CustomUserControl.FreeTimeViewer();
+            this.defSchedViewerControl = new System.Windows.Forms.TabPage();
             this.defenseSchedulesViewercs1 = new CustomUserControl.DefenseSchedulesViewercs();
+            this.scheduleEditorControl = new System.Windows.Forms.TabPage();
             this.scheduleEditor2 = new CustomUserControl.ScheduleEditor();
+            this.thesisGroupControl = new System.Windows.Forms.TabPage();
             this.thesisGroupControl1 = new CustomUserControl.ThesisGroupControl2();
             this.tabControl1.SuspendLayout();
             this.freeTimeViewerControl.SuspendLayout();
@@ -67,6 +67,15 @@
             this.freeTimeViewerControl.Text = "Schedule Defenses";
             this.freeTimeViewerControl.UseVisualStyleBackColor = true;
             // 
+            // freeTimeViewer
+            // 
+            this.freeTimeViewer.BackColor = System.Drawing.SystemColors.Window;
+            this.freeTimeViewer.Location = new System.Drawing.Point(21, 17);
+            this.freeTimeViewer.Name = "freeTimeViewer";
+            this.freeTimeViewer.Size = new System.Drawing.Size(970, 637);
+            this.freeTimeViewer.TabIndex = 0;
+            this.freeTimeViewer.Load += new System.EventHandler(this.freeTimeViewer_Load);
+            // 
             // defSchedViewerControl
             // 
             this.defSchedViewerControl.Controls.Add(this.defenseSchedulesViewercs1);
@@ -76,6 +85,13 @@
             this.defSchedViewerControl.TabIndex = 7;
             this.defSchedViewerControl.Text = "View Defense Schedules";
             this.defSchedViewerControl.UseVisualStyleBackColor = true;
+            // 
+            // defenseSchedulesViewercs1
+            // 
+            this.defenseSchedulesViewercs1.Location = new System.Drawing.Point(29, 26);
+            this.defenseSchedulesViewercs1.Name = "defenseSchedulesViewercs1";
+            this.defenseSchedulesViewercs1.Size = new System.Drawing.Size(940, 645);
+            this.defenseSchedulesViewercs1.TabIndex = 0;
             // 
             // scheduleEditorControl
             // 
@@ -87,6 +103,13 @@
             this.scheduleEditorControl.Text = "View Class Schedules";
             this.scheduleEditorControl.UseVisualStyleBackColor = true;
             // 
+            // scheduleEditor2
+            // 
+            this.scheduleEditor2.Location = new System.Drawing.Point(-1, 0);
+            this.scheduleEditor2.Name = "scheduleEditor2";
+            this.scheduleEditor2.Size = new System.Drawing.Size(1000, 679);
+            this.scheduleEditor2.TabIndex = 0;
+            // 
             // thesisGroupControl
             // 
             this.thesisGroupControl.Controls.Add(this.thesisGroupControl1);
@@ -96,29 +119,6 @@
             this.thesisGroupControl.TabIndex = 5;
             this.thesisGroupControl.Text = "Thesis Groups";
             this.thesisGroupControl.UseVisualStyleBackColor = true;
-            // 
-            // freeTimeViewer
-            // 
-            this.freeTimeViewer.BackColor = System.Drawing.SystemColors.Window;
-            this.freeTimeViewer.Location = new System.Drawing.Point(21, 17);
-            this.freeTimeViewer.Name = "freeTimeViewer";
-            this.freeTimeViewer.Size = new System.Drawing.Size(970, 637);
-            this.freeTimeViewer.TabIndex = 0;
-            this.freeTimeViewer.Load += new System.EventHandler(this.freeTimeViewer_Load);
-            // 
-            // defenseSchedulesViewercs1
-            // 
-            this.defenseSchedulesViewercs1.Location = new System.Drawing.Point(29, 26);
-            this.defenseSchedulesViewercs1.Name = "defenseSchedulesViewercs1";
-            this.defenseSchedulesViewercs1.Size = new System.Drawing.Size(940, 645);
-            this.defenseSchedulesViewercs1.TabIndex = 0;
-            // 
-            // scheduleEditor2
-            // 
-            this.scheduleEditor2.Location = new System.Drawing.Point(0, 49);
-            this.scheduleEditor2.Name = "scheduleEditor2";
-            this.scheduleEditor2.Size = new System.Drawing.Size(1000, 600);
-            this.scheduleEditor2.TabIndex = 0;
             // 
             // thesisGroupControl1
             // 
