@@ -31,6 +31,9 @@ namespace CustomUserControl
 
         private String currDefenseType;
 
+        private bool isCheckingInProgram;
+        private bool isValidSelect;
+
         //check
         bool isGroupBoxWidened;
         bool defenseRecordExistsInDatabase;
@@ -41,6 +44,8 @@ namespace CustomUserControl
         {
             InitializeComponent();
 
+            isCheckingInProgram = false;
+            isValidSelect = true;
             //check
             dbHandler = new DBce();
 
@@ -72,6 +77,7 @@ namespace CustomUserControl
 
             treeViewIsolatedGroups.BeginUpdate();
             schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes, "eligibleFor"+currDefenseType);
+            treeViewIsolatedGroups.ExpandAll(); 
             treeViewIsolatedGroups.EndUpdate();
 
 
@@ -208,7 +214,7 @@ namespace CustomUserControl
             int numHours = Constants.LIMIT_HOUR - Constants.START_HOUR;
             Rectangle displayRect = panelCalendar.DisplayRectangle;
             int hourHeight = (int) Math.Round(displayRect.Height * (60/totalMinsInDay));
-            Console.WriteLine(displayRect.Height + "*" + 60 / totalMinsInDay + "=" + displayRect.Height * 60 / totalMinsInDay);
+           
             int yCoord;
 
             for (int i = 1; i < numHours; i++) 
@@ -315,6 +321,8 @@ namespace CustomUserControl
 
                 //Just to make sure the progress bar reaches its maximum.
                 //UpdateProgressBar(progressBar1, progressBar1.Maximum);             
+
+                treeViewClusters.SelectedNode = e.Node;
             }
         }
 
@@ -378,6 +386,7 @@ namespace CustomUserControl
 
             //Just to make sure the progress bar reaches its maximum.
             //UpdateProgressBar(progressBar1, progressBar1.Maximum); 
+            treeViewIsolatedGroups.SelectedNode = e.Node;
         }
 
         /*This action listener prevents manual checking of checkboxes in the treeviews. 
@@ -385,25 +394,30 @@ namespace CustomUserControl
          * */
         private void treeViewClusters_BeforeCheck(object sender, TreeViewCancelEventArgs e)
         {
-            if (e.Node.Checked)
-                e.Cancel = true;
-            else 
+            if (!isCheckingInProgram)
             {
-                if (!schedulingDM.ScheduledGroupIDs.Contains(e.Node.Name))
-                    e.Cancel = true;
+                e.Cancel = true;
+                isValidSelect = false;
             }
+            else
+                isCheckingInProgram = false;
+            
         }
 
         private void treeViewIsolatedGroups_BeforeCheck(object sender, TreeViewCancelEventArgs e)
         {
-            if (e.Node.Checked)
-                e.Cancel = true;
-            else
+            if (!isCheckingInProgram)
             {
-                if (!schedulingDM.ScheduledGroupIDs.Contains(e.Node.Name))
-                    e.Cancel = true;
+                e.Cancel = true;
+                isValidSelect = false;
             }
+            else
+                isCheckingInProgram = false;
+         
         }
+
+       
+
         /****** END: EVENT LISTENERS*******/
 
 
@@ -455,7 +469,8 @@ namespace CustomUserControl
         {
             if (schedulingDM != null)
             {
-                  
+                
+                Console.WriteLine("IM IN HERE");
                 schedulingDM.RefreshScheduledGroupIDs("defense");
                 TreeView currTreeView;
 
@@ -472,21 +487,15 @@ namespace CustomUserControl
                 }
            
                 currTreeView.BeginUpdate();
-                //Console.WriteLine("has children: "+currTreeView.HasChildren);
-                if (currTreeView.Nodes[0].Nodes.Count > 0)
+                if (currTreeView.Nodes.Count > 2) // If Cluster View
                 {
-                    //Console.WriteLine("cluster!");
                     foreach (TreeNode level1 in currTreeView.Nodes)
                     {
-                        //Console.WriteLine("Panelist: " + level1.Name);
                         foreach (TreeNode group in level1.Nodes)
                         {
-                            //Console.WriteLine("is " + group.Name + " in the list?");
+                            isCheckingInProgram = true;
                             if (schedulingDM.ScheduledGroupIDs.Contains(group.Name))
-                            {
-                                //Console.WriteLine("Group " + group.Name + " IS NOW CHECKED!!!");
                                 group.Checked = true;
-                            }
                             else
                                 group.Checked = false;
                         }
@@ -494,20 +503,22 @@ namespace CustomUserControl
                 }
                 else 
                 {
-                    //Console.WriteLine("isolated!");
-                    foreach (TreeNode level1 in currTreeView.Nodes)
+                    foreach (TreeNode course in currTreeView.Nodes)
                     {
-                        if (schedulingDM.ScheduledGroupIDs.Contains(level1.Name))
-                            level1.Checked = true;
+                        foreach (TreeNode group in course.Nodes)
+                        {
+                            isCheckingInProgram = true;
+                            if (schedulingDM.ScheduledGroupIDs.Contains(group.Name))
+                                group.Checked = true;
+                            else
+                                group.Checked = false;
+                        }
                     }
                 }
               
                 currTreeView.EndUpdate();
-
                 currTreeView.Refresh();
-
             }
-          
         }
 
         //check
@@ -631,8 +642,7 @@ namespace CustomUserControl
                     ClearDefenseInfo();
                     ShortenGroupBox();
 
-                    Console.WriteLine("Deleting from database");
-
+                    //Console.WriteLine("Deleting from database");
                     RefreshCalendar();
                     MarkAllScheduledGroups();
                     defenseRecordExistsInDatabase = false;
@@ -645,7 +655,7 @@ namespace CustomUserControl
                     ClearDefenseInfo();
                     ShortenGroupBox();
 
-                    Console.WriteLine("Clearing data");
+                    //Console.WriteLine("Clearing data");
 
                     RefreshCalendar();
                     MarkAllScheduledGroups();
@@ -669,12 +679,12 @@ namespace CustomUserControl
                 if (IsDefenseInfoValid() && MessageBox.Show(messageBoxText, messageBoxCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     string dateTime = string.Format("{0:M/d/yyyy h:mm:ss tt}", defenseDateTimePicker.Value);
-                    Console.WriteLine("Hello"+dateTime+"Bye");
+                    //Console.WriteLine("Hello"+dateTime+"Bye");
 
                     query = "update defenseschedule set defensedatetime = '" + dateTime + "', place = '" + venueTextBox.Text + "' where defenseid = '" + currDefenseID + "';";
                     dbHandler.Update(query);
 
-                    Console.WriteLine("Updating database");
+                    //Console.WriteLine("Updating database");
 
                     //if (!currPanelistID.Equals(""))
                         //schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
@@ -682,6 +692,7 @@ namespace CustomUserControl
                         schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID);
 
                     RefreshCalendar();
+                    Console.WriteLine("I'm here");
                     MarkAllScheduledGroups();
                 }
             }
@@ -690,7 +701,7 @@ namespace CustomUserControl
                 if (IsDefenseInfoValid() && MessageBox.Show(messageBoxText, messageBoxCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     string dateTime = string.Format("{0:M/d/yyyy h:mm:ss tt}", defenseDateTimePicker.Value);
-                    Console.WriteLine(dateTime);
+                    //Console.WriteLine(dateTime);
 
                     query = "insert into defenseschedule (defensedatetime,place,thesisgroupid, defenseType) values('" + dateTime + "','" + venueTextBox.Text + "','" + currGroupID + "','"+ Constants.DEFENSE_TYPE+"');";
                     dbHandler.Insert(query);
@@ -698,7 +709,7 @@ namespace CustomUserControl
                     query = "select defenseid from defenseschedule where defensedatetime= '"+dateTime+"' and place='"+venueTextBox.Text+"' and thesisgroupid='"+currGroupID+"';";
                     currDefenseID = dbHandler.Select(query,1)[0].ElementAt(0);
 
-                    Console.WriteLine("Inserting into database");
+                    //Console.WriteLine("Inserting into database");
 
                     RefreshCalendar();
                     MarkAllScheduledGroups();
@@ -811,14 +822,14 @@ namespace CustomUserControl
 
                 found = upbool && downbool;
                 foundOne = upbool || downbool;
-                Console.WriteLine("   " + found + " " + foundOne+ "   "+ currPeriod.StartTime+" "+currPeriod.EndTime +"," + timePeriod.StartTime+" "+timePeriod.EndTime);
+                //Console.WriteLine("   " + found + " " + foundOne+ "   "+ currPeriod.StartTime+" "+currPeriod.EndTime +"," + timePeriod.StartTime+" "+timePeriod.EndTime);
             }
 
             if(!found)
             {
                 List<TimePeriod>[] list = schedulingDM.SelectedGroupFreeTimes;
 
-                Console.WriteLine("comparing " + timePeriod.StartTime + " " + timePeriod.EndTime + ".");
+                //Console.WriteLine("comparing " + timePeriod.StartTime + " " + timePeriod.EndTime + ".");
                 foreach (TimePeriod freeTime in list[Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1])
                 {
                     Console.WriteLine("   " + freeTime.StartTime + " " + freeTime.EndTime + ".");
@@ -830,7 +841,7 @@ namespace CustomUserControl
                     
                     if(foundOne)
                     {
-                        Console.WriteLine(upbool + " " + downbool);
+                        //Console.WriteLine(upbool + " " + downbool);
                         if (!upbool)
                             upbool = timePeriod.IsBetweenInclusive(freeTime.StartTime, freeTime.EndTime, timePeriod.StartTime);
                         if(!downbool)
@@ -901,6 +912,12 @@ namespace CustomUserControl
             treeViewIsolatedGroups.EndUpdate();
             MarkAllScheduledGroups();
         }
+
+      
+
+       
+      
+        
 
     }
 }
