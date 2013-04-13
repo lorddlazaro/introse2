@@ -598,6 +598,7 @@
             this.panelist4.Name = "panelist4";
             this.panelist4.Size = new System.Drawing.Size(232, 43);
             this.panelist4.TabIndex = 21;
+            this.panelist4.Click += new System.EventHandler(this.clickPanel);
             this.panelist4.MouseEnter += new System.EventHandler(this.mouseEnter);
             this.panelist4.MouseLeave += new System.EventHandler(this.mouseLeave);
             // 
@@ -626,6 +627,7 @@
             this.panelist2.Name = "panelist2";
             this.panelist2.Size = new System.Drawing.Size(233, 43);
             this.panelist2.TabIndex = 19;
+            this.panelist2.Click += new System.EventHandler(this.clickPanel);
             this.panelist2.MouseEnter += new System.EventHandler(this.mouseEnter);
             this.panelist2.MouseLeave += new System.EventHandler(this.mouseLeave);
             // 
@@ -654,6 +656,7 @@
             this.panelist3.Name = "panelist3";
             this.panelist3.Size = new System.Drawing.Size(233, 43);
             this.panelist3.TabIndex = 20;
+            this.panelist3.Click += new System.EventHandler(this.clickPanel);
             this.panelist3.MouseEnter += new System.EventHandler(this.mouseEnter);
             this.panelist3.MouseLeave += new System.EventHandler(this.mouseLeave);
             // 
@@ -682,6 +685,7 @@
             this.panelist1.Name = "panelist1";
             this.panelist1.Size = new System.Drawing.Size(233, 43);
             this.panelist1.TabIndex = 18;
+            this.panelist1.Click += new System.EventHandler(this.clickPanel);
             this.panelist1.MouseEnter += new System.EventHandler(this.mouseEnter);
             this.panelist1.MouseLeave += new System.EventHandler(this.mouseLeave);
             // 
@@ -977,87 +981,93 @@
 
         #endregion
 
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label label34;
+
+        private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.Label label42;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label label44;
+
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Panel panel6;
+
         private System.Windows.Forms.Panel studentsPanel;
+        private System.Windows.Forms.Label sss;
+        private System.Windows.Forms.ComboBox studentBox4;
+        private System.Windows.Forms.ComboBox studentBox2;
+        private System.Windows.Forms.ComboBox studentBox3;
+        private System.Windows.Forms.ComboBox studentBox1;
+        private System.Windows.Forms.TextBox studentMI;
+        private System.Windows.Forms.TextBox studentLN;
+        private System.Windows.Forms.TextBox studentFN;
+        private System.Windows.Forms.TextBox studentID;
+        private System.Windows.Forms.Panel selStudent;
+        private System.Windows.Forms.Button cancelStudent;
+        private System.Windows.Forms.Button saveStudent;
+        private System.Windows.Forms.Button editStudent;
+        private System.Windows.Forms.Button newStudent;
+        private System.Windows.Forms.Button deleteStudent;
+
         private System.Windows.Forms.Panel panelistControl;
         private System.Windows.Forms.Panel panelistPanel;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label ppp;
+        private System.Windows.Forms.ComboBox panelistBox4;
+        private System.Windows.Forms.ComboBox panelistBox3;
+        private System.Windows.Forms.ComboBox panelistBox1;
+        private System.Windows.Forms.ComboBox panelistBox2;
+        private System.Windows.Forms.Panel panelist1;
+        private System.Windows.Forms.Panel panelist2;
+        private System.Windows.Forms.Panel panelist3;
+        private System.Windows.Forms.Panel panelist4;
+        private System.Windows.Forms.TextBox panelMI;
+        private System.Windows.Forms.TextBox panelLN;
+        private System.Windows.Forms.TextBox panelFN;
+        private System.Windows.Forms.TextBox panelID;
+        private System.Windows.Forms.Panel selPanelist;
+        private System.Windows.Forms.Button cancelPanelist;
+        private System.Windows.Forms.Button savePanelist;
+        private System.Windows.Forms.Button editPanelist;
+        private System.Windows.Forms.Button newPanelist;
+        private System.Windows.Forms.Button deletePanelist;
+
         private System.Windows.Forms.Panel thesisGroupPanel;
         private System.Windows.Forms.TextBox groupStartSY;
         private System.Windows.Forms.ComboBox groupStartTerm;
         private System.Windows.Forms.TextBox groupSection;
         private System.Windows.Forms.ComboBox groupCourse;
         private System.Windows.Forms.TextBox groupThesisTitle;
-        private System.Windows.Forms.Label label42;
-        private System.Windows.Forms.Label label41;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TreeView thesisGroupTreeView;
         private System.Windows.Forms.Button newThesisGroup;
-        private System.Windows.Forms.Label label43;
-        private System.Windows.Forms.Label label44;
         private System.Windows.Forms.Button editThesisGroup;
         private System.Windows.Forms.Button cancelEdits;
         private System.Windows.Forms.Button saveDetails;
         private System.Windows.Forms.Button deleteGroup;
-        private System.Windows.Forms.Panel selStudent;
-        private System.Windows.Forms.Button cancelStudent;
-        private System.Windows.Forms.Button saveStudent;
-        private System.Windows.Forms.Button editStudent;
-        private System.Windows.Forms.Button newStudent;
-        private System.Windows.Forms.Label sss;
-        private System.Windows.Forms.Panel selPanelist;
-        private System.Windows.Forms.Button cancelPanelist;
-        private System.Windows.Forms.Button savePanelist;
-        private System.Windows.Forms.Button editPanelist;
-        private System.Windows.Forms.Button newPanelist;
-        private System.Windows.Forms.Label label31;
-        private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.Label label33;
-        private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.Label ppp;
-        private System.Windows.Forms.Button deleteStudent;
-        private System.Windows.Forms.Button deletePanelist;
-        private System.Windows.Forms.TextBox studentMI;
-        private System.Windows.Forms.TextBox studentLN;
-        private System.Windows.Forms.TextBox studentFN;
-        private System.Windows.Forms.TextBox studentID;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox panelMI;
-        private System.Windows.Forms.TextBox panelLN;
-        private System.Windows.Forms.TextBox panelFN;
-        private System.Windows.Forms.TextBox panelID;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox redefenseCheckBox;
         private System.Windows.Forms.CheckBox defenseCheckBox;
-        private System.Windows.Forms.Panel panelist4;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox panelistBox4;
-        private System.Windows.Forms.Panel panelist3;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox panelistBox3;
-        private System.Windows.Forms.Panel panelist1;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox panelistBox1;
-        private System.Windows.Forms.Panel panelist2;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox panelistBox2;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.ComboBox studentBox4;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.ComboBox studentBox2;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.ComboBox studentBox3;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.ComboBox studentBox1;
     }
 }
