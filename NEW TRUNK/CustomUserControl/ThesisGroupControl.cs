@@ -187,6 +187,8 @@ namespace CustomUserControl
             if (e.Node.Level == 1)
             {
                 currThesisGroupID = e.Node.Name;
+                selectedPanelistID = "";
+                selectedStudentID = "";
                 update_components();
             }
         }
@@ -272,7 +274,25 @@ namespace CustomUserControl
                 }
 
                 panelistList[i].Items.Add("");
+                panelistList[i].SelectedIndex = 0;
             }
+
+            if (selectedPanelistID == "")
+                return;
+
+            query = "select * from panelist where panelistid = " + selectedPanelistID + ";";
+            resultSet = dbHandler.Select(query, 4);
+
+            panelistInfo[0].Text = resultSet[0].ElementAt(0);
+            panelistInfo[1].Text = resultSet[1].ElementAt(0);
+            panelistInfo[2].Text = resultSet[2].ElementAt(0);
+            panelistInfo[3].Text = resultSet[3].ElementAt(0);
+
+            panelistButtons[0].Enabled = true;
+            panelistButtons[1].Enabled = true;
+            panelistButtons[2].Enabled = false;
+            panelistButtons[3].Enabled = false;
+            panelistButtons[4].Enabled = true;
         }
 
         private void update_student()
@@ -283,7 +303,7 @@ namespace CustomUserControl
         // given which panelist (panelindex) and panelist's name
         private void setSelectedPanelist(int panelIndex, String panelistName)
         {
-            if (panelistList[panelIndex].SelectedItem+"" == "")
+            if (panelistList[panelIndex].SelectedItem + "" == "")
             {
                 selectedPanelistID = "";
                 return;
@@ -317,7 +337,6 @@ namespace CustomUserControl
             String query = "select panelistID from panelist where firstname = '" + firstName + "' and MI = '" + middleInit + "' and lastname = '" + lastName + "';";
             selectedPanelistID = dbHandler.Select(query, 1)[0].ElementAt(0);
         }
-
         private void setSelectedStudent(int studentIndex, String studentName)
         {
 
@@ -334,12 +353,22 @@ namespace CustomUserControl
         }
         private void clickPanel(object sender, EventArgs e)
         {
-            int panelIndex = Convert.ToInt32(((ComboBox)sender).Name.Substring(11)) - 1;
+            if (currThesisGroupID == "")
+                return;
+
+            int panelIndex = Convert.ToInt32(((Panel)sender).Name.Substring(8)) - 1;
 
             for (int i = 0; i < 4; i++)
             {
                 panelistList[i].Enabled = i == panelIndex;
+                if (i == panelIndex)
+                {
+                    setSelectedPanelist(panelIndex, panelistList[i].SelectedItem + "");
+                    Console.WriteLine(selectedPanelistID);
+                }
             }
+            update_components();
+            panelistList[panelIndex].Enabled = true;
         }
 
         private void newGroupClick(object sender, EventArgs e)
@@ -497,6 +526,12 @@ namespace CustomUserControl
         }
         private void deletePanelistClick(object sender, EventArgs e)
         {
+
+        }
+
+        private void comboBoxListenerPanelist(object sender, EventArgs e)
+        {
+            int panelIndex = Convert.ToInt32(((Panel)sender).Name.Substring(11)) - 1;
 
         }
 
