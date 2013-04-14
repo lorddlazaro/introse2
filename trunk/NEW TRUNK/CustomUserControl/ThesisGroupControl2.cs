@@ -17,7 +17,6 @@ namespace CustomUserControl
         TextBox[] groupDetails; // details (title, section, SY)
         ComboBox[] groupStuff; // stuff (course, term)
         Button[] groupButtons; // buttons (edit, new, save, cancel)
-        RadioButton[] eligible;
 
         List<TextBox>[] studentDetails;
         List<Button>[] studentButtons;
@@ -33,6 +32,7 @@ namespace CustomUserControl
 
             currThesisGroupID = "";
 
+            initDB();
             initPanels();
             initButtons();
 
@@ -56,13 +56,8 @@ namespace CustomUserControl
                 groupButtons[i].Enabled = false;
             groupButtons[1].Enabled = true;
 
-            eligible = new RadioButton[2];
-            eligible[0] = eligibleN;
-            eligible[1] = eligibleY;
-
-            eligibleY.Enabled = false;
-            eligibleN.Enabled = false;
-            eligibleN.Checked = true;
+            defenseCheckBox.Enabled = false;
+            redefenseCheckBox.Enabled = false;
 
             // students
             studentButtons = new List<Button>[4]; // 4 students
@@ -144,7 +139,6 @@ namespace CustomUserControl
             for (int i = 0; i < 4; i++) panelist3.Controls.Add(panelButtons[2].ElementAt(i));
 
         }
-
         private void initPanels()
         {
             // thesis groups
@@ -215,6 +209,11 @@ namespace CustomUserControl
             panelist2.Controls.Add(selPanel[1]);
             panelist3.Controls.Add(selPanel[2]);
         }
+        private void initDB()
+        {
+            String query = "update thesisgroup set eligibleforredefense = 'false' where eligibleforredefense IS NULL";
+            dbHandler.Update(query);
+        }
 
         private void AddPanelistsToTree(TreeNodeCollection tree)
         {
@@ -257,6 +256,14 @@ namespace CustomUserControl
             thesisGroupTreeView.EndUpdate();
             thesisGroupTreeView.ExpandAll();
         }
+        private void thesisGroupTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node.Level == 1)
+            {
+                currThesisGroupID = e.Node.Name;
+                update_components();
+            }
+        }
 
         private void update_components()
         {
@@ -267,7 +274,6 @@ namespace CustomUserControl
             // update panelist details (the buttons too why not)
             update_panelists();
         }
-
         private void update_thesisgroup()
         {
             if (currThesisGroupID == "")
@@ -283,8 +289,8 @@ namespace CustomUserControl
                 groupButtons[3].Enabled = false;
                 groupButtons[4].Enabled = false;
 
-                eligibleY.Enabled = false;
-                eligibleN.Enabled = true;
+                defenseCheckBox.Enabled = false;
+                redefenseCheckBox.Enabled = false;
                 return;
             }
 
@@ -309,28 +315,47 @@ namespace CustomUserControl
             groupButtons[3].Enabled = false;
             groupButtons[4].Enabled = false;
 
-            eligibleY.Enabled = false;
-            eligibleN.Enabled = false;
+            defenseCheckBox.Enabled = false;
+            redefenseCheckBox.Enabled = false;
 
-            query = "select eligiblefordefense from thesisgroup where thesisgroupid = " + currThesisGroupID + ";";
+            query = "select eligiblefordefense, eligibleforredefense from thesisgroup where thesisgroupid = " + currThesisGroupID + ";";
             String q2 = "select count(*) from student where thesisgroupid = " + currThesisGroupID + ";";
             String q3 = "select count(*) from panelassignment where thesisgroupid = " + currThesisGroupID + ";";
-            Boolean eligible = Convert.ToBoolean(dbHandler.Select(query, 1)[0].ElementAt(0)) && (Convert.ToInt32(dbHandler.Select(q2, 1)[0].ElementAt(0)) >= 1) && (Convert.ToInt32(dbHandler.Select(q3, 1)[0].ElementAt(0)) >= 3);
+
+            int studentCount = Convert.ToInt32(dbHandler.Select(q2, 1)[0].ElementAt(0));
+            int panelCount = Convert.ToInt32(dbHandler.Select(q3, 1)[0].ElementAt(0));
+
+            Boolean eligible = Convert.ToBoolean(dbHandler.Select(query, 2)[0].ElementAt(0)) && (studentCount >= 1 && panelCount >= 3);
+            Boolean eligible_redef = Convert.ToBoolean(dbHandler.Select(query, 2)[1].ElementAt(0)) && (studentCount >= 1 && panelCount >= 3);
 
             if (eligible)
             {
-                eligibleY.Checked = true;
+                defenseCheckBox.Checked = true;
             }
             else
             {
-                eligibleN.Checked = true;
-                if (Convert.ToBoolean(dbHandler.Select(query, 1)[0].ElementAt(0))) {
+                defenseCheckBox.Checked = false;
+                if (Convert.ToBoolean(dbHandler.Select(query, 1)[0].ElementAt(0)))
+                {
                     String update = "update thesisgroup set eligiblefordefense = 'false' where thesisgroupid = " + currThesisGroupID + ";";
                     dbHandler.Update(update);
                 }
             }
-        }
 
+            if (eligible_redef)
+            {
+                redefenseCheckBox.Checked = true;
+            }
+            else
+            {
+                redefenseCheckBox.Checked = false;
+                if (Convert.ToBoolean(dbHandler.Select(query, 2)[1].ElementAt(0)))
+                {
+                    String update = "update thesisgroup set eligibleforerdefense = 'false' where thesisgroupid = " + currThesisGroupID + ";";
+                    dbHandler.Update(update);
+                }
+            }
+        }
         private void update_students()
         {
             if (currThesisGroupID == "")
@@ -388,7 +413,6 @@ namespace CustomUserControl
             }
 
         }
-
         private void update_panelists()
         {
             if (currThesisGroupID == "")
@@ -452,15 +476,6 @@ namespace CustomUserControl
                     panelButtons[i].ElementAt(2).Enabled = true;
                     panelButtons[i].ElementAt(3).Text = "Select Existing";
                 }
-            }
-        }
-
-        private void thesisGroupTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            if (e.Node.Level == 1)
-            {
-                currThesisGroupID = e.Node.Name;
-                update_components();
             }
         }
 
@@ -855,8 +870,8 @@ namespace CustomUserControl
             groupButtons[2].Enabled = true;
             groupButtons[3].Enabled = true;
 
-            eligibleN.Enabled = true;
-            eligibleY.Enabled = true;
+            defenseCheckBox.Enabled = false;
+            redefenseCheckBox.Enabled = false;
         }
         private void save_groupDetails_Click(object sender, EventArgs e)
         {
@@ -878,7 +893,8 @@ namespace CustomUserControl
             String newSY = groupDetails[2].Text;
             String newCourse = (String)groupStuff[0].SelectedItem;
             String newTerm = (String)groupStuff[1].SelectedItem;
-            Boolean eligibility = eligibleY.Checked;
+            Boolean eligibility = defenseCheckBox.Checked;
+            Boolean eligibility_redef = redefenseCheckBox.Checked;
 
             String query;
 
@@ -889,7 +905,7 @@ namespace CustomUserControl
 
                 if (duplicate == 0)
                 {
-                    query = "update thesisgroup set title = '" + newTitle + "', course = '" + newCourse + "', section = '" + newSection + "', startSY = '" + newSY + "', startTerm = '" + newTerm + "', eligiblefordefense = '" + eligibility + "' ";
+                    query = "update thesisgroup set title = '" + newTitle + "', course = '" + newCourse + "', section = '" + newSection + "', startSY = '" + newSY + "', startTerm = '" + newTerm + "', eligiblefordefense = '" + eligibility + "', eligibleforredefense = '" + eligibility_redef + "' ";
                     
                     query += "where thesisgroupid = " + currThesisGroupID + ";";
                     Console.WriteLine("Edit: "+query);
@@ -904,8 +920,8 @@ namespace CustomUserControl
             {
                 List<String>[] result;
 
-                String insert = "('" + newTitle + "', '" + newCourse + "', '" + newSection + "', '" + newSY + "', '" + newTerm + "', '" + eligibility + "')";
-                query = "insert into thesisgroup (title, course, section, startsy, startterm, eligiblefordefense) values" + insert + ";";
+                String insert = "('" + newTitle + "', '" + newCourse + "', '" + newSection + "', '" + newSY + "', '" + newTerm + "', '" + eligibility + "', '" + eligibility_redef + "')";
+                query = "insert into thesisgroup (title, course, section, startsy, startterm, eligiblefordefense, eligibleforredefense) values" + insert + ";";
                 dbHandler.Insert(query);
 
                 query = "select thesisgroupid from thesisgroup where title = '" + newTitle + "';";

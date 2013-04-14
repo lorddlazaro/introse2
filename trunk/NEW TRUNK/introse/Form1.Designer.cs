@@ -36,7 +36,7 @@
             this.scheduleEditorControl = new System.Windows.Forms.TabPage();
             this.scheduleEditor2 = new CustomUserControl.ScheduleEditor();
             this.thesisGroupControl = new System.Windows.Forms.TabPage();
-            this.thesisGroupControl1 = new CustomUserControl.ThesisGroupControl2();
+            this.thesisGroupControl1 = new CustomUserControl.ThesisGroupControl();
             this.tabControl1.SuspendLayout();
             this.freeTimeViewerControl.SuspendLayout();
             this.defSchedViewerControl.SuspendLayout();
@@ -151,7 +151,7 @@
         private System.Windows.Forms.TabPage scheduleDefense;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage thesisGroupControl;
-        private CustomUserControl.ThesisGroupControl2 thesisGroupControl1;
+        private CustomUserControl.ThesisGroupControl thesisGroupControl1;
         private System.Windows.Forms.TabPage defSchedViewerControl;
         private CustomUserControl.DefenseSchedulesViewercs defenseSchedulesViewercs1;
         private System.Windows.Forms.TabPage scheduleEditorControl;
