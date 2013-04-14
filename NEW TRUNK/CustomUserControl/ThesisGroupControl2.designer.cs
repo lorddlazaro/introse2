@@ -93,9 +93,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.thesisGroupTreeView = new System.Windows.Forms.TreeView();
-            this.eligibleY = new System.Windows.Forms.RadioButton();
-            this.eligibleN = new System.Windows.Forms.RadioButton();
-            this.label45 = new System.Windows.Forms.Label();
+            this.redefenseCheckBox = new System.Windows.Forms.CheckBox();
+            this.defenseCheckBox = new System.Windows.Forms.CheckBox();
             this.studentsPanel.SuspendLayout();
             this.student4.SuspendLayout();
             this.student3.SuspendLayout();
@@ -579,9 +578,8 @@
             // thesisGroupPanel
             // 
             this.thesisGroupPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.thesisGroupPanel.Controls.Add(this.label45);
-            this.thesisGroupPanel.Controls.Add(this.eligibleN);
-            this.thesisGroupPanel.Controls.Add(this.eligibleY);
+            this.thesisGroupPanel.Controls.Add(this.redefenseCheckBox);
+            this.thesisGroupPanel.Controls.Add(this.defenseCheckBox);
             this.thesisGroupPanel.Controls.Add(this.deleteGroup);
             this.thesisGroupPanel.Controls.Add(this.cancelEdits);
             this.thesisGroupPanel.Controls.Add(this.saveDetails);
@@ -765,36 +763,26 @@
             this.thesisGroupTreeView.TabIndex = 35;
             this.thesisGroupTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.thesisGroupTreeView_NodeMouseClick);
             // 
-            // eligibleY
+            // redefenseCheckBox
             // 
-            this.eligibleY.AutoSize = true;
-            this.eligibleY.Location = new System.Drawing.Point(161, 248);
-            this.eligibleY.Name = "eligibleY";
-            this.eligibleY.Size = new System.Drawing.Size(43, 17);
-            this.eligibleY.TabIndex = 39;
-            this.eligibleY.TabStop = true;
-            this.eligibleY.Text = "Yes";
-            this.eligibleY.UseVisualStyleBackColor = true;
+            this.redefenseCheckBox.AutoSize = true;
+            this.redefenseCheckBox.Enabled = false;
+            this.redefenseCheckBox.Location = new System.Drawing.Point(12, 236);
+            this.redefenseCheckBox.Name = "redefenseCheckBox";
+            this.redefenseCheckBox.Size = new System.Drawing.Size(138, 17);
+            this.redefenseCheckBox.TabIndex = 44;
+            this.redefenseCheckBox.Text = "Eligible For Redefense?";
+            this.redefenseCheckBox.UseVisualStyleBackColor = true;
             // 
-            // eligibleN
+            // defenseCheckBox
             // 
-            this.eligibleN.AutoSize = true;
-            this.eligibleN.Location = new System.Drawing.Point(161, 274);
-            this.eligibleN.Name = "eligibleN";
-            this.eligibleN.Size = new System.Drawing.Size(39, 17);
-            this.eligibleN.TabIndex = 40;
-            this.eligibleN.TabStop = true;
-            this.eligibleN.Text = "No";
-            this.eligibleN.UseVisualStyleBackColor = true;
-            // 
-            // label45
-            // 
-            this.label45.AutoSize = true;
-            this.label45.Location = new System.Drawing.Point(15, 262);
-            this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(104, 13);
-            this.label45.TabIndex = 41;
-            this.label45.Text = "Eligible for Defense?";
+            this.defenseCheckBox.AutoSize = true;
+            this.defenseCheckBox.Location = new System.Drawing.Point(12, 206);
+            this.defenseCheckBox.Name = "defenseCheckBox";
+            this.defenseCheckBox.Size = new System.Drawing.Size(126, 17);
+            this.defenseCheckBox.TabIndex = 43;
+            this.defenseCheckBox.Text = "Eligible For Defense?";
+            this.defenseCheckBox.UseVisualStyleBackColor = true;
             // 
             // ThesisGroupControl2
             // 
@@ -877,7 +865,6 @@
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.Label label44;
-        private System.Windows.Forms.Label label45;
 
         private System.Windows.Forms.Panel studentsPanel;
         private System.Windows.Forms.Panel student1;
@@ -902,7 +889,7 @@
         private System.Windows.Forms.Button cancelEdits;
         private System.Windows.Forms.Button saveDetails;
         private System.Windows.Forms.Button deleteGroup;
-        private System.Windows.Forms.RadioButton eligibleN;
-        private System.Windows.Forms.RadioButton eligibleY;
+        private System.Windows.Forms.CheckBox redefenseCheckBox;
+        private System.Windows.Forms.CheckBox defenseCheckBox;
     }
 }
