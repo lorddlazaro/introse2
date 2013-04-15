@@ -51,15 +51,44 @@ namespace CustomUserControl
             String query = "select thesisgroupid from thesisgroup where title = '" + title + "';";
             return dbHandler.Select(query, 1)[0].ElementAt(0);
         }
+        public Boolean[] getEligibilities(String thesisGroupID)
+        {
+            Boolean[] eligible = new Boolean[2]; // 0 - defense, 1 - redef
+            String query = "select eligiblefordefense, eligibleforredefense from thesisgroup where thesisgroupid = " + thesisGroupID + ";";
+            List<String>[] result = dbHandler.Select(query, 2);
+
+            eligible[0] = Convert.ToBoolean(dbHandler.Select(query, 2)[0].ElementAt(0));
+            eligible[1] = Convert.ToBoolean(dbHandler.Select(query, 2)[1].ElementAt(0));
+
+            return eligible;
+        }
+        public void updateEligible(String thesisGroupID, String defenseType)
+        {
+            if (defenseType == "Defense")
+            {
+                String update = "update thesisgroup set eligiblefordefense = 'false' where thesisgroupid = " + thesisGroupID + ";";
+                dbHandler.Update(update);
+            }
+            else
+            {
+                String update = "update thesisgroup set eligibleforerdefense = 'false' where thesisgroupid = " + thesisGroupID + ";";
+                dbHandler.Update(update);
+            }
+        }
 
         public List<String>[] getGroupPanelists(String thesisGroupID)
         {
             String query = "select panelistID from panelassignment where thesisgroupid = " + thesisGroupID + " order by panelistID;";
             return dbHandler.Select(query, 1);
         }
+        public List<String>[] getGroupPanelistNames(String thesisGroupID)
+        {
+            String query = "select panelistID, firstname, lastname, MI from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid = " + thesisGroupID + ") order by lastname;";
+            return dbHandler.Select(query, 4);
+        }
         public List<String>[] getPanelistsNotInGroup(String thesisGroupID)
         {
-            String query = "select firstname, MI, lastname from panelist where panelistid not in (select panelistid from panelassignment where thesisgroupid = " + currThesisGroupID + ");";
+            String query = "select firstname, MI, lastname from panelist where panelistid not in (select panelistid from panelassignment where thesisgroupid = " + thesisGroupID + ");";
             return dbHandler.Select(query, 3);
         }
         public List<String>[] getGroupMembers(String thesisGroupID)
@@ -178,7 +207,7 @@ namespace CustomUserControl
         }
         public int panelistNotInGroupCount(String thesisGroupID)
         {
-            String query = "select count(*) from panelist where panelistid not in (select panelistid from panelassignment where thesisgroupid = " + currThesisGroupID + ");";
+            String query = "select count(*) from panelist where panelistid not in (select panelistid from panelassignment where thesisgroupid = " + thesisGroupID + ");";
             return Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
         }
         public int studentCount(String thesisGroupID)
