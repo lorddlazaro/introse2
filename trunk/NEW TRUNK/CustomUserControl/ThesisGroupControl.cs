@@ -11,7 +11,6 @@ namespace CustomUserControl
 {
     public partial class ThesisGroupControl : UserControl
     {
-        DBce dbHandler;
         private ThesisGroupDataManager tgDM;
         private String currThesisGroupID; // currently selected thesis group
 
@@ -28,7 +27,6 @@ namespace CustomUserControl
 
         public ThesisGroupControl()
         {
-            dbHandler = new DBce();
             tgDM = new ThesisGroupDataManager();
             InitializeComponent();
 
@@ -292,12 +290,13 @@ namespace CustomUserControl
             defenseCheckBox.Enabled = false;
             redefenseCheckBox.Enabled = false;
 
-            String query = "select eligiblefordefense, eligibleforredefense from thesisgroup where thesisgroupid = " + currThesisGroupID + ";";
             int studentCount = tgDM.studentCount(currThesisGroupID);
             int panelCount = tgDM.panelistCount(currThesisGroupID);
 
-            Boolean eligible = Convert.ToBoolean(dbHandler.Select(query, 2)[0].ElementAt(0)) && (studentCount >= 1 && panelCount >= 3);
-            Boolean eligible_redef = Convert.ToBoolean(dbHandler.Select(query, 2)[1].ElementAt(0)) && (studentCount >= 1 && panelCount >= 3);
+            Boolean[] eligibility = tgDM.getEligibilities(currThesisGroupID);
+
+            Boolean eligible = eligibility[0] && (studentCount >= 1 && panelCount >= 3);
+            Boolean eligible_redef = eligibility[1] && (studentCount >= 1 && panelCount >= 3);
 
             if (eligible)
             {
@@ -306,10 +305,9 @@ namespace CustomUserControl
             else
             {
                 defenseCheckBox.Checked = false;
-                if (Convert.ToBoolean(dbHandler.Select(query, 1)[0].ElementAt(0)))
+                if (eligibility[0])
                 {
-                    String update = "update thesisgroup set eligiblefordefense = 'false' where thesisgroupid = " + currThesisGroupID + ";";
-                    dbHandler.Update(update);
+                    tgDM.updateEligible(currThesisGroupID, "Defense");
                 }
             }
 
@@ -320,10 +318,9 @@ namespace CustomUserControl
             else
             {
                 redefenseCheckBox.Checked = false;
-                if (Convert.ToBoolean(dbHandler.Select(query, 2)[1].ElementAt(0)))
+                if (eligibility[1])
                 {
-                    String update = "update thesisgroup set eligibleforerdefense = 'false' where thesisgroupid = " + currThesisGroupID + ";";
-                    dbHandler.Update(update);
+                    tgDM.updateEligible(currThesisGroupID, "Redefense");
                 }
             }
         }
@@ -408,8 +405,7 @@ namespace CustomUserControl
 
             int memcount = tgDM.panelistCount(currThesisGroupID);
 
-            query = "select panelistID, firstname, lastname, MI from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid = " + currThesisGroupID + ") order by lastname;";
-            groupInfo = dbHandler.Select(query, 4);
+            groupInfo = tgDM.getGroupPanelistNames(currThesisGroupID);
 
             for (int i = 0; i < 4; i++)
             {
