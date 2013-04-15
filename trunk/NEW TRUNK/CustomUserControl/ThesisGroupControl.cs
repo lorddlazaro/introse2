@@ -12,6 +12,7 @@ namespace CustomUserControl
     public partial class ThesisGroupControl : UserControl
     {
         DBce dbHandler;
+        private ThesisGroupDataManager tgDM;
         private String currThesisGroupID; // currently selected thesis group
 
         TextBox[] groupDetails; // details (title, section, SY)
@@ -28,6 +29,7 @@ namespace CustomUserControl
         public ThesisGroupControl()
         {
             dbHandler = new DBce();
+            tgDM = new ThesisGroupDataManager();
             InitializeComponent();
 
             currThesisGroupID = "";
@@ -39,7 +41,7 @@ namespace CustomUserControl
             sortStudents.SelectedIndex = 0;
             
             thesisGroupTreeView.BeginUpdate();
-            AddPanelistsToTree(thesisGroupTreeView.Nodes);
+            tgDM.showGroups(thesisGroupTreeView.Nodes);
             thesisGroupTreeView.EndUpdate();
             thesisGroupTreeView.ExpandAll();
         }
@@ -218,47 +220,14 @@ namespace CustomUserControl
         }
         private void initDB()
         {
-            String query = "update thesisgroup set eligibleforredefense = 'false' where eligibleforredefense IS NULL";
-            dbHandler.Update(query);
-        }
-
-        private void AddPanelistsToTree(TreeNodeCollection tree)
-        {
-            String query = "select distinct course from thesisgroup where course IS NOT NULL;";
-            List<String>[] parentList = dbHandler.Select(query, 1);
-            //List<String>[] parentInfo;
-            List<String>[] childList;
-            TreeNode parent;
-            TreeNode[] child;
-            TreeNodeCollection children;
-
-            for (int i = 0; i < parentList[0].Count(); i++)
-            {
-                query = "select thesisgroupid, title, section from thesisGroup where course = '" + parentList[0].ElementAt(i) + "' and course IS NOT NULL;";
-                childList = dbHandler.Select(query, 3);
-
-                parent = new TreeNode();
-                child = new TreeNode[childList[0].Count()];
-                children = parent.Nodes;
-
-                parent.Name = parent.Text = parentList[0].ElementAt(i);
-
-                for (int j = 0; j < childList[0].Count(); j++)
-                {
-                    child[j] = new TreeNode();
-                    child[j].Name = childList[0].ElementAt(j);
-                    child[j].Text = childList[1].ElementAt(j) + " - " + childList[2].ElementAt(j);
-                    children.Add(child[j]);
-                }
-                tree.Add(parent);
-            }
+            tgDM.fixRedefenseCol();
         }
 
         private void update_treeview()
         {
             thesisGroupTreeView.BeginUpdate();
             thesisGroupTreeView.Nodes.Clear();
-            AddPanelistsToTree(thesisGroupTreeView.Nodes);
+            tgDM.showGroups(thesisGroupTreeView.Nodes);
             thesisGroupTreeView.EndUpdate();
             thesisGroupTreeView.ExpandAll();
         }
@@ -300,8 +269,7 @@ namespace CustomUserControl
                 return;
             }
 
-            String query = "select title, course, section, startSY, startTerm, eligiblefordefense from thesisgroup where thesisgroupid = " + currThesisGroupID + ";";
-            List<String>[] groupInfo = dbHandler.Select(query, 5);
+            List<String>[] groupInfo = tgDM.getGroupInfo(currThesisGroupID);
 
             groupDetails[0].Text = groupInfo[0].ElementAt(0);
             groupStuff[0].SelectedItem = groupInfo[1].ElementAt(0);
@@ -324,12 +292,9 @@ namespace CustomUserControl
             defenseCheckBox.Enabled = false;
             redefenseCheckBox.Enabled = false;
 
-            query = "select eligiblefordefense, eligibleforredefense from thesisgroup where thesisgroupid = " + currThesisGroupID + ";";
-            String q2 = "select count(*) from student where thesisgroupid = " + currThesisGroupID + ";";
-            String q3 = "select count(*) from panelassignment where thesisgroupid = " + currThesisGroupID + ";";
-
-            int studentCount = Convert.ToInt32(dbHandler.Select(q2, 1)[0].ElementAt(0));
-            int panelCount = Convert.ToInt32(dbHandler.Select(q3, 1)[0].ElementAt(0));
+            String query = "select eligiblefordefense, eligibleforredefense from thesisgroup where thesisgroupid = " + currThesisGroupID + ";";
+            int studentCount = tgDM.studentCount(currThesisGroupID);
+            int panelCount = tgDM.panelistCount(currThesisGroupID);
 
             Boolean eligible = Convert.ToBoolean(dbHandler.Select(query, 2)[0].ElementAt(0)) && (studentCount >= 1 && panelCount >= 3);
             Boolean eligible_redef = Convert.ToBoolean(dbHandler.Select(query, 2)[1].ElementAt(0)) && (studentCount >= 1 && panelCount >= 3);
@@ -381,21 +346,10 @@ namespace CustomUserControl
                 return;
             }
 
-            String query, order;
             List<String>[] groupInfo;
 
-            query = "select count(*) from student where thesisgroupid = " + currThesisGroupID + ";";
-            int memcount = Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
-
-            query = "select studentID, firstname, lastname, MI from student where thesisgroupid = " + currThesisGroupID;
-            order = " order by ";
-
-            if (sortStudents.SelectedItem + "" == "Last Name")
-                order += "lastname;";
-            else
-                order += "studentid;";
-
-            groupInfo = dbHandler.Select(query+order, 4);
+            int memcount = tgDM.studentCount(currThesisGroupID);
+            groupInfo = tgDM.getGroupMembers_ordered(currThesisGroupID, sortStudents.SelectedItem + "");
 
             for (int i = 0; i < 4; i++)
             {
@@ -452,8 +406,7 @@ namespace CustomUserControl
             String query;
             List<String>[] groupInfo;
 
-            query = "select count(*) from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid =  " + currThesisGroupID + ");";
-            int memcount = Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
+            int memcount = tgDM.panelistCount(currThesisGroupID);
 
             query = "select panelistID, firstname, lastname, MI from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid = " + currThesisGroupID + ") order by lastname;";
             groupInfo = dbHandler.Select(query, 4);
@@ -536,10 +489,8 @@ namespace CustomUserControl
             String newLastName = studentDetails[studentIndex].ElementAt(2).Text;
             String newMI = studentDetails[studentIndex].ElementAt(3).Text;
 
-            String query = "select studentID from student where thesisgroupid = " + currThesisGroupID + ";";
-            List<String>[] result = dbHandler.Select(query, 1);
-            query = "select studentid from student;";
-            List<String>[] studentsInGroups = dbHandler.Select(query, 1);
+            List<String>[] result = tgDM.getGroupMembers(currThesisGroupID);
+            List<String>[] studentsInGroups = tgDM.getAllStudents();
 
             if (newID == "" || newFirstName == "" || newLastName == "")
             {
@@ -564,16 +515,11 @@ namespace CustomUserControl
                     }
                 }
 
-                query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
-                query += newLastName + "', " + currThesisGroupID + ");";
-                dbHandler.Insert(query);
+                tgDM.insertNewStudent(currThesisGroupID, newID, newFirstName, newMI, newLastName);
             }
             else if (result[0].ElementAt(studentIndex) == newID)
             {
-                query = "update student set firstname = '" + newFirstName + "', lastname = '" + newLastName + "', MI = '" + newMI + "' ";
-                query += "where studentid = " + newID + ";";
-
-                dbHandler.Update(query);
+                tgDM.updateStudent(result[0].ElementAt(studentIndex), newFirstName, newMI, newLastName);
             }
             else
             {
@@ -589,12 +535,8 @@ namespace CustomUserControl
 
                 String oldID = result[0].ElementAt(studentIndex);
 
-                query = "delete from student where studentID = " + oldID + ";";
-                dbHandler.Delete(query);
-
-                query = "insert into student values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
-                query += newLastName + "', " + currThesisGroupID + ");";
-                dbHandler.Insert(query);
+                tgDM.deleteStudent(oldID);
+                tgDM.insertNewStudent(currThesisGroupID, newID, newFirstName, newMI, newLastName); 
             }
 
 
@@ -603,13 +545,12 @@ namespace CustomUserControl
         private void delete_student_Click(object sender, EventArgs e)
         {
             Button pressed = (Button)sender;
-            int studentIndex = Convert.ToInt32(pressed.Name.Substring(10)) - 1;
+            int studentIndex = Convert.ToInt32(pressed.Name.Substring(13)) - 1;
 
             if (currThesisGroupID == "")
                 return;
 
-            String query = "select studentid, firstname, mi, lastname from student where studentid = " + studentDetails[studentIndex].ElementAt(0).Text + ";";
-            List<String>[] result = dbHandler.Select(query, 4);
+            List<String>[] result = tgDM.getStudentInfo(studentDetails[studentIndex].ElementAt(0).Text);
 
             String name = result[0].ElementAt(0) + " - " + result[1].ElementAt(0) + " " + result[2].ElementAt(0) + ". " + result[3].ElementAt(0);
 
@@ -617,8 +558,7 @@ namespace CustomUserControl
 
             if (input == DialogResult.Yes)
             {
-                query = "delete from student where studentid = " + studentDetails[studentIndex].ElementAt(0).Text + ";";
-                dbHandler.Delete(query);
+                tgDM.deleteStudent(studentDetails[studentIndex].ElementAt(0).Text);
             }
 
             update_components();
@@ -667,15 +607,15 @@ namespace CustomUserControl
             Button pressed = (Button)sender;
             int panelIndex = Convert.ToInt32(pressed.Name.Substring(12)) - 1;
 
+            String query;
+
             String newID = panelistDetails[panelIndex].ElementAt(0).Text;
             String newFirstName = panelistDetails[panelIndex].ElementAt(1).Text;
             String newLastName = panelistDetails[panelIndex].ElementAt(2).Text;
             String newMI = panelistDetails[panelIndex].ElementAt(3).Text;
 
-            String query = "select panelistID from panelassignment where thesisgroupid = " + currThesisGroupID + " order by panelistID;";
-            List<String>[] result = dbHandler.Select(query, 1);
-            query = "select panelistID from panelist;";
-            List<String>[] result2 = dbHandler.Select(query, 1);
+            List<String>[] result = tgDM.getGroupPanelists(currThesisGroupID);
+            List<String>[] result2 = tgDM.getAllPanelists();
 
             if (newID == "" || newFirstName == "" || newLastName == "")
             {
@@ -705,20 +645,12 @@ namespace CustomUserControl
                     }
                 }
 
-                query = "insert into panelist values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
-                query += newLastName + "');";
-                dbHandler.Insert(query);
-
-                query = "insert into panelassignment values(" + currThesisGroupID + ", " + newID + ");";
-                dbHandler.Insert(query);
+                tgDM.insertNewPanelist(newID, newFirstName, newMI, newLastName);
+                tgDM.assignPanelistToGroup(currThesisGroupID, newID);
             }
             else if (result[0].ElementAt(panelIndex).Equals(newID))
             {
-
-                query = "update panelist set firstname = '" + newFirstName + "', lastname = '" + newLastName + "', MI = '" + newMI + "' ";
-                query += "where panelistid = " + newID + ";";
-
-                dbHandler.Update(query);
+                tgDM.updatePanelist(newID, newFirstName, newMI, newLastName);
             }
             else
             {
@@ -732,15 +664,9 @@ namespace CustomUserControl
                     }
                 }
 
-                query = "delete from panelassignment where thesisgroupid = " + currThesisGroupID + " and panelistid = " + result[0].ElementAt(panelIndex) + ";";
-                dbHandler.Delete(query);
-
-                query = "insert into panelist values(" + newID + ", '" + newFirstName + "', '" + newMI + "', '";
-                query += newLastName + "');";
-                dbHandler.Insert(query);
-
-                query = "insert into panelassignment values(" + currThesisGroupID + ", " + newID + ");";
-                dbHandler.Insert(query);
+                tgDM.removeAssignedPanelistFromGroup(currThesisGroupID, result[0].ElementAt(panelIndex));
+                tgDM.insertNewPanelist(newID, newFirstName, newMI, newLastName);
+                tgDM.assignPanelistToGroup(currThesisGroupID, newID);
             }
 
             update_components();
@@ -749,6 +675,7 @@ namespace CustomUserControl
         {
             Button pressed = (Button)sender;
             int panelIndex = Convert.ToInt32(pressed.Name.Substring(11)) - 1;
+            String panelistID = panelistDetails[panelIndex].ElementAt(0).Text;
 
             if (currThesisGroupID == "")
                 return;
@@ -756,8 +683,7 @@ namespace CustomUserControl
             String query;
             List<String>[] result;
 
-            query = "select firstname, MI, lastname from panelist where panelistid = " + panelistDetails[panelIndex].ElementAt(0).Text + ";";
-            result = dbHandler.Select(query, 3);
+            result = tgDM.getPanelistInfo(panelistID);
 
             String name = result[0].ElementAt(0) + " " + result[1].ElementAt(0) + ". " + result[2].ElementAt(0);
 
@@ -765,8 +691,7 @@ namespace CustomUserControl
 
             if (input == DialogResult.Yes)
             {
-                query = "delete from panelassignment where panelistid = " + panelistDetails[panelIndex].ElementAt(0).Text + " and thesisgroupid = " + currThesisGroupID + ";";
-                dbHandler.Delete(query);
+                tgDM.removeAssignedPanelistFromGroup(currThesisGroupID, panelistID);
             }
 
             update_components();
@@ -786,13 +711,8 @@ namespace CustomUserControl
                 panelButtons[panelIndex].ElementAt(3).Text = "Cancel Select";
                 selPanel[panelIndex].Enabled = true;
 
-                String query = "select count(*) from panelist where panelistid not in (select panelistid from panelassignment where thesisgroupid = " + currThesisGroupID + ");";
-                List<String>[] result = dbHandler.Select(query, 1);
-
-                int memcount = Convert.ToInt32(result[0].ElementAt(0));
-
-                query = "select firstname, MI, lastname from panelist where panelistid not in (select panelistid from panelassignment where thesisgroupid = " + currThesisGroupID + ");";
-                result = dbHandler.Select(query, 3);
+                int memcount = tgDM.panelistNotInGroupCount(currThesisGroupID);
+                List<String>[] result = tgDM.getPanelistsNotInGroup(currThesisGroupID);
 
                 for (int i = 0; i < memcount; i++)
                     selPanel[panelIndex].Items.Add(result[0].ElementAt(i) + " " + result[1].ElementAt(i) + ". " + result[2].ElementAt(i));
@@ -815,6 +735,8 @@ namespace CustomUserControl
                 return;
 
             String[] name = ((String)selPanel[panelIndex].SelectedItem).Split(' ');
+            String panelistID = panelistDetails[panelIndex].ElementAt(0).Text;
+
 
             int middleIndex = 0;
             while (name[middleIndex].Length != 2)
@@ -841,24 +763,16 @@ namespace CustomUserControl
             String query;
             List<String>[] result;
 
-            if (panelistDetails[panelIndex].ElementAt(0).Text == "")
+            if (panelistID == "")
             {
-                query = "select panelistid from panelist where firstname = '" + newFirstName + "' and MI = '" + newMI + "' and lastname = '" + newLastName + "';";
-                result = dbHandler.Select(query, 1);
-
-                query = "insert into panelassignment values(" + currThesisGroupID + ", " + result[0].ElementAt(0) + ");";
-                dbHandler.Insert(query);
+                panelistID = tgDM.getPanelistIDFromName(newFirstName, newMI, newLastName);
+                tgDM.assignPanelistToGroup(currThesisGroupID, panelistID);
             }
             else
             {
-                query = "delete from panelassignment where thesisgroupid = " + currThesisGroupID + " and panelistid = " + panelistDetails[panelIndex].ElementAt(0).Text + ";";
-                dbHandler.Delete(query);
-
-                query = "select panelistid from panelist where firstname = '" + newFirstName + "' and MI = '" + newMI + "' and lastname = '" + newLastName + "';";
-                result = dbHandler.Select(query, 1);
-
-                query = "insert into panelassignment values(" + currThesisGroupID + ", " + result[0].ElementAt(0) + ");";
-                dbHandler.Insert(query);
+                tgDM.removeAssignedPanelistFromGroup(currThesisGroupID, panelistID);
+                panelistID = tgDM.getPanelistIDFromName(newFirstName, newMI, newLastName);
+                tgDM.assignPanelistToGroup(currThesisGroupID, panelistID);
             }
 
             update_components();
@@ -898,11 +812,8 @@ namespace CustomUserControl
             groupButtons[2].Enabled = true;
             groupButtons[3].Enabled = true;
 
-            String query = "select count(*) from student where thesisgroupid = " + currThesisGroupID + ";";
-            int studentCount = Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
-
-            query = "select count(*) from panelassignment where thesisgroupid = " + currThesisGroupID + ";";
-            int panelCount = Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
+            int studentCount = tgDM.studentCount(currThesisGroupID);
+            int panelCount = tgDM.panelistCount(currThesisGroupID);
 
             if (studentCount > 0 && panelCount >= 3)
             {
@@ -930,23 +841,18 @@ namespace CustomUserControl
             String newSY = groupDetails[2].Text;
             String newCourse = (String)groupStuff[0].SelectedItem;
             String newTerm = (String)groupStuff[1].SelectedItem;
-            Boolean eligibility = defenseCheckBox.Checked;
-            Boolean eligibility_redef = redefenseCheckBox.Checked;
+            String eligibility = defenseCheckBox.Checked + "";
+            String eligibility_redef = redefenseCheckBox.Checked + "";
 
             String query;
 
             if (!currThesisGroupID.Equals(""))
             {
-                query = "select count(*) from thesisgroup where title = '" + newTitle + "' and thesisgroupid != " + currThesisGroupID + ";";
-                int duplicate = Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
+                Boolean duplicate = tgDM.checkIfTitleAlreadyExists(currThesisGroupID, newTitle);
 
-                if (duplicate == 0)
+                if (!duplicate)
                 {
-                    query = "update thesisgroup set title = '" + newTitle + "', course = '" + newCourse + "', section = '" + newSection + "', startSY = '" + newSY + "', startTerm = '" + newTerm + "', eligiblefordefense = '" + eligibility + "', eligibleforredefense = '" + eligibility_redef + "' ";
-                    
-                    query += "where thesisgroupid = " + currThesisGroupID + ";";
-                    Console.WriteLine("Edit: "+query);
-                    dbHandler.Update(query);
+                    tgDM.updateGroup(currThesisGroupID, newTitle, newSection, newSY, newCourse, newTerm, eligibility, eligibility_redef);
                 }
                 else
                 {
@@ -955,16 +861,7 @@ namespace CustomUserControl
             }
             else
             {
-                List<String>[] result;
-
-                String insert = "('" + newTitle + "', '" + newCourse + "', '" + newSection + "', '" + newSY + "', '" + newTerm + "', '" + eligibility + "', '" + eligibility_redef + "')";
-                query = "insert into thesisgroup (title, course, section, startsy, startterm, eligiblefordefense, eligibleforredefense) values" + insert + ";";
-                dbHandler.Insert(query);
-
-                query = "select thesisgroupid from thesisgroup where title = '" + newTitle + "';";
-                result = dbHandler.Select(query, 1);
-
-                currThesisGroupID = result[0].ElementAt(0);
+                currThesisGroupID = tgDM.getGroupIDFromTitle(newTitle);
             }
 
             update_components();
@@ -1004,25 +901,11 @@ namespace CustomUserControl
             if (currThesisGroupID == "")
                 return;
 
-            String query = "delete from defenseschedule where thesisgroupid = " + currThesisGroupID + ";";
-            dbHandler.Delete(query);
-            query = "delete from student where thesisgroupid = " + currThesisGroupID + ";";
-            dbHandler.Delete(query);
-            query = "delete from panelassignment where thesisgroupid = " + currThesisGroupID + ";";
-            dbHandler.Delete(query);
-
-            query = "update thesisgroup set title = NULL, course = NULL, section = NULL, startSY = NULL, startTerm = NULL, eligiblefordefense = 'false', eligibleforredefense = 'false' where thesisgroupid = " + currThesisGroupID + ";";
-            dbHandler.Update(query);
-
+            tgDM.deleteGroup(currThesisGroupID);
             currThesisGroupID = "";
 
             update_components();
             update_treeview();
-        }
-
-        private void displayNameFormat_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Name Format is:\n<LastName>, <FirstName> <MiddleInitial>");
         }
     }
 }
