@@ -1,0 +1,223 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace CustomUserControl
+{
+    // DO I EVEN NEED TO DOCUMENT THIS
+    class ThesisGroupDataManager
+    {
+        DBce dbHandler;
+
+        public ThesisGroupDataManager()
+        {
+            dbHandler = new DBce();
+        }
+
+        public void fixRedefenseCol() 
+        {
+            String query = "update thesisgroup set eligibleforredefense = 'false' where eligibleforredefense IS NULL";
+            dbHandler.Update(query);
+        }
+
+        public List<String>[] getGroupInfo(String thesisGroupID)
+        {
+            String query = "select title, course, section, startSY, startTerm, eligiblefordefense from thesisgroup where thesisgroupid = " + thesisGroupID + ";";
+            return dbHandler.Select(query, 5);
+        }
+        public Boolean checkIfTitleAlreadyExists(String thesisGroupID, String title)
+        {
+            String query = "select count(*) from thesisgroup where title = '" + title + "' and thesisgroupid != " + thesisGroupID + ";";
+            int count = Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
+
+            return count > 0;
+        }
+        public void updateGroup(String thesisGroupID, String title, String section, String startSY, String course, String startTerm, String eligiblefordefense, String eligibleforredef)
+        {
+            String query = "update thesisgroup set title = '" + title + "', course = '" + course + "', section = '" + section + "', startSY = '" + startSY + "', startTerm = '" + startTerm + "', eligiblefordefense = '" + eligiblefordefense + "', eligibleforredefense = '" + eligibleforredef + "' ";
+            query += "where thesisgroupid = " + thesisGroupID + ";";
+            dbHandler.Update(query);
+        }
+        public void insertNewGroup(String thesisGroupID, String title, String course, String section, String startSY, String startTerm, String eligiblefordefense, String eligibleforredef)
+        {
+            String insert = "('" + title + "', '" + course + "', '" + section + "', '" + startSY + "', '" + startTerm + "', '" + eligiblefordefense + "', '" + eligibleforredef + "')";
+            String query = "insert into thesisgroup (title, course, section, startsy, startterm, eligiblefordefense, eligibleforredefense) values" + insert + ";";
+            dbHandler.Insert(query);
+        }
+        public String getGroupIDFromTitle(String title)
+        {
+            String query = "select thesisgroupid from thesisgroup where title = '" + title + "';";
+            return dbHandler.Select(query, 1)[0].ElementAt(0);
+        }
+
+        public List<String>[] getGroupPanelists(String thesisGroupID)
+        {
+            String query = "select panelistID from panelassignment where thesisgroupid = " + thesisGroupID + " order by panelistID;";
+            return dbHandler.Select(query, 1);
+        }
+        public List<String>[] getPanelistsNotInGroup(String thesisGroupID)
+        {
+            String query = "select firstname, MI, lastname from panelist where panelistid not in (select panelistid from panelassignment where thesisgroupid = " + currThesisGroupID + ");";
+            return dbHandler.Select(query, 3);
+        }
+        public List<String>[] getGroupMembers(String thesisGroupID)
+        {
+            String query = "select studentID from student where thesisgroupid = " + thesisGroupID + ";";
+            return dbHandler.Select(query, 1);
+        }
+        public List<String>[] getGroupMembers_ordered(String thesisGroupID, String orderBy)
+        {
+            String query = "select studentID, firstname, lastname, MI from student where thesisgroupid = " + thesisGroupID;
+            String order = " order by ";
+
+            if (orderBy == "Last Name")
+                order += "lastname;";
+            else
+                order += "studentid;";
+
+            return dbHandler.Select(query + order, 4);
+        }
+        public List<String>[] getCourses()
+        {
+            String query = "select distinct course from thesisgroup where course IS NOT NULL and course is not 'THSST-2';";
+            return dbHandler.Select(query, 1);
+        }
+ 
+        // only thing i admit the need to document, but won't because we can all read SQL
+        public void deleteGroup(String thesisGroupID)
+        {
+            String query = "delete from defenseschedule where thesisgroupid = " + thesisGroupID + ";";
+            dbHandler.Delete(query);
+            query = "delete from student where thesisgroupid = " + thesisGroupID + ";";
+            dbHandler.Delete(query);
+            query = "delete from panelassignment where thesisgroupid = " + thesisGroupID + ";";
+            dbHandler.Delete(query);
+
+            query = "update thesisgroup set title = NULL, course = NULL, section = NULL, startSY = NULL, startTerm = NULL, eligiblefordefense = 'false', eligibleforredefense = 'false' where thesisgroupid = " + thesisGroupID + ";";
+            dbHandler.Update(query);
+        }
+
+        public List<String>[] getAllPanelists()
+        {
+            String query = "select panelistID from panelist;";
+            return dbHandler.Select(query, 1);
+        }
+        public List<String>[] getAllStudents()
+        {
+            String query = "select studentid from student;";
+            return dbHandler.Select(query, 1);
+        }
+
+        //strictly student stuff
+        public List<String>[] getStudentInfo(String studentID)
+        {
+            String query = "select studentid, firstname, mi, lastname from student where studentid = " + studentID + ";";
+            return dbHandler.Select(query, 4);
+        }
+        public void insertNewStudent(String thesisGroupID, String studentID, String firstName, String MI, String lastName)
+        {
+            String query = "insert into student values(" + studentID + ", '" + firstName + "', '" + MI + "', '";
+            query += lastName + "', " + thesisGroupID + ");";
+            dbHandler.Insert(query);
+        }
+        public void deleteStudent(String studentID)
+        {
+            String query = "delete from student where studentid = " + studentID + ";";
+            dbHandler.Delete(query);
+        }
+        public void updateStudent(String studentID, String firstName, String MI, String lastName)
+        {
+            String query = "update student set firstname = '" + firstName + "', lastname = '" + lastName + "', MI = '" + MI + "' ";
+            query += "where studentid = " + studentID + ";";
+
+            dbHandler.Update(query);
+        }
+
+        //perfectly panelist part
+        public List<String>[] getPanelistInfo(String panelistID)
+        {
+            String query = "select firstname, MI, lastname from panelist where panelistid = " + panelistID + ";";
+            return dbHandler.Select(query, 3);
+        }
+        public String getPanelistIDFromName(String firstName, String MI, String lastName)
+        {
+            String query = "select panelistid from panelist where firstname = '" + firstName + "' and MI = '" + MI + "' and lastname = '" + lastName + "';";
+            return dbHandler.Select(query, 1)[0].ElementAt(0);
+        }
+        public void insertNewPanelist(String panelistID, String firstName, String MI, String lastName)
+        {
+            String query = "insert into panelist values(" + panelistID + ", '" + firstName + "', '" + MI + "', '";
+            query += lastName + "');";
+            dbHandler.Insert(query);
+        }
+        public void updatePanelist(String panelistID, String firstName, String MI, String lastName)
+        {
+            String query = "update panelist set firstname = '" + firstName + "', lastname = '" + lastName + "', MI = '" + MI + "' ";
+            query += "where panelistid = " + panelistID + ";";
+
+            dbHandler.Update(query);
+        }
+        public void assignPanelistToGroup(String thesisGroupID, String panelistID)
+        {
+            String query = "insert into panelassignment values(" + thesisGroupID + ", " + panelistID + ");";
+            dbHandler.Insert(query);
+        }
+        public void removeAssignedPanelistFromGroup(String thesisGroupID, String panelistID)
+        {
+            String query = "delete from panelassignment where thesisgroupid = " + thesisGroupID + " and panelistid = " + panelistID + ";";
+            dbHandler.Delete(query);
+        }
+
+        // how many panelists/students does the thesis group have?
+        public int panelistCount(String thesisGroupID)
+        {
+            String query = "select count(*) from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid =  " + thesisGroupID + ");";
+            return Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
+        }
+        public int panelistNotInGroupCount(String thesisGroupID)
+        {
+            String query = "select count(*) from panelist where panelistid not in (select panelistid from panelassignment where thesisgroupid = " + currThesisGroupID + ");";
+            return Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
+        }
+        public int studentCount(String thesisGroupID)
+        {
+            String query = "select count(*) from student where thesisgroupid = " + thesisGroupID + ";";
+            return Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
+        }
+
+        // given a treeview, add groups sorted by section
+        public void showGroups(TreeNodeCollection tree)
+        {
+            String query = "select distinct course from thesisgroup where course IS NOT NULL and course is not 'THSST-2';";
+            List<String>[] parentList = dbHandler.Select(query, 1);
+            //List<String>[] parentInfo;
+            List<String>[] childList;
+            TreeNode parent;
+            TreeNode[] child;
+            TreeNodeCollection children;
+
+            for (int i = 0; i < parentList[0].Count; i++)
+            {
+                query = "select thesisgroupid, title, section from thesisGroup where course = '" + parentList[0].ElementAt(i) + "' and course IS NOT NULL;";
+                childList = dbHandler.Select(query, 3);
+
+                parent = new TreeNode();
+                child = new TreeNode[childList[0].Count()];
+                children = parent.Nodes;
+
+                parent.Name = parent.Text = parentList[0].ElementAt(i);
+
+                for (int j = 0; j < childList[0].Count(); j++)
+                {
+                    child[j] = new TreeNode();
+                    child[j].Name = childList[0].ElementAt(j);
+                    child[j].Text = childList[1].ElementAt(j) + " - " + childList[2].ElementAt(j);
+                    children.Add(child[j]);
+                }
+                tree.Add(parent);
+            }
+        }
+    }
+}

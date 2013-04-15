@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.studentsPanel = new System.Windows.Forms.Panel();
-            this.nameFormat = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.sortStudents = new System.Windows.Forms.ComboBox();
             this.student4 = new System.Windows.Forms.Panel();
@@ -173,7 +172,6 @@
             // studentsPanel
             // 
             this.studentsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.studentsPanel.Controls.Add(this.nameFormat);
             this.studentsPanel.Controls.Add(this.label13);
             this.studentsPanel.Controls.Add(this.sortStudents);
             this.studentsPanel.Controls.Add(this.student4);
@@ -185,16 +183,6 @@
             this.studentsPanel.Name = "studentsPanel";
             this.studentsPanel.Size = new System.Drawing.Size(358, 472);
             this.studentsPanel.TabIndex = 18;
-            // 
-            // nameFormat
-            // 
-            this.nameFormat.Location = new System.Drawing.Point(267, 43);
-            this.nameFormat.Name = "nameFormat";
-            this.nameFormat.Size = new System.Drawing.Size(86, 23);
-            this.nameFormat.TabIndex = 40;
-            this.nameFormat.Text = "Name Format";
-            this.nameFormat.UseVisualStyleBackColor = true;
-            this.nameFormat.Click += new System.EventHandler(this.displayNameFormat_Click);
             // 
             // label13
             // 
@@ -1253,9 +1241,9 @@
             this.redefenseCheckBox.Enabled = false;
             this.redefenseCheckBox.Location = new System.Drawing.Point(353, 94);
             this.redefenseCheckBox.Name = "redefenseCheckBox";
-            this.redefenseCheckBox.Size = new System.Drawing.Size(138, 17);
+            this.redefenseCheckBox.Size = new System.Drawing.Size(132, 17);
             this.redefenseCheckBox.TabIndex = 44;
-            this.redefenseCheckBox.Text = "Eligible For Redefense?";
+            this.redefenseCheckBox.Text = "Eligible For Redefense";
             this.redefenseCheckBox.UseVisualStyleBackColor = true;
             // 
             // defenseCheckBox
@@ -1263,9 +1251,9 @@
             this.defenseCheckBox.AutoSize = true;
             this.defenseCheckBox.Location = new System.Drawing.Point(353, 71);
             this.defenseCheckBox.Name = "defenseCheckBox";
-            this.defenseCheckBox.Size = new System.Drawing.Size(126, 17);
+            this.defenseCheckBox.Size = new System.Drawing.Size(120, 17);
             this.defenseCheckBox.TabIndex = 43;
-            this.defenseCheckBox.Text = "Eligible For Defense?";
+            this.defenseCheckBox.Text = "Eligible For Defense";
             this.defenseCheckBox.UseVisualStyleBackColor = true;
             // 
             // deleteGroup
@@ -1331,9 +1319,9 @@
             this.groupStartTerm.Enabled = false;
             this.groupStartTerm.FormattingEnabled = true;
             this.groupStartTerm.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3"});
+            "Term 1",
+            "Term 2",
+            "Term 3"});
             this.groupStartTerm.Location = new System.Drawing.Point(93, 150);
             this.groupStartTerm.Name = "groupStartTerm";
             this.groupStartTerm.Size = new System.Drawing.Size(240, 21);
@@ -1353,6 +1341,7 @@
             this.groupCourse.FormattingEnabled = true;
             this.groupCourse.Items.AddRange(new object[] {
             "THSST-1",
+            "THSST-2",
             "THSST-3"});
             this.groupCourse.Location = new System.Drawing.Point(93, 71);
             this.groupCourse.Name = "groupCourse";
@@ -1474,6 +1463,32 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label30;
+
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.Label label38;
@@ -1503,54 +1518,39 @@
         private System.Windows.Forms.CheckBox redefenseCheckBox;
         private System.Windows.Forms.CheckBox defenseCheckBox;
         private System.Windows.Forms.Panel student1;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button saveStudent1;
         private System.Windows.Forms.Button editStudent1;
         private System.Windows.Forms.TextBox studentID1;
         private System.Windows.Forms.TextBox studentFN1;
         private System.Windows.Forms.Button deleteStudent1;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ComboBox sortStudents;
         private System.Windows.Forms.Panel student4;
         private System.Windows.Forms.Button deleteStudent4;
         private System.Windows.Forms.Button saveStudent4;
         private System.Windows.Forms.Button editStudent4;
         private System.Windows.Forms.TextBox studentID4;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Panel student3;
         private System.Windows.Forms.Button deleteStudent3;
         private System.Windows.Forms.Button saveStudent3;
         private System.Windows.Forms.Button editStudent3;
         private System.Windows.Forms.TextBox studentID3;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Panel student2;
         private System.Windows.Forms.Button deleteStudent2;
         private System.Windows.Forms.Button saveStudent2;
         private System.Windows.Forms.Button editStudent2;
         private System.Windows.Forms.TextBox studentID2;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox studentLN1;
         private System.Windows.Forms.TextBox studentMI1;
-        private System.Windows.Forms.Button nameFormat;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox studentLN4;
         private System.Windows.Forms.TextBox studentMI4;
         private System.Windows.Forms.TextBox studentFN4;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox studentLN3;
         private System.Windows.Forms.TextBox studentMI3;
         private System.Windows.Forms.TextBox studentFN3;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox studentLN2;
         private System.Windows.Forms.TextBox studentMI2;
         private System.Windows.Forms.TextBox studentFN2;
         private System.Windows.Forms.Panel panelist1;
-        private System.Windows.Forms.Label label28;
         private System.Windows.Forms.TextBox panelistLN1;
         private System.Windows.Forms.TextBox panelistMI1;
         private System.Windows.Forms.Button delPanelist1;
@@ -1558,14 +1558,11 @@
         private System.Windows.Forms.Button editPanelist1;
         private System.Windows.Forms.TextBox panelistID1;
         private System.Windows.Forms.TextBox panelistFN1;
-        private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.Label label30;
         private System.Windows.Forms.ComboBox selectPanelist1;
         private System.Windows.Forms.Button selPanelist1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button selPanelist4;
         private System.Windows.Forms.ComboBox selectPanelist4;
-        private System.Windows.Forms.Label label25;
         private System.Windows.Forms.TextBox panelistLN4;
         private System.Windows.Forms.TextBox panelistMI4;
         private System.Windows.Forms.Button delPanelist4;
@@ -1573,12 +1570,9 @@
         private System.Windows.Forms.Button editPanelist4;
         private System.Windows.Forms.TextBox panelistID4;
         private System.Windows.Forms.TextBox panelistFN4;
-        private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button selPanelist3;
         private System.Windows.Forms.ComboBox selectPanelist3;
-        private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox panelistLN3;
         private System.Windows.Forms.TextBox panelistMI3;
         private System.Windows.Forms.Button delPanelist3;
@@ -1586,12 +1580,9 @@
         private System.Windows.Forms.Button editPanelist3;
         private System.Windows.Forms.TextBox panelistID3;
         private System.Windows.Forms.TextBox panelistFN3;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button selPanelist2;
         private System.Windows.Forms.ComboBox selectPanelist2;
-        private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox panelistLN2;
         private System.Windows.Forms.TextBox panelistMI2;
         private System.Windows.Forms.Button delPanelist2;
@@ -1599,7 +1590,5 @@
         private System.Windows.Forms.Button editPanelist2;
         private System.Windows.Forms.TextBox panelistID2;
         private System.Windows.Forms.TextBox panelistFN2;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label20;
     }
 }
