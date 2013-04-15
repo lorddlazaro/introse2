@@ -85,6 +85,9 @@
       <DependentUpon>EventCreator.cs</DependentUpon>
     </Compile>
     <Compile Include="Panelist.cs" />
+    <Compile Include="ThesisGroupControl.designer.cs">
+      <DependentUpon>ThesisGroupControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="TimeslotCreator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,9 +120,6 @@
     <Compile Include="SchedulingDataManager.cs" />
     <Compile Include="ThesisGroupControl.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ThesisGroupControl.designer.cs">
-      <DependentUpon>ThesisGroupControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ThesisGroupControl2.cs">
       <SubType>UserControl</SubType>
