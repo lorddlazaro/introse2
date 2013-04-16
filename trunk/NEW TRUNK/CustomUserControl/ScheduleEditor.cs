@@ -25,6 +25,7 @@ namespace CustomUserControl
         List<String>[] timeSlotTable;
         List<String>[] eventTable;
         public Form containerParent;
+        private SchedulingDataManager schedulingDM;
 
         public ScheduleEditor()
         {
@@ -36,6 +37,7 @@ namespace CustomUserControl
             InitStudentListBox();
             update_courses();
             update_events();
+            schedulingDM = new SchedulingDataManager();
         }
         //Tree View
         private void InitStudentListBox() 
@@ -112,7 +114,7 @@ namespace CustomUserControl
             {
                 currPanelist = "";
                 personLabel.Text = "Panelists:";
-                btnSwitchView.Text = "Switch to Panelists";
+                btnSwitchView.Text = "Switch to Students";
                 studentTreeView.Hide();
                 panelistTreeView.Show();
                 panelistTreeView.Enabled = true;
@@ -186,6 +188,54 @@ namespace CustomUserControl
                 }
                 Console.WriteLine("slot: "+slot);
                 */
+                
+                //START: Defense Schedule Validation
+
+                query = "SELECT thesisGroupID FROM student where studentID = '" + currStudent + "';";
+
+                String thesisGroupID = dbHandler.Select(query, 1)[0][0];
+
+                DefenseSchedule defSched = schedulingDM.GetDefSched(thesisGroupID, Constants.DEFENSE_TYPE);
+                DefenseSchedule redefSched = schedulingDM.GetDefSched(thesisGroupID, Constants.REDEFENSE_TYPE);
+
+                TimePeriod classTimePeriod = new TimePeriod(Convert.ToDateTime(existingTimeslots[4][rowIndex]), Convert.ToDateTime(existingTimeslots[5][rowIndex]));
+                
+                String defDayOfWeek = schedulingDM.ConvertDayOfWeekToString(defSched.StartTime.DayOfWeek);
+                String redefDayOfWeek = schedulingDM.ConvertDayOfWeekToString(redefSched.StartTime.DayOfWeek);
+                
+                bool conflictWithDefense = defDayOfWeek.Equals(existingTimeslots[3][rowIndex]) && classTimePeriod.IntersectsExclusive(defSched);
+                bool conflictWithRedefense = redefDayOfWeek.Equals(existingTimeslots[3][rowIndex]) && classTimePeriod.IntersectsExclusive(redefSched);
+                
+                if (conflictWithDefense || conflictWithRedefense)
+                {
+                    String warningMsg;
+                    if (conflictWithDefense && conflictWithRedefense)
+                        warningMsg = "There are conflicts with this group's defense and re-defense schedule. ";
+                    else if (conflictWithDefense)
+                        warningMsg = "There is conflict with this group's defense schedule. ";
+                    else
+                        warningMsg = "There is conflict with this group's re-defense schedule. ";
+                    warningMsg += "Proceeding will unschedule said schedule";
+
+                    if (MessageBox.Show(warningMsg, "Conflict with Defense", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.Cancel)
+                        return;
+                    else
+                    {
+
+                        query = "DELETE FROM defenseSchedule WHERE ";
+
+                        if (conflictWithDefense && conflictWithRedefense)
+                            query += " defenseID = " + defSched.DefenseID + " OR defenseID = " + redefSched.DefenseID + ";";
+                        else if (conflictWithDefense)
+                            query += " defenseID = " + defSched.DefenseID + ";";
+                        else// if(conflictWithRedefense)
+                            query += " defenseID = " + redefSched.DefenseID + ";";
+
+                        dbHandler.Delete(query);
+                    }
+                }
+                // END: Defense Schedule Validation
+
                 query = "INSERT INTO StudentSchedule(studentID, timeslotID)VALUES ('"+currStudent+"', "+Convert.ToInt32(slot)+")";
                 Console.WriteLine("escape qqq" + query);
                 try
@@ -202,7 +252,8 @@ namespace CustomUserControl
                 RefreshStudentClassScheds();
 
 
-            }else
+            }
+            else
             {
                 if (timeSlotTable[6][rowIndex] != null)
                 {
@@ -214,7 +265,7 @@ namespace CustomUserControl
                         String query;
 
                         query = "UPDATE Timeslot SET panelistID = '" + currPanelist + "' WHERE (courseName = '" + existingTimeslots[2][rowIndex] + "') AND ( section = '" + existingTimeslots[1][rowIndex] + "') AND (day ='" + existingTimeslots[3][rowIndex] + "');";
-
+                        Console.WriteLine("*********HERE***********" + query);
                         dbHandler.Update(query);
                         Console.WriteLine(query);
                         RefreshPanelistClassScheds();
@@ -734,6 +785,5 @@ namespace CustomUserControl
         {
             RefreshEvents(currPanelist, "panelistID", "PanelistEventRecord");
         }
-
     }
 }
