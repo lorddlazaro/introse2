@@ -77,7 +77,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
             this.panelistControl = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.label31 = new System.Windows.Forms.Label();
+            this.selectAdviser = new System.Windows.Forms.ComboBox();
+            this.panelist4 = new System.Windows.Forms.Panel();
             this.selPanelist4 = new System.Windows.Forms.Button();
             this.selectPanelist4 = new System.Windows.Forms.ComboBox();
             this.label25 = new System.Windows.Forms.Label();
@@ -90,7 +92,7 @@
             this.panelistFN4 = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.panelist3 = new System.Windows.Forms.Panel();
             this.selPanelist3 = new System.Windows.Forms.Button();
             this.selectPanelist3 = new System.Windows.Forms.ComboBox();
             this.label21 = new System.Windows.Forms.Label();
@@ -103,7 +105,7 @@
             this.panelistFN3 = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panelist2 = new System.Windows.Forms.Panel();
             this.selPanelist2 = new System.Windows.Forms.Button();
             this.selectPanelist2 = new System.Windows.Forms.ComboBox();
             this.label18 = new System.Windows.Forms.Label();
@@ -162,9 +164,9 @@
             this.student2.SuspendLayout();
             this.student1.SuspendLayout();
             this.panelistControl.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.panelist4.SuspendLayout();
+            this.panelist3.SuspendLayout();
+            this.panelist2.SuspendLayout();
             this.panelist1.SuspendLayout();
             this.thesisGroupPanel.SuspendLayout();
             this.SuspendLayout();
@@ -203,7 +205,7 @@
             this.sortStudents.Name = "sortStudents";
             this.sortStudents.Size = new System.Drawing.Size(155, 21);
             this.sortStudents.TabIndex = 38;
-            this.sortStudents.SelectedIndexChanged += new System.EventHandler(this.sortStudents_SelectedIndexChanged);
+            this.sortStudents.SelectedIndexChanged += new System.EventHandler(this.changeStudentSort);
             // 
             // student4
             // 
@@ -263,7 +265,7 @@
             this.deleteStudent4.Name = "deleteStudent4";
             this.deleteStudent4.Size = new System.Drawing.Size(82, 23);
             this.deleteStudent4.TabIndex = 22;
-            this.deleteStudent4.Text = "Clear/Delete";
+            this.deleteStudent4.Text = "Delete";
             this.deleteStudent4.UseVisualStyleBackColor = true;
             // 
             // saveStudent4
@@ -368,7 +370,7 @@
             this.deleteStudent3.Name = "deleteStudent3";
             this.deleteStudent3.Size = new System.Drawing.Size(82, 23);
             this.deleteStudent3.TabIndex = 22;
-            this.deleteStudent3.Text = "Clear/Delete";
+            this.deleteStudent3.Text = "Delete";
             this.deleteStudent3.UseVisualStyleBackColor = true;
             // 
             // saveStudent3
@@ -473,7 +475,7 @@
             this.deleteStudent2.Name = "deleteStudent2";
             this.deleteStudent2.Size = new System.Drawing.Size(82, 23);
             this.deleteStudent2.TabIndex = 22;
-            this.deleteStudent2.Text = "Clear/Delete";
+            this.deleteStudent2.Text = "Delete";
             this.deleteStudent2.UseVisualStyleBackColor = true;
             // 
             // saveStudent2
@@ -570,7 +572,7 @@
             this.deleteStudent1.Name = "deleteStudent1";
             this.deleteStudent1.Size = new System.Drawing.Size(82, 23);
             this.deleteStudent1.TabIndex = 22;
-            this.deleteStudent1.Text = "Clear/Delete";
+            this.deleteStudent1.Text = "Delete";
             this.deleteStudent1.UseVisualStyleBackColor = true;
             // 
             // saveStudent1
@@ -638,9 +640,11 @@
             // panelistControl
             // 
             this.panelistControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelistControl.Controls.Add(this.panel3);
-            this.panelistControl.Controls.Add(this.panel2);
-            this.panelistControl.Controls.Add(this.panel1);
+            this.panelistControl.Controls.Add(this.label31);
+            this.panelistControl.Controls.Add(this.selectAdviser);
+            this.panelistControl.Controls.Add(this.panelist4);
+            this.panelistControl.Controls.Add(this.panelist3);
+            this.panelistControl.Controls.Add(this.panelist2);
             this.panelistControl.Controls.Add(this.label44);
             this.panelistControl.Controls.Add(this.panelist1);
             this.panelistControl.Location = new System.Drawing.Point(639, 203);
@@ -648,26 +652,44 @@
             this.panelistControl.Size = new System.Drawing.Size(358, 472);
             this.panelistControl.TabIndex = 29;
             // 
-            // panel3
+            // label31
             // 
-            this.panel3.BackColor = System.Drawing.Color.Transparent;
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.selPanelist4);
-            this.panel3.Controls.Add(this.selectPanelist4);
-            this.panel3.Controls.Add(this.label25);
-            this.panel3.Controls.Add(this.panelistLN4);
-            this.panel3.Controls.Add(this.panelistMI4);
-            this.panel3.Controls.Add(this.delPanelist4);
-            this.panel3.Controls.Add(this.savePanelist4);
-            this.panel3.Controls.Add(this.editPanelist4);
-            this.panel3.Controls.Add(this.panelistID4);
-            this.panel3.Controls.Add(this.panelistFN4);
-            this.panel3.Controls.Add(this.label26);
-            this.panel3.Controls.Add(this.label27);
-            this.panel3.Location = new System.Drawing.Point(3, 373);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(350, 93);
-            this.panel3.TabIndex = 39;
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(4, 50);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(78, 13);
+            this.label31.TabIndex = 41;
+            this.label31.Text = "Select Adviser:";
+            // 
+            // selectAdviser
+            // 
+            this.selectAdviser.FormattingEnabled = true;
+            this.selectAdviser.Location = new System.Drawing.Point(90, 47);
+            this.selectAdviser.Name = "selectAdviser";
+            this.selectAdviser.Size = new System.Drawing.Size(172, 21);
+            this.selectAdviser.TabIndex = 40;
+            this.selectAdviser.SelectedIndexChanged += new System.EventHandler(this.selectedAdviser);
+            // 
+            // panelist4
+            // 
+            this.panelist4.BackColor = System.Drawing.Color.Transparent;
+            this.panelist4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelist4.Controls.Add(this.selPanelist4);
+            this.panelist4.Controls.Add(this.selectPanelist4);
+            this.panelist4.Controls.Add(this.label25);
+            this.panelist4.Controls.Add(this.panelistLN4);
+            this.panelist4.Controls.Add(this.panelistMI4);
+            this.panelist4.Controls.Add(this.delPanelist4);
+            this.panelist4.Controls.Add(this.savePanelist4);
+            this.panelist4.Controls.Add(this.editPanelist4);
+            this.panelist4.Controls.Add(this.panelistID4);
+            this.panelist4.Controls.Add(this.panelistFN4);
+            this.panelist4.Controls.Add(this.label26);
+            this.panelist4.Controls.Add(this.label27);
+            this.panelist4.Location = new System.Drawing.Point(3, 373);
+            this.panelist4.Name = "panelist4";
+            this.panelist4.Size = new System.Drawing.Size(350, 93);
+            this.panelist4.TabIndex = 39;
             // 
             // selPanelist4
             // 
@@ -685,6 +707,7 @@
             this.selectPanelist4.Name = "selectPanelist4";
             this.selectPanelist4.Size = new System.Drawing.Size(158, 21);
             this.selectPanelist4.TabIndex = 26;
+            this.selectPanelist4.SelectedIndexChanged += new System.EventHandler(this.swapPanelists);
             // 
             // label25
             // 
@@ -772,26 +795,26 @@
             this.label27.Text = "Panelist 4 Name:";
             this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // panel2
+            // panelist3
             // 
-            this.panel2.BackColor = System.Drawing.Color.Transparent;
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.selPanelist3);
-            this.panel2.Controls.Add(this.selectPanelist3);
-            this.panel2.Controls.Add(this.label21);
-            this.panel2.Controls.Add(this.panelistLN3);
-            this.panel2.Controls.Add(this.panelistMI3);
-            this.panel2.Controls.Add(this.delPanelist3);
-            this.panel2.Controls.Add(this.savePanelist3);
-            this.panel2.Controls.Add(this.editPanelist3);
-            this.panel2.Controls.Add(this.panelistID3);
-            this.panel2.Controls.Add(this.panelistFN3);
-            this.panel2.Controls.Add(this.label23);
-            this.panel2.Controls.Add(this.label24);
-            this.panel2.Location = new System.Drawing.Point(3, 273);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(350, 93);
-            this.panel2.TabIndex = 39;
+            this.panelist3.BackColor = System.Drawing.Color.Transparent;
+            this.panelist3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelist3.Controls.Add(this.selPanelist3);
+            this.panelist3.Controls.Add(this.selectPanelist3);
+            this.panelist3.Controls.Add(this.label21);
+            this.panelist3.Controls.Add(this.panelistLN3);
+            this.panelist3.Controls.Add(this.panelistMI3);
+            this.panelist3.Controls.Add(this.delPanelist3);
+            this.panelist3.Controls.Add(this.savePanelist3);
+            this.panelist3.Controls.Add(this.editPanelist3);
+            this.panelist3.Controls.Add(this.panelistID3);
+            this.panelist3.Controls.Add(this.panelistFN3);
+            this.panelist3.Controls.Add(this.label23);
+            this.panelist3.Controls.Add(this.label24);
+            this.panelist3.Location = new System.Drawing.Point(3, 275);
+            this.panelist3.Name = "panelist3";
+            this.panelist3.Size = new System.Drawing.Size(350, 93);
+            this.panelist3.TabIndex = 39;
             // 
             // selPanelist3
             // 
@@ -809,6 +832,7 @@
             this.selectPanelist3.Name = "selectPanelist3";
             this.selectPanelist3.Size = new System.Drawing.Size(158, 21);
             this.selectPanelist3.TabIndex = 26;
+            this.selectPanelist3.SelectedIndexChanged += new System.EventHandler(this.swapPanelists);
             // 
             // label21
             // 
@@ -896,26 +920,26 @@
             this.label24.Text = "Panelist 3 Name:";
             this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // panel1
+            // panelist2
             // 
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.selPanelist2);
-            this.panel1.Controls.Add(this.selectPanelist2);
-            this.panel1.Controls.Add(this.label18);
-            this.panel1.Controls.Add(this.panelistLN2);
-            this.panel1.Controls.Add(this.panelistMI2);
-            this.panel1.Controls.Add(this.delPanelist2);
-            this.panel1.Controls.Add(this.savePanelist2);
-            this.panel1.Controls.Add(this.editPanelist2);
-            this.panel1.Controls.Add(this.panelistID2);
-            this.panel1.Controls.Add(this.panelistFN2);
-            this.panel1.Controls.Add(this.label19);
-            this.panel1.Controls.Add(this.label20);
-            this.panel1.Location = new System.Drawing.Point(3, 173);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(350, 93);
-            this.panel1.TabIndex = 39;
+            this.panelist2.BackColor = System.Drawing.Color.Transparent;
+            this.panelist2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelist2.Controls.Add(this.selPanelist2);
+            this.panelist2.Controls.Add(this.selectPanelist2);
+            this.panelist2.Controls.Add(this.label18);
+            this.panelist2.Controls.Add(this.panelistLN2);
+            this.panelist2.Controls.Add(this.panelistMI2);
+            this.panelist2.Controls.Add(this.delPanelist2);
+            this.panelist2.Controls.Add(this.savePanelist2);
+            this.panelist2.Controls.Add(this.editPanelist2);
+            this.panelist2.Controls.Add(this.panelistID2);
+            this.panelist2.Controls.Add(this.panelistFN2);
+            this.panelist2.Controls.Add(this.label19);
+            this.panelist2.Controls.Add(this.label20);
+            this.panelist2.Location = new System.Drawing.Point(3, 175);
+            this.panelist2.Name = "panelist2";
+            this.panelist2.Size = new System.Drawing.Size(350, 93);
+            this.panelist2.TabIndex = 39;
             // 
             // selPanelist2
             // 
@@ -933,6 +957,7 @@
             this.selectPanelist2.Name = "selectPanelist2";
             this.selectPanelist2.Size = new System.Drawing.Size(158, 21);
             this.selectPanelist2.TabIndex = 26;
+            this.selectPanelist2.SelectedIndexChanged += new System.EventHandler(this.swapPanelists);
             // 
             // label18
             // 
@@ -1046,7 +1071,7 @@
             this.panelist1.Controls.Add(this.panelistFN1);
             this.panelist1.Controls.Add(this.label29);
             this.panelist1.Controls.Add(this.label30);
-            this.panelist1.Location = new System.Drawing.Point(2, 73);
+            this.panelist1.Location = new System.Drawing.Point(3, 74);
             this.panelist1.Name = "panelist1";
             this.panelist1.Size = new System.Drawing.Size(350, 93);
             this.panelist1.TabIndex = 38;
@@ -1067,6 +1092,7 @@
             this.selectPanelist1.Name = "selectPanelist1";
             this.selectPanelist1.Size = new System.Drawing.Size(158, 21);
             this.selectPanelist1.TabIndex = 26;
+            this.selectPanelist1.SelectedIndexChanged += new System.EventHandler(this.swapPanelists);
             // 
             // label28
             // 
@@ -1319,9 +1345,9 @@
             this.groupStartTerm.Enabled = false;
             this.groupStartTerm.FormattingEnabled = true;
             this.groupStartTerm.Items.AddRange(new object[] {
-            "Term 1",
-            "Term 2",
-            "Term 3"});
+            "1",
+            "2",
+            "3"});
             this.groupStartTerm.Location = new System.Drawing.Point(93, 150);
             this.groupStartTerm.Name = "groupStartTerm";
             this.groupStartTerm.Size = new System.Drawing.Size(240, 21);
@@ -1417,7 +1443,7 @@
             this.thesisGroupTreeView.Name = "thesisGroupTreeView";
             this.thesisGroupTreeView.Size = new System.Drawing.Size(263, 625);
             this.thesisGroupTreeView.TabIndex = 35;
-            this.thesisGroupTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.thesisGroupTreeView_NodeMouseClick);
+            this.thesisGroupTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.changeSelectedGroup);
             // 
             // ThesisGroupControl
             // 
@@ -1442,12 +1468,12 @@
             this.student1.PerformLayout();
             this.panelistControl.ResumeLayout(false);
             this.panelistControl.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.panelist4.ResumeLayout(false);
+            this.panelist4.PerformLayout();
+            this.panelist3.ResumeLayout(false);
+            this.panelist3.PerformLayout();
+            this.panelist2.ResumeLayout(false);
+            this.panelist2.PerformLayout();
             this.panelist1.ResumeLayout(false);
             this.panelist1.PerformLayout();
             this.thesisGroupPanel.ResumeLayout(false);
@@ -1488,6 +1514,7 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label31;
 
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label37;
@@ -1499,96 +1526,128 @@
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.Label label44;
 
-        private System.Windows.Forms.Panel studentsPanel;
-
-        private System.Windows.Forms.Panel panelistControl;
-
         private System.Windows.Forms.Panel thesisGroupPanel;
+
+        private System.Windows.Forms.TextBox groupThesisTitle;
+        private System.Windows.Forms.ComboBox groupCourse;
+        private System.Windows.Forms.TextBox groupSection;
         private System.Windows.Forms.TextBox groupStartSY;
         private System.Windows.Forms.ComboBox groupStartTerm;
-        private System.Windows.Forms.TextBox groupSection;
-        private System.Windows.Forms.ComboBox groupCourse;
-        private System.Windows.Forms.TextBox groupThesisTitle;
+        
         private System.Windows.Forms.TreeView thesisGroupTreeView;
+
         private System.Windows.Forms.Button newThesisGroup;
         private System.Windows.Forms.Button editThesisGroup;
         private System.Windows.Forms.Button cancelEdits;
         private System.Windows.Forms.Button saveDetails;
         private System.Windows.Forms.Button deleteGroup;
-        private System.Windows.Forms.CheckBox redefenseCheckBox;
+
         private System.Windows.Forms.CheckBox defenseCheckBox;
-        private System.Windows.Forms.Panel student1;
-        private System.Windows.Forms.Button saveStudent1;
-        private System.Windows.Forms.Button editStudent1;
+        private System.Windows.Forms.CheckBox redefenseCheckBox;
+
+        // student panels
+        private System.Windows.Forms.Panel studentsPanel; // main panel
+        private System.Windows.Forms.Panel student1; // per student
+        private System.Windows.Forms.Panel student2;
+        private System.Windows.Forms.Panel student3;
+        private System.Windows.Forms.Panel student4;
+
+        // student textboxes
         private System.Windows.Forms.TextBox studentID1;
         private System.Windows.Forms.TextBox studentFN1;
-        private System.Windows.Forms.Button deleteStudent1;
-        private System.Windows.Forms.ComboBox sortStudents;
-        private System.Windows.Forms.Panel student4;
-        private System.Windows.Forms.Button deleteStudent4;
-        private System.Windows.Forms.Button saveStudent4;
-        private System.Windows.Forms.Button editStudent4;
-        private System.Windows.Forms.TextBox studentID4;
-        private System.Windows.Forms.Panel student3;
-        private System.Windows.Forms.Button deleteStudent3;
-        private System.Windows.Forms.Button saveStudent3;
-        private System.Windows.Forms.Button editStudent3;
+        private System.Windows.Forms.TextBox studentMI1;
+        private System.Windows.Forms.TextBox studentLN1;
+
+        private System.Windows.Forms.TextBox studentID2;
+        private System.Windows.Forms.TextBox studentFN2;
+        private System.Windows.Forms.TextBox studentMI2;
+        private System.Windows.Forms.TextBox studentLN2;
+
         private System.Windows.Forms.TextBox studentID3;
-        private System.Windows.Forms.Panel student2;
-        private System.Windows.Forms.Button deleteStudent2;
+        private System.Windows.Forms.TextBox studentFN3;
+        private System.Windows.Forms.TextBox studentMI3;
+        private System.Windows.Forms.TextBox studentLN3;
+
+        private System.Windows.Forms.TextBox studentID4;
+        private System.Windows.Forms.TextBox studentFN4;
+        private System.Windows.Forms.TextBox studentMI4;
+        private System.Windows.Forms.TextBox studentLN4;
+
+        // student buttons
+        private System.Windows.Forms.Button saveStudent1;
+        private System.Windows.Forms.Button editStudent1;
+        private System.Windows.Forms.Button deleteStudent1;
+
         private System.Windows.Forms.Button saveStudent2;
         private System.Windows.Forms.Button editStudent2;
-        private System.Windows.Forms.TextBox studentID2;
-        private System.Windows.Forms.TextBox studentLN1;
-        private System.Windows.Forms.TextBox studentMI1;
-        private System.Windows.Forms.TextBox studentLN4;
-        private System.Windows.Forms.TextBox studentMI4;
-        private System.Windows.Forms.TextBox studentFN4;
-        private System.Windows.Forms.TextBox studentLN3;
-        private System.Windows.Forms.TextBox studentMI3;
-        private System.Windows.Forms.TextBox studentFN3;
-        private System.Windows.Forms.TextBox studentLN2;
-        private System.Windows.Forms.TextBox studentMI2;
-        private System.Windows.Forms.TextBox studentFN2;
-        private System.Windows.Forms.Panel panelist1;
-        private System.Windows.Forms.TextBox panelistLN1;
+        private System.Windows.Forms.Button deleteStudent2;
+
+        private System.Windows.Forms.Button saveStudent3;
+        private System.Windows.Forms.Button editStudent3;
+        private System.Windows.Forms.Button deleteStudent3;
+
+        private System.Windows.Forms.Button saveStudent4;
+        private System.Windows.Forms.Button editStudent4;
+        private System.Windows.Forms.Button deleteStudent4;
+
+        // sort the students. not sure why i put this
+        private System.Windows.Forms.ComboBox sortStudents;
+
+        // panelist panels lelz
+        private System.Windows.Forms.Panel panelistControl; // main panel
+        private System.Windows.Forms.Panel panelist1; // per panelist
+        private System.Windows.Forms.Panel panelist2;
+        private System.Windows.Forms.Panel panelist3;
+        private System.Windows.Forms.Panel panelist4;
+
+        // panelist textboxes
+        private System.Windows.Forms.TextBox panelistID1;
+        private System.Windows.Forms.TextBox panelistFN1;
         private System.Windows.Forms.TextBox panelistMI1;
+        private System.Windows.Forms.TextBox panelistLN1;
+
+        private System.Windows.Forms.TextBox panelistID2;
+        private System.Windows.Forms.TextBox panelistFN2;
+        private System.Windows.Forms.TextBox panelistMI2;
+        private System.Windows.Forms.TextBox panelistLN2;
+
+        private System.Windows.Forms.TextBox panelistID3;
+        private System.Windows.Forms.TextBox panelistFN3;
+        private System.Windows.Forms.TextBox panelistMI3;
+        private System.Windows.Forms.TextBox panelistLN3;
+
+        private System.Windows.Forms.TextBox panelistID4;
+        private System.Windows.Forms.TextBox panelistFN4;
+        private System.Windows.Forms.TextBox panelistMI4;
+        private System.Windows.Forms.TextBox panelistLN4;
+
+
+        // panelist buttons
+        private System.Windows.Forms.Button selPanelist1;
         private System.Windows.Forms.Button delPanelist1;
         private System.Windows.Forms.Button savePanelist1;
         private System.Windows.Forms.Button editPanelist1;
-        private System.Windows.Forms.TextBox panelistID1;
-        private System.Windows.Forms.TextBox panelistFN1;
-        private System.Windows.Forms.ComboBox selectPanelist1;
-        private System.Windows.Forms.Button selPanelist1;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button selPanelist4;
-        private System.Windows.Forms.ComboBox selectPanelist4;
-        private System.Windows.Forms.TextBox panelistLN4;
-        private System.Windows.Forms.TextBox panelistMI4;
-        private System.Windows.Forms.Button delPanelist4;
-        private System.Windows.Forms.Button savePanelist4;
-        private System.Windows.Forms.Button editPanelist4;
-        private System.Windows.Forms.TextBox panelistID4;
-        private System.Windows.Forms.TextBox panelistFN4;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button selPanelist3;
-        private System.Windows.Forms.ComboBox selectPanelist3;
-        private System.Windows.Forms.TextBox panelistLN3;
-        private System.Windows.Forms.TextBox panelistMI3;
-        private System.Windows.Forms.Button delPanelist3;
-        private System.Windows.Forms.Button savePanelist3;
-        private System.Windows.Forms.Button editPanelist3;
-        private System.Windows.Forms.TextBox panelistID3;
-        private System.Windows.Forms.TextBox panelistFN3;
-        private System.Windows.Forms.Panel panel1;
+
         private System.Windows.Forms.Button selPanelist2;
-        private System.Windows.Forms.ComboBox selectPanelist2;
-        private System.Windows.Forms.TextBox panelistLN2;
-        private System.Windows.Forms.TextBox panelistMI2;
         private System.Windows.Forms.Button delPanelist2;
         private System.Windows.Forms.Button savePanelist2;
         private System.Windows.Forms.Button editPanelist2;
-        private System.Windows.Forms.TextBox panelistID2;
-        private System.Windows.Forms.TextBox panelistFN2;
+
+        private System.Windows.Forms.Button selPanelist3;
+        private System.Windows.Forms.Button delPanelist3;
+        private System.Windows.Forms.Button savePanelist3;
+        private System.Windows.Forms.Button editPanelist3;
+
+        private System.Windows.Forms.Button selPanelist4;
+        private System.Windows.Forms.Button delPanelist4;
+        private System.Windows.Forms.Button savePanelist4;
+        private System.Windows.Forms.Button editPanelist4;
+
+        // select panelist comboboxes
+        private System.Windows.Forms.ComboBox selectPanelist1;
+        private System.Windows.Forms.ComboBox selectPanelist2;
+        private System.Windows.Forms.ComboBox selectPanelist3;
+        private System.Windows.Forms.ComboBox selectPanelist4;
+        private System.Windows.Forms.ComboBox selectAdviser;
     }
 }
