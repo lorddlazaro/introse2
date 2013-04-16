@@ -242,6 +242,7 @@
             // 
             this.studentMI4.Enabled = false;
             this.studentMI4.Location = new System.Drawing.Point(232, 29);
+            this.studentMI4.MaxLength = 1;
             this.studentMI4.Name = "studentMI4";
             this.studentMI4.Size = new System.Drawing.Size(24, 20);
             this.studentMI4.TabIndex = 27;
@@ -347,6 +348,7 @@
             // 
             this.studentMI3.Enabled = false;
             this.studentMI3.Location = new System.Drawing.Point(232, 30);
+            this.studentMI3.MaxLength = 1;
             this.studentMI3.Name = "studentMI3";
             this.studentMI3.Size = new System.Drawing.Size(24, 20);
             this.studentMI3.TabIndex = 27;
@@ -452,6 +454,7 @@
             // 
             this.studentMI2.Enabled = false;
             this.studentMI2.Location = new System.Drawing.Point(232, 29);
+            this.studentMI2.MaxLength = 1;
             this.studentMI2.Name = "studentMI2";
             this.studentMI2.Size = new System.Drawing.Size(24, 20);
             this.studentMI2.TabIndex = 27;
@@ -557,6 +560,7 @@
             // 
             this.studentMI1.Enabled = false;
             this.studentMI1.Location = new System.Drawing.Point(232, 29);
+            this.studentMI1.MaxLength = 1;
             this.studentMI1.Name = "studentMI1";
             this.studentMI1.Size = new System.Drawing.Size(24, 20);
             this.studentMI1.TabIndex = 23;
@@ -725,6 +729,7 @@
             // 
             this.panelistMI4.Enabled = false;
             this.panelistMI4.Location = new System.Drawing.Point(319, 4);
+            this.panelistMI4.MaxLength = 1;
             this.panelistMI4.Name = "panelistMI4";
             this.panelistMI4.Size = new System.Drawing.Size(24, 20);
             this.panelistMI4.TabIndex = 23;
@@ -850,6 +855,7 @@
             // 
             this.panelistMI3.Enabled = false;
             this.panelistMI3.Location = new System.Drawing.Point(319, 4);
+            this.panelistMI3.MaxLength = 1;
             this.panelistMI3.Name = "panelistMI3";
             this.panelistMI3.Size = new System.Drawing.Size(24, 20);
             this.panelistMI3.TabIndex = 23;
@@ -975,6 +981,7 @@
             // 
             this.panelistMI2.Enabled = false;
             this.panelistMI2.Location = new System.Drawing.Point(319, 4);
+            this.panelistMI2.MaxLength = 1;
             this.panelistMI2.Name = "panelistMI2";
             this.panelistMI2.Size = new System.Drawing.Size(24, 20);
             this.panelistMI2.TabIndex = 23;
@@ -1110,6 +1117,7 @@
             // 
             this.panelistMI1.Enabled = false;
             this.panelistMI1.Location = new System.Drawing.Point(319, 4);
+            this.panelistMI1.MaxLength = 1;
             this.panelistMI1.Name = "panelistMI1";
             this.panelistMI1.Size = new System.Drawing.Size(24, 20);
             this.panelistMI1.TabIndex = 23;

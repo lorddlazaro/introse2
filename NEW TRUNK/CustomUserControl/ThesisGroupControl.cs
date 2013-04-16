@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace CustomUserControl
@@ -515,39 +516,20 @@ namespace CustomUserControl
                 return;
             }
 
-            if (newMI.Length != 1)
+            if (newMI[0] > 'a' && newMI[0] < 'z')
             {
-                MessageBox.Show("Invalid Middle Initial.", "Error", MessageBoxButtons.OK);
+                newMI = newMI.ToUpper();
+            }
+            else if (newMI[0] < 'A' || newMI[0] > 'Z')
+            {
+                MessageBox.Show("Invalid Middle Initial, Middle Initial must be a letter.", "Error", MessageBoxButtons.OK);
                 return;
             }
-            else
-            {
-                if (newMI[0] > 'a' && newMI[0] < 'z')
-                {
-                    newMI = newMI.ToUpper();
-                }
-                else if (newMI[0] < 'A' || newMI[0] > 'Z')
-                {
-                    MessageBox.Show("Invalid Middle Initial, Middle Initial must be a letter.", "Error", MessageBoxButtons.OK);
-                    return;
-                }
-            }
 
-            if (newID.Length != 8)
+            if (!Regex.IsMatch(newID, "\\d{8}$"))
             {
                 MessageBox.Show("Invalid ID Number, ID must be a sequence of 8 numbers.", "Error", MessageBoxButtons.OK);
                 return;
-            }
-            else
-            {
-                for (int i = 0; i < 8; i++)
-                {
-                    if (newID[i] < '0' || newID[i] > '9')
-                    {
-                        MessageBox.Show("Invalid ID Number, ID must be a sequence of 8 numbers.", "Error", MessageBoxButtons.OK);
-                        return;
-                    }
-                }
             }
 
             if (result[0].Count <= studentIndex)
@@ -575,7 +557,6 @@ namespace CustomUserControl
                     if (studentsInGroups[0].ElementAt(i) == newID)
                     {
                         MessageBox.Show("Duplicate Entry, Student already in another thesis group.", "Error", MessageBoxButtons.OK);
-                        update_students();
                         return;
                     }
                 }
@@ -668,39 +649,20 @@ namespace CustomUserControl
                 return;
             }
 
-            if (newMI.Length != 1)
+            if (newMI[0] > 'a' && newMI[0] < 'z')
             {
-                MessageBox.Show("Invalid Middle Initial.", "Error", MessageBoxButtons.OK);
+                newMI = newMI.ToUpper();
+            }
+            else if (newMI[0] < 'A' || newMI[0] > 'Z')
+            {
+                MessageBox.Show("Invalid Middle Initial, Middle Initial must be a letter.", "Error", MessageBoxButtons.OK);
                 return;
             }
-            else
-            {
-                if (newMI[0] > 'a' && newMI[0] < 'z')
-                {
-                    newMI = newMI.ToUpper();
-                }
-                else if (newMI[0] < 'A' || newMI[0] > 'Z')
-                {
-                    MessageBox.Show("Invalid Middle Initial, Middle Initial must be a letter.", "Error", MessageBoxButtons.OK);
-                    return;
-                }
-            }
 
-            if (newID.Length != 8)
+            if (!Regex.IsMatch(newID, "\\d{8}$"))
             {
                 MessageBox.Show("Invalid ID Number, ID must be a sequence of 8 numbers.", "Error", MessageBoxButtons.OK);
                 return;
-            }
-            else
-            {
-                for (int i = 0; i < 8; i++)
-                {
-                    if (newID[i] < '0' || newID[i] > '9')
-                    {
-                        MessageBox.Show("Invalid ID Number, ID must be a sequence of 8 numbers.", "Error", MessageBoxButtons.OK);
-                        return;
-                    }
-                }
             }
 
             if (result[0].Count <= panelIndex)
@@ -710,7 +672,6 @@ namespace CustomUserControl
                     if (result[0].ElementAt(i).Equals(newID))
                     {
                         MessageBox.Show("Panelist Already Assigned to Thesis Group", "Error", MessageBoxButtons.OK);
-                        update_components();
                         return;
                     }
                 }
@@ -720,7 +681,6 @@ namespace CustomUserControl
                     if (result2[0].ElementAt(i).Equals(newID))
                     {
                         MessageBox.Show("Panelist Already Exists, use select existing", "Error", MessageBoxButtons.OK);
-                        update_components();
                         return;
                     }
                 }
@@ -912,63 +872,16 @@ namespace CustomUserControl
             String eligibility = defenseCheckBox.Checked + "";
             String eligibility_redef = redefenseCheckBox.Checked + "";
 
-            if (newSY.Length != 9)
+            if (!Regex.IsMatch(newSY, "\\d{4}-\\d{4}$"))
             {
                 MessageBox.Show("Invalid school year format, format is <year>-<year+1>.", "Error", MessageBoxButtons.OK);
                 return;
             }
-            else
-            {
-                String[] SYFormat = newSY.Split('-');
 
-                if (SYFormat[0].Length != 4 || SYFormat[1].Length != 4)
-                {
-                    MessageBox.Show("Invalid school year format, format is <year>-<year+1>.", "Error", MessageBoxButtons.OK);
-                    return;
-                }
-
-                for (int j = 0; j < 2; j++)
-                {
-                    for (int i = 0; i < 4; i++)
-                    {
-                        if (SYFormat[j][i] < '0' || SYFormat[j][i] > '9')
-                        {
-                            MessageBox.Show("Invalid school year format, format is <year>-<year+1>.", "Error", MessageBoxButtons.OK);
-                            return;
-                        }
-                    }
-                }
-
-                if (Convert.ToInt32(SYFormat[0]) + 1 != Convert.ToInt32(SYFormat[1]))
-                {
-                    MessageBox.Show("Invalid school year format, format is <year>-<year+1>.", "Error", MessageBoxButtons.OK);
-                    return;
-                }
-            }
-
-            if (newSection.Length != 3)
+            if (!Regex.IsMatch(newSection, "S\\d{2}&"))
             {
                 MessageBox.Show("Invalid section format, format is S<section number>.", "Error", MessageBoxButtons.OK);
                 return;
-            }
-            else
-            {
-                if (newSection[0] == 'S')
-                {
-                    for (int i = 0; i < newSection.Substring(1).Length; i++)
-                    {
-                        if (newSection[i + 1] < '0' && newSection[i + 1] > '9')
-                        {
-                            MessageBox.Show("Invalid section format, format is S<section number>.", "Error", MessageBoxButtons.OK);
-                            return;
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Invalid section format, format is S<section number>.", "Error", MessageBoxButtons.OK);
-                    return;
-                }
             }
 
             if (!currThesisGroupID.Equals(""))
