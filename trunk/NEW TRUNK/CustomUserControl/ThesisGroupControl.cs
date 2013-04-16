@@ -518,6 +518,36 @@ namespace CustomUserControl
             if (newMI.Length != 1)
             {
                 MessageBox.Show("Invalid Middle Initial.", "Error", MessageBoxButtons.OK);
+                return;
+            }
+            else
+            {
+                if (newMI[0] > 'a' && newMI[0] < 'z')
+                {
+                    newMI = newMI.ToUpper();
+                }
+                else if (newMI[0] < 'A' || newMI[0] > 'Z')
+                {
+                    MessageBox.Show("Invalid Middle Initial, Middle Initial must be a letter.", "Error", MessageBoxButtons.OK);
+                    return;
+                }
+            }
+
+            if (newID.Length != 8)
+            {
+                MessageBox.Show("Invalid ID Number, ID must be a sequence of 8 numbers.", "Error", MessageBoxButtons.OK);
+                return;
+            }
+            else
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    if (newID[i] < '0' || newID[i] > '9')
+                    {
+                        MessageBox.Show("Invalid ID Number, ID must be a sequence of 8 numbers.", "Error", MessageBoxButtons.OK);
+                        return;
+                    }
+                }
             }
 
             if (result[0].Count <= studentIndex)
@@ -624,8 +654,6 @@ namespace CustomUserControl
             Button pressed = (Button)sender;
             int panelIndex = Convert.ToInt32(pressed.Name.Substring(12)) - 1;
 
-            String query;
-
             String newID = panelistDetails[panelIndex].ElementAt(0).Text;
             String newFirstName = panelistDetails[panelIndex].ElementAt(1).Text;
             String newLastName = panelistDetails[panelIndex].ElementAt(2).Text;
@@ -638,6 +666,41 @@ namespace CustomUserControl
             {
                 MessageBox.Show("Please fill incomplete fields.", "Error", MessageBoxButtons.OK);
                 return;
+            }
+
+            if (newMI.Length != 1)
+            {
+                MessageBox.Show("Invalid Middle Initial.", "Error", MessageBoxButtons.OK);
+                return;
+            }
+            else
+            {
+                if (newMI[0] > 'a' && newMI[0] < 'z')
+                {
+                    newMI = newMI.ToUpper();
+                }
+                else if (newMI[0] < 'A' || newMI[0] > 'Z')
+                {
+                    MessageBox.Show("Invalid Middle Initial, Middle Initial must be a letter.", "Error", MessageBoxButtons.OK);
+                    return;
+                }
+            }
+
+            if (newID.Length != 8)
+            {
+                MessageBox.Show("Invalid ID Number, ID must be a sequence of 8 numbers.", "Error", MessageBoxButtons.OK);
+                return;
+            }
+            else
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    if (newID[i] < '0' || newID[i] > '9')
+                    {
+                        MessageBox.Show("Invalid ID Number, ID must be a sequence of 8 numbers.", "Error", MessageBoxButtons.OK);
+                        return;
+                    }
+                }
             }
 
             if (result[0].Count <= panelIndex)
@@ -697,7 +760,6 @@ namespace CustomUserControl
             if (currThesisGroupID == "")
                 return;
 
-            String query;
             List<String>[] result;
 
             result = tgDM.getPanelistInfo(panelistID);
@@ -803,7 +865,9 @@ namespace CustomUserControl
             groupButtons[2].Enabled = true;
 
             defenseCheckBox.Enabled = false;
+            defenseCheckBox.Checked = false;
             redefenseCheckBox.Enabled = false;
+            redefenseCheckBox.Checked = false;
         }
         private void edit_groupDetails_Click(object sender, EventArgs e)
         {
@@ -848,7 +912,64 @@ namespace CustomUserControl
             String eligibility = defenseCheckBox.Checked + "";
             String eligibility_redef = redefenseCheckBox.Checked + "";
 
-            String query;
+            if (newSY.Length != 9)
+            {
+                MessageBox.Show("Invalid school year format, format is <year>-<year+1>.", "Error", MessageBoxButtons.OK);
+                return;
+            }
+            else
+            {
+                String[] SYFormat = newSY.Split('-');
+
+                if (SYFormat[0].Length != 4 || SYFormat[1].Length != 4)
+                {
+                    MessageBox.Show("Invalid school year format, format is <year>-<year+1>.", "Error", MessageBoxButtons.OK);
+                    return;
+                }
+
+                for (int j = 0; j < 2; j++)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (SYFormat[j][i] < '0' || SYFormat[j][i] > '9')
+                        {
+                            MessageBox.Show("Invalid school year format, format is <year>-<year+1>.", "Error", MessageBoxButtons.OK);
+                            return;
+                        }
+                    }
+                }
+
+                if (Convert.ToInt32(SYFormat[0]) + 1 != Convert.ToInt32(SYFormat[1]))
+                {
+                    MessageBox.Show("Invalid school year format, format is <year>-<year+1>.", "Error", MessageBoxButtons.OK);
+                    return;
+                }
+            }
+
+            if (newSection.Length != 3)
+            {
+                MessageBox.Show("Invalid section format, format is S<section number>.", "Error", MessageBoxButtons.OK);
+                return;
+            }
+            else
+            {
+                if (newSection[0] == 'S')
+                {
+                    for (int i = 0; i < newSection.Substring(1).Length; i++)
+                    {
+                        if (newSection[i + 1] < '0' && newSection[i + 1] > '9')
+                        {
+                            MessageBox.Show("Invalid section format, format is S<section number>.", "Error", MessageBoxButtons.OK);
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid section format, format is S<section number>.", "Error", MessageBoxButtons.OK);
+                    return;
+                }
+            }
 
             if (!currThesisGroupID.Equals(""))
             {
@@ -865,6 +986,7 @@ namespace CustomUserControl
             }
             else
             {
+                tgDM.insertNewGroup(newTitle, newCourse, newSection, newSY, newTerm, eligibility, eligibility_redef);
                 currThesisGroupID = tgDM.getGroupIDFromTitle(newTitle);
             }
 

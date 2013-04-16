@@ -29,7 +29,7 @@ namespace CustomUserControl
         }
         public Boolean checkIfTitleAlreadyExists(String thesisGroupID, String title)
         {
-            String query = "select count(*) from thesisgroup where title = '" + title + "' and thesisgroupid != " + thesisGroupID + ";";
+            String query = "select count(*) from thesisgroup where title = '" + title + "' and thesisgroupid != '" + thesisGroupID + "';";
             int count = Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
 
             return count > 0;
@@ -40,11 +40,16 @@ namespace CustomUserControl
             query += "where thesisgroupid = " + thesisGroupID + ";";
             dbHandler.Update(query);
         }
-        public void insertNewGroup(String thesisGroupID, String title, String course, String section, String startSY, String startTerm, String eligiblefordefense, String eligibleforredef)
+        public void insertNewGroup(String title, String course, String section, String startSY, String startTerm, String eligiblefordefense, String eligibleforredef)
         {
             String insert = "('" + title + "', '" + course + "', '" + section + "', '" + startSY + "', '" + startTerm + "', '" + eligiblefordefense + "', '" + eligibleforredef + "')";
             String query = "insert into thesisgroup (title, course, section, startsy, startterm, eligiblefordefense, eligibleforredefense) values" + insert + ";";
             dbHandler.Insert(query);
+        }
+        public void deleteGroup(String thesisGroupID)
+        {
+            String query = "delete from thesisgroup where thesisgroupid = " + thesisGroupID + ";";
+            dbHandler.Delete(query);
         }
         public String getGroupIDFromTitle(String title)
         {
@@ -112,20 +117,6 @@ namespace CustomUserControl
         {
             String query = "select distinct course from thesisgroup where course IS NOT NULL and course != 'THSST-2';";
             return dbHandler.Select(query, 1);
-        }
- 
-        // only thing i admit the need to document, but won't because we can all read SQL
-        public void deleteGroup(String thesisGroupID)
-        {
-            String query = "delete from defenseschedule where thesisgroupid = " + thesisGroupID + ";";
-            dbHandler.Delete(query);
-            query = "delete from student where thesisgroupid = " + thesisGroupID + ";";
-            dbHandler.Delete(query);
-            query = "delete from panelassignment where thesisgroupid = " + thesisGroupID + ";";
-            dbHandler.Delete(query);
-
-            query = "update thesisgroup set title = NULL, course = NULL, section = NULL, startSY = NULL, startTerm = NULL, eligiblefordefense = 'false', eligibleforredefense = 'false' where thesisgroupid = " + thesisGroupID + ";";
-            dbHandler.Update(query);
         }
 
         public List<String>[] getAllPanelists()
@@ -310,7 +301,7 @@ namespace CustomUserControl
 
             for (int i = 0; i < parentList[0].Count; i++)
             {
-                query = "select thesisgroupid, title, section from thesisGroup where course = '" + parentList[0].ElementAt(i) + "' and course IS NOT NULL;";
+                query = "select thesisgroupid, title, section from thesisGroup where course = '" + parentList[0].ElementAt(i) + "' and course IS NOT NULL order by title;";
                 childList = dbHandler.Select(query, 3);
 
                 parent = new TreeNode();
