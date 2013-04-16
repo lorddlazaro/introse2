@@ -88,7 +88,7 @@ namespace CustomUserControl
         {
             if (schedulingDM.CurrGroupDefSched != null)
             {
-                if (DateTimeHelper.DatesIntersectInclusive(schedulingDM.CurrGroupDefSched.DefenseDateTime, schedulingDM.CurrGroupDefSched.DefenseDateTime, startOfTheWeek, endOfTheWeek))
+                if (DateTimeHelper.IsBetweenInclusive(schedulingDM.CurrGroupDefSched.StartTime.Date, startOfTheWeek, endOfTheWeek))
                 {
                     /* The following two variables represent unadjusted day indices.
                     * That is, Mon = 0, Tues = 1, Wed = 2, Thu = 3, Fri = 4, Sat = 5.
