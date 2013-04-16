@@ -806,11 +806,55 @@ namespace CustomUserControl
         /*** Miscellaneous Methods - END ***/
 
 
-        public bool IsNewClassTimePeriodConflictFree(String studentID, TimePeriod classTimePeriod, String dayOfWeek) 
-        { 
+
+        public bool IsNewClassTimePeriodConflictFreeStudent(String studentID, TimePeriod classTimePeriod, String dayOfWeek) 
+        {
             String query = "SELECT distinct timeslotID FROM studentSchedule WHERE studentID = '" + studentID + "';";
             List<String> timeSlotIDs = dbHandler.Select(query, 1)[0];
-           
+            return IsNewClassTimePeriodConflictFree(timeSlotIDs, classTimePeriod, dayOfWeek);
+        }
+
+        public bool IsNewClassTimePeriodConflictFreePanelist(String panelistID, TimePeriod classTimePeriod, String dayOfWeek)
+        {
+            String query = "SELECT distinct timeslotID FROM timeslot WHERE panelistID = '" + panelistID + "';";
+            List<String> timeSlotIDs = dbHandler.Select(query, 1)[0];
+            return IsNewClassTimePeriodConflictFree(timeSlotIDs, classTimePeriod, dayOfWeek);
+        }
+
+        private bool IsNewClassTimePeriodConflictFreeDefenses(String studentID, TimePeriod classTimePeriod, String dayOfWeek) 
+        {
+            List<TimePeriod>[] defenseTimePeriods;
+            String query;
+            DefenseSchedule defSched;
+            DefenseSchedule redefSched;
+
+            bool conflictWithDefense = false;
+            bool conflictWithRedefense = false;
+            String defDayOfWeek;
+            String redefDayOfWeek;
+
+            defSched = GetDefSched(studentID, Constants.DEFENSE_TYPE);
+            redefSched = GetDefSched(studentID, Constants.REDEFENSE_TYPE);
+
+            if (defSched != null)
+            {
+                defDayOfWeek = ConvertDayOfWeekToString(defSched.StartTime.DayOfWeek);
+                conflictWithDefense = defDayOfWeek.Equals(dayOfWeek) && classTimePeriod.IntersectsExclusive(defSched);
+            }
+            if (redefSched != null)
+            {
+                redefDayOfWeek = ConvertDayOfWeekToString(redefSched.StartTime.DayOfWeek);
+                conflictWithRedefense = redefDayOfWeek.Equals(dayOfWeek) && classTimePeriod.IntersectsExclusive(redefSched);
+            }
+
+            if (conflictWithDefense || conflictWithRedefense)
+                return false;
+
+            return true;
+        }
+
+        private bool IsNewClassTimePeriodConflictFree(List<String>timeSlotIDs, TimePeriod classTimePeriod, String dayOfWeek) 
+        { 
             List<TimePeriod>[] classSlots = GetUniqueClassTimePeriods(timeSlotIDs);
 
             int dayIndex = GetDayIndex(dayOfWeek);
