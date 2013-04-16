@@ -295,16 +295,22 @@ namespace CustomUserControl
                     schedulingDM.DeleteSelectedGroupDefense();
                     ClearDefenseInfo();
                     ShortenGroupBox();
-                    RefreshCalendar();
+
+                    ChangeSelectedGroup(currGroupID);
                     MarkAllScheduledGroups();
+                    RefreshCalendar();
+                    defenseInfoGroupBox.Refresh();
                 }
             }
             else //Cancel edit/add
             {
                 ClearDefenseInfo();
                 ShortenGroupBox();
-                RefreshCalendar();
+
+                ChangeSelectedGroup(currGroupID);
                 MarkAllScheduledGroups();
+                RefreshCalendar();
+                defenseInfoGroupBox.Refresh();
             }
         }
 
@@ -712,14 +718,15 @@ namespace CustomUserControl
         
         /****** END:   GUI Methods For Changing Defense Addition/Editing Forms *******/
 
-
+        
         /********START: Refresh Methods*********/
         public void RefreshAll()
         {
             Invalidate();
+            ChangeSelectedGroup(currGroupID);
             RefreshTreeViews();
             MarkAllScheduledGroups();
-            RefreshCalendar();
+            RefreshCalendar();   
             defenseInfoGroupBox.Refresh();
             Validate();
         }
