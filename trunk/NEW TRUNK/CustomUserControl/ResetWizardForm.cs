@@ -9,97 +9,173 @@ using System.Windows.Forms;
 
 namespace CustomUserControl
 {
-    public partial class ResetWizardForm : Form
+    public partial class FormResetWizard : Form
     {
         DBce DBHandler;
 
-        public ResetWizardForm()
+        public FormResetWizard()
         {
             InitializeComponent();
             DBHandler = new DBce();
+            Show();
         }
 
-        private void ResetData() 
+        // Initialization Methods
+        private void PrepareListData()
+        {
+            FillCheckedBoxList(treeViewGroupList1, 1);
+            FillCheckedBoxList(treeViewGroupList2, 2);
+            FillCheckedBoxList(treeViewGroupList3, 3);
+        }
+        private void FillCheckedBoxList(TreeView tree, int course)
+        {
+            List<string>[] list;
+            TreeNode tempNode;
+
+            string query = "select thesisgroupid, title from thesisgroup where course = 'THSST-" + course + "';";
+            list = DBHandler.Select(query, 2);
+
+            TreeNodeCollection nodes = tree.Nodes;
+            nodes.Clear();
+
+            for (int i = 0; i < list[0].Count(); i++)
+            {
+                tempNode = new TreeNode();
+
+                tempNode.Checked = true;
+                tempNode.Name = list[0].ElementAt(i);
+                tempNode.Text = list[1].ElementAt(i);
+
+                nodes.Add(tempNode);
+            }
+        }
+
+        // Refreshers
+        private int RefreshProgressLabel(string labelText, int stepsLeft) 
+        {
+            labelResetting.Text = labelText;
+            return stepsLeft - 1;
+        }
+
+        // Event Listeners
+        private void buttonResettingExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        private void buttonGroupSelectionNext_Click(object sender, EventArgs e)
+        {
+            tabControlResetWizard.SelectedIndex = 2;
+            buttonResettingExit.Enabled = false;
+            ResetData();
+        }
+        private void buttonStartPageNext_Click(object sender, EventArgs e)
+        {
+            PrepareListData();
+            tabControlResetWizard.SelectedIndex = 1;
+        }
+        private void buttonGroupSelectionBack_Click(object sender, EventArgs e)
+        {
+            tabControlResetWizard.SelectedIndex = 0;
+        }
+        private void tabControlResetWizard_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (tabControlResetWizard.SelectedIndex)
+            {
+                case 0: tabPageStartPage.Refresh(); break;
+                case 1: tabGroupSelection.Refresh(); break;
+                case 2: tabPageResetting.Refresh(); break;
+            }
+        }
+
+        // Resetting Methods
+        private void ResetData()
         {
             string query;
-            int stepsLeft = 8;
+            int stepsLeft = 6; // amount of steps left + 1
 
-            // Note: Task (Database table/s involved)
+            // Legend: Task (Database table/s involved)
+
+            // FIRST STEP
+            stepsLeft = RefreshProgressLabel("Resetting in progress (Step 1 of 5): Clearing Student Schedules", stepsLeft);
 
             // Delete all class schedule assignments (StudentSchedule)
-            label1.Text = "Resetting in progress (Step 1 of 5): Clearing Student Schedules";
             query = "delete from studentschedule;";
             DBHandler.Delete(query);
-
-            progressBar1.Value = progressBar1.Maximum / stepsLeft--;
 
             // Delete all class schedules (Timeslot)
             query = "delete from timeslot;";
             DBHandler.Delete(query);
 
-            progressBar1.Value = progressBar1.Maximum / stepsLeft--;
-            
+            progressBarResetting.Value = progressBarResetting.Maximum / stepsLeft;
+
+            // SECOND STEP
+            stepsLeft = RefreshProgressLabel("Resetting in progress (Step 2 of 5): Clearing Events", stepsLeft);
+
             // Delete all event assignments (StudentEventRecord & PanelistEventRecord)
-            label1.Text = "Resetting in progress (Step 2 of 5): Clearing Events";
             query = "delete from studenteventrecord;";
             DBHandler.Delete(query);
-
-            progressBar1.Value = progressBar1.Maximum / stepsLeft--;
 
             query = "delete from panelisteventrecord;";
             DBHandler.Delete(query);
 
-            progressBar1.Value = progressBar1.Maximum / stepsLeft--;
             // Delete all events (Event)
             query = "delete from event;";
             DBHandler.Delete(query);
 
-            progressBar1.Value = progressBar1.Maximum / stepsLeft--;
+            progressBarResetting.Value = progressBarResetting.Maximum / stepsLeft;
+
+            // THIRD STEP
+            stepsLeft = RefreshProgressLabel("Resetting in progress (Step 3 of 5): Clearing Defense Schedules", stepsLeft);
 
             // Delete all defense/redefense schedules (DefenseSchedule)
-            label1.Text = "Resetting in progress (Step 3 of 5): Clearing Defense and Redefense Schedules.";
             query = "delete from defenseschedule;";
             DBHandler.Delete(query);
 
-            progressBar1.Value = progressBar1.Maximum / stepsLeft--;
+            progressBarResetting.Value = progressBarResetting.Maximum / stepsLeft;
+
+            // FOURTH STEP
+            stepsLeft = RefreshProgressLabel("Resetting in progress (Step 4 of 5): Resetting Group Eligibility", stepsLeft);
 
             // Reset eligibility for defense/redefense (ThesisGroup)
-            label1.Text = "Resetting in progress (Step 4 of 5): Resetting Group Eligibility";
             query = "update thesisgroup set eligiblefordefense = 'false', eligibleforredefense = 'false';";
             DBHandler.Update(query);
 
-            progressBar1.Value = progressBar1.Maximum / stepsLeft--;
+            progressBarResetting.Value = progressBarResetting.Maximum / stepsLeft;
+
+            // FIFTH STEP
+            stepsLeft = RefreshProgressLabel("Resetting in progress (Step 5 of 5): Moving Thesis Groups", stepsLeft);
+
             // Groups proceed to next course (ThesisGroup)
-            label1.Text = "Resetting in progress (Step 5 of 5): Moving Thesis Groups";
-            ProcessTreeData();
+            AdvanceThesisGroups();
 
-            progressBar1.Value = progressBar1.Maximum / stepsLeft--;
-            label1.Text = "Resetting Complete";
-            ExitButton.Enabled = true;
+            progressBarResetting.Value = progressBarResetting.Maximum / stepsLeft;
+
+            // RESET COMPLETE
+            RefreshProgressLabel("Reset Complete", stepsLeft);
+            buttonResettingExit.Enabled = true;
         }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void AdvanceThesisGroups() 
         {
-            resetWizardTabControl1.SelectedIndex = 2;
-            Refresh();
-            ExitButton.Enabled = false;
-            ResetData();
+            UpdateGroupsCourse("THSST-2", treeViewGroupList1);
+            UpdateGroupsCourse("THSST-3", treeViewGroupList2);
+            DeleteGroups(treeViewGroupList3);
         }
-
-        private void button2_Click(object sender, EventArgs e)
+        private void UpdateGroupsCourse(String newCourse, TreeView treeView)
         {
-            PrepareListData();
-            resetWizardTabControl1.SelectedIndex = 1;
-            Refresh();
-        }
+            string inlist = "";
+            string query;
 
-        private void ProcessTreeData() 
-        {
-            UpdateGroupsCourse("THSST-2", treeView1);
-            UpdateGroupsCourse("THSST-3", treeView2);
-            DeleteGroups(treeView3);
-        }
+            foreach (TreeNode node in treeView.Nodes)
+                if (node.Checked)
+                    inlist += node.Name + ",";
 
+            if (!String.IsNullOrEmpty(inlist))
+            {
+                inlist = inlist.Substring(0, inlist.Length - 1);
+                query = "update thesisgroup set course = '" + newCourse + "' where thesisgroupid in (" + inlist + ");";
+                DBHandler.Update(query);
+            }
+        }
         private void DeleteGroups(TreeView treeView)
         {
             string inlist = "";
@@ -128,56 +204,5 @@ namespace CustomUserControl
             }
         }
 
-        private void UpdateGroupsCourse(String newCourse, TreeView treeView)
-        {
-            string inlist = "";
-            string query;
-
-            foreach (TreeNode node in treeView.Nodes)
-                if (node.Checked)
-                    inlist += node.Name + ",";
-
-            if (!String.IsNullOrEmpty(inlist))
-            {
-                inlist = inlist.Substring(0, inlist.Length - 1);
-                query = "update thesisgroup set course = '" + newCourse + "' where thesisgroupid in (" + inlist + ");";
-                DBHandler.Update(query);
-            }
-        }
-
-        private void PrepareListData() 
-        {
-            FillCheckedBoxList(treeView1, 1);
-            FillCheckedBoxList(treeView2, 2);
-            FillCheckedBoxList(treeView3, 3);
-        }
-
-        private void FillCheckedBoxList(TreeView tree, int course)
-        {
-            List<string>[] list;
-            TreeNode tempNode;
-
-            string query = "select thesisgroupid, title from thesisgroup where course = 'THSST-" + course + "';";
-            list = DBHandler.Select(query, 2);
-
-            TreeNodeCollection nodes = tree.Nodes;
-            nodes.Clear();
-
-            for (int i = 0; i < list[0].Count(); i++)
-            {
-                tempNode = new TreeNode();
-
-                tempNode.Checked = true;
-                tempNode.Name = list[0].ElementAt(i);
-                tempNode.Text = list[1].ElementAt(i);
-
-                nodes.Add(tempNode);
-            }
-        }
-
-        private void ExitButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace CustomUserControl
 {
-    partial class ResetWizardForm
+    partial class FormResetWizard
     {
         /// <summary>
         /// Required designer variable.
@@ -28,234 +28,389 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.resetWizardTabControl1 = new CustomUserControl.ResetWizardTabControl();
-            this.WizardTabPage1 = new System.Windows.Forms.TabPage();
-            this.label5 = new System.Windows.Forms.Label();
-            this.WizardTabPage2 = new System.Windows.Forms.TabPage();
-            this.treeView3 = new System.Windows.Forms.TreeView();
-            this.treeView2 = new System.Windows.Forms.TreeView();
-            this.treeView1 = new System.Windows.Forms.TreeView();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.WizardTabPage3 = new System.Windows.Forms.TabPage();
-            this.ExitButton = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.button2 = new System.Windows.Forms.Button();
-            this.resetWizardTabControl1.SuspendLayout();
-            this.WizardTabPage1.SuspendLayout();
-            this.WizardTabPage2.SuspendLayout();
-            this.WizardTabPage3.SuspendLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormResetWizard));
+            this.tabControlResetWizard = new CustomUserControl.ResetWizardTabControl();
+            this.tabPageStartPage = new System.Windows.Forms.TabPage();
+            this.labelStartPageWarning = new System.Windows.Forms.Label();
+            this.labelStartPageText = new System.Windows.Forms.Label();
+            this.labelStartPageHeader = new System.Windows.Forms.Label();
+            this.pictureBoxStartPage = new System.Windows.Forms.PictureBox();
+            this.labelStartPageDivider = new System.Windows.Forms.Label();
+            this.buttonStartPageNext = new System.Windows.Forms.Button();
+            this.tabGroupSelection = new System.Windows.Forms.TabPage();
+            this.buttonGroupSelectionBack = new System.Windows.Forms.Button();
+            this.labelGroupSelectionDividerTop = new System.Windows.Forms.Label();
+            this.labelGroupSelectionNote = new System.Windows.Forms.Label();
+            this.labelGroupSelectionText = new System.Windows.Forms.Label();
+            this.labelGroupSelectionHeader = new System.Windows.Forms.Label();
+            this.labelGroupSelectionDividerBottom = new System.Windows.Forms.Label();
+            this.treeViewGroupList3 = new System.Windows.Forms.TreeView();
+            this.treeViewGroupList2 = new System.Windows.Forms.TreeView();
+            this.treeViewGroupList1 = new System.Windows.Forms.TreeView();
+            this.labelTreeView3 = new System.Windows.Forms.Label();
+            this.labelTreeView2 = new System.Windows.Forms.Label();
+            this.labelTreeView1 = new System.Windows.Forms.Label();
+            this.buttonGroupSelectionNext = new System.Windows.Forms.Button();
+            this.tabPageResetting = new System.Windows.Forms.TabPage();
+            this.buttonResettingExit = new System.Windows.Forms.Button();
+            this.labelResetting = new System.Windows.Forms.Label();
+            this.progressBarResetting = new System.Windows.Forms.ProgressBar();
+            this.tabControlResetWizard.SuspendLayout();
+            this.tabPageStartPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStartPage)).BeginInit();
+            this.tabGroupSelection.SuspendLayout();
+            this.tabPageResetting.SuspendLayout();
             this.SuspendLayout();
             // 
-            // resetWizardTabControl1
+            // tabControlResetWizard
             // 
-            this.resetWizardTabControl1.Controls.Add(this.WizardTabPage1);
-            this.resetWizardTabControl1.Controls.Add(this.WizardTabPage2);
-            this.resetWizardTabControl1.Controls.Add(this.WizardTabPage3);
-            this.resetWizardTabControl1.Location = new System.Drawing.Point(2, 3);
-            this.resetWizardTabControl1.Multiline = true;
-            this.resetWizardTabControl1.Name = "resetWizardTabControl1";
-            this.resetWizardTabControl1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.resetWizardTabControl1.SelectedIndex = 0;
-            this.resetWizardTabControl1.Size = new System.Drawing.Size(720, 393);
-            this.resetWizardTabControl1.TabIndex = 0;
+            this.tabControlResetWizard.Controls.Add(this.tabPageStartPage);
+            this.tabControlResetWizard.Controls.Add(this.tabGroupSelection);
+            this.tabControlResetWizard.Controls.Add(this.tabPageResetting);
+            this.tabControlResetWizard.Location = new System.Drawing.Point(0, 0);
+            this.tabControlResetWizard.Multiline = true;
+            this.tabControlResetWizard.Name = "tabControlResetWizard";
+            this.tabControlResetWizard.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tabControlResetWizard.SelectedIndex = 0;
+            this.tabControlResetWizard.Size = new System.Drawing.Size(722, 400);
+            this.tabControlResetWizard.TabIndex = 0;
+            this.tabControlResetWizard.SelectedIndexChanged += new System.EventHandler(this.tabControlResetWizard_SelectedIndexChanged);
             // 
-            // WizardTabPage1
+            // tabPageStartPage
             // 
-            this.WizardTabPage1.BackColor = System.Drawing.SystemColors.Control;
-            this.WizardTabPage1.Controls.Add(this.label5);
-            this.WizardTabPage1.Controls.Add(this.button2);
-            this.WizardTabPage1.Location = new System.Drawing.Point(4, 22);
-            this.WizardTabPage1.Name = "WizardTabPage1";
-            this.WizardTabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.WizardTabPage1.Size = new System.Drawing.Size(712, 367);
-            this.WizardTabPage1.TabIndex = 0;
-            this.WizardTabPage1.Text = "Start Page";
+            this.tabPageStartPage.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageStartPage.Controls.Add(this.labelStartPageWarning);
+            this.tabPageStartPage.Controls.Add(this.labelStartPageText);
+            this.tabPageStartPage.Controls.Add(this.labelStartPageHeader);
+            this.tabPageStartPage.Controls.Add(this.pictureBoxStartPage);
+            this.tabPageStartPage.Controls.Add(this.labelStartPageDivider);
+            this.tabPageStartPage.Controls.Add(this.buttonStartPageNext);
+            this.tabPageStartPage.Location = new System.Drawing.Point(4, 22);
+            this.tabPageStartPage.Name = "tabPageStartPage";
+            this.tabPageStartPage.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageStartPage.Size = new System.Drawing.Size(714, 374);
+            this.tabPageStartPage.TabIndex = 0;
+            this.tabPageStartPage.Text = "Start Page";
             // 
-            // label5
+            // labelStartPageWarning
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(23, 44);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(674, 216);
-            this.label5.TabIndex = 1;
-            this.label5.Text = "RESET FORM\r\nCLICK NEXT\r\n";
+            this.labelStartPageWarning.AutoSize = true;
+            this.labelStartPageWarning.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelStartPageWarning.ForeColor = System.Drawing.Color.Firebrick;
+            this.labelStartPageWarning.Location = new System.Drawing.Point(211, 306);
+            this.labelStartPageWarning.Name = "labelStartPageWarning";
+            this.labelStartPageWarning.Size = new System.Drawing.Size(402, 19);
+            this.labelStartPageWarning.TabIndex = 5;
+            this.labelStartPageWarning.Text = "Warning: This process is completely irreversible once begun.";
             // 
-            // WizardTabPage2
+            // labelStartPageText
             // 
-            this.WizardTabPage2.BackColor = System.Drawing.SystemColors.Control;
-            this.WizardTabPage2.Controls.Add(this.treeView3);
-            this.WizardTabPage2.Controls.Add(this.treeView2);
-            this.WizardTabPage2.Controls.Add(this.treeView1);
-            this.WizardTabPage2.Controls.Add(this.label4);
-            this.WizardTabPage2.Controls.Add(this.label3);
-            this.WizardTabPage2.Controls.Add(this.label2);
-            this.WizardTabPage2.Controls.Add(this.button1);
-            this.WizardTabPage2.Location = new System.Drawing.Point(4, 22);
-            this.WizardTabPage2.Name = "WizardTabPage2";
-            this.WizardTabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.WizardTabPage2.Size = new System.Drawing.Size(712, 335);
-            this.WizardTabPage2.TabIndex = 1;
-            this.WizardTabPage2.Text = "Group Selection";
+            this.labelStartPageText.AutoSize = true;
+            this.labelStartPageText.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelStartPageText.Location = new System.Drawing.Point(212, 64);
+            this.labelStartPageText.Name = "labelStartPageText";
+            this.labelStartPageText.Size = new System.Drawing.Size(465, 180);
+            this.labelStartPageText.TabIndex = 4;
+            this.labelStartPageText.Text = resources.GetString("labelStartPageText.Text");
             // 
-            // treeView3
+            // labelStartPageHeader
             // 
-            this.treeView3.CheckBoxes = true;
-            this.treeView3.FullRowSelect = true;
-            this.treeView3.HotTracking = true;
-            this.treeView3.Location = new System.Drawing.Point(483, 67);
-            this.treeView3.Name = "treeView3";
-            this.treeView3.ShowRootLines = false;
-            this.treeView3.Size = new System.Drawing.Size(215, 270);
-            this.treeView3.TabIndex = 9;
+            this.labelStartPageHeader.AutoSize = true;
+            this.labelStartPageHeader.Font = new System.Drawing.Font("Calibri", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelStartPageHeader.Location = new System.Drawing.Point(179, 10);
+            this.labelStartPageHeader.Name = "labelStartPageHeader";
+            this.labelStartPageHeader.Size = new System.Drawing.Size(460, 45);
+            this.labelStartPageHeader.TabIndex = 3;
+            this.labelStartPageHeader.Text = "Welcome to the Reset Wizard";
             // 
-            // treeView2
+            // pictureBoxStartPage
             // 
-            this.treeView2.CheckBoxes = true;
-            this.treeView2.FullRowSelect = true;
-            this.treeView2.HotTracking = true;
-            this.treeView2.Location = new System.Drawing.Point(245, 67);
-            this.treeView2.Name = "treeView2";
-            this.treeView2.ShowRootLines = false;
-            this.treeView2.Size = new System.Drawing.Size(215, 270);
-            this.treeView2.TabIndex = 8;
+            this.pictureBoxStartPage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBoxStartPage.Image = global::CustomUserControl.Properties.Resources.wizard;
+            this.pictureBoxStartPage.Location = new System.Drawing.Point(-4, -22);
+            this.pictureBoxStartPage.Name = "pictureBoxStartPage";
+            this.pictureBoxStartPage.Size = new System.Drawing.Size(177, 398);
+            this.pictureBoxStartPage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxStartPage.TabIndex = 2;
+            this.pictureBoxStartPage.TabStop = false;
             // 
-            // treeView1
+            // labelStartPageDivider
             // 
-            this.treeView1.CheckBoxes = true;
-            this.treeView1.FullRowSelect = true;
-            this.treeView1.HotTracking = true;
-            this.treeView1.Location = new System.Drawing.Point(10, 67);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.ShowRootLines = false;
-            this.treeView1.Size = new System.Drawing.Size(215, 270);
-            this.treeView1.TabIndex = 7;
+            this.labelStartPageDivider.AutoSize = true;
+            this.labelStartPageDivider.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelStartPageDivider.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelStartPageDivider.Location = new System.Drawing.Point(179, 345);
+            this.labelStartPageDivider.MaximumSize = new System.Drawing.Size(0, 3);
+            this.labelStartPageDivider.MinimumSize = new System.Drawing.Size(525, 0);
+            this.labelStartPageDivider.Name = "labelStartPageDivider";
+            this.labelStartPageDivider.Size = new System.Drawing.Size(525, 3);
+            this.labelStartPageDivider.TabIndex = 1;
+            this.labelStartPageDivider.Text = "divider";
             // 
-            // label4
+            // buttonStartPageNext
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(482, 40);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(52, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "THSST-3";
+            this.buttonStartPageNext.Location = new System.Drawing.Point(587, 351);
+            this.buttonStartPageNext.Name = "buttonStartPageNext";
+            this.buttonStartPageNext.Size = new System.Drawing.Size(111, 23);
+            this.buttonStartPageNext.TabIndex = 0;
+            this.buttonStartPageNext.Text = "Next >";
+            this.buttonStartPageNext.UseVisualStyleBackColor = true;
+            this.buttonStartPageNext.Click += new System.EventHandler(this.buttonStartPageNext_Click);
             // 
-            // label3
+            // tabGroupSelection
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(242, 41);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(52, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "THSST-2";
+            this.tabGroupSelection.BackColor = System.Drawing.SystemColors.Control;
+            this.tabGroupSelection.Controls.Add(this.buttonGroupSelectionBack);
+            this.tabGroupSelection.Controls.Add(this.labelGroupSelectionDividerTop);
+            this.tabGroupSelection.Controls.Add(this.labelGroupSelectionNote);
+            this.tabGroupSelection.Controls.Add(this.labelGroupSelectionText);
+            this.tabGroupSelection.Controls.Add(this.labelGroupSelectionHeader);
+            this.tabGroupSelection.Controls.Add(this.labelGroupSelectionDividerBottom);
+            this.tabGroupSelection.Controls.Add(this.treeViewGroupList3);
+            this.tabGroupSelection.Controls.Add(this.treeViewGroupList2);
+            this.tabGroupSelection.Controls.Add(this.treeViewGroupList1);
+            this.tabGroupSelection.Controls.Add(this.labelTreeView3);
+            this.tabGroupSelection.Controls.Add(this.labelTreeView2);
+            this.tabGroupSelection.Controls.Add(this.labelTreeView1);
+            this.tabGroupSelection.Controls.Add(this.buttonGroupSelectionNext);
+            this.tabGroupSelection.Location = new System.Drawing.Point(4, 22);
+            this.tabGroupSelection.Name = "tabGroupSelection";
+            this.tabGroupSelection.Padding = new System.Windows.Forms.Padding(3);
+            this.tabGroupSelection.Size = new System.Drawing.Size(714, 374);
+            this.tabGroupSelection.TabIndex = 1;
+            this.tabGroupSelection.Text = "Group Selection";
             // 
-            // label2
+            // buttonGroupSelectionBack
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 42);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(52, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "THSST-1";
+            this.buttonGroupSelectionBack.Location = new System.Drawing.Point(460, 351);
+            this.buttonGroupSelectionBack.Name = "buttonGroupSelectionBack";
+            this.buttonGroupSelectionBack.Size = new System.Drawing.Size(111, 23);
+            this.buttonGroupSelectionBack.TabIndex = 15;
+            this.buttonGroupSelectionBack.Text = "< Back";
+            this.buttonGroupSelectionBack.UseVisualStyleBackColor = true;
+            this.buttonGroupSelectionBack.Click += new System.EventHandler(this.buttonGroupSelectionBack_Click);
             // 
-            // button1
+            // labelGroupSelectionDividerTop
             // 
-            this.button1.Location = new System.Drawing.Point(586, 341);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(111, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Next";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.labelGroupSelectionDividerTop.AutoSize = true;
+            this.labelGroupSelectionDividerTop.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelGroupSelectionDividerTop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelGroupSelectionDividerTop.Location = new System.Drawing.Point(6, 77);
+            this.labelGroupSelectionDividerTop.MaximumSize = new System.Drawing.Size(0, 3);
+            this.labelGroupSelectionDividerTop.MinimumSize = new System.Drawing.Size(700, 0);
+            this.labelGroupSelectionDividerTop.Name = "labelGroupSelectionDividerTop";
+            this.labelGroupSelectionDividerTop.Size = new System.Drawing.Size(700, 3);
+            this.labelGroupSelectionDividerTop.TabIndex = 14;
+            this.labelGroupSelectionDividerTop.Text = "divider";
             // 
-            // WizardTabPage3
+            // labelGroupSelectionNote
             // 
-            this.WizardTabPage3.BackColor = System.Drawing.SystemColors.Control;
-            this.WizardTabPage3.Controls.Add(this.ExitButton);
-            this.WizardTabPage3.Controls.Add(this.label1);
-            this.WizardTabPage3.Controls.Add(this.progressBar1);
-            this.WizardTabPage3.Location = new System.Drawing.Point(4, 22);
-            this.WizardTabPage3.Name = "WizardTabPage3";
-            this.WizardTabPage3.Size = new System.Drawing.Size(712, 335);
-            this.WizardTabPage3.TabIndex = 2;
-            this.WizardTabPage3.Text = "Resetting";
+            this.labelGroupSelectionNote.AutoSize = true;
+            this.labelGroupSelectionNote.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelGroupSelectionNote.ForeColor = System.Drawing.Color.Firebrick;
+            this.labelGroupSelectionNote.Location = new System.Drawing.Point(352, 62);
+            this.labelGroupSelectionNote.Name = "labelGroupSelectionNote";
+            this.labelGroupSelectionNote.Size = new System.Drawing.Size(346, 15);
+            this.labelGroupSelectionNote.TabIndex = 13;
+            this.labelGroupSelectionNote.Text = "Note: Thesis Groups to advance from THSST-3 will be removed.";
             // 
-            // ExitButton
+            // labelGroupSelectionText
             // 
-            this.ExitButton.Location = new System.Drawing.Point(586, 341);
-            this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Size = new System.Drawing.Size(111, 23);
-            this.ExitButton.TabIndex = 3;
-            this.ExitButton.Text = "Exit";
-            this.ExitButton.UseVisualStyleBackColor = true;
-            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
+            this.labelGroupSelectionText.AutoSize = true;
+            this.labelGroupSelectionText.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelGroupSelectionText.Location = new System.Drawing.Point(22, 32);
+            this.labelGroupSelectionText.Name = "labelGroupSelectionText";
+            this.labelGroupSelectionText.Size = new System.Drawing.Size(407, 30);
+            this.labelGroupSelectionText.TabIndex = 12;
+            this.labelGroupSelectionText.Text = "Please select which Thesis Groups will move on to the next THSST Course.\r\nUncheck" +
+    "ed groups will retain their current THSST course.";
             // 
-            // label1
+            // labelGroupSelectionHeader
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(106, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Resetting in progress";
+            this.labelGroupSelectionHeader.AutoSize = true;
+            this.labelGroupSelectionHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelGroupSelectionHeader.Location = new System.Drawing.Point(5, 3);
+            this.labelGroupSelectionHeader.Name = "labelGroupSelectionHeader";
+            this.labelGroupSelectionHeader.Size = new System.Drawing.Size(288, 29);
+            this.labelGroupSelectionHeader.TabIndex = 11;
+            this.labelGroupSelectionHeader.Text = "Advancing Thesis Groups";
             // 
-            // progressBar1
+            // labelGroupSelectionDividerBottom
             // 
-            this.progressBar1.Location = new System.Drawing.Point(16, 46);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(674, 23);
-            this.progressBar1.TabIndex = 0;
+            this.labelGroupSelectionDividerBottom.AutoSize = true;
+            this.labelGroupSelectionDividerBottom.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelGroupSelectionDividerBottom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelGroupSelectionDividerBottom.Location = new System.Drawing.Point(6, 345);
+            this.labelGroupSelectionDividerBottom.MaximumSize = new System.Drawing.Size(0, 3);
+            this.labelGroupSelectionDividerBottom.MinimumSize = new System.Drawing.Size(700, 0);
+            this.labelGroupSelectionDividerBottom.Name = "labelGroupSelectionDividerBottom";
+            this.labelGroupSelectionDividerBottom.Size = new System.Drawing.Size(700, 3);
+            this.labelGroupSelectionDividerBottom.TabIndex = 10;
+            this.labelGroupSelectionDividerBottom.Text = "divider";
             // 
-            // button2
+            // treeViewGroupList3
             // 
-            this.button2.Location = new System.Drawing.Point(586, 341);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(111, 23);
-            this.button2.TabIndex = 0;
-            this.button2.Text = "Next";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.treeViewGroupList3.CheckBoxes = true;
+            this.treeViewGroupList3.FullRowSelect = true;
+            this.treeViewGroupList3.HotTracking = true;
+            this.treeViewGroupList3.Location = new System.Drawing.Point(478, 102);
+            this.treeViewGroupList3.Name = "treeViewGroupList3";
+            this.treeViewGroupList3.ShowRootLines = false;
+            this.treeViewGroupList3.Size = new System.Drawing.Size(220, 235);
+            this.treeViewGroupList3.TabIndex = 9;
             // 
-            // ResetWizardForm
+            // treeViewGroupList2
+            // 
+            this.treeViewGroupList2.CheckBoxes = true;
+            this.treeViewGroupList2.FullRowSelect = true;
+            this.treeViewGroupList2.HotTracking = true;
+            this.treeViewGroupList2.Location = new System.Drawing.Point(245, 102);
+            this.treeViewGroupList2.Name = "treeViewGroupList2";
+            this.treeViewGroupList2.ShowRootLines = false;
+            this.treeViewGroupList2.Size = new System.Drawing.Size(220, 235);
+            this.treeViewGroupList2.TabIndex = 8;
+            // 
+            // treeViewGroupList1
+            // 
+            this.treeViewGroupList1.CheckBoxes = true;
+            this.treeViewGroupList1.FullRowSelect = true;
+            this.treeViewGroupList1.HotTracking = true;
+            this.treeViewGroupList1.Location = new System.Drawing.Point(10, 102);
+            this.treeViewGroupList1.Name = "treeViewGroupList1";
+            this.treeViewGroupList1.ShowRootLines = false;
+            this.treeViewGroupList1.Size = new System.Drawing.Size(220, 235);
+            this.treeViewGroupList1.TabIndex = 7;
+            // 
+            // labelTreeView3
+            // 
+            this.labelTreeView3.AutoSize = true;
+            this.labelTreeView3.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTreeView3.Location = new System.Drawing.Point(480, 80);
+            this.labelTreeView3.Name = "labelTreeView3";
+            this.labelTreeView3.Size = new System.Drawing.Size(211, 19);
+            this.labelTreeView3.TabIndex = 6;
+            this.labelTreeView3.Text = "THSST->3 Groups to be Deleted";
+            // 
+            // labelTreeView2
+            // 
+            this.labelTreeView2.AutoSize = true;
+            this.labelTreeView2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTreeView2.Location = new System.Drawing.Point(290, 80);
+            this.labelTreeView2.Name = "labelTreeView2";
+            this.labelTreeView2.Size = new System.Drawing.Size(134, 19);
+            this.labelTreeView2.TabIndex = 5;
+            this.labelTreeView2.Text = "THSST-2 -> THSST-3";
+            // 
+            // labelTreeView1
+            // 
+            this.labelTreeView1.AutoSize = true;
+            this.labelTreeView1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTreeView1.Location = new System.Drawing.Point(51, 80);
+            this.labelTreeView1.Name = "labelTreeView1";
+            this.labelTreeView1.Size = new System.Drawing.Size(134, 19);
+            this.labelTreeView1.TabIndex = 4;
+            this.labelTreeView1.Text = "THSST-1 -> THSST-2";
+            // 
+            // buttonGroupSelectionNext
+            // 
+            this.buttonGroupSelectionNext.Location = new System.Drawing.Point(587, 351);
+            this.buttonGroupSelectionNext.Name = "buttonGroupSelectionNext";
+            this.buttonGroupSelectionNext.Size = new System.Drawing.Size(111, 23);
+            this.buttonGroupSelectionNext.TabIndex = 0;
+            this.buttonGroupSelectionNext.Text = "Next >";
+            this.buttonGroupSelectionNext.UseVisualStyleBackColor = true;
+            this.buttonGroupSelectionNext.Click += new System.EventHandler(this.buttonGroupSelectionNext_Click);
+            // 
+            // tabPageResetting
+            // 
+            this.tabPageResetting.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageResetting.Controls.Add(this.buttonResettingExit);
+            this.tabPageResetting.Controls.Add(this.labelResetting);
+            this.tabPageResetting.Controls.Add(this.progressBarResetting);
+            this.tabPageResetting.Location = new System.Drawing.Point(4, 22);
+            this.tabPageResetting.Name = "tabPageResetting";
+            this.tabPageResetting.Size = new System.Drawing.Size(714, 374);
+            this.tabPageResetting.TabIndex = 2;
+            this.tabPageResetting.Text = "Resetting";
+            // 
+            // buttonResettingExit
+            // 
+            this.buttonResettingExit.Location = new System.Drawing.Point(587, 351);
+            this.buttonResettingExit.Name = "buttonResettingExit";
+            this.buttonResettingExit.Size = new System.Drawing.Size(111, 23);
+            this.buttonResettingExit.TabIndex = 3;
+            this.buttonResettingExit.Text = "Exit";
+            this.buttonResettingExit.UseVisualStyleBackColor = true;
+            this.buttonResettingExit.Click += new System.EventHandler(this.buttonResettingExit_Click);
+            // 
+            // labelResetting
+            // 
+            this.labelResetting.AutoSize = true;
+            this.labelResetting.Location = new System.Drawing.Point(13, 19);
+            this.labelResetting.Name = "labelResetting";
+            this.labelResetting.Size = new System.Drawing.Size(106, 13);
+            this.labelResetting.TabIndex = 2;
+            this.labelResetting.Text = "Resetting in progress";
+            // 
+            // progressBarResetting
+            // 
+            this.progressBarResetting.Location = new System.Drawing.Point(16, 46);
+            this.progressBarResetting.Name = "progressBarResetting";
+            this.progressBarResetting.Size = new System.Drawing.Size(674, 23);
+            this.progressBarResetting.TabIndex = 0;
+            // 
+            // FormResetWizard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(723, 397);
-            this.Controls.Add(this.resetWizardTabControl1);
-            this.Name = "ResetWizardForm";
-            this.Text = "ResetWizardForm";
-            this.resetWizardTabControl1.ResumeLayout(false);
-            this.WizardTabPage1.ResumeLayout(false);
-            this.WizardTabPage1.PerformLayout();
-            this.WizardTabPage2.ResumeLayout(false);
-            this.WizardTabPage2.PerformLayout();
-            this.WizardTabPage3.ResumeLayout(false);
-            this.WizardTabPage3.PerformLayout();
+            this.ClientSize = new System.Drawing.Size(714, 377);
+            this.Controls.Add(this.tabControlResetWizard);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(730, 412);
+            this.MinimizeBox = false;
+            this.Name = "FormResetWizard";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Reset Wizard";
+            this.TopMost = true;
+            this.tabControlResetWizard.ResumeLayout(false);
+            this.tabPageStartPage.ResumeLayout(false);
+            this.tabPageStartPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStartPage)).EndInit();
+            this.tabGroupSelection.ResumeLayout(false);
+            this.tabGroupSelection.PerformLayout();
+            this.tabPageResetting.ResumeLayout(false);
+            this.tabPageResetting.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private ResetWizardTabControl resetWizardTabControl1;
-        private System.Windows.Forms.TabPage WizardTabPage1;
-        private System.Windows.Forms.TabPage WizardTabPage2;
-        private System.Windows.Forms.TabPage WizardTabPage3;
-        private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button ExitButton;
-        private System.Windows.Forms.TreeView treeView3;
-        private System.Windows.Forms.TreeView treeView2;
-        private System.Windows.Forms.TreeView treeView1;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button button2;
+        private ResetWizardTabControl tabControlResetWizard;
+        private System.Windows.Forms.TabPage tabPageStartPage;
+        private System.Windows.Forms.TabPage tabGroupSelection;
+        private System.Windows.Forms.TabPage tabPageResetting;
+        private System.Windows.Forms.ProgressBar progressBarResetting;
+        private System.Windows.Forms.Label labelResetting;
+        private System.Windows.Forms.Button buttonGroupSelectionNext;
+        private System.Windows.Forms.Label labelTreeView3;
+        private System.Windows.Forms.Label labelTreeView2;
+        private System.Windows.Forms.Label labelTreeView1;
+        private System.Windows.Forms.Button buttonResettingExit;
+        private System.Windows.Forms.TreeView treeViewGroupList3;
+        private System.Windows.Forms.TreeView treeViewGroupList2;
+        private System.Windows.Forms.TreeView treeViewGroupList1;
+        private System.Windows.Forms.Button buttonStartPageNext;
+        private System.Windows.Forms.PictureBox pictureBoxStartPage;
+        private System.Windows.Forms.Label labelStartPageDivider;
+        private System.Windows.Forms.Label labelStartPageText;
+        private System.Windows.Forms.Label labelStartPageHeader;
+        private System.Windows.Forms.Label labelStartPageWarning;
+        private System.Windows.Forms.Label labelGroupSelectionNote;
+        private System.Windows.Forms.Label labelGroupSelectionText;
+        private System.Windows.Forms.Label labelGroupSelectionHeader;
+        private System.Windows.Forms.Label labelGroupSelectionDividerBottom;
+        private System.Windows.Forms.Label labelGroupSelectionDividerTop;
+        private System.Windows.Forms.Button buttonGroupSelectionBack;
     }
 }

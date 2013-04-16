@@ -286,6 +286,7 @@
             // 
             this.studentID4.Enabled = false;
             this.studentID4.Location = new System.Drawing.Point(65, 55);
+            this.studentID4.MaxLength = 8;
             this.studentID4.Name = "studentID4";
             this.studentID4.Size = new System.Drawing.Size(192, 20);
             this.studentID4.TabIndex = 19;
@@ -392,6 +393,7 @@
             // 
             this.studentID3.Enabled = false;
             this.studentID3.Location = new System.Drawing.Point(65, 55);
+            this.studentID3.MaxLength = 8;
             this.studentID3.Name = "studentID3";
             this.studentID3.Size = new System.Drawing.Size(192, 20);
             this.studentID3.TabIndex = 19;
@@ -498,6 +500,7 @@
             // 
             this.studentID2.Enabled = false;
             this.studentID2.Location = new System.Drawing.Point(65, 55);
+            this.studentID2.MaxLength = 8;
             this.studentID2.Name = "studentID2";
             this.studentID2.Size = new System.Drawing.Size(192, 20);
             this.studentID2.TabIndex = 19;
@@ -596,6 +599,7 @@
             // 
             this.studentID1.Enabled = false;
             this.studentID1.Location = new System.Drawing.Point(65, 55);
+            this.studentID1.MaxLength = 8;
             this.studentID1.Name = "studentID1";
             this.studentID1.Size = new System.Drawing.Size(192, 20);
             this.studentID1.TabIndex = 19;
@@ -765,6 +769,7 @@
             // 
             this.panelistID4.Enabled = false;
             this.panelistID4.Location = new System.Drawing.Point(64, 30);
+            this.panelistID4.MaxLength = 8;
             this.panelistID4.Name = "panelistID4";
             this.panelistID4.Size = new System.Drawing.Size(194, 20);
             this.panelistID4.TabIndex = 19;
@@ -891,6 +896,7 @@
             // 
             this.panelistID3.Enabled = false;
             this.panelistID3.Location = new System.Drawing.Point(64, 30);
+            this.panelistID3.MaxLength = 8;
             this.panelistID3.Name = "panelistID3";
             this.panelistID3.Size = new System.Drawing.Size(194, 20);
             this.panelistID3.TabIndex = 19;
@@ -1017,6 +1023,7 @@
             // 
             this.panelistID2.Enabled = false;
             this.panelistID2.Location = new System.Drawing.Point(64, 30);
+            this.panelistID2.MaxLength = 8;
             this.panelistID2.Name = "panelistID2";
             this.panelistID2.Size = new System.Drawing.Size(194, 20);
             this.panelistID2.TabIndex = 19;
@@ -1153,6 +1160,7 @@
             // 
             this.panelistID1.Enabled = false;
             this.panelistID1.Location = new System.Drawing.Point(64, 30);
+            this.panelistID1.MaxLength = 8;
             this.panelistID1.Name = "panelistID1";
             this.panelistID1.Size = new System.Drawing.Size(194, 20);
             this.panelistID1.TabIndex = 19;
@@ -1403,7 +1411,7 @@
             this.thesisGroupTreeView.Name = "thesisGroupTreeView";
             this.thesisGroupTreeView.Size = new System.Drawing.Size(263, 625);
             this.thesisGroupTreeView.TabIndex = 35;
-            this.thesisGroupTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.ChangeSelectedGroup);
+            this.thesisGroupTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.changeSelectedGroup);
             // 
             // ThesisGroupControl
             // 
