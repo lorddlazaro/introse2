@@ -112,7 +112,7 @@ namespace CustomUserControl
             {
                 currPanelist = "";
                 personLabel.Text = "Panelists:";
-                btnSwitchView.Text = "Switch to Students";
+                btnSwitchView.Text = "Switch to Panelists";
                 studentTreeView.Hide();
                 panelistTreeView.Show();
                 panelistTreeView.Enabled = true;
@@ -166,7 +166,7 @@ namespace CustomUserControl
             
             int rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index;
 
-            if (btnSwitchView.Text.Equals("Switch to Students"))
+            if (btnSwitchView.Text.Equals("Switch to Panelists"))
             {
                 
                 Console.WriteLine("rowindex: "+rowIndex);
@@ -242,7 +242,7 @@ namespace CustomUserControl
             String selectedRowIndex = dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString();
             Console.WriteLine("selected row index(string): " + dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString());
             String currTimeslot = timeSlotTable[0][dataGridViewWeeklyTimeslot.SelectedRows[0].Index];
-            if (btnSwitchView.Text.Equals("Switch to Students"))
+            if (btnSwitchView.Text.Equals("Switch to Panelists"))
             {
                 Console.WriteLine(currTimeslot + "-" + currStudent + "-");
                 String query = "DELETE FROM StudentSchedule WHERE studentID = " + currStudent + " AND timeslotID = " + currTimeslot + ";";
@@ -298,7 +298,7 @@ namespace CustomUserControl
                 return;
             }
             int rowIndex = dataGridViewExistingEvent.SelectedRows[0].Index;
-            if (btnSwitchView.Text.Equals("Switch to Students"))
+            if (btnSwitchView.Text.Equals("Switch to Panelists"))
             {
                 
                 int eventID = Convert.ToInt32(existingEvents[0][rowIndex]);
@@ -334,7 +334,7 @@ namespace CustomUserControl
             String selectedRowIndex = dataGridViewEvent.SelectedRows[0].Index.ToString();
             //Console.WriteLine("selected row index(string): " + dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString());
             String currEvent = eventTable[0][dataGridViewEvent.SelectedRows[0].Index];
-            if (btnSwitchView.Text.Equals("Switch to Students"))
+            if (btnSwitchView.Text.Equals("Switch to Panelists"))
             {
                 Console.WriteLine(currEvent + "-" + currStudent + "-");
                 String query = "DELETE FROM StudentEventRecord WHERE studentID = " + currStudent + " AND eventID = " + currEvent + ";";
@@ -371,7 +371,7 @@ namespace CustomUserControl
         {
 
             String query = "";
-            if (btnSwitchView.Text.Equals("Switch to Students"))
+            if (btnSwitchView.Text.Equals("Switch to Panelists"))
             {
                 Console.WriteLine(currStudent);
                 query = "SELECT DISTINCT  StudentSchedule.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime,  Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM StudentSchedule INNER JOIN Timeslot ON StudentSchedule.timeslotID = Timeslot.timeslotID LEFT OUTER JOIN Panelist ON Timeslot.panelistID = Panelist.panelistID WHERE (StudentSchedule.timeslotID NOT IN (SELECT        timeslotID FROM            StudentSchedule AS StudentSchedule_1 WHERE        (studentID = '"+currStudent+"'))) ORDER BY Timeslot.courseName, Timeslot.section";
@@ -434,7 +434,7 @@ namespace CustomUserControl
         public void update_events()
         {
             String query = "";
-            if (btnSwitchView.Text.Equals("Switch to Students")) 
+            if (btnSwitchView.Text.Equals("Switch to Panelists")) 
             {
                 Console.WriteLine(currStudent);
                 query = "SELECT DISTINCT eventID, name,eventStart,eventEnd FROM Event WHERE eventID NOT IN ( SELECT eventID FROM StudentEventRecord WHERE studentID = '"+currStudent+"');";
