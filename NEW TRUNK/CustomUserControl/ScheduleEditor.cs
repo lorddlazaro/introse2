@@ -183,7 +183,7 @@ namespace CustomUserControl
         }
         private void buttonAddExistingWeeklyTimeslot_Click(object sender, EventArgs e)
         {
-            if(dataGridViewExistingTimeslot.DataSource==null)
+            if(dataGridViewExistingTimeslot.DataSource==null||dataGridViewExistingTimeslot.SelectedRows.Count==0)
             {
                 return;
             }
@@ -339,7 +339,7 @@ namespace CustomUserControl
         private void buttonDeleteWeeklyTimeslot_Click(object sender, EventArgs e)
         {
 
-            if (dataGridViewWeeklyTimeslot.DataSource==null) 
+            if (dataGridViewWeeklyTimeslot.DataSource==null||dataGridViewWeeklyTimeslot.SelectedRows.Count==0) 
             {
                 return;
             }
@@ -368,6 +368,13 @@ namespace CustomUserControl
             }
 
             update_courses();
+            if (dataGridViewWeeklyTimeslot.DataSource == null || dataGridViewWeeklyTimeslot.SelectedRows.Count == 0)
+            {
+                dataGridViewWeeklyTimeslot.Rows[0].Selected = true;
+                dataGridViewExistingTimeslot.ClearSelection();
+                return;
+            }
+            
         }
         private void buttonWeeklyTimeslotEdit_Click(object sender, EventArgs e)
         {
@@ -414,7 +421,7 @@ namespace CustomUserControl
             String query;
 
             
-            if (dataGridViewExistingEvent.DataSource==null)
+            if (dataGridViewExistingEvent.DataSource==null|| dataGridViewExistingEvent.SelectedRows.Count==0)
             { 
                 return;
             }
@@ -513,7 +520,7 @@ namespace CustomUserControl
         }
         private void buttondeleteEvent_Click(object sender, EventArgs e)
         {
-            if (dataGridViewEvent.DataSource==null) 
+            if (dataGridViewEvent.DataSource==null || dataGridViewEvent.SelectedRows.Count==0) 
             {
                 return;
             }
@@ -538,6 +545,13 @@ namespace CustomUserControl
             }
 
             update_events();
+
+            if (dataGridViewEvent.DataSource == null || dataGridViewEvent.SelectedRows.Count == 0)
+            {
+                dataGridViewEvent.Rows[0].Selected = true;
+                dataGridViewExistingEvent.ClearSelection();
+                return;
+            } 
         }
         private void buttonEventEdit_Click(object sender, EventArgs e)
         {
