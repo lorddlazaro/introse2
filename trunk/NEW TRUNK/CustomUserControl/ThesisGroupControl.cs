@@ -878,7 +878,7 @@ namespace CustomUserControl
                 return;
             }
 
-            if (!Regex.IsMatch(newSection, "S\\d{2}&"))
+            if (!Regex.IsMatch(newSection, "S\\d{2}$"))
             {
                 MessageBox.Show("Invalid section format, format is S<section number>.", "Error", MessageBoxButtons.OK);
                 return;
