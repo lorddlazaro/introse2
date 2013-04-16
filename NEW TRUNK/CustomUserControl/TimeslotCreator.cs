@@ -22,6 +22,7 @@ namespace CustomUserControl
         private ListViewItem lastItemChecked;
 
         public String panelistID;
+        private SchedulingDataManager schedulingDM;
 
         public TimeslotCreator(bool editMode,Form p,ScheduleEditor sp)
         {
@@ -31,7 +32,7 @@ namespace CustomUserControl
             InitializeComponent();
             initializePanel();
             comboBoxPanelist.SelectedIndex = comboBoxPanelist.FindStringExact(" None. ");
-                
+            schedulingDM = new SchedulingDataManager();
         }
         public void initializeTextBoxes() 
         {
@@ -107,8 +108,6 @@ namespace CustomUserControl
             
         }
 
-
-
         private void buttonCancelTimeslot_Click(object sender, EventArgs e)
         {
             parent.Enabled = true;
@@ -130,8 +129,6 @@ namespace CustomUserControl
             int j=0;
             for (int i = 0; i < listViewWeeklyTimeslotDay.Items.Count; i++) 
             {
-
-                
                 if (listViewWeeklyTimeslotDay.Items[i].Checked) 
                 {
                     j++;
@@ -189,14 +186,190 @@ namespace CustomUserControl
                         }
                     }
                 }
+
                 if (comboBoxPanelist.Text.Equals(" None. "))
-                    query = "UPDATE Timeslot SET section = N'" + textBoxWeeklyTimeslotSection.Text + "', courseName = N'" + textBoxWeeklyTimeslotCourse.Text + "', day = N'" + day + "', startTime = CONVERT(DATETIME,'" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString("MM/dd/yyy hh:mm tt") + "',102), endTime = CONVERT(DATETIME,'" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString("MM/dd/yyy hh:mm tt") + "',102), panelistID = NULL WHERE timeslotID = '" + forEditing[0] + "';";
+                    panelistID = "NULL";
                 else
+                    panelistID =panelTable[0][comboBoxPanelist.SelectedIndex];
+               
+                
+
+                //Validation
+                
+                //Case 1: Change panel. Must check defense and class for this panel only.
+                 //Case 2: Change starttime or endtime. Must check defense and class for all students and panel having this.
+
+                String panelistName = "";
+                String panelistNameConflictDef = "";
+
+                List<String>[] studentTable;
+                List<String>[] timeslotTable;
+                TimePeriod currTimePeriod;
+                List<String> studentNamesWithClassConflict = new List<String>();
+                List<String> studentIDsWithClassConflict = new List<String>();
+
+                TimePeriod classTimePeriod = new TimePeriod(dateTimePickerWeeklyTimeslotStartTime.Value, dateTimePickerWeeklyTimeslotEndTime.Value);
+             
+                String timeSlotID = forEditing[0];
+                List<DefenseSchedule> defSchedsWithConflict = new List<DefenseSchedule>();
+                List<String> conflictedDefSchedIDs = new List<String>();
+
+                String thesisGroupID;
+                String thesisGroupTitle;
+                List<String>[] thesisGroupTable;
+
+                //START: Check for conflicts with other classes
+
+                if(!panelistID.Equals("NULL"))
                 {
-                    panelistID = panelTable[0][comboBoxPanelist.SelectedIndex];
-                    query = "UPDATE Timeslot SET section = N'" + textBoxWeeklyTimeslotSection.Text + "', courseName = N'" + textBoxWeeklyTimeslotCourse.Text + "', day = N'" + day + "', startTime = CONVERT(DATETIME,'" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString("MM/dd/yyy hh:mm tt") + "',102), endTime = CONVERT(DATETIME,'" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString("MM/dd/yyy hh:mm tt") + "',102), panelistID = N'" + panelistID + "' WHERE timeslotID = '" + forEditing[0] + "';";
+                    query = "SELECT startTime, endTime FROM timeslot WHERE day = '" + day + "' AND timeslot.timeslotID <> " + timeSlotID + " AND panelistID = '" + panelistID + "';";
+                    timeslotTable = dbHandler.Select(query, 2);
+
+                    for (int k = 0; k < timeslotTable[0].Count; k++)
+                    {
+                        currTimePeriod = new TimePeriod(Convert.ToDateTime(timeslotTable[0][k]), Convert.ToDateTime(timeslotTable[1][k]));
+                        if (currTimePeriod.IntersectsExclusive(classTimePeriod))
+                        {
+                            query = "SELECT firstName+' '+MI+'. '+lastName from PANELIST WHERE panelistID = '" + panelistID + "';";
+                            panelistName = dbHandler.Select(query, 1)[0][0];
+                            break;
+                        }
+                    }
+                 
+
+                    query = "SELECT thesisgroupID from panelAssignment WHERE panelistID = '"+panelistID+"';";
+                    thesisGroupID = dbHandler.Select(query, 1)[0][0];
+                    defSchedsWithConflict = schedulingDM.GetDefenseConflictsWithClassTimePeriod(thesisGroupID, classTimePeriod, day);
+                    if(defSchedsWithConflict.Count>0)
+                    {
+                        panelistNameConflictDef = panelistName;
+                        for (int k = 0; k < defSchedsWithConflict.Count; k++) 
+                        {
+                            conflictedDefSchedIDs.Add(defSchedsWithConflict[k].DefenseID);
+                        }
+                    }
                 }
-                    Console.WriteLine(query);
+
+
+                query = "SELECT distinct student.studentID, firstName+' '+MI+'. '+lastName FROM student INNER JOIN studentSchedule on student.studentID = studentSchedule.studentID WHERE timeslotID = " + timeSlotID + ";";
+                studentTable = dbHandler.Select(query, 2);
+                int rows = studentTable[0].Count;
+                String currStudentID;
+                String currStudentName;
+                List<String> thesisGroupNamesWithDefConflict = new List<String>();
+                List<String> thesisGroupIDsWithDefConflict = new List<String>();
+                
+                for (int i = 0; i < rows; i++)
+                {
+                    currStudentID = studentTable[0][i];
+                    currStudentName = studentTable[1][i];
+                    query = "SELECT startTime, endTime FROM timeslot INNER JOIN studentSchedule ON timeslot.timeslotID = studentSchedule.timeslotID WHERE day = '" + day + "' AND timeslot.timeslotID <> " + timeSlotID + " AND studentID = '" + currStudentID + "';";
+                    timeslotTable = dbHandler.Select(query, 2);
+                   
+                    for (int k = 0; k < timeslotTable[0].Count; k++)
+                    {
+                        currTimePeriod = new TimePeriod(Convert.ToDateTime(timeslotTable[0][k]), Convert.ToDateTime(timeslotTable[1][k]));
+                        if (currTimePeriod.IntersectsExclusive(classTimePeriod))
+                        {
+                            studentIDsWithClassConflict.Add(currStudentID);
+                            studentNamesWithClassConflict.Add(currStudentName);
+                            break;
+                        }
+                    }
+                }
+                
+                
+                if (rows >= 0)  // if there are students who have this schedule being edited
+                {
+
+                    query = "SELECT distinct thesisgroup.thesisGroupID, title FROM student INNER JOIN thesisGroup ON student.thesisGroupID = thesisGroup.thesisGroupID WHERE ";
+
+                    for (int i = 0; i < rows; i++)
+                    {
+                        currStudentID = studentTable[0][i];
+                        currStudentName = studentTable[1][i];
+                        query += " studentID = '" + currStudentID + "' ";
+                        if (i == rows - 1)
+                            query += ";";
+                        else
+                            query += " OR ";
+                    }
+
+
+                    thesisGroupTable = dbHandler.Select(query, 2);
+                    rows = thesisGroupTable[0].Count;
+                    for (int i = 0; i < rows; i++)
+                    {
+                        thesisGroupID = thesisGroupTable[0][i];
+                        thesisGroupTitle = thesisGroupTable[1][i];
+                        
+                        defSchedsWithConflict = schedulingDM.GetDefenseConflictsWithClassTimePeriod(thesisGroupID, classTimePeriod, day);
+                        if (defSchedsWithConflict.Count > 0) 
+                        {
+                            thesisGroupIDsWithDefConflict.Add(thesisGroupID);
+                            thesisGroupNamesWithDefConflict.Add(thesisGroupTitle);
+                        }
+
+                        for (int k = 0; k < defSchedsWithConflict.Count; k++) 
+                        {
+                            conflictedDefSchedIDs.Add(defSchedsWithConflict[k].DefenseID);
+                        }
+
+                    }
+                }
+                
+                
+                String warningMsg = "";
+
+                if (studentNamesWithClassConflict.Count > 0)
+                {
+                    warningMsg += "Class Schedule Conflicts with:";
+                    if (!String.IsNullOrEmpty(panelistName))
+                        warningMsg += Environment.NewLine+"Panelist: " + panelistName;
+                    for (int i = 0; i < studentNamesWithClassConflict.Count; i++)
+                        warningMsg += Environment.NewLine+studentNamesWithClassConflict[i];
+                    MessageBox.Show(warningMsg, "Conflict with Class Schedules", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
+                if ( conflictedDefSchedIDs.Count > 0)
+                {
+                    warningMsg += "Defense Schedule Conflicts with:";
+                   
+                    if (!String.IsNullOrEmpty(panelistNameConflictDef))
+                        warningMsg += Environment.NewLine + "Panelist: " + panelistNameConflictDef;
+                    for (int i = 0; i < thesisGroupNamesWithDefConflict.Count; i++)
+                    {
+                        warningMsg += Environment.NewLine + thesisGroupNamesWithDefConflict[i];
+                        
+                    }
+                    warningMsg += Environment.NewLine + "Continuing will delete defense schedules for all the groups above.";
+
+                    if (DialogResult.Cancel == MessageBox.Show(warningMsg, "Conflict with Defense Schedules", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation)) 
+                        return;
+
+                    query = "DELETE FROM defenseSchedule WHERE ";
+                    for (int i = 0; i < conflictedDefSchedIDs.Count; i++)
+                    {
+                        query += "defenseID = " + conflictedDefSchedIDs[i];
+                        if (i < thesisGroupNamesWithDefConflict.Count - 1)
+                            query += " OR ";
+                        else
+                            query += ";";
+                    }
+                    Console.WriteLine("********DELETING ******\n" + query+"\n\n\n\n");
+                    dbHandler.Delete(query);
+                }
+
+                Console.WriteLine("*******TEST UPDATE********");
+                if (panelistID.Equals("NULL"))
+                    query = "UPDATE Timeslot SET section = N'" + textBoxWeeklyTimeslotSection.Text + "', courseName = N'" + textBoxWeeklyTimeslotCourse.Text + "', day = N'" + day + "', startTime = CONVERT(DATETIME,'" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString("MM/dd/yyy hh:mm tt") + "',102), endTime = CONVERT(DATETIME,'" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString("MM/dd/yyy hh:mm tt") + "',102), panelistID = " + panelistID + " WHERE timeslotID = '" + forEditing[0] + "';";
+                else
+                    query = "UPDATE Timeslot SET section = N'" + textBoxWeeklyTimeslotSection.Text + "', courseName = N'" + textBoxWeeklyTimeslotCourse.Text + "', day = N'" + day + "', startTime = CONVERT(DATETIME,'" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString("MM/dd/yyy hh:mm tt") + "',102), endTime = CONVERT(DATETIME,'" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString("MM/dd/yyy hh:mm tt") + "',102), panelistID = '" + panelistID + "' WHERE timeslotID = '" + forEditing[0] + "';";
+             
+                Console.WriteLine(query);
+                Console.WriteLine("*******TEST UPDATE********");
+                
                 dbHandler.Update(query);
             }
             else
