@@ -67,6 +67,8 @@ namespace CustomUserControl
                     dataGridViewExistingEvent.Rows[0].Selected = true;
                 if (dataGridViewExistingTimeslot.DataSource != null)
                     dataGridViewExistingTimeslot.Rows[0].Selected = true;
+                labelSelectedPersonEvent.Text = "";
+                labelSelectedPersonTimeslot.Text = "";
             }
             else if (e.Node.Level == 1)
             {
@@ -76,6 +78,8 @@ namespace CustomUserControl
                 buttonDeleteWeeklyTimeslot.Enabled = true;
                 buttondeleteEvent.Enabled = true;
                 //updates tables
+                labelSelectedPersonEvent.Text = e.Node.Text+"'s Events";
+                labelSelectedPersonTimeslot.Text = e.Node.Text + "'s Class Schedule";
                 currStudent = e.Node.Name;
                 RefreshStudentClassScheds();
                 RefreshStudentEvents();
@@ -103,6 +107,8 @@ namespace CustomUserControl
                     dataGridViewExistingEvent.Rows[0].Selected = true;
                 if (dataGridViewExistingTimeslot.DataSource != null)
                     dataGridViewExistingTimeslot.Rows[0].Selected = true;
+                labelSelectedPersonEvent.Text = "";
+                labelSelectedPersonTimeslot.Text = "";
             }
             else if (e.Node.Level == 1)
             {
@@ -111,7 +117,10 @@ namespace CustomUserControl
                 buttonAddExistingWeeklyTimeslot.Enabled = true;
                 buttonDeleteWeeklyTimeslot.Enabled = true;
                 buttondeleteEvent.Enabled = true;
+                
                 //updates tables
+                labelSelectedPersonEvent.Text = e.Node.Text + "'s Events";
+                labelSelectedPersonTimeslot.Text = e.Node.Text + "'s Class Schedule";
                 currPanelist = e.Node.Name;
                 RefreshPanelistClassScheds();
                 RefreshPanelistEvents();
@@ -593,8 +602,8 @@ namespace CustomUserControl
             }
 
             dataGridViewExistingTimeslot.DataSource = existingClassScheds;
-            dataGridViewExistingTimeslot.Columns[5].DefaultCellStyle.Format = "HH:mm:ss tt";
-            dataGridViewExistingTimeslot.Columns[6].DefaultCellStyle.Format = "HH:mm:ss tt";
+            dataGridViewExistingTimeslot.Columns[5].DefaultCellStyle.Format = "hh:mm tt";
+            dataGridViewExistingTimeslot.Columns[6].DefaultCellStyle.Format = "hh:mm tt";
             dataGridViewExistingTimeslot.Columns["Id"].Visible = false;
 
             dataGridViewExistingTimeslot.Columns["Course"].Width = 70;
