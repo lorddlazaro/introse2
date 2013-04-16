@@ -211,10 +211,13 @@ namespace CustomUserControl
             selPanel[1] = selectPanelist2;
             selPanel[2] = selectPanelist3;
             selPanel[3] = selectPanelist4;
-            selPanel[0].SelectedIndexChanged += new System.EventHandler(selPanel_Selected_Index_Changed);
-            selPanel[1].SelectedIndexChanged += new System.EventHandler(selPanel_Selected_Index_Changed);
-            selPanel[2].SelectedIndexChanged += new System.EventHandler(selPanel_Selected_Index_Changed);
-            selPanel[3].SelectedIndexChanged += new System.EventHandler(selPanel_Selected_Index_Changed);
+            selPanel[0].SelectedIndexChanged += new System.EventHandler(swapPanelists);
+            selPanel[1].SelectedIndexChanged += new System.EventHandler(swapPanelists);
+            selPanel[2].SelectedIndexChanged += new System.EventHandler(swapPanelists);
+            selPanel[3].SelectedIndexChanged += new System.EventHandler(swapPanelists);
+
+            selectAdviser.Items.Add("");
+            selectAdviser.Enabled = false;
         }
         private void initDB()
         {
@@ -229,7 +232,7 @@ namespace CustomUserControl
             thesisGroupTreeView.EndUpdate();
             thesisGroupTreeView.ExpandAll();
         }
-        private void thesisGroupTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void changeSelectedGroup(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Node.Level == 1)
             {
@@ -346,7 +349,7 @@ namespace CustomUserControl
             List<String>[] groupInfo;
 
             int memcount = tgDM.studentCount(currThesisGroupID);
-            groupInfo = tgDM.getGroupMembers_ordered(currThesisGroupID, sortStudents.SelectedItem + "");
+            groupInfo = tgDM.getGroupMembers(currThesisGroupID, sortStudents.SelectedItem + "");
 
             for (int i = 0; i < 4; i++)
             {
@@ -400,7 +403,6 @@ namespace CustomUserControl
                 return;
             }
 
-            String query;
             List<String>[] groupInfo;
 
             int memcount = tgDM.panelistCount(currThesisGroupID);
@@ -438,6 +440,23 @@ namespace CustomUserControl
                     panelButtons[i].ElementAt(2).Enabled = true;
                     panelButtons[i].ElementAt(3).Text = "Select Existing";
                 }
+            }
+
+            if (currThesisGroupID == "")
+            {
+                selectAdviser.Enabled = false;
+                return;
+            }
+            else
+                selectAdviser.Enabled = true;
+
+            selectAdviser.Items.Clear();
+            selectAdviser.Items.Add("");
+
+            List<String>[] panelists = tgDM.getGroupPanelists(currThesisGroupID);
+            for (int i = 0; i < panelists[0].Count; i++)
+            {
+                selectAdviser.Items.Add(tgDM.getPanelistName(panelists[0].ElementAt(i)));
             }
         }
 
@@ -559,7 +578,7 @@ namespace CustomUserControl
 
             update_components();
         }
-        private void sortStudents_SelectedIndexChanged(object sender, EventArgs e)
+        private void changeStudentSort(object sender, EventArgs e)
         {
             update_components();
         }
@@ -721,7 +740,7 @@ namespace CustomUserControl
                 update_components();
             }
         }
-        private void selPanel_Selected_Index_Changed(object sender, EventArgs e)
+        private void swapPanelists(object sender, EventArgs e)
         {
             ComboBox currPanel = (ComboBox)sender;
             int panelIndex = Convert.ToInt32(currPanel.Name.Substring(14)) - 1;
@@ -730,48 +749,35 @@ namespace CustomUserControl
             if (selPanel[panelIndex].SelectedItem + "" == "")
                 return;
 
-            String[] name = ((String)selPanel[panelIndex].SelectedItem).Split(' ');
             String panelistID = panelistDetails[panelIndex].ElementAt(0).Text;
-
-
-            int middleIndex = 0;
-            while (name[middleIndex].Length != 2)
-                middleIndex++;
-
-            String newFirstName = "";
-            String newMI = "";
-            String newLastName = "";
-            for (int i = 0; i < middleIndex; i++) {
-                newFirstName += name[i];
-                if (i != middleIndex - 1)
-                    newFirstName += " ";
-            }
-
-            newMI = name[middleIndex];
-            newMI = newMI.Substring(0, newMI.Length - 1);
-            for (int i = middleIndex + 1; i <= name.GetUpperBound(0); i++)
-            {
-                newLastName += name[i];
-                if (i != name.GetUpperBound(0))
-                    newLastName += " ";
-            }
-
-            String query;
-            List<String>[] result;
+            String panelistName = selPanel[panelIndex].SelectedItem + "";
 
             if (panelistID == "")
             {
-                panelistID = tgDM.getPanelistIDFromName(newFirstName, newMI, newLastName);
+                panelistID = tgDM.getPanelistIDFromName(panelistName);
                 tgDM.assignPanelistToGroup(currThesisGroupID, panelistID);
             }
             else
             {
                 tgDM.removeAssignedPanelistFromGroup(currThesisGroupID, panelistID);
-                panelistID = tgDM.getPanelistIDFromName(newFirstName, newMI, newLastName);
+                panelistID = tgDM.getPanelistIDFromName(panelistName);
                 tgDM.assignPanelistToGroup(currThesisGroupID, panelistID);
             }
 
             update_components();
+        }
+        private void selectedAdviser(object sender, EventArgs e)
+        {
+            if (selectAdviser.SelectedItem + "" == "")
+            {
+                tgDM.removeAdviser(currThesisGroupID);
+                return;
+            }
+
+            String adviserID = tgDM.getPanelistIDFromName(selectAdviser.SelectedItem+"");
+
+            tgDM.removeAdviser(currThesisGroupID);
+            tgDM.updateAdviser(currThesisGroupID, adviserID);
         }
 
         //GROUP LISTENERS
