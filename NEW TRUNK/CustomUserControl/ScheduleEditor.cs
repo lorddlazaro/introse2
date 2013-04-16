@@ -140,6 +140,7 @@ namespace CustomUserControl
                 panelistTreeView.Enabled = true;
                 studentTreeView.Enabled = false;
                 UpdatePanelistList(panelistTreeView.Nodes);
+                refreshAll();
             }
             else 
             {
@@ -151,6 +152,7 @@ namespace CustomUserControl
                 panelistTreeView.Enabled = false;
                 studentTreeView.Enabled = true;
                 UpdateStudentList(studentTreeView.Nodes);
+                refreshAll();
             }
         }
         public void refreshAll()
@@ -575,7 +577,7 @@ namespace CustomUserControl
             if (btnSwitchView.Text.Equals("Switch to Panelists"))
             {
                 Console.WriteLine(currStudent);
-                query = "SELECT DISTINCT  StudentSchedule.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime,  Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM StudentSchedule INNER JOIN Timeslot ON StudentSchedule.timeslotID = Timeslot.timeslotID LEFT OUTER JOIN Panelist ON Timeslot.panelistID = Panelist.panelistID WHERE (StudentSchedule.timeslotID NOT IN (SELECT        timeslotID FROM            StudentSchedule AS StudentSchedule_1 WHERE        (studentID = '"+currStudent+"'))) ORDER BY Timeslot.courseName, Timeslot.section";
+                query = "SELECT DISTINCT  Timeslot.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime,  Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM StudentSchedule RIGHT OUTER JOIN Timeslot ON StudentSchedule.timeslotID = Timeslot.timeslotID LEFT OUTER JOIN Panelist ON Timeslot.panelistID = Panelist.panelistID WHERE (Timeslot.timeslotID NOT IN (SELECT        timeslotID FROM            StudentSchedule AS StudentSchedule_1 WHERE        (studentID = '"+currStudent+"'))) ORDER BY Timeslot.courseName, Timeslot.section";
                 Console.WriteLine(query);
             }
             else 
