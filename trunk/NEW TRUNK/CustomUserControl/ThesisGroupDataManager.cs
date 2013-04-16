@@ -16,47 +16,53 @@ namespace CustomUserControl
             dbHandler = new DBce();
         }
 
-        public void fixRedefenseCol() 
+        // ran at start of thread; just replaces all NULLs in the eligibleforredefense field with 'false'
+        public void FixRedefenseCol() 
         {
             String query = "update thesisgroup set eligibleforredefense = 'false' where eligibleforredefense IS NULL";
             dbHandler.Update(query);
         }
 
-        public List<String>[] getGroupInfo(String thesisGroupID)
+        // given group ID, get title, section, course, startSY, startTerm, eligiblefordefense and eligibleforredefense
+        public List<String>[] GetGroupInfo(String thesisGroupID)
         {
             String query = "select title, course, section, startSY, startTerm, eligiblefordefense from thesisgroup where thesisgroupid = " + thesisGroupID + ";";
             return dbHandler.Select(query, 5);
         }
-        public Boolean checkIfTitleAlreadyExists(String thesisGroupID, String title)
+        // check if another thesis group already has this this title
+        public Boolean CheckIfTitleAlreadyExists(String thesisGroupID, String title)
         {
             String query = "select count(*) from thesisgroup where title = '" + title + "' and thesisgroupid != '" + thesisGroupID + "';";
             int count = Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
 
             return count > 0;
         }
-        public void updateGroup(String thesisGroupID, String title, String section, String startSY, String course, String startTerm, String eligiblefordefense, String eligibleforredef)
+
+        public void UpdateGroupDetails(String thesisGroupID, String title, String section, String startSY, String course, String startTerm, String eligiblefordefense, String eligibleforredef)
         {
             String query = "update thesisgroup set title = '" + title + "', course = '" + course + "', section = '" + section + "', startSY = '" + startSY + "', startTerm = '" + startTerm + "', eligiblefordefense = '" + eligiblefordefense + "', eligibleforredefense = '" + eligibleforredef + "' ";
             query += "where thesisgroupid = " + thesisGroupID + ";";
             dbHandler.Update(query);
         }
-        public void insertNewGroup(String title, String course, String section, String startSY, String startTerm, String eligiblefordefense, String eligibleforredef)
+        public void InsertNewGroup(String title, String course, String section, String startSY, String startTerm, String eligiblefordefense, String eligibleforredef)
         {
             String insert = "('" + title + "', '" + course + "', '" + section + "', '" + startSY + "', '" + startTerm + "', '" + eligiblefordefense + "', '" + eligibleforredef + "')";
             String query = "insert into thesisgroup (title, course, section, startsy, startterm, eligiblefordefense, eligibleforredefense) values" + insert + ";";
             dbHandler.Insert(query);
         }
-        public void deleteGroup(String thesisGroupID)
+        public void DeleteGroup(String thesisGroupID)
         {
             String query = "delete from thesisgroup where thesisgroupid = " + thesisGroupID + ";";
             dbHandler.Delete(query);
         }
-        public String getGroupIDFromTitle(String title)
+        public String GetGroupIDFromTitle(String title)
         {
             String query = "select thesisgroupid from thesisgroup where title = '" + title + "';";
             return dbHandler.Select(query, 1)[0].ElementAt(0);
         }
-        public Boolean[] getEligibilities(String thesisGroupID)
+
+        // returns a Boolean[2], index 0 contains eligiblefordefense and index 1 contains eligibleforredefense
+        public Boolean[] GetEligibilities(String thesisGroupID)
         {
             Boolean[] eligible = new Boolean[2]; // 0 - defense, 1 - redef
             String query = "select eligiblefordefense, eligibleforredefense from thesisgroup where thesisgroupid = " + thesisGroupID + ";";
@@ -67,14 +73,15 @@ namespace CustomUserControl
 
             return eligible;
         }
-        public void updateEligible(String thesisGroupID, String defenseType)
+        // updates eligiblefordefense/redefense given a defenseType, either "Defense" or "Redefense"
+        public void UpdateEligible(String thesisGroupID, String defenseType)
         {
-            if (defenseType == "Defense")
+            if (defenseType.Equals("Defense"))
             {
                 String update = "update thesisgroup set eligiblefordefense = 'false' where thesisgroupid = " + thesisGroupID + ";";
                 dbHandler.Update(update);
             }
-            else
+            else if (defenseType.Equals("Redefense"))
             {
                 String update = "update thesisgroup set eligibleforerdefense = 'false' where thesisgroupid = " + thesisGroupID + ";";
                 dbHandler.Update(update);
@@ -85,16 +92,6 @@ namespace CustomUserControl
         {
             String query = "select panelistID from panelassignment where thesisgroupid = " + thesisGroupID + " order by panelistID;";
             return dbHandler.Select(query, 1);
-        }
-        public List<String>[] getGroupPanelistNames(String thesisGroupID)
-        {
-            String query = "select panelistID, firstname, lastname, MI from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid = " + thesisGroupID + ") order by lastname;";
-            return dbHandler.Select(query, 4);
-        }
-        public List<String>[] getPanelistsNotInGroup(String thesisGroupID)
-        {
-            String query = "select firstname, MI, lastname from panelist where panelistid not in (select panelistid from panelassignment where thesisgroupid = " + thesisGroupID + ");";
-            return dbHandler.Select(query, 3);
         }
         public List<String>[] getGroupMembers(String thesisGroupID)
         {
@@ -113,6 +110,19 @@ namespace CustomUserControl
 
             return dbHandler.Select(query + order, 4);
         }
+        // returns v containing panelistID, firstname, middleinitial, and lastname of the panelists
+        public List<String>[] getGroupPanelistNames(String thesisGroupID)
+        {
+            String query = "select panelistID, firstname, lastname, MI from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid = " + thesisGroupID + ") order by lastname;";
+            return dbHandler.Select(query, 4);
+        }
+        // used in the swapPanelists method
+        public List<String>[] getPanelistsNotInGroup(String thesisGroupID)
+        {
+            String query = "select firstname, MI, lastname from panelist where panelistid not in (select panelistid from panelassignment where thesisgroupid = " + thesisGroupID + ");";
+            return dbHandler.Select(query, 3);
+        }
+        // used for the treeview
         public List<String>[] getCourses()
         {
             String query = "select distinct course from thesisgroup where course IS NOT NULL and course != 'THSST-2';";
@@ -130,7 +140,7 @@ namespace CustomUserControl
             return dbHandler.Select(query, 1);
         }
 
-        //strictly student stuff
+        // students
         public List<String>[] getStudentInfo(String studentID)
         {
             String query = "select studentid, firstname, mi, lastname from student where studentid = " + studentID + ";";
@@ -155,7 +165,7 @@ namespace CustomUserControl
             dbHandler.Update(query);
         }
 
-        //perfectly panelist part
+        // panelists
         public List<String>[] getPanelistInfo(String panelistID)
         {
             String query = "select firstname, MI, lastname from panelist where panelistid = '" + panelistID + "';";
@@ -255,6 +265,8 @@ namespace CustomUserControl
             String query = "delete from panelassignment where thesisgroupid = " + thesisGroupID + " and panelistid = " + panelistID + ";";
             dbHandler.Delete(query);
         }
+
+        // adviseeeer
         public String getAdviserID(String thesisGroupID)
         {
             String query = "select advisorid from thesisgroup where thesisgroupid = " + thesisGroupID + ";";
@@ -288,7 +300,7 @@ namespace CustomUserControl
             return Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
         }
 
-        // given a treeview, add groups sorted by section
+        // given a treeview, add groups sorted by section ordered alphabetically
         public void showGroups(TreeNodeCollection tree)
         {
             String query = "select distinct course from thesisgroup where course IS NOT NULL and course != 'THSST-2';";
