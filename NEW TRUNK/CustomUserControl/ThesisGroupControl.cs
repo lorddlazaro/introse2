@@ -15,16 +15,14 @@ namespace CustomUserControl
         private ThesisGroupDataManager tgDM;
         private String currThesisGroupID; // currently selected thesis group
 
-        TextBox[] groupDetails; // details (title, section, SY)
-        ComboBox[] groupStuff; // stuff (course, term)
-        Button[] groupButtons; // buttons (edit, new, save, cancel)
-
-        List<TextBox>[] studentDetails;
-        List<Button>[] studentButtons;
-        
-        List<TextBox>[] panelistDetails;
-        List<Button>[] panelButtons;
-        ComboBox[] selPanel;
+        private TextBox[] groupDetails; // details (title, section, SY)
+        private ComboBox[] groupDetails2; // dropdown details (course, term)
+        private ComboBox[] selPanel; // panelist selection comboboxes
+        private Button[] groupButtons; // buttons (edit, new, save, cancel)
+        private List<TextBox>[] studentDetails;
+        private List<TextBox>[] panelistDetails;
+        private List<Button>[] studentButtons;
+        private List<Button>[] panelistButtons;
 
         public ThesisGroupControl()
         {
@@ -33,9 +31,9 @@ namespace CustomUserControl
 
             currThesisGroupID = "";
 
-            initDB();
-            initButtons();
-            initPanels();
+            InitDB();
+            InitButtons();
+            InitPanels();
 
             sortStudents.SelectedIndex = 0;
             
@@ -45,7 +43,8 @@ namespace CustomUserControl
             thesisGroupTreeView.ExpandAll();
         }
 
-        private void initButtons()
+        //INITIALIZERS
+        private void InitButtons()
         {
             // group
             groupButtons = new Button[5];
@@ -67,81 +66,81 @@ namespace CustomUserControl
 
             studentButtons[0] = new List<Button>();
             studentButtons[0].Add(editStudent1);
-            studentButtons[0].ElementAt(0).Click += new System.EventHandler(edit_student_Click);
+            studentButtons[0].ElementAt(0).Click += new System.EventHandler(editStudent_Click);
             studentButtons[0].Add(saveStudent1);
-            studentButtons[0].ElementAt(1).Click += new System.EventHandler(save_student_Click);
+            studentButtons[0].ElementAt(1).Click += new System.EventHandler(saveStudent_Click);
             studentButtons[0].Add(deleteStudent1);
-            studentButtons[0].ElementAt(2).Click += new System.EventHandler(delete_student_Click);
+            studentButtons[0].ElementAt(2).Click += new System.EventHandler(deleteStudent_Click);
             
             studentButtons[1] = new List<Button>();
             studentButtons[1].Add(editStudent2);
-            studentButtons[1].ElementAt(0).Click += new System.EventHandler(edit_student_Click);
+            studentButtons[1].ElementAt(0).Click += new System.EventHandler(editStudent_Click);
             studentButtons[1].Add(saveStudent2);
-            studentButtons[1].ElementAt(1).Click += new System.EventHandler(save_student_Click);
+            studentButtons[1].ElementAt(1).Click += new System.EventHandler(saveStudent_Click);
             studentButtons[1].Add(deleteStudent2);
-            studentButtons[1].ElementAt(2).Click += new System.EventHandler(delete_student_Click);
+            studentButtons[1].ElementAt(2).Click += new System.EventHandler(deleteStudent_Click);
             
             studentButtons[2] = new List<Button>();
             studentButtons[2].Add(editStudent3);
-            studentButtons[2].ElementAt(0).Click += new System.EventHandler(edit_student_Click);
+            studentButtons[2].ElementAt(0).Click += new System.EventHandler(editStudent_Click);
             studentButtons[2].Add(saveStudent3);
-            studentButtons[2].ElementAt(1).Click += new System.EventHandler(save_student_Click);
+            studentButtons[2].ElementAt(1).Click += new System.EventHandler(saveStudent_Click);
             studentButtons[2].Add(deleteStudent3);
-            studentButtons[2].ElementAt(2).Click += new System.EventHandler(delete_student_Click);
+            studentButtons[2].ElementAt(2).Click += new System.EventHandler(deleteStudent_Click);
 
             studentButtons[3] = new List<Button>();
             studentButtons[3].Add(editStudent4);
-            studentButtons[3].ElementAt(0).Click += new System.EventHandler(edit_student_Click);
+            studentButtons[3].ElementAt(0).Click += new System.EventHandler(editStudent_Click);
             studentButtons[3].Add(saveStudent4);
-            studentButtons[3].ElementAt(1).Click += new System.EventHandler(save_student_Click);
+            studentButtons[3].ElementAt(1).Click += new System.EventHandler(saveStudent_Click);
             studentButtons[3].Add(deleteStudent4);
-            studentButtons[3].ElementAt(2).Click += new System.EventHandler(delete_student_Click);
+            studentButtons[3].ElementAt(2).Click += new System.EventHandler(deleteStudent_Click);
 
             // panelists
 
-            panelButtons = new List<Button>[4]; // 4 panelists
+            panelistButtons = new List<Button>[4]; // 4 panelists
 
-            panelButtons[0] = new List<Button>();
-            panelButtons[0].Add(editPanelist1);
-            panelButtons[0].ElementAt(0).Click += new System.EventHandler(edit_panel_Click);
-            panelButtons[0].Add(savePanelist1);
-            panelButtons[0].ElementAt(1).Click += new System.EventHandler(save_panel_Click);
-            panelButtons[0].Add(delPanelist1);
-            panelButtons[0].ElementAt(2).Click += new System.EventHandler(delete_panel_Click);
-            panelButtons[0].Add(selPanelist1);
-            panelButtons[0].ElementAt(3).Click += new System.EventHandler(select_panel_Click);
+            panelistButtons[0] = new List<Button>();
+            panelistButtons[0].Add(editPanelist1);
+            panelistButtons[0].ElementAt(0).Click += new System.EventHandler(editPanel_Click);
+            panelistButtons[0].Add(savePanelist1);
+            panelistButtons[0].ElementAt(1).Click += new System.EventHandler(savePanel_Click);
+            panelistButtons[0].Add(delPanelist1);
+            panelistButtons[0].ElementAt(2).Click += new System.EventHandler(deletePanel_Click);
+            panelistButtons[0].Add(selPanelist1);
+            panelistButtons[0].ElementAt(3).Click += new System.EventHandler(selectPanel_Click);
 
-            panelButtons[1] = new List<Button>();
-            panelButtons[1].Add(editPanelist2);
-            panelButtons[1].ElementAt(0).Click += new System.EventHandler(edit_panel_Click);
-            panelButtons[1].Add(savePanelist2);
-            panelButtons[1].ElementAt(1).Click += new System.EventHandler(save_panel_Click);
-            panelButtons[1].Add(delPanelist2);
-            panelButtons[1].ElementAt(2).Click += new System.EventHandler(delete_panel_Click);
-            panelButtons[1].Add(selPanelist2);
-            panelButtons[1].ElementAt(3).Click += new System.EventHandler(select_panel_Click);
+            panelistButtons[1] = new List<Button>();
+            panelistButtons[1].Add(editPanelist2);
+            panelistButtons[1].ElementAt(0).Click += new System.EventHandler(editPanel_Click);
+            panelistButtons[1].Add(savePanelist2);
+            panelistButtons[1].ElementAt(1).Click += new System.EventHandler(savePanel_Click);
+            panelistButtons[1].Add(delPanelist2);
+            panelistButtons[1].ElementAt(2).Click += new System.EventHandler(deletePanel_Click);
+            panelistButtons[1].Add(selPanelist2);
+            panelistButtons[1].ElementAt(3).Click += new System.EventHandler(selectPanel_Click);
 
-            panelButtons[2] = new List<Button>();
-            panelButtons[2].Add(editPanelist3);
-            panelButtons[2].ElementAt(0).Click += new System.EventHandler(edit_panel_Click);
-            panelButtons[2].Add(savePanelist3);
-            panelButtons[2].ElementAt(1).Click += new System.EventHandler(save_panel_Click);
-            panelButtons[2].Add(delPanelist3);
-            panelButtons[2].ElementAt(2).Click += new System.EventHandler(delete_panel_Click);
-            panelButtons[2].Add(selPanelist3);
-            panelButtons[2].ElementAt(3).Click += new System.EventHandler(select_panel_Click);
+            panelistButtons[2] = new List<Button>();
+            panelistButtons[2].Add(editPanelist3);
+            panelistButtons[2].ElementAt(0).Click += new System.EventHandler(editPanel_Click);
+            panelistButtons[2].Add(savePanelist3);
+            panelistButtons[2].ElementAt(1).Click += new System.EventHandler(savePanel_Click);
+            panelistButtons[2].Add(delPanelist3);
+            panelistButtons[2].ElementAt(2).Click += new System.EventHandler(deletePanel_Click);
+            panelistButtons[2].Add(selPanelist3);
+            panelistButtons[2].ElementAt(3).Click += new System.EventHandler(selectPanel_Click);
 
-            panelButtons[3] = new List<Button>();
-            panelButtons[3].Add(editPanelist4);
-            panelButtons[3].ElementAt(0).Click += new System.EventHandler(edit_panel_Click);
-            panelButtons[3].Add(savePanelist4);
-            panelButtons[3].ElementAt(1).Click += new System.EventHandler(save_panel_Click);
-            panelButtons[3].Add(delPanelist4);
-            panelButtons[3].ElementAt(2).Click += new System.EventHandler(delete_panel_Click);
-            panelButtons[3].Add(selPanelist4);
-            panelButtons[3].ElementAt(3).Click += new System.EventHandler(select_panel_Click);
+            panelistButtons[3] = new List<Button>();
+            panelistButtons[3].Add(editPanelist4);
+            panelistButtons[3].ElementAt(0).Click += new System.EventHandler(editPanel_Click);
+            panelistButtons[3].Add(savePanelist4);
+            panelistButtons[3].ElementAt(1).Click += new System.EventHandler(savePanel_Click);
+            panelistButtons[3].Add(delPanelist4);
+            panelistButtons[3].ElementAt(2).Click += new System.EventHandler(deletePanel_Click);
+            panelistButtons[3].Add(selPanelist4);
+            panelistButtons[3].ElementAt(3).Click += new System.EventHandler(selectPanel_Click);
         }
-        private void initPanels()
+        private void InitPanels()
         {
             // thesis groups
             groupDetails = new TextBox[3];
@@ -152,12 +151,12 @@ namespace CustomUserControl
             for (int i = 0; i < 3; i++)
                 groupDetails[i].Enabled = false;
 
-            groupStuff = new ComboBox[2];
-            groupStuff[0] = groupCourse;
-            groupStuff[1] = groupStartTerm;
+            groupDetails2 = new ComboBox[2];
+            groupDetails2[0] = groupCourse;
+            groupDetails2[1] = groupStartTerm;
 
             for (int i = 0; i < 2; i++)
-                groupStuff[i].Enabled = false;
+                groupDetails2[i].Enabled = false;
 
             // students
             studentDetails = new List<TextBox>[4]; // up to 4 students in a group
@@ -220,12 +219,13 @@ namespace CustomUserControl
             selectAdviser.Items.Add("");
             selectAdviser.Enabled = false;
         }
-        private void initDB()
+        private void InitDB()
         {
-            tgDM.fixRedefenseCol();
+            tgDM.FixRedefenseCol();
         }
 
-        private void update_treeview()
+        // UPDATES/REFRESHES
+        private void UpdateTreeview()
         {
             thesisGroupTreeView.BeginUpdate();
             thesisGroupTreeView.Nodes.Clear();
@@ -233,33 +233,24 @@ namespace CustomUserControl
             thesisGroupTreeView.EndUpdate();
             thesisGroupTreeView.ExpandAll();
         }
-        private void changeSelectedGroup(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            if (e.Node.Level == 1)
-            {
-                currThesisGroupID = e.Node.Name;
-                update_components();
-            }
-        }
-
-        private void update_components()
+        private void UpdateComponents()
         {
             // update thesis group details
-            update_thesisgroup();
+            UpdateThesisGroup();
             // update student details (and the buttons too)
-            update_students();
+            UpdateStudents();
             // update panelist details (the buttons too why not)
-            update_panelists();
+            UpdatePanelists();
         }
-        private void update_thesisgroup()
+        private void UpdateThesisGroup()
         {
-            if (currThesisGroupID == "")
+            if (String.IsNullOrEmpty(currThesisGroupID))
             {
                 for (int i = 0; i < 3; i++)
                     groupDetails[i].Text = "";
                 for (int i = 0; i < 2; i++)
-                    groupStuff[i].SelectedItem = "";
-                
+                    groupDetails2[i].SelectedItem = "";
+
                 groupButtons[0].Enabled = false;
                 groupButtons[1].Enabled = true;
                 groupButtons[2].Enabled = false;
@@ -271,19 +262,19 @@ namespace CustomUserControl
                 return;
             }
 
-            List<String>[] groupInfo = tgDM.getGroupInfo(currThesisGroupID);
+            List<String>[] groupInfo = tgDM.GetGroupInfo(currThesisGroupID);
 
             groupDetails[0].Text = groupInfo[0].ElementAt(0);
-            groupStuff[0].SelectedItem = groupInfo[1].ElementAt(0);
+            groupDetails2[0].SelectedItem = groupInfo[1].ElementAt(0);
             groupDetails[1].Text = groupInfo[2].ElementAt(0);
             groupDetails[2].Text = groupInfo[3].ElementAt(0);
-            groupStuff[1].SelectedItem = groupInfo[4].ElementAt(0);
+            groupDetails2[1].SelectedItem = groupInfo[4].ElementAt(0);
 
             for (int i = 0; i < 3; i++)
                 groupDetails[i].Enabled = false;
 
             for (int i = 0; i < 2; i++)
-                groupStuff[i].Enabled = false;
+                groupDetails2[i].Enabled = false;
 
             groupButtons[0].Enabled = true;
             groupButtons[1].Enabled = true;
@@ -297,7 +288,7 @@ namespace CustomUserControl
             int studentCount = tgDM.studentCount(currThesisGroupID);
             int panelCount = tgDM.panelistCount(currThesisGroupID);
 
-            Boolean[] eligibility = tgDM.getEligibilities(currThesisGroupID);
+            Boolean[] eligibility = tgDM.GetEligibilities(currThesisGroupID);
 
             Boolean eligible = eligibility[0] && (studentCount >= 1 && panelCount >= 3);
             Boolean eligible_redef = eligibility[1] && (studentCount >= 1 && panelCount >= 3);
@@ -311,7 +302,7 @@ namespace CustomUserControl
                 defenseCheckBox.Checked = false;
                 if (eligibility[0])
                 {
-                    tgDM.updateEligible(currThesisGroupID, "Defense");
+                    tgDM.UpdateEligible(currThesisGroupID, "Defense");
                 }
             }
 
@@ -324,15 +315,15 @@ namespace CustomUserControl
                 redefenseCheckBox.Checked = false;
                 if (eligibility[1])
                 {
-                    tgDM.updateEligible(currThesisGroupID, "Redefense");
+                    tgDM.UpdateEligible(currThesisGroupID, "Redefense");
                 }
             }
         }
-        private void update_students()
+        private void UpdateStudents()
         {
-            if (currThesisGroupID == "")
+            if (String.IsNullOrEmpty(currThesisGroupID))
             {
-                for (int i = 0; i < 4; i++) 
+                for (int i = 0; i < 4; i++)
                 {
                     for (int j = 0; j < 4; j++)
                     {
@@ -381,25 +372,25 @@ namespace CustomUserControl
             }
 
         }
-        private void update_panelists()
+        private void UpdatePanelists()
         {
-            if (currThesisGroupID == "")
+            if (String.IsNullOrEmpty(currThesisGroupID))
             {
                 for (int i = 0; i < 4; i++)
                 {
                     selPanel[i].Enabled = false;
                     selPanel[i].Items.Clear();
 
-                        for (int j = 0; j < 4; j++)
-                        {
-                            panelistDetails[i].ElementAt(j).Text = null;
-                            panelistDetails[i].ElementAt(j).Enabled = false;
-                        }
+                    for (int j = 0; j < 4; j++)
+                    {
+                        panelistDetails[i].ElementAt(j).Text = null;
+                        panelistDetails[i].ElementAt(j).Enabled = false;
+                    }
 
-                    panelButtons[i].ElementAt(0).Text = "Add";
-                    panelButtons[i].ElementAt(1).Enabled = false;
-                    panelButtons[i].ElementAt(2).Enabled = false;
-                    panelButtons[i].ElementAt(3).Text = "Select Existing";
+                    panelistButtons[i].ElementAt(0).Text = "Add";
+                    panelistButtons[i].ElementAt(1).Enabled = false;
+                    panelistButtons[i].ElementAt(2).Enabled = false;
+                    panelistButtons[i].ElementAt(3).Text = "Select Existing";
                 }
                 return;
             }
@@ -423,10 +414,10 @@ namespace CustomUserControl
                         panelistDetails[i].ElementAt(j).Enabled = false;
                     }
 
-                    panelButtons[i].ElementAt(0).Text = "Add";
-                    panelButtons[i].ElementAt(1).Enabled = false;
-                    panelButtons[i].ElementAt(2).Enabled = false;
-                    panelButtons[i].ElementAt(3).Text = "Select Existing";
+                    panelistButtons[i].ElementAt(0).Text = "Add";
+                    panelistButtons[i].ElementAt(1).Enabled = false;
+                    panelistButtons[i].ElementAt(2).Enabled = false;
+                    panelistButtons[i].ElementAt(3).Text = "Select Existing";
                 }
                 else
                 {
@@ -436,14 +427,14 @@ namespace CustomUserControl
                         panelistDetails[i].ElementAt(j).Enabled = false;
                     }
 
-                    panelButtons[i].ElementAt(0).Text = "Edit";
-                    panelButtons[i].ElementAt(1).Enabled = false;
-                    panelButtons[i].ElementAt(2).Enabled = true;
-                    panelButtons[i].ElementAt(3).Text = "Select Existing";
+                    panelistButtons[i].ElementAt(0).Text = "Edit";
+                    panelistButtons[i].ElementAt(1).Enabled = false;
+                    panelistButtons[i].ElementAt(2).Enabled = true;
+                    panelistButtons[i].ElementAt(3).Text = "Select Existing";
                 }
             }
 
-            if (currThesisGroupID == "")
+            if (String.IsNullOrEmpty(currThesisGroupID))
             {
                 selectAdviser.Enabled = false;
                 return;
@@ -464,17 +455,17 @@ namespace CustomUserControl
         }
 
         //STUDENT LISTENERS
-        private void edit_student_Click(object sender, EventArgs e)
+        private void editStudent_Click(object sender, EventArgs e)
         {
             Button pressed = (Button)sender;
             int studentIndex = Convert.ToInt32(pressed.Name.Substring(11)) - 1;
 
-            if (currThesisGroupID == "")
+            if (String.IsNullOrEmpty(currThesisGroupID))
                 return;
 
-            if (pressed.Text == "Edit") // editing
+            if (pressed.Text.Equals("Edit")) // editing
             {
-                update_students();
+                UpdateStudents();
 
                 for (int i = 0; i < studentDetails[studentIndex].Count; i++)
                     studentDetails[studentIndex].ElementAt(i).Enabled = true;
@@ -482,9 +473,9 @@ namespace CustomUserControl
                 studentButtons[studentIndex].ElementAt(1).Enabled = true;
                 studentButtons[studentIndex].ElementAt(0).Text = "Cancel";
             }
-            else if (pressed.Text == "Add") // duh
+            else if (pressed.Text.Equals("Add")) // duh
             {
-                update_students();
+                UpdateStudents();
 
                 for (int i = 0; i < studentDetails[studentIndex].Count; i++)
                     studentDetails[studentIndex].ElementAt(i).Enabled = true;
@@ -494,10 +485,10 @@ namespace CustomUserControl
             }
             else // cancel editing/adding
             {
-                update_students();
+                UpdateStudents();
             }
         }
-        private void save_student_Click(object sender, EventArgs e)
+        private void saveStudent_Click(object sender, EventArgs e)
         {
             Button pressed = (Button)sender;
             int studentIndex = Convert.ToInt32(pressed.Name.Substring(11)) - 1;
@@ -510,7 +501,7 @@ namespace CustomUserControl
             List<String>[] result = tgDM.getGroupMembers(currThesisGroupID);
             List<String>[] studentsInGroups = tgDM.getAllStudents();
 
-            if (newID == "" || newFirstName == "" || newLastName == "")
+            if (String.IsNullOrEmpty(newID) || String.IsNullOrEmpty(newFirstName) || String.IsNullOrEmpty(newLastName))
             {
                 MessageBox.Show("Please fill incomplete fields.", "Error", MessageBoxButtons.OK);
                 return;
@@ -536,17 +527,17 @@ namespace CustomUserControl
             {
                 for (int i = 0; i < studentsInGroups[0].Count; i++)
                 {
-                    if (studentsInGroups[0].ElementAt(i) == newID)
+                    if (studentsInGroups[0].ElementAt(i).Equals(newID))
                     {
                         MessageBox.Show("Duplicate Entry, Student already in another thesis group.", "Error", MessageBoxButtons.OK);
-                        update_students();
+                        UpdateStudents();
                         return;
                     }
                 }
 
                 tgDM.insertNewStudent(currThesisGroupID, newID, newFirstName, newMI, newLastName);
             }
-            else if (result[0].ElementAt(studentIndex) == newID)
+            else if (result[0].ElementAt(studentIndex).Equals(newID))
             {
                 tgDM.updateStudent(result[0].ElementAt(studentIndex), newFirstName, newMI, newLastName);
             }
@@ -554,7 +545,7 @@ namespace CustomUserControl
             {
                 for (int i = 0; i < studentsInGroups[0].Count; i++)
                 {
-                    if (studentsInGroups[0].ElementAt(i) == newID)
+                    if (studentsInGroups[0].ElementAt(i).Equals(newID))
                     {
                         MessageBox.Show("Duplicate Entry, Student already in another thesis group.", "Error", MessageBoxButtons.OK);
                         return;
@@ -568,14 +559,14 @@ namespace CustomUserControl
             }
 
 
-            update_students();
+            UpdateStudents();
         }
-        private void delete_student_Click(object sender, EventArgs e)
+        private void deleteStudent_Click(object sender, EventArgs e)
         {
             Button pressed = (Button)sender;
             int studentIndex = Convert.ToInt32(pressed.Name.Substring(13)) - 1;
 
-            if (currThesisGroupID == "")
+            if (String.IsNullOrEmpty(currThesisGroupID))
                 return;
 
             List<String>[] result = tgDM.getStudentInfo(studentDetails[studentIndex].ElementAt(0).Text);
@@ -589,48 +580,48 @@ namespace CustomUserControl
                 tgDM.deleteStudent(studentDetails[studentIndex].ElementAt(0).Text);
             }
 
-            update_components();
+            UpdateComponents();
         }
         private void changeStudentSort(object sender, EventArgs e)
         {
-            update_components();
+            UpdateComponents();
         }
 
         //PANELIST LISTENERS
-        private void edit_panel_Click(object sender, EventArgs e)
+        private void editPanel_Click(object sender, EventArgs e)
         {
             Button pressed = (Button)sender;
             int panelIndex = Convert.ToInt32(pressed.Name.Substring(12)) - 1;
 
-            if (currThesisGroupID == "")
+            if (String.IsNullOrEmpty(currThesisGroupID))
                 return;
 
-            if (pressed.Text == "Edit") // editing
+            if (pressed.Text.Equals("Edit")) // editing
             {
-                update_panelists();
+                UpdatePanelists();
 
                 for (int i = 0; i < studentDetails[panelIndex].Count; i++)
                     panelistDetails[panelIndex].ElementAt(i).Enabled = true;
 
-                panelButtons[panelIndex].ElementAt(1).Enabled = true;
-                panelButtons[panelIndex].ElementAt(0).Text = "Cancel";
+                panelistButtons[panelIndex].ElementAt(1).Enabled = true;
+                panelistButtons[panelIndex].ElementAt(0).Text = "Cancel";
             }
-            else if (pressed.Text == "Add") // duh
+            else if (pressed.Text.Equals("Add")) // duh
             {
-                update_panelists();
+                UpdatePanelists();
 
                 for (int i = 0; i < panelistDetails[panelIndex].Count; i++)
                     panelistDetails[panelIndex].ElementAt(i).Enabled = true;
 
-                panelButtons[panelIndex].ElementAt(1).Enabled = true;
-                panelButtons[panelIndex].ElementAt(0).Text = "Cancel";
+                panelistButtons[panelIndex].ElementAt(1).Enabled = true;
+                panelistButtons[panelIndex].ElementAt(0).Text = "Cancel";
             }
             else // cancel editing/adding
             {
-                update_panelists();
+                UpdatePanelists();
             }
         }
-        private void save_panel_Click(object sender, EventArgs e)
+        private void savePanel_Click(object sender, EventArgs e)
         {
             Button pressed = (Button)sender;
             int panelIndex = Convert.ToInt32(pressed.Name.Substring(12)) - 1;
@@ -643,7 +634,7 @@ namespace CustomUserControl
             List<String>[] result = tgDM.getGroupPanelists(currThesisGroupID);
             List<String>[] result2 = tgDM.getAllPanelists();
 
-            if (newID == "" || newFirstName == "" || newLastName == "")
+            if (String.IsNullOrEmpty(newID) || String.IsNullOrEmpty(newFirstName) || String.IsNullOrEmpty(newLastName))
             {
                 MessageBox.Show("Please fill incomplete fields.", "Error", MessageBoxButtons.OK);
                 return;
@@ -699,7 +690,7 @@ namespace CustomUserControl
                     if (result[0].ElementAt(i).Equals(newID))
                     {
                         MessageBox.Show("Panelist Already Assigned to Thesis Group", "Error", MessageBoxButtons.OK);
-                        update_components();
+                        UpdateComponents();
                         return;
                     }
                 }
@@ -709,15 +700,15 @@ namespace CustomUserControl
                 tgDM.assignPanelistToGroup(currThesisGroupID, newID);
             }
 
-            update_components();
+            UpdateComponents();
         }
-        private void delete_panel_Click(object sender, EventArgs e)
+        private void deletePanel_Click(object sender, EventArgs e)
         {
             Button pressed = (Button)sender;
             int panelIndex = Convert.ToInt32(pressed.Name.Substring(11)) - 1;
             String panelistID = panelistDetails[panelIndex].ElementAt(0).Text;
 
-            if (currThesisGroupID == "")
+            if (String.IsNullOrEmpty(currThesisGroupID))
                 return;
 
             List<String>[] result;
@@ -733,21 +724,21 @@ namespace CustomUserControl
                 tgDM.removeAssignedPanelistFromGroup(currThesisGroupID, panelistID);
             }
 
-            update_components();
+            UpdateComponents();
         }
-        private void select_panel_Click(object sender, EventArgs e)
+        private void selectPanel_Click(object sender, EventArgs e)
         {
             Button pressed = (Button)sender;
             int panelIndex = Convert.ToInt32(pressed.Name.Substring(11)) - 1;
 
-            if (currThesisGroupID == "")
+            if (String.IsNullOrEmpty(currThesisGroupID))
                 return;
 
-            if (panelButtons[panelIndex].ElementAt(3).Text == "Select Existing")
+            if (panelistButtons[panelIndex].ElementAt(3).Text.Equals("Select Existing"))
             {
-                update_components();
+                UpdateComponents();
 
-                panelButtons[panelIndex].ElementAt(3).Text = "Cancel Select";
+                panelistButtons[panelIndex].ElementAt(3).Text = "Cancel Select";
                 selPanel[panelIndex].Enabled = true;
 
                 int memcount = tgDM.panelistNotInGroupCount(currThesisGroupID);
@@ -758,10 +749,10 @@ namespace CustomUserControl
             }
             else
             {
-                panelButtons[panelIndex].ElementAt(3).Text = "Select Existing";
+                panelistButtons[panelIndex].ElementAt(3).Text = "Select Existing";
                 selPanel[panelIndex].Items.Clear();
 
-                update_components();
+                UpdateComponents();
             }
         }
         private void swapPanelists(object sender, EventArgs e)
@@ -770,13 +761,13 @@ namespace CustomUserControl
             int panelIndex = Convert.ToInt32(currPanel.Name.Substring(14)) - 1;
             int selected = selPanel[panelIndex].SelectedIndex;
 
-            if (selPanel[panelIndex].SelectedItem + "" == "")
+            if (String.IsNullOrEmpty(selPanel[panelIndex].SelectedItem + ""))
                 return;
 
             String panelistID = panelistDetails[panelIndex].ElementAt(0).Text;
             String panelistName = selPanel[panelIndex].SelectedItem + "";
 
-            if (panelistID == "")
+            if (String.IsNullOrEmpty(panelistID))
             {
                 panelistID = tgDM.getPanelistIDFromName(panelistName);
                 tgDM.assignPanelistToGroup(currThesisGroupID, panelistID);
@@ -788,11 +779,11 @@ namespace CustomUserControl
                 tgDM.assignPanelistToGroup(currThesisGroupID, panelistID);
             }
 
-            update_components();
+            UpdateComponents();
         }
         private void selectedAdviser(object sender, EventArgs e)
         {
-            if (selectAdviser.SelectedItem + "" == "")
+            if (String.IsNullOrEmpty(selectAdviser.SelectedItem + ""))
             {
                 tgDM.removeAdviser(currThesisGroupID);
                 return;
@@ -805,10 +796,10 @@ namespace CustomUserControl
         }
 
         //GROUP LISTENERS
-        private void new_thesisGroup_Click(object sender, EventArgs e)
+        private void newThesisGroup_Click(object sender, EventArgs e)
         {
             currThesisGroupID = "";
-            update_components();
+            UpdateComponents();
 
             for (int i = 0; i < 3; i++)
             {
@@ -817,8 +808,8 @@ namespace CustomUserControl
             }
             for (int i = 0; i < 2; i++)
             {
-                groupStuff[i].Enabled = true;
-                groupStuff[i].SelectedItem = null;
+                groupDetails2[i].Enabled = true;
+                groupDetails2[i].SelectedItem = null;
             }
 
             groupButtons[1].Enabled = false;
@@ -829,12 +820,12 @@ namespace CustomUserControl
             redefenseCheckBox.Enabled = false;
             redefenseCheckBox.Checked = false;
         }
-        private void edit_groupDetails_Click(object sender, EventArgs e)
+        private void editGroupDetails_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < 3; i++)
                 groupDetails[i].Enabled = true;
             for (int i = 0; i < 2; i++)
-                groupStuff[i].Enabled = true;
+                groupDetails2[i].Enabled = true;
 
             groupButtons[0].Enabled = false;
             groupButtons[2].Enabled = true;
@@ -849,16 +840,16 @@ namespace CustomUserControl
                 redefenseCheckBox.Enabled = true;
             }
         }
-        private void save_groupDetails_Click(object sender, EventArgs e)
+        private void saveGroupDetails_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < 3; i++)
-                if (groupDetails[i].Text == "")
+                if (String.IsNullOrEmpty(groupDetails[i].Text))
                 {
                     MessageBox.Show("Please fill incomplete fields.", "Error", MessageBoxButtons.OK);
                     return;
                 }
             for (int i = 0; i < 2; i++)
-                if (groupStuff[i].SelectedItem == null)
+                if (groupDetails2[i].SelectedItem == null)
                 {
                     MessageBox.Show("Please fill incomplete fields.", "Error", MessageBoxButtons.OK);
                     return;
@@ -867,8 +858,8 @@ namespace CustomUserControl
             String newTitle = groupDetails[0].Text;
             String newSection = groupDetails[1].Text;
             String newSY = groupDetails[2].Text;
-            String newCourse = (String)groupStuff[0].SelectedItem;
-            String newTerm = (String)groupStuff[1].SelectedItem;
+            String newCourse = (String)groupDetails2[0].SelectedItem;
+            String newTerm = (String)groupDetails2[1].SelectedItem;
             String eligibility = defenseCheckBox.Checked + "";
             String eligibility_redef = redefenseCheckBox.Checked + "";
 
@@ -886,11 +877,11 @@ namespace CustomUserControl
 
             if (!currThesisGroupID.Equals(""))
             {
-                Boolean duplicate = tgDM.checkIfTitleAlreadyExists(currThesisGroupID, newTitle);
+                Boolean duplicate = tgDM.CheckIfTitleAlreadyExists(currThesisGroupID, newTitle);
 
                 if (!duplicate)
                 {
-                    tgDM.updateGroup(currThesisGroupID, newTitle, newSection, newSY, newCourse, newTerm, eligibility, eligibility_redef);
+                    tgDM.UpdateGroupDetails(currThesisGroupID, newTitle, newSection, newSY, newCourse, newTerm, eligibility, eligibility_redef);
                 }
                 else
                 {
@@ -899,12 +890,12 @@ namespace CustomUserControl
             }
             else
             {
-                tgDM.insertNewGroup(newTitle, newCourse, newSection, newSY, newTerm, eligibility, eligibility_redef);
-                currThesisGroupID = tgDM.getGroupIDFromTitle(newTitle);
+                tgDM.InsertNewGroup(newTitle, newCourse, newSection, newSY, newTerm, eligibility, eligibility_redef);
+                currThesisGroupID = tgDM.GetGroupIDFromTitle(newTitle);
             }
 
-            update_components();
-            update_treeview();
+            UpdateComponents();
+            UpdateTreeview();
         }
         private void cancelEdits_Click(object sender, EventArgs e)
         {
@@ -914,7 +905,7 @@ namespace CustomUserControl
                     groupDetails[i].Enabled = false;
 
                 for (int i = 0; i < 2; i++)
-                    groupStuff[i].Enabled = false;
+                    groupDetails2[i].Enabled = false;
 
                 groupButtons[0].Enabled = true;
                 groupButtons[1].Enabled = true;
@@ -927,24 +918,34 @@ namespace CustomUserControl
             }
 
             for (int i = 0; i < 3; i++)
-                if (groupDetails[i].Text == "")
+                if (String.IsNullOrEmpty(groupDetails[i].Text))
                     return;
             for (int i = 0; i < 2; i++)
-                if (groupStuff[i].SelectedItem == null)
+                if (groupDetails2[i].SelectedItem == null)
                     return;
 
-            update_components();
+            UpdateComponents();
         }
         private void deleteGroup_Click(object sender, EventArgs e)
         {
-            if (currThesisGroupID == "")
+            if (String.IsNullOrEmpty(currThesisGroupID))
                 return;
 
-            tgDM.deleteGroup(currThesisGroupID);
+            tgDM.DeleteGroup(currThesisGroupID);
             currThesisGroupID = "";
 
-            update_components();
-            update_treeview();
+            UpdateComponents();
+            UpdateTreeview();
+        }
+
+        //TREEVIEW LISTENER
+        private void ChangeSelectedGroup(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node.Level == 1)
+            {
+                currThesisGroupID = e.Node.Name;
+                UpdateComponents();
+            }
         }
     }
 }
