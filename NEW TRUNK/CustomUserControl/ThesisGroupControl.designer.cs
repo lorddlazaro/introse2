@@ -1284,6 +1284,7 @@
             // 
             this.groupStartSY.Enabled = false;
             this.groupStartSY.Location = new System.Drawing.Point(93, 124);
+            this.groupStartSY.MaxLength = 9;
             this.groupStartSY.Name = "groupStartSY";
             this.groupStartSY.Size = new System.Drawing.Size(240, 20);
             this.groupStartSY.TabIndex = 11;
@@ -1315,6 +1316,7 @@
             // 
             this.groupSection.Enabled = false;
             this.groupSection.Location = new System.Drawing.Point(93, 98);
+            this.groupSection.MaxLength = 3;
             this.groupSection.Name = "groupSection";
             this.groupSection.Size = new System.Drawing.Size(240, 20);
             this.groupSection.TabIndex = 8;
