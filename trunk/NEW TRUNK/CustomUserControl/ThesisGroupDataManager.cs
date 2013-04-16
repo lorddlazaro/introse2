@@ -167,11 +167,14 @@ namespace CustomUserControl
         //perfectly panelist part
         public List<String>[] getPanelistInfo(String panelistID)
         {
-            String query = "select firstname, MI, lastname from panelist where panelistid = " + panelistID + ";";
+            String query = "select firstname, MI, lastname from panelist where panelistid = '" + panelistID + "';";
             return dbHandler.Select(query, 3);
         }
         public String getPanelistName(String panelistID)
         {
+            if (panelistID == "")
+                return "";
+
             List<String>[] panelName = getPanelistInfo(panelistID);
             return panelName[0].ElementAt(0) + " " + panelName[1].ElementAt(0) + ". " + panelName[2].ElementAt(0);
         }

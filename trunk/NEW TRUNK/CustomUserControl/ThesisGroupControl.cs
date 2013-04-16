@@ -458,6 +458,8 @@ namespace CustomUserControl
             {
                 selectAdviser.Items.Add(tgDM.getPanelistName(panelists[0].ElementAt(i)));
             }
+
+            selectAdviser.SelectedItem = tgDM.getPanelistName(tgDM.getAdviserID(currThesisGroupID));
         }
 
         //STUDENT LISTENERS

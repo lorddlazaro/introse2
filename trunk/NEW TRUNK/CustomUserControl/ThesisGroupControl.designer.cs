@@ -630,7 +630,7 @@
             // label43
             // 
             this.label43.AutoSize = true;
-            this.label43.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label43.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label43.Location = new System.Drawing.Point(1, 10);
             this.label43.Name = "label43";
             this.label43.Size = new System.Drawing.Size(158, 25);
@@ -740,7 +740,7 @@
             this.delPanelist4.Name = "delPanelist4";
             this.delPanelist4.Size = new System.Drawing.Size(82, 23);
             this.delPanelist4.TabIndex = 22;
-            this.delPanelist4.Text = "Clear/Delete";
+            this.delPanelist4.Text = "Delete";
             this.delPanelist4.UseVisualStyleBackColor = true;
             // 
             // savePanelist4
@@ -865,7 +865,7 @@
             this.delPanelist3.Name = "delPanelist3";
             this.delPanelist3.Size = new System.Drawing.Size(82, 23);
             this.delPanelist3.TabIndex = 22;
-            this.delPanelist3.Text = "Clear/Delete";
+            this.delPanelist3.Text = "Delete";
             this.delPanelist3.UseVisualStyleBackColor = true;
             // 
             // savePanelist3
@@ -990,7 +990,7 @@
             this.delPanelist2.Name = "delPanelist2";
             this.delPanelist2.Size = new System.Drawing.Size(82, 23);
             this.delPanelist2.TabIndex = 22;
-            this.delPanelist2.Text = "Clear/Delete";
+            this.delPanelist2.Text = "Delete";
             this.delPanelist2.UseVisualStyleBackColor = true;
             // 
             // savePanelist2
@@ -1125,7 +1125,7 @@
             this.delPanelist1.Name = "delPanelist1";
             this.delPanelist1.Size = new System.Drawing.Size(82, 23);
             this.delPanelist1.TabIndex = 22;
-            this.delPanelist1.Text = "Clear/Delete";
+            this.delPanelist1.Text = "Delete";
             this.delPanelist1.UseVisualStyleBackColor = true;
             // 
             // savePanelist1
