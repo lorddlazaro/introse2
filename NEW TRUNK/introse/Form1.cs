@@ -18,6 +18,7 @@ namespace introse
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             InitializeComponent();
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
+            scheduleEditor2.containerParent = this;
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
