@@ -13,33 +13,28 @@ namespace CustomUserControl
 {
     public partial class FreeTimeViewer : UserControl
     {
-        private DateTime startOfTheWeek;
-        private DateTime endOfTheWeek;
-
-        private SchedulingDataManager schedulingDM;
-
-        private List<Label> labelDates;
-
-        private String currPanelistID;
-        private String currGroupID;
-
-        private int dayWidth;
-        private double totalMinsInDay;
-
+        private const int TYPE_INDEX_DEFENSE = 0;
+        private const int TYPE_INDEX_REDEFENSE = 1;
         private const int VIEW_INDEX_CLUSTER = 0;
         private const int VIEW_INDEX_ISOLATED = 1;
 
-        private const int TYPE_INDEX_DEFENSE = 0;
-        private const int TYPE_INDEX_REDEFENSE = 1;
+        private bool isCheckingInProgram;
+        private bool isGroupBoxWidened;
+
+        private double totalMinsInDay;
+
+        private DateTime startOfTheWeek;
+        private DateTime endOfTheWeek;
+
+        private int dayWidth;
+
+        private List<Label> labelDates;
+
+        private SchedulingDataManager schedulingDM;
 
         private String currDefenseType;
-        private bool isCheckingInProgram;
-
-        //check
-        bool isGroupBoxWidened;
-        bool defenseRecordExistsInDatabase;
-        DBce dbHandler;
-        string currDefenseID;
+        private String currPanelistID;
+        private String currGroupID;
 
         /****** START: Initializing Methods *******/
         public FreeTimeViewer()
@@ -47,9 +42,9 @@ namespace CustomUserControl
             InitializeComponent();
 
             isCheckingInProgram = false;
+            isGroupBoxWidened = true;
 
             //check
-            dbHandler = new DBce();
             schedulingDM = new SchedulingDataManager();
 
             //Initialize some variables
@@ -70,27 +65,7 @@ namespace CustomUserControl
             //Initialize ComboBoxes
             datePicker_ValueChanged(new Object(), new EventArgs());
             comboBoxView.SelectedIndex = VIEW_INDEX_ISOLATED;
-            comboBox1.SelectedIndex = TYPE_INDEX_DEFENSE; //this will trigger a refresh all that will initialize the whole thing
-
-            /*Initialize TreeViews
-            treeViewClusters.BeginUpdate();
-            schedulingDM.AddPanelistsToTree(treeViewClusters.Nodes, "eligibleFor" + currDefenseType);
-            treeViewClusters.EndUpdate();
-            treeViewClusters.ExpandAll();
-            treeViewClusters.Focus();
-
-            treeViewIsolatedGroups.BeginUpdate();
-            schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes, "eligibleFor" + currDefenseType);
-            treeViewIsolatedGroups.ExpandAll();
-            treeViewIsolatedGroups.EndUpdate();
-            */
-
-
-            MarkAllScheduledGroups();
-
-            //check
-            isGroupBoxWidened = true;
-
+            comboBoxDefenseType.SelectedIndex = TYPE_INDEX_DEFENSE; //this will trigger a refresh all that will initialize the whole thing            
         }
         /****** END: Initializing Methods *******/
 
@@ -159,7 +134,7 @@ namespace CustomUserControl
             }
         }
 
-        private int GetDayIndex(DayOfWeek day) 
+        private int  GetDayIndex(DayOfWeek day) 
         {
             return (int)day - 1;
         }
@@ -232,6 +207,43 @@ namespace CustomUserControl
 
         /****** START: EVENT LISTENERS*******/
 
+        //Facilitates the GUI changes to facilitate addition of defenses. E.g., make the form for addition visible.
+        private void addDefenseButton_Click(object sender, EventArgs e)
+        {
+            ClearDefenseInfo();
+            WidenGroupBox();
+        }
+
+        //Refreshes screen accordingly when the defense type is changed. 
+        private void comboBoxDefenseType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxDefenseType.SelectedIndex == TYPE_INDEX_DEFENSE)
+                currDefenseType = Constants.DEFENSE_TYPE;
+            else
+                currDefenseType = Constants.REDEFENSE_TYPE;
+            ChangeSelectedGroup("");
+            RefreshAll();
+        }
+
+        //Switches the view between cluster and isolated depending on the user's selected item in the combobox.
+        private void comboBoxView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxView.SelectedIndex == VIEW_INDEX_CLUSTER)
+            {
+                treeViewClusters.Show();
+                treeViewIsolatedGroups.Hide();
+                MarkAllScheduledGroups();
+            }
+            else if (comboBoxView.SelectedIndex == VIEW_INDEX_ISOLATED)
+            {
+                treeViewClusters.Hide();
+                treeViewIsolatedGroups.Show();
+                MarkAllScheduledGroups();
+            }
+            ChangeSelectedGroup("");
+            RefreshCalendar();
+        }
+
         //This method updates the date labels when the selected startDate is changed.
         private void datePicker_ValueChanged(object sender, EventArgs e)
         {
@@ -264,6 +276,59 @@ namespace CustomUserControl
                 schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
             
             panelCalendar.Refresh();
+        }
+
+        //Facilitates the deletion of defense schedules.
+        private void deleteDefenseButton_Click(object sender, EventArgs e)
+        {
+            string messageBoxText = "Are you sure you want to delete the current record?";
+            string messageBoxCaption = "Delete current record?";
+
+            if (schedulingDM.CurrGroupDefSched!=null)
+            {
+                if (MessageBox.Show(messageBoxText, messageBoxCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    schedulingDM.DeleteSelectedGroupDefense();
+                    ClearDefenseInfo();
+                    ShortenGroupBox();
+                    RefreshCalendar();
+                    MarkAllScheduledGroups();
+                }
+            }
+            else //Cancel edit/add
+            {
+                ClearDefenseInfo();
+                ShortenGroupBox();
+                RefreshCalendar();
+                MarkAllScheduledGroups();
+            }
+        }
+
+        //Facilitates the saving of defense schedules into the database. 
+        private void saveDefenseButton_Click(object sender, EventArgs e)
+        {
+            String messageBoxText = "Are you sure you want to save changes made?";
+            String messageBoxCaption = "Save Changes?";
+            String query;
+            String dateTime = String.Format("{0:M/d/yyyy h:mm:ss tt}", defenseDateTimePicker.Value);
+
+
+            if (IsDefenseInfoValid() && MessageBox.Show(messageBoxText, messageBoxCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) 
+            {
+                schedulingDM.InsertNewDefenseIntoDB(currGroupID, dateTime, venueTextBox.Text, currDefenseType);
+                
+                //Refresh Part
+                //if (!currPanelistID.Equals(""))
+                //  schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
+                if (!currGroupID.Equals(""))
+                    schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
+
+                RefreshCalendar();
+                MarkAllScheduledGroups();
+                
+            }
+
+            
         }
 
         //This method records the current thesisgroup and panelist selected in cluster view.
@@ -326,70 +391,22 @@ namespace CustomUserControl
             }
         }
 
-        /*
-        //Updates the progress bar until its maximum. The bar is reset to zero only during the next time it is made to update.
-        private void UpdateProgressBar(ProgressBar progressBar1, int increment) 
-        {
-            if (progressBar1.Value == progressBar1.Maximum)
-            {
-                progressBar1.Value = progressBar1.Minimum;
-                progressBar1.Show();
-            }
-            else if (progressBar1.Value + increment < progressBar1.Maximum)
-            {
-                progressBar1.Value += increment;
-                progressBar1.Show();
-            }
-            else
-            {
-                progressBar1.Value = progressBar1.Maximum;
-                progressBar1.Hide();
-            }
-
-            progressBar1.Refresh();
-        }
-         * */
-        
-        //Switches the view between cluster and isolated depending on the user's selected item in the combobox.
-        private void comboBoxView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBoxView.SelectedIndex == VIEW_INDEX_CLUSTER)
-            {
-                treeViewClusters.Show();
-                treeViewIsolatedGroups.Hide();
-                MarkAllScheduledGroups();
-            }
-            else if (comboBoxView.SelectedIndex == VIEW_INDEX_ISOLATED)
-            {
-                treeViewClusters.Hide();
-                treeViewIsolatedGroups.Show();
-                MarkAllScheduledGroups();
-            }
-        }
-
+        //Handles the selection of thesis groups in the tree view.
         private void treeViewIsolatedGroups_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            /*
-            int numTasks = 3;
-            int progressBarIncrement = progressBar1.Maximum / numTasks;
-            */
-
             currPanelistID = "";
 
             //Task 1: Refresh the current free times.
             ChangeSelectedGroup(e.Node.Name);
-            //UpdateProgressBar(progressBar1, progressBarIncrement);
-
+          
             //Task 2: Refresh
             panelCalendar.Refresh();
-            //UpdateProgressBar(progressBar1, progressBarIncrement);
-
-            //Just to make sure the progress bar reaches its maximum.
-            //UpdateProgressBar(progressBar1, progressBar1.Maximum); 
+            
+            //Selects the node even when the checkbox is clicked (because normally it does not).
             treeViewIsolatedGroups.SelectedNode = e.Node;
         }
 
-        /*This action listener prevents manual checking of checkboxes in the treeviews. 
+        /*Thse two action listeners prevents manual checking of checkboxes in the treeviews. 
         This method allows only the checks created by the method MarkAllScheduledGroups().
          * */
         private void treeViewClusters_BeforeCheck(object sender, TreeViewCancelEventArgs e)
@@ -416,10 +433,337 @@ namespace CustomUserControl
         /****** END: EVENT LISTENERS*******/
 
 
-        /******* OTHER METHODS******/
+        /****** START: GUI Methods For Changing Defense Addition/Editing Forms *******/
 
+        private void ChangeGroupBox(DefenseSchedule defSchedule)
+        {
+            if (defSchedule != null)
+            {
+                
+                if (!isGroupBoxWidened)
+                    WidenGroupBox();
+
+                //if (isGroupBoxWidened)
+                //ShortenGroupBox();
+                String date = defSchedule.StartTime.Date.ToString();
+                String time = defSchedule.StartTime.TimeOfDay.ToString();
+
+                /*
+                string date = defSchedule[2].ElementAt(0).Split(' ')[0];
+                string time = defSchedule[2].ElementAt(0).Split(' ')[1] + " " + defSchedule[2].ElementAt(0).Split(' ')[2];
+                */
+                //Console.WriteLine(date + "|" + time);
+
+                int year = Convert.ToInt16(date.Split('/')[2]);
+                int day = Convert.ToInt16(date.Split('/')[1]);
+                int month = Convert.ToInt16(date.Split('/')[0]);
+                int hour = Convert.ToInt16(time.Split(':')[0]);
+                int minute = Convert.ToInt16(time.Split(':')[1]);
+                if (time.Split(' ')[1].Equals("PM"))
+                    hour += 12;
+
+                venueTextBox.Text = defSchedule.Place;
+                defenseDateTimePicker.Value = new DateTime(year, month, day, hour, minute, 0, 0);
+            }
+            else
+            {
+                
+                if (isGroupBoxWidened)
+                    ShortenGroupBox();
+            }
+        }
+
+        private void ClearDefenseInfo()
+        {
+            venueTextBox.Clear();
+            defenseDateTimePicker.ResetText();
+        }
+
+        private void HideGroupBox()
+        {
+            int defaultWidth = 254;
+            int longLength = 477;
+            Size newSize = new Size(defaultWidth, longLength);
+
+            treeViewClusters.Size = newSize;
+            treeViewIsolatedGroups.Size = newSize;
+            defenseInfoGroupBox.Visible = false;
+        }
+
+        private void WidenGroupBox()
+        {
+            addDefenseButton.Visible = false;
+            venueLabel.Visible = true;
+            defenseDateTimePicker.Visible = true;
+            dateTimeLabel.Visible = true;
+
+            int defaultWidth = 254;
+            int longLength = 153;
+            defenseInfoGroupBox.Size = new Size(defaultWidth, longLength);
+
+            int defaultX = 701;
+            int longY = 433;
+            defenseInfoGroupBox.Location = new Point(defaultX, longY);
+
+            int treeViewDefaultWidth = 254;
+            int treeViewShortLength = 318;
+            Size newSize = new Size(treeViewDefaultWidth, treeViewShortLength);
+
+            treeViewClusters.Size = newSize;
+            treeViewIsolatedGroups.Size = newSize;
+            this.Refresh();
+            isGroupBoxWidened = true;
+        }
+
+        private void ShortenGroupBox()
+        {
+            addDefenseButton.Visible = true;
+            venueLabel.Visible = false;
+            defenseDateTimePicker.Visible = false;
+            dateTimeLabel.Visible = false;
+
+            int defaultWidth = 254;
+            int shortLength = 100;
+            defenseInfoGroupBox.Size = new Size(defaultWidth, shortLength);
+
+            int defaultX = 701;
+            int shortY = 486;
+            defenseInfoGroupBox.Location = new Point(defaultX, shortY);
+
+            int treeViewDefaultWidth = 254;
+            int treeViewShortLength = 371;
+            Size newSize = new Size(treeViewDefaultWidth, treeViewShortLength);
+
+            treeViewClusters.Size = newSize;
+            treeViewIsolatedGroups.Size = newSize;
+
+            this.Refresh();
+            isGroupBoxWidened = false;
+        }
+
+        private void ShowGroupBox()
+        {
+            defenseInfoGroupBox.Visible = true;
+        }
+
+        private bool IsDefenseInfoValid()
+        {
+            /*New Implementation*/
+            String dateTimeString = String.Format("{0:M/d/yyyy H:mm}", defenseDateTimePicker.Value);
+            String course = courseSectionTextBox.Text.Split(' ')[1]; 
+            String errorMsg = schedulingDM.GetErrorWithThisDefenseInfo(dateTimeString, course, defenseDateTimePicker.Value.DayOfWeek);
+
+            if (!errorMsg.Equals(""))
+            {
+                MessageBox.Show(errorMsg, "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            else if (venueTextBox.Text.Length == 0)
+                if (MessageBox.Show("Warning: No venue specified, is this alright?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                    return true;
+                else
+                    return false;
+
+            return true;
+            /*New Implementation*/
+
+
+            /*Old Implementation
+            // note:    this is so that tbe cursor and focus will be moved away from the editable components
+            //          reason being that without these or some other workaround, data changed in the 
+            //          currently focused components will not be included in the checking. 
+            //          Basically it's to resolve the bug that the software does not recognize the most recent
+            //          input value if the focus is still on the component.
+            titleTextBox.Focus();
+            courseSectionTextBox.Focus();
+
+            // preprocessing current time selected
+            string dateTimeString = string.Format("{0:M/d/yyyy H:mm}", defenseDateTimePicker.Value);
+
+            int month = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[0]);
+            int day = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[1]);
+            int year = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[2]);
+            int hour = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[0]);
+            int minute = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[1]);
+
+            TimeSpan time = new TimeSpan(hour, minute, 0);
+            DateTime dateTime = new DateTime(year, month, day, hour, minute, 0);
+            DateTime savedDateTime = DateTime.Today;
+            TimePeriod timePeriod = new TimePeriod(DateTime.Today, DateTime.Today);
+            TimePeriod currPeriod = new TimePeriod(DateTime.Today, DateTime.Today);
+
+            if (defenseRecordExistsInDatabase)
+            {
+                string query = "select defensedatetime from defenseschedule where defenseid =" + currDefenseID;
+                dateTimeString = string.Format("{0:M/d/yyyy H:mm}", dbHandler.Select(query, 1)[0].ElementAt(0));
+
+                month = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[0]);
+                day = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[1]);
+                year = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[2]);
+                hour = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[0]);
+                minute = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[1]);
+                savedDateTime = new DateTime(year, month, day, hour, minute, 0);
+            }
+
+            // CASE 1: Time selected is set before 8:00AM
+            if (time < new TimeSpan(8, 0, 0))
+            {
+                MessageBox.Show("Invalid Time: You can only schedule from 8:00AM to 7:00PM for THSST-1 and 8:00AM to 8:00PM for THSST-3", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // CASE 2: Time selected is set after 8:00PM (THSST-1) or 7:00PM (THSST-3)
+            if (courseSectionTextBox.Text.Split(' ')[1].Equals("THSST-1"))
+            {
+                if (defenseRecordExistsInDatabase)
+                    currPeriod = new TimePeriod(savedDateTime, savedDateTime.AddHours(1));
+                timePeriod = new TimePeriod(dateTime, dateTime.AddHours(1));
+                if (time > new TimeSpan(20, 0, 0))
+                {
+                    MessageBox.Show("Invalid Time: You can only schedule from 8:00AM to 8:00PM for THSST-1 and 8:00AM to 7:00PM for THSST-3", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+            else
+            {
+                if (defenseRecordExistsInDatabase)
+                    currPeriod = new TimePeriod(savedDateTime, savedDateTime.AddHours(2));
+                timePeriod = new TimePeriod(dateTime, dateTime.AddHours(2));
+                if (time > new TimeSpan(19, 0, 0))
+                {
+                    MessageBox.Show("Invalid Time: You can only schedule from 8:00AM to 8:00PM for THSST-1 and 8:00AM to 7:00PM for THSST-3", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+
+          
+            // Case 4: Date selected is a sunday
+            if (defenseDateTimePicker.Value.DayOfWeek == DayOfWeek.Sunday)
+            {
+                MessageBox.Show("Invalid Date: Defenses can't be scheduled on a sunday.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // Case 5: Selected time doesn't fit the free time of those involved
+            //if(defenseRecordExistsInDatabase)
+                //schedulingDM.AddToSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1, timePeriod);
+
+
+            bool found = false;
+
+            bool upbool = false;
+            bool downbool = false;
+            bool foundOne = false;
+
+            if (defenseRecordExistsInDatabase)
+            {
+                if (currPeriod.IsBetweenInclusive(currPeriod.StartTime, currPeriod.EndTime, timePeriod.StartTime))
+                    upbool = true;
+
+                if (currPeriod.IsBetweenInclusive(currPeriod.StartTime, currPeriod.EndTime, timePeriod.EndTime))
+                    downbool = true;
+
+                found = upbool && downbool;
+                foundOne = upbool || downbool;
+                //Console.WriteLine("   " + found + " " + foundOne+ "   "+ currPeriod.StartTime+" "+currPeriod.EndTime +"," + timePeriod.StartTime+" "+timePeriod.EndTime);
+            }
+
+            if (!found)
+            {
+                List<TimePeriod>[] list = schedulingDM.SelectedGroupFreeTimes;
+
+                //Console.WriteLine("comparing " + timePeriod.StartTime + " " + timePeriod.EndTime + ".");
+                foreach (TimePeriod freeTime in list[Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1])
+                {
+                    Console.WriteLine("   " + freeTime.StartTime + " " + freeTime.EndTime + ".");
+                    if (timePeriod.isWithin(freeTime))
+                    {
+                        found = true;
+                        break;
+                    }
+
+                    if (foundOne)
+                    {
+                        //Console.WriteLine(upbool + " " + downbool);
+                        if (!upbool)
+                            upbool = timePeriod.IsBetweenInclusive(freeTime.StartTime, freeTime.EndTime, timePeriod.StartTime);
+                        if (!downbool)
+                            downbool = timePeriod.IsBetweenInclusive(freeTime.StartTime, freeTime.EndTime, timePeriod.EndTime);
+                        found = upbool && downbool;
+                        if (found)
+                            break;
+                    }
+                }
+            }
+
+
+            if (!found)
+            {
+                MessageBox.Show("Error: Time conflict, please choose another time.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // Case 6: No venue specified (Could be accepted)
+            if (venueTextBox.Text.Length == 0)
+                if (MessageBox.Show("Warning: No venue specified, is this alright?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                    return true;
+
+            // Valid input
+            return true;
+
+            /*Old Implementation*/
+        }
+        
+        /****** END:   GUI Methods For Changing Defense Addition/Editing Forms *******/
+
+
+        /********START: Refresh Methods*********/
+        public void RefreshAll()
+        {
+            Invalidate();
+            RefreshTreeViews();
+            MarkAllScheduledGroups();
+            RefreshCalendar();
+            defenseInfoGroupBox.Refresh();
+            Validate();
+        }
+
+        private void RefreshCalendar()
+        {
+            //if (!currPanelistID.Equals(""))
+            //schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
+            if (!currGroupID.Equals(""))
+            {
+                schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
+                schedulingDM.RefreshGroupDefSched(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
+            }
+            panelCalendar.Refresh();
+        }
+
+        // refresh treeviews from form1
+        public void RefreshTreeViews()
+        {
+            treeViewClusters.BeginUpdate();
+            treeViewClusters.Nodes.Clear();
+            schedulingDM.AddPanelistsToTree(treeViewClusters.Nodes, "eligibleFor" + currDefenseType);
+            treeViewClusters.EndUpdate();
+            treeViewClusters.ExpandAll();
+            treeViewClusters.Focus();
+
+            treeViewIsolatedGroups.BeginUpdate();
+            treeViewIsolatedGroups.Nodes.Clear();
+            schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes, "eligibleFor" + currDefenseType);
+            treeViewIsolatedGroups.EndUpdate();
+            treeViewIsolatedGroups.ExpandAll();
+
+            MarkAllScheduledGroups();
+        }
+        /********END: Refresh Methods**********/
+
+        /****** START: OTHER METHODS******/
+        
         //Changes the selectedGroupID to the new ID given in the parameter, then refreshes the list of free times in schedulingDM.
-        public void ChangeSelectedGroup(String newThesisGroupID)
+        private void ChangeSelectedGroup(String newThesisGroupID)
         {
             currGroupID = newThesisGroupID;
             if (newThesisGroupID.Equals(""))
@@ -438,14 +782,12 @@ namespace CustomUserControl
                 titleTextBox.Text = schedulingDM.GetGroupInfo(currGroupID).Split(':')[1];
                 courseSectionTextBox.Text = schedulingDM.GetGroupInfo(currGroupID).Split(':')[0];
 
-                string query = "select defenseid, place, defensedatetime from defenseschedule where thesisgroupid = '" + currGroupID + "' AND defenseType = '"+currDefenseType+"';";
-
-                List<string>[] queryResult = dbHandler.Select(query, 3);
-                
-                if (queryResult[0].Count() == 0)
-                    ChangeGroupBox(null);
-                else
-                    ChangeGroupBox(queryResult);
+                /*The difference between this defenseSchedule and the one in schedulingDM (currGroupDefSched)
+                 * is that currGroupDefSched only refers to the defense schedule that fits within the current
+                 * calendar.
+                 */
+                DefenseSchedule defenseSchedule = schedulingDM.GetDefSched(currGroupID, currDefenseType);
+                ChangeGroupBox(defenseSchedule);
             }
             schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID,currDefenseType);
             schedulingDM.RefreshGroupDefSched(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
@@ -471,13 +813,10 @@ namespace CustomUserControl
                 if (comboBoxView.SelectedIndex == VIEW_INDEX_CLUSTER) 
                 {
                     currTreeView = treeViewClusters;
-                    //Console.WriteLine("currTreeView = clusters");
                 }
                 else// if (comboBoxView.SelectedIndex == VIEW_INDEX_ISOLATED) 
                 {
                     currTreeView = treeViewIsolatedGroups;
-                    
-                    //Console.WriteLine("currTreeView = isolated");
                 }
            
                 currTreeView.BeginUpdate();
@@ -514,407 +853,10 @@ namespace CustomUserControl
                 currTreeView.Refresh();
             }
         }
-
-        //check
-
-        private void HideGroupBox()
-        {
-            int defaultWidth = 254;
-            int longLength = 477;
-            Size newSize = new Size(defaultWidth, longLength);
-
-            treeViewClusters.Size = newSize;
-            treeViewIsolatedGroups.Size = newSize;
-            defenseInfoGroupBox.Visible = false;
-        }
-
-        private void ShowGroupBox() 
-        {
-            defenseInfoGroupBox.Visible = true;
-        }
-
-        private void WidenGroupBox() 
-        {
-            addDefenseButton.Visible = false;
-            venueLabel.Visible = true;
-            defenseDateTimePicker.Visible = true;
-            dateTimeLabel.Visible = true;
-
-            int defaultWidth = 254;
-            int longLength = 153;
-            defenseInfoGroupBox.Size = new Size(defaultWidth, longLength);
-
-            int defaultX = 701;
-            int longY = 433;
-            defenseInfoGroupBox.Location = new Point(defaultX, longY);
-
-            int treeViewDefaultWidth = 254;
-            int treeViewShortLength = 318;
-            Size newSize = new Size(treeViewDefaultWidth, treeViewShortLength);
-
-            treeViewClusters.Size = newSize;
-            treeViewIsolatedGroups.Size = newSize;
-            this.Refresh();
-            isGroupBoxWidened = true;
-        }
-
-        private void ShortenGroupBox() 
-        {
-            addDefenseButton.Visible = true;
-            venueLabel.Visible = false;
-            defenseDateTimePicker.Visible = false;
-            dateTimeLabel.Visible = false;
-
-            int defaultWidth = 254;
-            int shortLength = 100;
-            defenseInfoGroupBox.Size = new Size(defaultWidth, shortLength);
-
-            int defaultX = 701;
-            int shortY = 486;
-            defenseInfoGroupBox.Location = new Point(defaultX, shortY);
-
-            int treeViewDefaultWidth = 254;
-            int treeViewShortLength = 371;
-            Size newSize = new Size(treeViewDefaultWidth, treeViewShortLength);
-
-            treeViewClusters.Size = newSize;
-            treeViewIsolatedGroups.Size = newSize;
-
-            this.Refresh();
-            isGroupBoxWidened = false;
-        }
-
-        private void ChangeGroupBox(List<string>[] queryResult) 
-        {
-            if (queryResult != null)
-            {
-                defenseRecordExistsInDatabase = true;
-
-                if(!isGroupBoxWidened)
-                    WidenGroupBox();
-
-                //if (isGroupBoxWidened)
-                    //ShortenGroupBox();
-
-                string date = queryResult[2].ElementAt(0).Split(' ')[0];
-                string time = queryResult[2].ElementAt(0).Split(' ')[1] + " " + queryResult[2].ElementAt(0).Split(' ')[2];
-
-                //Console.WriteLine(date + "|" + time);
-
-                int year = Convert.ToInt16(date.Split('/')[2]);
-                int day = Convert.ToInt16(date.Split('/')[1]);
-                int month = Convert.ToInt16(date.Split('/')[0]);
-                int hour = Convert.ToInt16(time.Split(':')[0]);
-                int minute = Convert.ToInt16(time.Split(':')[1]);
-                //if (time.Split(' ')[1].Equals("PM"))
-                //    hour += 12;
-
-                currDefenseID = queryResult[0].ElementAt(0);
-                venueTextBox.Text = queryResult[1].ElementAt(0);
-                defenseDateTimePicker.Value = new DateTime(year, month, day, hour, minute, 0, 0);
-            }
-            else 
-            {
-                defenseRecordExistsInDatabase = false;
-
-                if (isGroupBoxWidened)
-                    ShortenGroupBox();
-            }
-        }
-
-        private void deleteDefenseButton_Click(object sender, EventArgs e)
-        {
-            string messageBoxText = "Are you sure you want to delete the current record?";
-            string messageBoxCaption = "Delete current record?";
-
-            if (defenseRecordExistsInDatabase)
-            {
-                if (MessageBox.Show(messageBoxText, messageBoxCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-                {
-                    string query = "delete from defenseschedule where defenseid ='" + currDefenseID + "';";
-                    dbHandler.Delete(query);
-                    ClearDefenseInfo();
-                    ShortenGroupBox();
-
-                    //Console.WriteLine("Deleting from database");
-                    RefreshCalendar();
-                    MarkAllScheduledGroups();
-                    defenseRecordExistsInDatabase = false;
-                }
-            }
-            else 
-            {
-                if (MessageBox.Show(messageBoxText, messageBoxCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-                {
-                    ClearDefenseInfo();
-                    ShortenGroupBox();
-
-                    //Console.WriteLine("Clearing data");
-
-                    RefreshCalendar();
-                    MarkAllScheduledGroups();
-                }
-            }
-        }
-
-        private void ClearDefenseInfo() {
-            venueTextBox.Clear();
-            defenseDateTimePicker.ResetText();
-        }
-
-        private void saveDefenseButton_Click(object sender, EventArgs e)
-        {
-            string messageBoxText = "Are you sure you want to save changes made?";
-            string messageBoxCaption = "Save Changes?";
-            string query;
-
-            if (defenseRecordExistsInDatabase)
-            {
-                if (IsDefenseInfoValid() && MessageBox.Show(messageBoxText, messageBoxCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-                {
-                    string dateTime = string.Format("{0:M/d/yyyy h:mm:ss tt}", defenseDateTimePicker.Value);
-           
-                    query = "update defenseschedule set defensedatetime = '" + dateTime + "', place = '" + venueTextBox.Text + "' where defenseid = '" + currDefenseID + "' AND defenseType ='"+currDefenseType+"';";
-                    dbHandler.Update(query);
-
-                   
-                    //if (!currPanelistID.Equals(""))
-                        //schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
-                    if (!currGroupID.Equals(""))
-                        schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
-
-                    RefreshCalendar();
-                    Console.WriteLine("I'm here");
-                    MarkAllScheduledGroups();
-                }
-            }
-            else
-            {
-                if (IsDefenseInfoValid() && MessageBox.Show(messageBoxText, messageBoxCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-                {
-                    string dateTime = string.Format("{0:M/d/yyyy h:mm:ss tt}", defenseDateTimePicker.Value);
-                    //Console.WriteLine(dateTime);
-
-                    query = "insert into defenseschedule (defensedatetime,place,thesisgroupid, defenseType) values('" + dateTime + "','" + venueTextBox.Text + "','" + currGroupID + "','"+currDefenseType+"');";
-                    dbHandler.Insert(query);
-
-                    query = "select defenseid from defenseschedule where defensedatetime= '"+dateTime+"' and place='"+venueTextBox.Text+"' and thesisgroupid='"+currGroupID+"';";
-                    currDefenseID = dbHandler.Select(query,1)[0].ElementAt(0);
-
-                    //Console.WriteLine("Inserting into database");
-
-                    RefreshCalendar();
-                    MarkAllScheduledGroups();
-                    defenseRecordExistsInDatabase = true;
-                }
-            }
-        }
-
-        private bool IsDefenseInfoValid() 
-        {
-            // note:    this is so that tbe cursor and focus will be moved away from the editable components
-            //          reason being that without these or some other workaround, data changed in the 
-            //          currently focused components will not be included in the checking. 
-            //          Basically it's to resolve the bug that the software does not recognize the most recent
-            //          input value if the focus is still on the component.
-            titleTextBox.Focus();
-            courseSectionTextBox.Focus();
-
-            // preprocessing current time selected
-            string dateTimeString = string.Format("{0:M/d/yyyy H:mm}", defenseDateTimePicker.Value);
-
-            int month = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[0]);
-            int day = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[1]);
-            int year = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[2]);
-            int hour = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[0]);
-            int minute = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[1]);
-                    
-            TimeSpan time = new TimeSpan(hour, minute, 0);
-            DateTime dateTime = new DateTime(year, month, day, hour, minute, 0);
-            DateTime savedDateTime = DateTime.Today;
-            TimePeriod timePeriod = new TimePeriod(DateTime.Today, DateTime.Today);
-            TimePeriod currPeriod = new TimePeriod(DateTime.Today, DateTime.Today);
-
-            if (defenseRecordExistsInDatabase)
-            {
-                string query = "select defensedatetime from defenseschedule where defenseid =" + currDefenseID;
-                dateTimeString = string.Format("{0:M/d/yyyy H:mm}", dbHandler.Select(query,1)[0].ElementAt(0));
-
-                month = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[0]);
-                day = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[1]);
-                year = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[2]);
-                hour = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[0]);
-                minute = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[1]);
-                savedDateTime = new DateTime(year, month, day, hour, minute, 0);
-            }
-
-            // CASE 1: Time selected is set before 8:00AM
-            if (time < new TimeSpan(8, 0, 0))
-            {
-                MessageBox.Show("Invalid Time: You can only schedule from 8:00AM to 7:00PM for THSST-1 and 8:00AM to 8:00PM for THSST-3", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            // CASE 2: Time selected is set after 8:00PM (THSST-1) or 7:00PM (THSST-3)
-            if (courseSectionTextBox.Text.Split(' ')[1].Equals("THSST-1"))
-            {
-                if(defenseRecordExistsInDatabase)
-                    currPeriod = new TimePeriod(savedDateTime, savedDateTime.AddHours(1));
-                timePeriod = new TimePeriod(dateTime, dateTime.AddHours(1));
-                if (time > new TimeSpan(20, 0, 0))
-                {
-                    MessageBox.Show("Invalid Time: You can only schedule from 8:00AM to 8:00PM for THSST-1 and 8:00AM to 7:00PM for THSST-3", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-            }
-            else
-            {
-                if(defenseRecordExistsInDatabase)
-                    currPeriod= new TimePeriod(savedDateTime, savedDateTime.AddHours(2));
-                timePeriod = new TimePeriod(dateTime, dateTime.AddHours(2));
-                if (time > new TimeSpan(19, 0, 0))
-                {
-                    MessageBox.Show("Invalid Time: You can only schedule from 8:00AM to 8:00PM for THSST-1 and 8:00AM to 7:00PM for THSST-3", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-            }
-
-            /* Case 3: Time selected is not a multiple of 5 (in minutes)
-            if (time.Minutes % 5 != 0)
-            {
-                MessageBox.Show("Invalid Time: Must be in 5 minute intevals", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            */
-            // Case 4: Date selected is a sunday
-            if (defenseDateTimePicker.Value.DayOfWeek == DayOfWeek.Sunday)
-            {
-                MessageBox.Show("Invalid Date: Defenses can't be scheduled on a sunday.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            // Case 5: Selected time doesn't fit the free time of those involved
-            //if(defenseRecordExistsInDatabase)
-            //    schedulingDM.AddToSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1, timePeriod);
-            
-
-            bool found = false;
-            
-            bool upbool = false;
-            bool downbool = false;
-            bool foundOne = false;
-
-            if (defenseRecordExistsInDatabase)
-            {
-                if (currPeriod.IsBetweenInclusive(currPeriod.StartTime, currPeriod.EndTime, timePeriod.StartTime))
-                    upbool = true;
-
-                if (currPeriod.IsBetweenInclusive(currPeriod.StartTime, currPeriod.EndTime, timePeriod.EndTime))
-                    downbool = true;
-
-                found = upbool && downbool;
-                foundOne = upbool || downbool;
-                //Console.WriteLine("   " + found + " " + foundOne+ "   "+ currPeriod.StartTime+" "+currPeriod.EndTime +"," + timePeriod.StartTime+" "+timePeriod.EndTime);
-            }
-
-            if(!found)
-            {
-                List<TimePeriod>[] list = schedulingDM.SelectedGroupFreeTimes;
-
-                //Console.WriteLine("comparing " + timePeriod.StartTime + " " + timePeriod.EndTime + ".");
-                foreach (TimePeriod freeTime in list[Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1])
-                {
-                    Console.WriteLine("   " + freeTime.StartTime + " " + freeTime.EndTime + ".");
-                    if (timePeriod.isWithin(freeTime))
-                    {
-                        found = true;
-                        break;
-                    }
-                    
-                    if(foundOne)
-                    {
-                        //Console.WriteLine(upbool + " " + downbool);
-                        if (!upbool)
-                            upbool = timePeriod.IsBetweenInclusive(freeTime.StartTime, freeTime.EndTime, timePeriod.StartTime);
-                        if(!downbool)
-                            downbool =timePeriod.IsBetweenInclusive(freeTime.StartTime, freeTime.EndTime, timePeriod.EndTime);
-                        found = upbool && downbool;
-                        if(found)
-                            break;
-                    }
-                }
-            }
-
-
-            if (!found)
-            {
-                MessageBox.Show("Error: Time conflict, please choose another time.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            // Case 6: No venue specified (Could be accepted)
-            if (venueTextBox.Text.Length == 0)
-                if (MessageBox.Show("Warning: No venue specified, is this alright?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-                    return true;
-
-            // Valid input
-            return true;
-        }
-
-        private void addDefenseButton_Click(object sender, EventArgs e)
-        {
-            ClearDefenseInfo();
-            WidenGroupBox();
-        }
-
-        private void RefreshCalendar() {
-            //if (!currPanelistID.Equals(""))
-                //schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
-            if (!currGroupID.Equals(""))
-            {
-                schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
-                schedulingDM.RefreshGroupDefSched(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
-            }
-            panelCalendar.Refresh();
-        }
-
-        public void RefreshAll() 
-        {
-            Invalidate();
-            RefreshTreeViews();
-            MarkAllScheduledGroups();
-            RefreshCalendar();
-            defenseInfoGroupBox.Refresh();
-            Validate();
-        }
         
-        // refresh treeviews from form1
-        public void RefreshTreeViews()
-        {
-            treeViewClusters.BeginUpdate();
-            treeViewClusters.Nodes.Clear();
-            schedulingDM.AddPanelistsToTree(treeViewClusters.Nodes, "eligibleFor"+currDefenseType);
-            treeViewClusters.EndUpdate();
-            treeViewClusters.ExpandAll();
-            treeViewClusters.Focus();
-
-            treeViewIsolatedGroups.BeginUpdate();
-            treeViewIsolatedGroups.Nodes.Clear();
-            schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes, "eligibleFor"+currDefenseType);
-            treeViewIsolatedGroups.EndUpdate();
-            treeViewIsolatedGroups.ExpandAll();
-
-            MarkAllScheduledGroups();
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBox1.SelectedIndex == TYPE_INDEX_DEFENSE)
-                currDefenseType = Constants.DEFENSE_TYPE;
-            else
-                currDefenseType = Constants.REDEFENSE_TYPE;
-            ChangeSelectedGroup("");
-            RefreshAll();
-        }
+        /****** END:   OTHER METHODS******/
+        
+        
+        
     }
 }
