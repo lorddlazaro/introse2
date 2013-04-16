@@ -71,11 +71,9 @@
     <Compile Include="DateTimeHelper.cs" />
     <Compile Include="DBce.cs" />
     <Compile Include="DefenseSchedule.cs" />
-    <Compile Include="DefenseSchedulesViewercs.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DefenseSchedulesViewercs.Designer.cs">
-      <DependentUpon>DefenseSchedulesViewercs.cs</DependentUpon>
+    <Compile Include="DefenseSchedulesViewer.cs" />
+    <Compile Include="DefenseSchedulesViewer.Designer.cs">
+      <DependentUpon>DefenseSchedulesViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Event.cs" />
     <Compile Include="EventCreator.cs">
@@ -135,8 +133,8 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DefenseSchedulesViewercs.resx">
-      <DependentUpon>DefenseSchedulesViewercs.cs</DependentUpon>
+    <EmbeddedResource Include="DefenseSchedulesViewer.resx">
+      <DependentUpon>DefenseSchedulesViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EventCreator.resx">
       <DependentUpon>EventCreator.cs</DependentUpon>
