@@ -942,10 +942,10 @@ namespace CustomUserControl
             }
             else
             {
-                query = "insert into defenseschedule (defensedatetime,place,thesisgroupid, defenseType) values('" + dateTime + "','" + venue + "','" + currGroupID + "','" + currDefenseType + "');";
+                query = "insert into defenseschedule (defensedatetime,place,thesisgroupid, defenseType) values('" + dateTime + "','" + venue + "'," + currGroupID + ",'" + currDefenseType + "');";
                 dbHandler.Insert(query);
 
-                query = "select defenseid from defenseschedule where defensedatetime= '" + dateTime + "' and place='" + venue + "' and thesisgroupid='" + currGroupID + "';";        
+                query = "select defenseid from defenseschedule where defensedatetime= '" + dateTime + "' and place='" + venue + "' and thesisgroupid=" + currGroupID + ";";        
             }
         }
 
