@@ -124,6 +124,7 @@
             this.dataGridViewExistingTimeslot.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewExistingTimeslot.Size = new System.Drawing.Size(460, 261);
             this.dataGridViewExistingTimeslot.TabIndex = 22;
+            this.dataGridViewExistingTimeslot.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewExistingTimeslot_RowEnter);
             // 
             // labelWeeklyTimeslot
             // 
@@ -147,6 +148,7 @@
             this.dataGridViewWeeklyTimeslot.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewWeeklyTimeslot.Size = new System.Drawing.Size(460, 261);
             this.dataGridViewWeeklyTimeslot.TabIndex = 15;
+            this.dataGridViewWeeklyTimeslot.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewWeeklyTimeslot_RowEnter);
             // 
             // buttonWeeklyTimeslotEdit
             // 
@@ -239,6 +241,7 @@
             this.dataGridViewExistingEvent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewExistingEvent.Size = new System.Drawing.Size(333, 313);
             this.dataGridViewExistingEvent.TabIndex = 24;
+            this.dataGridViewExistingEvent.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewExistingEvent_RowEnter);
             // 
             // buttonEventEdit
             // 
@@ -264,6 +267,7 @@
             this.dataGridViewEvent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewEvent.Size = new System.Drawing.Size(333, 313);
             this.dataGridViewEvent.TabIndex = 16;
+            this.dataGridViewEvent.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewEvent_RowEnter);
             // 
             // buttonAddExistingEvent
             // 
