@@ -19,6 +19,11 @@ namespace CustomUserControl
         {
             this.isEditMode = editMode;
             InitializeComponent();
+            dateTimePickerEventEndTime.Value = DateTime.Today;
+            dateTimePickerEventStartTime.Value = DateTime.Today;
+            labelWarning.Text = "";
+            //MessageBox.Show(dateTimePickerEventEndTime.Value.ToString());
+            
         }
 
         public void initializeTextBoxes() 
@@ -26,53 +31,103 @@ namespace CustomUserControl
                 textBoxEventName.Text = forEditing[1];
                 dateTimePickerEventStartTime.Value = Convert.ToDateTime(forEditing[2]);
                 dateTimePickerEventEndTime.Value = Convert.ToDateTime(forEditing[3]);
-            
         }
 
 
         private void buttonSaveEvent_Click(object sender, EventArgs e)
         {   
-            //CHECKING
-                //Duplicate
+            //VALIDATION
+            labelWarning.Text = "";
+            textBoxEventName.BackColor = Color.White;
+            //-Event null check
+            if (textBoxEventName.Text == "")
+            {
+                textBoxEventName.BackColor = Color.LightPink;
+                
+                labelWarning.Text = "*Name is empty";
+                //MessageBox.Show("name shouldn't be null", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            //-Date and Time Check
+            if (dateTimePickerEventStartTime.Value.CompareTo(dateTimePickerEventEndTime.Value) >= 0)
+            {
+                labelWarning.Text = "Time error";
+                Console.WriteLine(dateTimePickerEventStartTime.Value.CompareTo(dateTimePickerEventEndTime.Value));
+                //MessageBox.Show("Time is invalid", "Invalid time", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            //-Duplication Check
             String query;
             query = "SELECT name FROM Event WHERE name ='"+textBoxEventName.Text+"' AND eventStart = CONVERT(DATETIME,'"+dateTimePickerEventStartTime.Value.ToString()+"',102) AND eventEnd = CONVERT(DATETIME,'"+dateTimePickerEventEndTime.Value.ToString()+"',102);";
             Console.WriteLine(query);
+            Console.WriteLine(dateTimePickerEventStartTime.Value.ToString() + dateTimePickerEventEndTime.Value.ToString());
             List<String> duplicateEvents = dbHandler.Select(query,1)[0];
             Console.WriteLine("check success");
             if(duplicateEvents.Count>0)
             {
-                MessageBox.Show("This event already exists","Warning",MessageBoxButtons.OK,MessageBoxIcon.Warning);
-                return;
+                if(!duplicateEvents[0].Equals(forEditing[1]))
+                {
+                    MessageBox.Show("This event already exists","Warning",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                    return;
+                }
+                
             }
-                //time alignment
-            if (textBoxEventName.Text == "") 
+            //-Conflict with defense check for edit
+            if (isEditMode) 
             {
-                MessageBox.Show("name shouldn't be null", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            if (dateTimePickerEventStartTime.Value.CompareTo(dateTimePickerEventEndTime.Value) >= 0) 
-            {
-                Console.WriteLine(dateTimePickerEventStartTime.Value.CompareTo(dateTimePickerEventEndTime.Value));
-                MessageBox.Show("Time is invalid", "Invalid time", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                query = "SELECT defenseID,thesisGroupID, defenseDateTime FROM DefenseSchedule";
+                List<String>[] defenseList = dbHandler.Select(query, 3);
+                List<int> numConflicts = new List<int>();
+                for (int i = 0; i < defenseList[0].Count; i++)
+                {
+                    Console.WriteLine("Conflict Check start---------");
+                    Console.WriteLine(dateTimePickerEventStartTime.Value.ToString());
+                    Console.WriteLine(Convert.ToDateTime(defenseList[2][i]).ToString());
+                    Console.WriteLine(dateTimePickerEventEndTime.Value.ToString());
+                    Console.WriteLine("Conflict Check end  ---------");
+                    if (dateTimePickerEventStartTime.Value < Convert.ToDateTime(defenseList[2][i]) && Convert.ToDateTime(defenseList[2][i]) < dateTimePickerEventEndTime.Value)
+                    {
+                        Console.WriteLine("Conflict!");
+                        numConflicts.Add(i);
+                    }
+                }
+                
+                if (numConflicts.Count > 0)
+                {
+                    DialogResult result;
+                    result = MessageBox.Show("There are " + numConflicts.Count + " conflicting defense schedule/s with this event. " + System.Environment.NewLine + "Do you want to unschedule all conflicting defenses?", "Conflicting with Defense", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    if (result == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        for (int i = 0; i < numConflicts.Count; i++)
+                        {
+                            query = "DELETE FROM DefenseSchedule WHERE defenseID = " + Convert.ToInt32(numConflicts[i]) + "";
+                            dbHandler.Delete(query);
+                            MessageBox.Show("All conflicting defenses removed", "Conflict with Defense", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+
+                    }
+                    else
+                        return;
+                }
             }
             
-            //ADD & EDIT
+
+            
+            //END of VALIDATION
+
+            //EDIT
             if(isEditMode)
             {
                 query = "UPDATE Event SET name = '" + textBoxEventName.Text + "',eventStart = CONVERT(DATETIME,'" + dateTimePickerEventStartTime.Value.ToString() + "',102) ,eventEnd=CONVERT(DATETIME,'" + dateTimePickerEventEndTime.Value.ToString() + "',102) WHERE eventID =" + Convert.ToInt32(forEditing[0]) + "";
                 Console.WriteLine(query);
                 dbHandler.Update(query);
-
-
-               
             }
+            //ADD
             else
-            {   //VALIDATION
-                    //Check for duplicates
+            {   
                 query = "INSERT INTO Event(name,eventStart,eventEnd) VALUES('"+textBoxEventName.Text+"',CONVERT(DATETIME,'"+dateTimePickerEventStartTime.Value.ToString()+"',102),CONVERT(DATETIME,'"+dateTimePickerEventEndTime.Value.ToString()+"',102));";
                 Console.WriteLine(query);
                 dbHandler.Insert(query);
-                
             }
             this.Dispose();
         }

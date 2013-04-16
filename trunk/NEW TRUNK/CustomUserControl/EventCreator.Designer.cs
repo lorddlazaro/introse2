@@ -36,6 +36,7 @@
             this.textBoxEventName = new System.Windows.Forms.TextBox();
             this.buttonSaveEvent = new System.Windows.Forms.Button();
             this.buttonCancelEvent = new System.Windows.Forms.Button();
+            this.labelWarning = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelEventName
@@ -112,11 +113,22 @@
             this.buttonCancelEvent.UseVisualStyleBackColor = true;
             this.buttonCancelEvent.Click += new System.EventHandler(this.buttonCancelEvent_Click);
             // 
+            // labelWarning
+            // 
+            this.labelWarning.AutoSize = true;
+            this.labelWarning.ForeColor = System.Drawing.Color.Red;
+            this.labelWarning.Location = new System.Drawing.Point(6, 96);
+            this.labelWarning.Name = "labelWarning";
+            this.labelWarning.Size = new System.Drawing.Size(97, 13);
+            this.labelWarning.TabIndex = 25;
+            this.labelWarning.Text = "Warning goes here";
+            // 
             // EventCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 118);
+            this.Controls.Add(this.labelWarning);
             this.Controls.Add(this.buttonCancelEvent);
             this.Controls.Add(this.buttonSaveEvent);
             this.Controls.Add(this.labelEventName);
@@ -142,5 +154,6 @@
         private System.Windows.Forms.TextBox textBoxEventName;
         private System.Windows.Forms.Button buttonSaveEvent;
         private System.Windows.Forms.Button buttonCancelEvent;
+        private System.Windows.Forms.Label labelWarning;
     }
 }
