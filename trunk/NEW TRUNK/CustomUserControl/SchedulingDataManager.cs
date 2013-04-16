@@ -805,6 +805,24 @@ namespace CustomUserControl
 
         /*** Miscellaneous Methods - END ***/
 
+
+        public bool IsNewClassTimePeriodConflictFree(String studentID, TimePeriod classTimePeriod, String dayOfWeek) 
+        { 
+            String query = "SELECT distinct timeslotID FROM studentSchedule WHERE studentID = '" + studentID + "';";
+            List<String> timeSlotIDs = dbHandler.Select(query, 1)[0];
+           
+            List<TimePeriod>[] classSlots = GetUniqueClassTimePeriods(timeSlotIDs);
+
+            int dayIndex = GetDayIndex(dayOfWeek);
+            for (int i = 0; i < classSlots[dayIndex].Count; i++) 
+            {
+                if (classSlots[dayIndex][i].IntersectsExclusive(classTimePeriod))
+                    return false;
+            }
+           
+            return true;
+        }
+
         public String GetErrorWithThisDefenseInfo(String dateTimeString, String course, DayOfWeek dayOfWeek)
         {
           
@@ -971,6 +989,30 @@ namespace CustomUserControl
                 return "S";
             return "";
         }
+
+        //Just a support method for obtaining the index given the day of the week.
+        public int GetDayIndex(DayOfWeek day)
+        {
+            return (int)day - 1;
+        }
+
+        public int GetDayIndex(String dayOfWeek)
+        {
+            if (dayOfWeek.Equals("M"))
+                return GetDayIndex(DayOfWeek.Monday);
+            else if (dayOfWeek.Equals("T"))
+                return GetDayIndex(DayOfWeek.Tuesday);
+            else if (dayOfWeek.Equals("W"))
+                return GetDayIndex(DayOfWeek.Wednesday);
+            else if (dayOfWeek.Equals("H"))
+                return GetDayIndex(DayOfWeek.Thursday);
+            else if (dayOfWeek.Equals("F"))
+                return GetDayIndex(DayOfWeek.Friday);
+            else if (dayOfWeek.Equals("S"))
+                return GetDayIndex(DayOfWeek.Saturday);
+            return -1;
+        }
+
 
     }
 }
