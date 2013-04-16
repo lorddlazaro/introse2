@@ -85,6 +85,16 @@
       <DependentUpon>EventCreator.cs</DependentUpon>
     </Compile>
     <Compile Include="Panelist.cs" />
+    <Compile Include="ResetWizardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResetWizardForm.Designer.cs">
+      <DependentUpon>ResetWizardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ResetWizardTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ThesisGroupDataManager.cs" />
     <Compile Include="TimeslotCreator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EventCreator.resx">
       <DependentUpon>EventCreator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResetWizardForm.resx">
+      <DependentUpon>ResetWizardForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TimeslotCreator.resx">
       <DependentUpon>TimeslotCreator.cs</DependentUpon>
