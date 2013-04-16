@@ -12,11 +12,15 @@ namespace CustomUserControl
     public partial class EventCreator : Form
     {
         private DBce dbHandler = new DBce();
+        private Form parent;
+        private ScheduleEditor subParent;
         public String type="";
         public bool isEditMode = false;
         public List<String> forEditing = new List<String>();
-        public EventCreator(bool editMode)
+        public EventCreator(bool editMode, Form p,ScheduleEditor sp)
         {
+            parent = p;
+            subParent = sp;
             this.isEditMode = editMode;
             InitializeComponent();
             dateTimePickerEventEndTime.Value = DateTime.Today;
@@ -49,7 +53,8 @@ namespace CustomUserControl
                 return;
             }
             //-Date and Time Check
-            if (dateTimePickerEventStartTime.Value.CompareTo(dateTimePickerEventEndTime.Value) >= 0)
+            //if (dateTimePickerEventStartTime.Value.CompareTo(dateTimePickerEventEndTime.Value) >= 0)
+            if (dateTimePickerEventStartTime.Value >= dateTimePickerEventEndTime.Value)
             {
                 labelWarning.Text = "Time error";
                 Console.WriteLine(dateTimePickerEventStartTime.Value.CompareTo(dateTimePickerEventEndTime.Value));
@@ -96,7 +101,7 @@ namespace CustomUserControl
                 {
                     DialogResult result;
                     result = MessageBox.Show("There are " + numConflicts.Count + " conflicting defense schedule/s with this event. " + System.Environment.NewLine + "Do you want to unschedule all conflicting defenses?", "Conflicting with Defense", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                    if (result == System.Windows.Forms.DialogResult.Yes)
+                    if (result == System.Windows.Forms.DialogResult.OK)
                     {
                         for (int i = 0; i < numConflicts.Count; i++)
                         {
@@ -129,12 +134,24 @@ namespace CustomUserControl
                 Console.WriteLine(query);
                 dbHandler.Insert(query);
             }
+            subParent.refreshAll();
+            parent.Enabled = true;
             this.Dispose();
         }
 
         private void buttonCancelEvent_Click(object sender, EventArgs e)
         {
+            parent.Enabled = true;
             this.Dispose();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+
+            if (e.CloseReason == CloseReason.WindowsShutDown) return;
+
+            parent.Enabled = true;
         }
     }
 }
