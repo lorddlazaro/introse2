@@ -12,7 +12,9 @@ namespace CustomUserControl
         private String place;
         private String thesisGroupID;
         private String course;
+        private DateTime defenseDateTime;
 
+        public DateTime DefenseDateTime { get { return defenseDateTime; } }
         public String DefenseID { get { return defenseID; } }
         public String GroupTitle{ get{ return groupTitle;} }
         public String Place { get { return place; } }
