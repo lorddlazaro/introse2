@@ -8,15 +8,6 @@ namespace CustomUserControl
 {
     public class SchedulingDataManager
     {
-        /*
-        private const int Constants.DAYS_IN_DEF_WEEK = 6;
-        private const int Constants.THSST1_DEFDURATION_MINS = 60;
-        private const int Constants.THSST3_DEFDURATION_MINS = 120;
-        private const int Constants.START_HOUR = 8;
-        private const int Constants.START_MIN = 0;
-        private const int Constants.LIMIT_HOUR = 21;
-        private const int Constants.LIMIT_MIN = 0;
-        */
         private DBce dbHandler;
 
         /*This will be used to draw the rectangles representing the defense schedules of
@@ -86,7 +77,7 @@ namespace CustomUserControl
             if (thesisGroupID.Equals(""))
                 currGroupDefSched = null;
             else
-                currGroupDefSched = GetDefSched(startDate, endDate, thesisGroupID, defenseType);
+                currGroupDefSched = GetDefSched(thesisGroupID, defenseType);
         }
 
         /* This method will be called by the UI to refresh selectedGroupFreeSlots when
