@@ -233,25 +233,17 @@ namespace CustomUserControl
 
                         if (response == DialogResult.Yes)
                         {
-                            query = "UPDATE Timeslot SET panelistID = '" + currPanelist + "' WHERE (courseName = '" + existingTimeslots[2][rowIndex] + "') AND ( section = '" + existingTimeslots[1][rowIndex] + "') AND (day ='" + existingTimeslots[3][rowIndex] + "');";
-                            Console.WriteLine("*********HERE***********" + query);
+                            query = "UPDATE Timeslot SET panelistID = '" + currPanelist + "' WHERE (courseName = '" + existingTimeslots[1][rowIndex] + "') AND ( section = '" + existingTimeslots[2][rowIndex] + "') AND (day ='" + existingTimeslots[3][rowIndex] + "');";
                             dbHandler.Update(query);
-                            Console.WriteLine(query);
                             RefreshPanelistClassScheds();
-
                         }
                     }
                 }
 
             }
-
             update_courses();
-                
-            
-
         }
-
-
+        
         private bool ValidateClassAssignment(String thesisGroupID, int rowIndex) 
         {            
             DefenseSchedule defSched = schedulingDM.GetDefSched(thesisGroupID, Constants.DEFENSE_TYPE);
@@ -308,9 +300,6 @@ namespace CustomUserControl
             return true;
         }
 
-
-
-
         private void buttonDeleteWeeklyTimeslot_Click(object sender, EventArgs e)
         {
 
@@ -336,9 +325,9 @@ namespace CustomUserControl
             else
             {
                 Console.WriteLine(currTimeslot + "-" + currPanelist + "-");
-                String query = "UPDATE Timeslot SET panelistID = NULL WHERE panelistID = " + currPanelist + " AND timeslotID = " + currTimeslot + ";";
+                String query = "UPDATE Timeslot SET panelistID = NULL WHERE timeslotID = " + currTimeslot + ";";
                 dbHandler.Update(query);
-                Console.WriteLine(query);
+                Console.WriteLine("***********HEREHERE"+query);
                 RefreshPanelistClassScheds();
             }
 
