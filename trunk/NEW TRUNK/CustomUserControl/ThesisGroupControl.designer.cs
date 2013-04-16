@@ -132,11 +132,6 @@
             this.panelistFN1 = new System.Windows.Forms.TextBox();
             this.label29 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.label38 = new System.Windows.Forms.Label();
-            this.label39 = new System.Windows.Forms.Label();
-            this.label40 = new System.Windows.Forms.Label();
-            this.label37 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.thesisGroupPanel = new System.Windows.Forms.Panel();
             this.redefenseCheckBox = new System.Windows.Forms.CheckBox();
@@ -1180,51 +1175,6 @@
             this.label30.Text = "Panelist 1 Name:";
             this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label36
-            // 
-            this.label36.Location = new System.Drawing.Point(4, 33);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(69, 20);
-            this.label36.TabIndex = 32;
-            this.label36.Text = "ID Number:";
-            this.label36.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label38
-            // 
-            this.label38.Location = new System.Drawing.Point(4, 63);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(68, 20);
-            this.label38.TabIndex = 29;
-            this.label38.Text = "First Name:";
-            this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label39
-            // 
-            this.label39.Location = new System.Drawing.Point(4, 93);
-            this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(69, 20);
-            this.label39.TabIndex = 30;
-            this.label39.Text = "Last Name:";
-            this.label39.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label40
-            // 
-            this.label40.Location = new System.Drawing.Point(4, 123);
-            this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(69, 20);
-            this.label40.TabIndex = 31;
-            this.label40.Text = "Middle Initial:";
-            this.label40.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label37
-            // 
-            this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(4, 11);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(56, 13);
-            this.label37.TabIndex = 9;
-            this.label37.Text = "Panelist 3:";
-            // 
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -1421,7 +1371,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 50);
+            this.label3.Location = new System.Drawing.Point(5, 49);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(64, 13);
             this.label3.TabIndex = 1;
@@ -1515,12 +1465,6 @@
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label label31;
-
-        private System.Windows.Forms.Label label36;
-        private System.Windows.Forms.Label label37;
-        private System.Windows.Forms.Label label38;
-        private System.Windows.Forms.Label label39;
-        private System.Windows.Forms.Label label40;
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.Label label43;
