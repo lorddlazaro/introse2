@@ -94,7 +94,7 @@ namespace CustomUserControl
                     * That is, Mon = 0, Tues = 1, Wed = 2, Thu = 3, Fri = 4, Sat = 5.
                     * */
                     int dayIndex;
-                    int startOfTheWeekDayIndex = GetDayIndex(startOfTheWeek.DayOfWeek);
+                    int startOfTheWeekDayIndex = schedulingDM.GetDayIndex(startOfTheWeek.DayOfWeek);
 
                     /* Represents the adjusted index depending on the starting day in the calendar. 
                      * Example, Monday, which is supposed to be 0, becomes 1 if the day starts with Saturday(which is the 0 in this case)),
@@ -102,7 +102,7 @@ namespace CustomUserControl
                     * */
                     int adjustedDayIndex;
 
-                    dayIndex = GetDayIndex(schedulingDM.CurrGroupDefSched.StartTime.DayOfWeek);
+                    dayIndex = schedulingDM.GetDayIndex(schedulingDM.CurrGroupDefSched.StartTime.DayOfWeek);
                     adjustedDayIndex = (dayIndex + (Constants.DAYS_IN_DEF_WEEK - startOfTheWeekDayIndex)) % Constants.DAYS_IN_DEF_WEEK;
 
                     DrawTimePeriod(g, Color.Tomato, panelRectangle, adjustedDayIndex, schedulingDM.CurrGroupDefSched);
@@ -118,7 +118,7 @@ namespace CustomUserControl
              * That is, Mon = 0, Tues = 1, Wed = 2, Thu = 3, Fri = 4, Sat = 5.
              * */
             int dayIndex;
-            int startOfTheWeekDayIndex = GetDayIndex(startOfTheWeek.DayOfWeek);
+            int startOfTheWeekDayIndex = schedulingDM.GetDayIndex(startOfTheWeek.DayOfWeek);
 
             /* Represents the adjusted index depending on the starting day in the calendar. 
              * Example, Monday, which is supposed to be 0, becomes 1 if the day starts with Saturday(which is the 0 in this case)),
@@ -130,7 +130,7 @@ namespace CustomUserControl
             for (int i = 0; i < size; i++)
             {
                 curr = schedulingDM.ClusterDefScheds[i];
-                dayIndex = GetDayIndex(curr.StartTime.DayOfWeek);
+                dayIndex = schedulingDM.GetDayIndex(curr.StartTime.DayOfWeek);
                 adjustedDayIndex = (dayIndex+(Constants.DAYS_IN_DEF_WEEK - startOfTheWeekDayIndex))%Constants.DAYS_IN_DEF_WEEK;
 
                 DrawTimePeriod(g, Color.CadetBlue, panelRectangle, adjustedDayIndex, curr );
@@ -201,12 +201,6 @@ namespace CustomUserControl
             }
            
 
-        }
-
-        //Just a support method for obtaining the index given the day of the week.
-        private int GetDayIndex(DayOfWeek day)
-        {
-            return (int)day - 1;
         }
 
         /****** END: Drawing Methods For The Calendar*******/
