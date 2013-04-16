@@ -85,9 +85,6 @@
       <DependentUpon>EventCreator.cs</DependentUpon>
     </Compile>
     <Compile Include="Panelist.cs" />
-    <Compile Include="ThesisGroupControl.designer.cs">
-      <DependentUpon>ThesisGroupControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="TimeslotCreator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,15 +115,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchedulingDataManager.cs" />
-    <Compile Include="ThesisGroupControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ThesisGroupControl2.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ThesisGroupControl2.designer.cs">
-      <DependentUpon>ThesisGroupControl2.cs</DependentUpon>
-    </Compile>
     <Compile Include="TimePeriod.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
@@ -152,12 +140,6 @@
     <EmbeddedResource Include="ScheduleEditor.resx">
       <DependentUpon>ScheduleEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ThesisGroupControl.resx">
-      <DependentUpon>ThesisGroupControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ThesisGroupControl2.resx">
-      <DependentUpon>ThesisGroupControl2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
