@@ -188,7 +188,8 @@ namespace CustomUserControl
             
             int rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index;
             TimePeriod classTimePeriod = new TimePeriod(Convert.ToDateTime(existingTimeslots[4][rowIndex]), Convert.ToDateTime(existingTimeslots[5][rowIndex]));
-
+            String dayOfWeek = existingTimeslots[3][rowIndex];
+             
             if (btnSwitchView.Text.Equals("Switch to Panelists"))
             {
                 
@@ -211,9 +212,7 @@ namespace CustomUserControl
                 */
                 
                 //START: Check for conflicts with other classes
-                String dayOfWeek = existingTimeslots[3][rowIndex];
-             
-                if (!schedulingDM.IsNewClassTimePeriodConflictFree(currStudent, classTimePeriod, dayOfWeek)) 
+                if (!schedulingDM.IsNewClassTimePeriodConflictFreeStudent(currStudent, classTimePeriod, dayOfWeek)) 
                 {
                     MessageBox.Show("The new class schedule conflicts with another.", "Conflict with Other Schedules", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
@@ -249,6 +248,14 @@ namespace CustomUserControl
             }
             else
             {
+                //START: Check for conflicts with other classes
+                if (!schedulingDM.IsNewClassTimePeriodConflictFreePanelist(currPanelist, classTimePeriod, dayOfWeek))
+                {
+                    MessageBox.Show("The new class schedule conflicts with another.", "Conflict with Other Schedules", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+            
+                
                 String query;
                 
                 query = "SELECT thesisGroupID FROM panelAssignment where panelistID = '" + currPanelist + "';";
