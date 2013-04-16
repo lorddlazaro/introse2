@@ -94,6 +94,12 @@
     <Compile Include="ResetWizardTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ThesisGroupControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ThesisGroupControl.designer.cs">
+      <DependentUpon>ThesisGroupControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="ThesisGroupDataManager.cs" />
     <Compile Include="TimeslotCreator.cs">
       <SubType>Form</SubType>
@@ -137,6 +143,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ResetWizardForm.resx">
       <DependentUpon>ResetWizardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThesisGroupControl.resx">
+      <DependentUpon>ThesisGroupControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TimeslotCreator.resx">
       <DependentUpon>TimeslotCreator.cs</DependentUpon>
