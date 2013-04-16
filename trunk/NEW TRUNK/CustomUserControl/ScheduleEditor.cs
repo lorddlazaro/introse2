@@ -187,6 +187,7 @@ namespace CustomUserControl
             }
             
             int rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index;
+            TimePeriod classTimePeriod = new TimePeriod(Convert.ToDateTime(existingTimeslots[4][rowIndex]), Convert.ToDateTime(existingTimeslots[5][rowIndex]));
 
             if (btnSwitchView.Text.Equals("Switch to Panelists"))
             {
@@ -209,11 +210,21 @@ namespace CustomUserControl
                 Console.WriteLine("slot: "+slot);
                 */
                 
+                //START: Check for conflicts with other classes
+                String dayOfWeek = existingTimeslots[3][rowIndex];
+             
+                if (!schedulingDM.IsNewClassTimePeriodConflictFree(currStudent, classTimePeriod, dayOfWeek)) 
+                {
+                    MessageBox.Show("The new class schedule conflicts with another.", "Conflict with Other Schedules", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+                
+
                 //START: Defense Schedule Validation
 
                 query = "SELECT thesisGroupID FROM student where studentID = '" + currStudent + "';";
                 String thesisGroupID = dbHandler.Select(query, 1)[0][0];
-                bool shouldProceed = ValidateClassAssignment(thesisGroupID, rowIndex);
+                bool shouldProceed = ClassAssignmentConflictFreeWithDefScheds(thesisGroupID, rowIndex, classTimePeriod);
                 
                 // END: Defense Schedule Validation
                 if (shouldProceed)
@@ -240,11 +251,9 @@ namespace CustomUserControl
             {
                 String query;
                 
-
-
                 query = "SELECT thesisGroupID FROM panelAssignment where panelistID = '" + currPanelist + "';";
                 String thesisGroupID = dbHandler.Select(query, 1)[0][0];
-                bool shouldProceed = ValidateClassAssignment(thesisGroupID, rowIndex);
+                bool shouldProceed = ClassAssignmentConflictFreeWithDefScheds(thesisGroupID, rowIndex, classTimePeriod);
                 if (shouldProceed) 
                 {
                     if (existingTimeslots[6][rowIndex] != null)
@@ -264,12 +273,10 @@ namespace CustomUserControl
             update_courses();
         }
         
-        private bool ValidateClassAssignment(String thesisGroupID, int rowIndex) 
+        private bool ClassAssignmentConflictFreeWithDefScheds(String thesisGroupID, int rowIndex, TimePeriod classTimePeriod) 
         {            
             DefenseSchedule defSched = schedulingDM.GetDefSched(thesisGroupID, Constants.DEFENSE_TYPE);
             DefenseSchedule redefSched = schedulingDM.GetDefSched(thesisGroupID, Constants.REDEFENSE_TYPE);
-
-            TimePeriod classTimePeriod = new TimePeriod(Convert.ToDateTime(existingTimeslots[4][rowIndex]), Convert.ToDateTime(existingTimeslots[5][rowIndex]));
 
             String defDayOfWeek;
             String redefDayOfWeek;
