@@ -59,5 +59,12 @@ namespace CustomUserControl.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static System.Drawing.Bitmap wizard {
+            get {
+                object obj = ResourceManager.GetObject("wizard", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

@@ -318,6 +318,9 @@ namespace CustomUserControl
                     tgDM.UpdateEligible(currThesisGroupID, "Redefense");
                 }
             }
+
+            groupDetails2[0].SelectedItem = "";
+            groupDetails2[1].SelectedItem = "";
         }
         private void UpdateStudents()
         {
@@ -774,6 +777,20 @@ namespace CustomUserControl
             }
             else
             {
+                if (panelistID.Equals(tgDM.getAdviserID(currThesisGroupID))) {
+                    DialogResult input = MessageBox.Show("Replacing adviser. Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (input == DialogResult.No)
+                    {
+                        UpdateComponents();
+                        return;
+                    }
+                    else
+                    {
+                        tgDM.removeAdviser(currThesisGroupID);
+                    }
+                }
+
                 tgDM.removeAssignedPanelistFromGroup(currThesisGroupID, panelistID);
                 panelistID = tgDM.getPanelistIDFromName(panelistName);
                 tgDM.assignPanelistToGroup(currThesisGroupID, panelistID);
@@ -939,7 +956,7 @@ namespace CustomUserControl
         }
 
         //TREEVIEW LISTENER
-        private void ChangeSelectedGroup(object sender, TreeNodeMouseClickEventArgs e)
+        private void changeSelectedGroup(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Node.Level == 1)
             {
