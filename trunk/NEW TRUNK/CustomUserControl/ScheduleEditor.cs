@@ -25,6 +25,9 @@ namespace CustomUserControl
         List<String>[] timeSlotTable;
         List<String>[] eventTable;
         public Form containerParent;
+
+        private String selectedEventDGV;
+        private String selectedTimeslotDGV;
         private SchedulingDataManager schedulingDM;
 
         public ScheduleEditor()
@@ -60,6 +63,10 @@ namespace CustomUserControl
                 dataGridViewWeeklyTimeslot.Refresh();
                 dataGridViewEvent.DataSource = null;
                 dataGridViewEvent.Refresh();
+                if (dataGridViewExistingEvent.DataSource != null)
+                    dataGridViewExistingEvent.Rows[0].Selected = true;
+                if (dataGridViewExistingTimeslot.DataSource != null)
+                    dataGridViewExistingTimeslot.Rows[0].Selected = true;
             }
             else if (e.Node.Level == 1)
             {
@@ -92,6 +99,10 @@ namespace CustomUserControl
                 dataGridViewWeeklyTimeslot.Refresh();
                 dataGridViewEvent.DataSource = null;
                 dataGridViewEvent.Refresh();
+                if (dataGridViewExistingEvent.DataSource != null)
+                    dataGridViewExistingEvent.Rows[0].Selected = true;
+                if (dataGridViewExistingTimeslot.DataSource != null)
+                    dataGridViewExistingTimeslot.Rows[0].Selected = true;
             }
             else if (e.Node.Level == 1)
             {
@@ -335,13 +346,29 @@ namespace CustomUserControl
         }
         private void buttonWeeklyTimeslotEdit_Click(object sender, EventArgs e)
         {
-            int rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index;
-            timeslotAdder = new TimeslotCreator(true,containerParent,this);
-            for(int i=0;i<dataGridViewExistingTimeslot.Columns.Count;i++)
+            timeslotAdder = new TimeslotCreator(true, containerParent, this);
+            int rowIndex = 0;
+            if (selectedTimeslotDGV.Equals("existing"))
             {
-                timeslotAdder.forEditing.Add(dataGridViewExistingTimeslot[i,rowIndex].Value.ToString());
+                rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index;
+                for (int i = 0; i < dataGridViewExistingTimeslot.Columns.Count; i++)
+                {
+                    timeslotAdder.forEditing.Add(dataGridViewExistingTimeslot[i, rowIndex].Value.ToString());
 
+                }
             }
+            else if (selectedTimeslotDGV.Equals("current"))
+            {
+                rowIndex = dataGridViewWeeklyTimeslot.SelectedRows[0].Index;
+                for (int i = 0; i < dataGridViewExistingTimeslot.Columns.Count; i++)
+                {
+                    timeslotAdder.forEditing.Add(dataGridViewWeeklyTimeslot[i, rowIndex].Value.ToString());
+
+                }
+            }
+
+
+
             timeslotAdder.initializeTextBoxes();
             containerParent.Enabled = false;
             timeslotAdder.Visible = true;
@@ -489,12 +516,29 @@ namespace CustomUserControl
         }
         private void buttonEventEdit_Click(object sender, EventArgs e)
         {
-            int rowIndex = dataGridViewExistingEvent.SelectedRows[0].Index;
-            eventAdder = new EventCreator(true, containerParent,this);
-            for (int i = 0; i < dataGridViewExistingEvent.Columns.Count; i++)
+            eventAdder = new EventCreator(true, containerParent, this);
+            int rowIndex = 0;
+            if (selectedEventDGV.Equals("existing"))
             {
-                eventAdder.forEditing.Add(dataGridViewExistingEvent[i,rowIndex].Value.ToString());
+                rowIndex = dataGridViewExistingEvent.SelectedRows[0].Index;
+                for (int i = 0; i < dataGridViewExistingEvent.Columns.Count; i++)
+                {
+                    eventAdder.forEditing.Add(dataGridViewExistingEvent[i, rowIndex].Value.ToString());
+                }
             }
+
+            else if (selectedEventDGV.Equals("current"))
+            {
+                rowIndex = dataGridViewEvent.SelectedRows[0].Index;
+                for (int i = 0; i < dataGridViewExistingEvent.Columns.Count; i++)
+                {
+                    eventAdder.forEditing.Add(dataGridViewEvent[i, rowIndex].Value.ToString());
+                }
+            }
+
+
+
+
             eventAdder.initializeTextBoxes();
             containerParent.Enabled = false;
             eventAdder.Visible = true;
@@ -514,7 +558,7 @@ namespace CustomUserControl
             else 
             {
                 Console.WriteLine(currPanelist);
-                query = "SELECT        Timeslot.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime,  Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM            Timeslot INNER JOIN Panelist ON Timeslot.panelistID = Panelist.panelistID WHERE        (NOT (Timeslot.panelistID = '"+currPanelist+"')) OR (Timeslot.panelistID IS NULL) ORDER BY Timeslot.courseName, Timeslot.section";
+                query = "SELECT        Timeslot.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime,  Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM            Timeslot LEFT OUTER JOIN Panelist ON Timeslot.panelistID = Panelist.panelistID WHERE        (NOT (Timeslot.panelistID = '"+currPanelist+"')) OR (Timeslot.panelistID IS NULL) ORDER BY Timeslot.courseName, Timeslot.section";
                 Console.WriteLine(query);
             }
             Console.WriteLine("QUERY FOR UPDATE_COURSES: "+query);
@@ -805,6 +849,30 @@ namespace CustomUserControl
         public void RefreshPanelistEvents()
         {
             RefreshEvents(currPanelist, "panelistID", "PanelistEventRecord");
+        }
+
+        private void dataGridViewExistingEvent_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            dataGridViewEvent.ClearSelection();
+            selectedEventDGV = "existing";
+        }
+
+        private void dataGridViewEvent_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            dataGridViewExistingEvent.ClearSelection();
+            selectedEventDGV = "current";
+        }
+
+        private void dataGridViewExistingTimeslot_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            dataGridViewWeeklyTimeslot.ClearSelection();
+            selectedTimeslotDGV = "existing";
+        }
+
+        private void dataGridViewWeeklyTimeslot_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            dataGridViewExistingTimeslot.ClearSelection();
+            selectedTimeslotDGV = "current";
         }
     }
 }
