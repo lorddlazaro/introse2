@@ -17,6 +17,7 @@ namespace CustomUserControl
         public String type="";
         public bool isEditMode = false;
         public List<String> forEditing = new List<String>();
+        private SchedulingDataManager schedulingDM;
         public EventCreator(bool editMode, Form p,ScheduleEditor sp)
         {
             parent = p;
@@ -26,6 +27,7 @@ namespace CustomUserControl
             dateTimePickerEventEndTime.Value = DateTime.Today;
             dateTimePickerEventStartTime.Value = DateTime.Today;
             labelWarning.Text = "";
+            schedulingDM = new SchedulingDataManager();
             //MessageBox.Show(dateTimePickerEventEndTime.Value.ToString());
             
         }
@@ -77,7 +79,7 @@ namespace CustomUserControl
                 }
                 
             }
-            /*
+            
             //-Conflict with defense check for edit
             if (isEditMode) 
             {
@@ -116,7 +118,7 @@ namespace CustomUserControl
                         return;
                 }
             }
-            */
+            
 
             
             //END of VALIDATION
