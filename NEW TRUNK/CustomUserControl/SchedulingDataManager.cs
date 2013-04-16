@@ -955,5 +955,22 @@ namespace CustomUserControl
             dbHandler.Delete(query);
         }
 
+        public String ConvertDayOfWeekToString(DayOfWeek dayOfWeek) 
+        {
+            if (dayOfWeek == DayOfWeek.Monday)
+                return "M";
+            else if (dayOfWeek == DayOfWeek.Tuesday)
+                return "T";
+            else if (dayOfWeek == DayOfWeek.Wednesday)
+                return "W";
+            else if (dayOfWeek == DayOfWeek.Thursday)
+                return "H";
+            else if (dayOfWeek == DayOfWeek.Friday)
+                return "F";
+            else if (dayOfWeek == DayOfWeek.Saturday)
+                return "S";
+            return "";
+        }
+
     }
 }
