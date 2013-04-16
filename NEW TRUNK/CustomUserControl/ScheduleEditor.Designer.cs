@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.personLabel = new System.Windows.Forms.Label();
-            this.buttonRefresh = new System.Windows.Forms.Button();
             this.studentTreeView = new System.Windows.Forms.TreeView();
             this.btnSwitchView = new System.Windows.Forms.Button();
             this.groupBoxWeeklyTimeslot = new System.Windows.Forms.GroupBox();
+            this.labelSelectedPersonTimeslot = new System.Windows.Forms.Label();
             this.dataGridViewExistingTimeslot = new System.Windows.Forms.DataGridView();
             this.labelWeeklyTimeslot = new System.Windows.Forms.Label();
             this.dataGridViewWeeklyTimeslot = new System.Windows.Forms.DataGridView();
@@ -41,6 +41,8 @@
             this.buttonDeleteWeeklyTimeslot = new System.Windows.Forms.Button();
             this.buttonAddWeeklyTimeslot = new System.Windows.Forms.Button();
             this.groupBoxEvent = new System.Windows.Forms.GroupBox();
+            this.labelAvailableEvents = new System.Windows.Forms.Label();
+            this.labelSelectedPersonEvent = new System.Windows.Forms.Label();
             this.dataGridViewExistingEvent = new System.Windows.Forms.DataGridView();
             this.buttonEventEdit = new System.Windows.Forms.Button();
             this.dataGridViewEvent = new System.Windows.Forms.DataGridView();
@@ -48,9 +50,6 @@
             this.buttonAddEvent = new System.Windows.Forms.Button();
             this.buttondeleteEvent = new System.Windows.Forms.Button();
             this.panelistTreeView = new System.Windows.Forms.TreeView();
-            this.labelSelectedPersonEvent = new System.Windows.Forms.Label();
-            this.labelAvailableEvents = new System.Windows.Forms.Label();
-            this.labelSelectedPersonTimeslot = new System.Windows.Forms.Label();
             this.groupBoxWeeklyTimeslot.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExistingTimeslot)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWeeklyTimeslot)).BeginInit();
@@ -67,16 +66,6 @@
             this.personLabel.Size = new System.Drawing.Size(52, 13);
             this.personLabel.TabIndex = 4;
             this.personLabel.Text = "Students:";
-            // 
-            // buttonRefresh
-            // 
-            this.buttonRefresh.Location = new System.Drawing.Point(166, 7);
-            this.buttonRefresh.Name = "buttonRefresh";
-            this.buttonRefresh.Size = new System.Drawing.Size(82, 23);
-            this.buttonRefresh.TabIndex = 5;
-            this.buttonRefresh.Text = "Refresh";
-            this.buttonRefresh.UseVisualStyleBackColor = true;
-            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
             // 
             // studentTreeView
             // 
@@ -112,6 +101,15 @@
             this.groupBoxWeeklyTimeslot.TabIndex = 10;
             this.groupBoxWeeklyTimeslot.TabStop = false;
             this.groupBoxWeeklyTimeslot.Text = "Class Schedule";
+            // 
+            // labelSelectedPersonTimeslot
+            // 
+            this.labelSelectedPersonTimeslot.AutoSize = true;
+            this.labelSelectedPersonTimeslot.Location = new System.Drawing.Point(6, 24);
+            this.labelSelectedPersonTimeslot.Name = "labelSelectedPersonTimeslot";
+            this.labelSelectedPersonTimeslot.Size = new System.Drawing.Size(123, 13);
+            this.labelSelectedPersonTimeslot.TabIndex = 23;
+            this.labelSelectedPersonTimeslot.Text = "Person\'s Class Schedule";
             // 
             // dataGridViewExistingTimeslot
             // 
@@ -209,6 +207,24 @@
             this.groupBoxEvent.TabStop = false;
             this.groupBoxEvent.Text = "Events";
             // 
+            // labelAvailableEvents
+            // 
+            this.labelAvailableEvents.AutoSize = true;
+            this.labelAvailableEvents.Location = new System.Drawing.Point(391, 25);
+            this.labelAvailableEvents.Name = "labelAvailableEvents";
+            this.labelAvailableEvents.Size = new System.Drawing.Size(86, 13);
+            this.labelAvailableEvents.TabIndex = 26;
+            this.labelAvailableEvents.Text = "Available Events";
+            // 
+            // labelSelectedPersonEvent
+            // 
+            this.labelSelectedPersonEvent.AutoSize = true;
+            this.labelSelectedPersonEvent.Location = new System.Drawing.Point(3, 25);
+            this.labelSelectedPersonEvent.Name = "labelSelectedPersonEvent";
+            this.labelSelectedPersonEvent.Size = new System.Drawing.Size(83, 13);
+            this.labelSelectedPersonEvent.TabIndex = 25;
+            this.labelSelectedPersonEvent.Text = "Person\'s Events";
+            // 
             // dataGridViewExistingEvent
             // 
             this.dataGridViewExistingEvent.AllowUserToAddRows = false;
@@ -289,33 +305,6 @@
             this.panelistTreeView.TabIndex = 7;
             this.panelistTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.panelistTreeView_NodeMouseClick);
             // 
-            // labelSelectedPersonEvent
-            // 
-            this.labelSelectedPersonEvent.AutoSize = true;
-            this.labelSelectedPersonEvent.Location = new System.Drawing.Point(3, 25);
-            this.labelSelectedPersonEvent.Name = "labelSelectedPersonEvent";
-            this.labelSelectedPersonEvent.Size = new System.Drawing.Size(83, 13);
-            this.labelSelectedPersonEvent.TabIndex = 25;
-            this.labelSelectedPersonEvent.Text = "Person\'s Events";
-            // 
-            // labelAvailableEvents
-            // 
-            this.labelAvailableEvents.AutoSize = true;
-            this.labelAvailableEvents.Location = new System.Drawing.Point(391, 25);
-            this.labelAvailableEvents.Name = "labelAvailableEvents";
-            this.labelAvailableEvents.Size = new System.Drawing.Size(86, 13);
-            this.labelAvailableEvents.TabIndex = 26;
-            this.labelAvailableEvents.Text = "Available Events";
-            // 
-            // labelSelectedPersonTimeslot
-            // 
-            this.labelSelectedPersonTimeslot.AutoSize = true;
-            this.labelSelectedPersonTimeslot.Location = new System.Drawing.Point(6, 24);
-            this.labelSelectedPersonTimeslot.Name = "labelSelectedPersonTimeslot";
-            this.labelSelectedPersonTimeslot.Size = new System.Drawing.Size(123, 13);
-            this.labelSelectedPersonTimeslot.TabIndex = 23;
-            this.labelSelectedPersonTimeslot.Text = "Person\'s Class Schedule";
-            // 
             // ScheduleEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -323,7 +312,6 @@
             this.Controls.Add(this.groupBoxWeeklyTimeslot);
             this.Controls.Add(this.groupBoxEvent);
             this.Controls.Add(this.btnSwitchView);
-            this.Controls.Add(this.buttonRefresh);
             this.Controls.Add(this.personLabel);
             this.Controls.Add(this.panelistTreeView);
             this.Controls.Add(this.studentTreeView);
@@ -345,7 +333,6 @@
         #endregion
 
         private System.Windows.Forms.Label personLabel;
-        private System.Windows.Forms.Button buttonRefresh;
         private System.Windows.Forms.TreeView studentTreeView;
         private System.Windows.Forms.Button btnSwitchView;
         private System.Windows.Forms.GroupBox groupBoxWeeklyTimeslot;
