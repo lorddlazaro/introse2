@@ -12,6 +12,8 @@ namespace CustomUserControl
 {
     public partial class TimeslotCreator : Form
     {
+        private Form parent;
+        private ScheduleEditor subParent;
         private DBce dbHandler = new DBce();
         private List<String>[] panelTable;
         private BindingList<Panelist> panelList = new BindingList<Panelist>();
@@ -21,8 +23,10 @@ namespace CustomUserControl
 
         public String panelistID;
 
-        public TimeslotCreator(bool editMode)
+        public TimeslotCreator(bool editMode,Form p,ScheduleEditor sp)
         {
+            parent = p;
+            subParent = sp;
             this.isEditMode = editMode;
             InitializeComponent();
             initializePanel();
@@ -100,8 +104,11 @@ namespace CustomUserControl
             
         }
 
+
+
         private void buttonCancelTimeslot_Click(object sender, EventArgs e)
         {
+            parent.Enabled = true;
             this.Dispose();
         }
 
@@ -251,6 +258,8 @@ namespace CustomUserControl
                     }
                 }
             }
+            subParent.refreshAll();
+            parent.Enabled = true;
             this.Dispose();
         }
 
@@ -270,6 +279,15 @@ namespace CustomUserControl
                 lastItemChecked = listViewWeeklyTimeslotDay.Items[e.Item.Index];
             }
             
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+
+            if (e.CloseReason == CloseReason.WindowsShutDown) return;
+
+            parent.Enabled = true;
         }
 
     }
