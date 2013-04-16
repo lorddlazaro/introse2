@@ -77,6 +77,7 @@ namespace CustomUserControl
                 }
                 
             }
+            /*
             //-Conflict with defense check for edit
             if (isEditMode) 
             {
@@ -115,7 +116,7 @@ namespace CustomUserControl
                         return;
                 }
             }
-            
+            */
 
             
             //END of VALIDATION
