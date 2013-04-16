@@ -88,22 +88,25 @@ namespace CustomUserControl
         {
             if (schedulingDM.CurrGroupDefSched != null)
             {
-                /* The following two variables represent unadjusted day indices.
-                * That is, Mon = 0, Tues = 1, Wed = 2, Thu = 3, Fri = 4, Sat = 5.
-                * */
-                int dayIndex;
-                int startOfTheWeekDayIndex = GetDayIndex(startOfTheWeek.DayOfWeek);
+                if (DateTimeHelper.DatesIntersectInclusive(schedulingDM.CurrGroupDefSched.DefenseDateTime, schedulingDM.CurrGroupDefSched.DefenseDateTime, startOfTheWeek, endOfTheWeek))
+                {
+                    /* The following two variables represent unadjusted day indices.
+                    * That is, Mon = 0, Tues = 1, Wed = 2, Thu = 3, Fri = 4, Sat = 5.
+                    * */
+                    int dayIndex;
+                    int startOfTheWeekDayIndex = GetDayIndex(startOfTheWeek.DayOfWeek);
 
-                /* Represents the adjusted index depending on the starting day in the calendar. 
-                 * Example, Monday, which is supposed to be 0, becomes 1 if the day starts with Saturday(which is the 0 in this case)),
-                 * because Monday becomes the second day in the calendar.
-                * */
-                int adjustedDayIndex;
+                    /* Represents the adjusted index depending on the starting day in the calendar. 
+                     * Example, Monday, which is supposed to be 0, becomes 1 if the day starts with Saturday(which is the 0 in this case)),
+                     * because Monday becomes the second day in the calendar.
+                    * */
+                    int adjustedDayIndex;
 
-                dayIndex = GetDayIndex(schedulingDM.CurrGroupDefSched.StartTime.DayOfWeek);
-                adjustedDayIndex = (dayIndex + (Constants.DAYS_IN_DEF_WEEK - startOfTheWeekDayIndex)) % Constants.DAYS_IN_DEF_WEEK;
+                    dayIndex = GetDayIndex(schedulingDM.CurrGroupDefSched.StartTime.DayOfWeek);
+                    adjustedDayIndex = (dayIndex + (Constants.DAYS_IN_DEF_WEEK - startOfTheWeekDayIndex)) % Constants.DAYS_IN_DEF_WEEK;
 
-                DrawTimePeriod(g, Color.Tomato, panelRectangle, adjustedDayIndex, schedulingDM.CurrGroupDefSched);
+                    DrawTimePeriod(g, Color.Tomato, panelRectangle, adjustedDayIndex, schedulingDM.CurrGroupDefSched);
+                }
             }
         }
 
