@@ -192,86 +192,57 @@ namespace CustomUserControl
                 //START: Defense Schedule Validation
 
                 query = "SELECT thesisGroupID FROM student where studentID = '" + currStudent + "';";
-
                 String thesisGroupID = dbHandler.Select(query, 1)[0][0];
-
-                DefenseSchedule defSched = schedulingDM.GetDefSched(thesisGroupID, Constants.DEFENSE_TYPE);
-                DefenseSchedule redefSched = schedulingDM.GetDefSched(thesisGroupID, Constants.REDEFENSE_TYPE);
-
-                TimePeriod classTimePeriod = new TimePeriod(Convert.ToDateTime(existingTimeslots[4][rowIndex]), Convert.ToDateTime(existingTimeslots[5][rowIndex]));
+                bool shouldProceed = ValidateClassAssignment(thesisGroupID, rowIndex);
                 
-                String defDayOfWeek = schedulingDM.ConvertDayOfWeekToString(defSched.StartTime.DayOfWeek);
-                String redefDayOfWeek = schedulingDM.ConvertDayOfWeekToString(redefSched.StartTime.DayOfWeek);
-                
-                bool conflictWithDefense = defDayOfWeek.Equals(existingTimeslots[3][rowIndex]) && classTimePeriod.IntersectsExclusive(defSched);
-                bool conflictWithRedefense = redefDayOfWeek.Equals(existingTimeslots[3][rowIndex]) && classTimePeriod.IntersectsExclusive(redefSched);
-                
-                if (conflictWithDefense || conflictWithRedefense)
-                {
-                    String warningMsg;
-                    if (conflictWithDefense && conflictWithRedefense)
-                        warningMsg = "There are conflicts with this group's defense and re-defense schedule. ";
-                    else if (conflictWithDefense)
-                        warningMsg = "There is conflict with this group's defense schedule. ";
-                    else
-                        warningMsg = "There is conflict with this group's re-defense schedule. ";
-                    warningMsg += "Proceeding will unschedule said schedule";
-
-                    if (MessageBox.Show(warningMsg, "Conflict with Defense", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.Cancel)
-                        return;
-                    else
-                    {
-
-                        query = "DELETE FROM defenseSchedule WHERE ";
-
-                        if (conflictWithDefense && conflictWithRedefense)
-                            query += " defenseID = " + defSched.DefenseID + " OR defenseID = " + redefSched.DefenseID + ";";
-                        else if (conflictWithDefense)
-                            query += " defenseID = " + defSched.DefenseID + ";";
-                        else// if(conflictWithRedefense)
-                            query += " defenseID = " + redefSched.DefenseID + ";";
-
-                        dbHandler.Delete(query);
-                    }
-                }
                 // END: Defense Schedule Validation
-
-                query = "INSERT INTO StudentSchedule(studentID, timeslotID)VALUES ('"+currStudent+"', "+Convert.ToInt32(slot)+")";
-                Console.WriteLine("escape qqq" + query);
-                try
+                if (shouldProceed)
                 {
-                    dbHandler.Insert(query);
-                }
-                catch (SqlException sqlEx) 
-                {
-                    if (sqlEx.Source != null)
-                        Console.WriteLine("IOException source: {0}", sqlEx.Source);
-                    Console.WriteLine(query);
-                }
-                Console.WriteLine("success!");
-                RefreshStudentClassScheds();
+                    query = "INSERT INTO StudentSchedule(studentID, timeslotID)VALUES ('" + currStudent + "', " + Convert.ToInt32(slot) + ")";
+                    Console.WriteLine("escape qqq" + query);
+                    try
+                    {
+                        dbHandler.Insert(query);
+                    }
+                    catch (SqlException sqlEx)
+                    {
+                        if (sqlEx.Source != null)
+                            Console.WriteLine("IOException source: {0}", sqlEx.Source);
+                        Console.WriteLine(query);
+                    }
 
+                    Console.WriteLine("success!");
+                    RefreshStudentClassScheds();
+                }
 
             }
             else
             {
-                if (timeSlotTable[6][rowIndex] != null)
+                String query;
+                
+
+
+                query = "SELECT thesisGroupID FROM panelAssignment where panelistID = '" + currPanelist + "';";
+                String thesisGroupID = dbHandler.Select(query, 1)[0][0];
+                bool shouldProceed = ValidateClassAssignment(thesisGroupID, rowIndex);
+                if (shouldProceed) 
                 {
-                    DialogResult response = MessageBox.Show("This Timeslot already has a Professor. Overwrite?", "Panelist Overwrite", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                    if (response == DialogResult.Yes)
+                    if (existingTimeslots[6][rowIndex] != null)
                     {
+                        DialogResult response = MessageBox.Show("This Timeslot already has a Professor. Overwrite?", "Panelist Overwrite", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                        String query;
+                        if (response == DialogResult.Yes)
+                        {
+                            query = "UPDATE Timeslot SET panelistID = '" + currPanelist + "' WHERE (courseName = '" + existingTimeslots[2][rowIndex] + "') AND ( section = '" + existingTimeslots[1][rowIndex] + "') AND (day ='" + existingTimeslots[3][rowIndex] + "');";
+                            Console.WriteLine("*********HERE***********" + query);
+                            dbHandler.Update(query);
+                            Console.WriteLine(query);
+                            RefreshPanelistClassScheds();
 
-                        query = "UPDATE Timeslot SET panelistID = '" + currPanelist + "' WHERE (courseName = '" + existingTimeslots[2][rowIndex] + "') AND ( section = '" + existingTimeslots[1][rowIndex] + "') AND (day ='" + existingTimeslots[3][rowIndex] + "');";
-                        Console.WriteLine("*********HERE***********" + query);
-                        dbHandler.Update(query);
-                        Console.WriteLine(query);
-                        RefreshPanelistClassScheds();
-
+                        }
                     }
                 }
+
             }
 
             update_courses();
@@ -279,6 +250,67 @@ namespace CustomUserControl
             
 
         }
+
+
+        private bool ValidateClassAssignment(String thesisGroupID, int rowIndex) 
+        {            
+            DefenseSchedule defSched = schedulingDM.GetDefSched(thesisGroupID, Constants.DEFENSE_TYPE);
+            DefenseSchedule redefSched = schedulingDM.GetDefSched(thesisGroupID, Constants.REDEFENSE_TYPE);
+
+            TimePeriod classTimePeriod = new TimePeriod(Convert.ToDateTime(existingTimeslots[4][rowIndex]), Convert.ToDateTime(existingTimeslots[5][rowIndex]));
+
+            String defDayOfWeek;
+            String redefDayOfWeek;
+            
+            bool conflictWithDefense = false; 
+            bool conflictWithRedefense = false;
+
+            if(defSched!=null)
+            {
+                defDayOfWeek = schedulingDM.ConvertDayOfWeekToString(defSched.StartTime.DayOfWeek);
+                conflictWithDefense =  defDayOfWeek.Equals(existingTimeslots[3][rowIndex]) && classTimePeriod.IntersectsExclusive(defSched);
+            }
+            if(redefSched!=null)
+            {
+                redefDayOfWeek = schedulingDM.ConvertDayOfWeekToString(redefSched.StartTime.DayOfWeek);
+                conflictWithRedefense = redefDayOfWeek.Equals(existingTimeslots[3][rowIndex]) && classTimePeriod.IntersectsExclusive(redefSched);
+            }
+ 
+            if (conflictWithDefense || conflictWithRedefense)
+            {
+                String warningMsg;
+                if (conflictWithDefense && conflictWithRedefense)
+                    warningMsg = "There are conflicts with this group's defense and re-defense schedule. ";
+                else if (conflictWithDefense)
+                    warningMsg = "There is conflict with this group's defense schedule. ";
+                else
+                    warningMsg = "There is conflict with this group's re-defense schedule. ";
+                warningMsg += "Proceeding will unschedule said schedule";
+
+               
+                if (MessageBox.Show(warningMsg, "Conflict with Defense", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.Cancel)
+                    return false;
+                else
+                {
+
+                    String query = "DELETE FROM defenseSchedule WHERE ";
+
+                    if (conflictWithDefense && conflictWithRedefense)
+                        query += " defenseID = " + defSched.DefenseID + " OR defenseID = " + redefSched.DefenseID + ";";
+                    else if (conflictWithDefense)
+                        query += " defenseID = " + defSched.DefenseID + ";";
+                    else// if(conflictWithRedefense)
+                        query += " defenseID = " + redefSched.DefenseID + ";";
+
+                    dbHandler.Delete(query);
+                }
+            }
+            return true;
+        }
+
+
+
+
         private void buttonDeleteWeeklyTimeslot_Click(object sender, EventArgs e)
         {
 
