@@ -168,6 +168,7 @@
             // 
             // comboBoxPanelist
             // 
+            this.comboBoxPanelist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxPanelist.FormattingEnabled = true;
             this.comboBoxPanelist.Location = new System.Drawing.Point(66, 131);
             this.comboBoxPanelist.Name = "comboBoxPanelist";
