@@ -7,13 +7,11 @@ namespace CustomUserControl
 {
     public class DefenseSchedule : TimePeriod
     {
-        private DateTime defenseDateTime;
         private String defenseID;
         private String groupTitle;
         private String place;
         private String thesisGroupID;
 
-        public DateTime DefenseDateTime { get { return defenseDateTime; } }
         public String DefenseID { get { return defenseID; } }
         public String GroupTitle{ get{ return groupTitle;} }
         public String Place { get { return place; } }
