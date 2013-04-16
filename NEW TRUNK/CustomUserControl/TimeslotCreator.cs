@@ -30,6 +30,7 @@ namespace CustomUserControl
             this.isEditMode = editMode;
             InitializeComponent();
             initializePanel();
+            comboBoxPanelist.SelectedIndex = comboBoxPanelist.FindStringExact(" None. ");
                 
         }
         public void initializeTextBoxes() 
@@ -97,6 +98,8 @@ namespace CustomUserControl
                 lastName = panelTable[3][i];
                 panelList.Add(new Panelist(id, firstName, MI, lastName));
             }
+            panelList.Add(new Panelist(0, "", "None", ""));
+            
 
             comboBoxPanelist.DataSource = panelList;
             //comboBoxEvent.DataSource = panelList;
@@ -186,9 +189,14 @@ namespace CustomUserControl
                         }
                     }
                 }
-                panelistID = panelTable[0][comboBoxPanelist.SelectedIndex];
-                query = "UPDATE Timeslot SET section = N'" + textBoxWeeklyTimeslotSection.Text + "', courseName = N'" + textBoxWeeklyTimeslotCourse.Text + "', day = N'" + day + "', startTime = CONVERT(DATETIME,'" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString("MM/dd/yyy hh:mm tt") + "',102), endTime = CONVERT(DATETIME,'" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString("MM/dd/yyy hh:mm tt") + "',102), panelistID = N'" + panelistID + "' WHERE timeslotID = '" + forEditing[0] + "';";
-                Console.WriteLine(query);
+                if (comboBoxPanelist.Text.Equals(" None. "))
+                    query = "UPDATE Timeslot SET section = N'" + textBoxWeeklyTimeslotSection.Text + "', courseName = N'" + textBoxWeeklyTimeslotCourse.Text + "', day = N'" + day + "', startTime = CONVERT(DATETIME,'" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString("MM/dd/yyy hh:mm tt") + "',102), endTime = CONVERT(DATETIME,'" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString("MM/dd/yyy hh:mm tt") + "',102), panelistID = NULL WHERE timeslotID = '" + forEditing[0] + "';";
+                else
+                {
+                    panelistID = panelTable[0][comboBoxPanelist.SelectedIndex];
+                    query = "UPDATE Timeslot SET section = N'" + textBoxWeeklyTimeslotSection.Text + "', courseName = N'" + textBoxWeeklyTimeslotCourse.Text + "', day = N'" + day + "', startTime = CONVERT(DATETIME,'" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString("MM/dd/yyy hh:mm tt") + "',102), endTime = CONVERT(DATETIME,'" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString("MM/dd/yyy hh:mm tt") + "',102), panelistID = N'" + panelistID + "' WHERE timeslotID = '" + forEditing[0] + "';";
+                }
+                    Console.WriteLine(query);
                 dbHandler.Update(query);
             }
             else
@@ -226,19 +234,21 @@ namespace CustomUserControl
                         }
                         
                        
-                        if (comboBoxPanelist.Text == "")
+                        if (comboBoxPanelist.Text.Equals(" None. "))
                         {
-                            Console.WriteLine("comboboxpanelist = null");
+                            //Console.WriteLine("comboboxpanelist = null");
+                            //query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES('" + textBoxWeeklyTimeslotCourse.Text + "', '" + textBoxWeeklyTimeslotSection.Text + "', '" + day + "',CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString() + "', 102), CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString() + "', 102), NULL)";
                             query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES('" + textBoxWeeklyTimeslotCourse.Text + "', '" + textBoxWeeklyTimeslotSection.Text + "', '" + day + "',CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString() + "', 102), CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString() + "', 102), NULL)";
                         }
                         else
                         {
                             panelistID = panelTable[0][comboBoxPanelist.SelectedIndex];
-                            Console.WriteLine("panelistID: " + panelistID);
+                            //Console.WriteLine("panelistID: " + panelistID);
+                            //query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES('" + textBoxWeeklyTimeslotCourse.Text + "', '" + textBoxWeeklyTimeslotSection.Text + "', '" + day + "',CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString() + "', 102), CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString() + "', 102), N'" + panelistID + "')";
                             query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES('" + textBoxWeeklyTimeslotCourse.Text + "', '" + textBoxWeeklyTimeslotSection.Text + "', '" + day + "',CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString() + "', 102), CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString() + "', 102), N'" + panelistID + "')";
                         }
+
                         
-                       
                         
                         try
                         {
