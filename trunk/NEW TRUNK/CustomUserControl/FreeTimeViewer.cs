@@ -70,7 +70,7 @@ namespace CustomUserControl
         /****** END: Initializing Methods *******/
 
 
-        /****** START: Drawing Methods*******/
+        /****** START: Drawing Methods For The Calendar*******/
         private void panelCalendar_Paint(object sender, PaintEventArgs e)
         {
             //if(!currPanelistID.Equals(""))
@@ -133,12 +133,7 @@ namespace CustomUserControl
                 DrawTimePeriod(g, Color.CadetBlue, panelRectangle, adjustedDayIndex, curr );
             }
         }
-
-        private int  GetDayIndex(DayOfWeek day) 
-        {
-            return (int)day - 1;
-        }
-
+        
         private void DrawFreeTimes(Graphics g, Rectangle panelRectangle) 
         {
             int size;
@@ -157,6 +152,7 @@ namespace CustomUserControl
             }
         }
 
+        //Does the actual drawing of those boxes that appear on-screen.
         private void DrawTimePeriod(Graphics g, Color color, Rectangle panelRectangle, int dayIndex, TimePeriod timePeriod)
         {
             int leftX = panelRectangle.Left;
@@ -181,6 +177,7 @@ namespace CustomUserControl
             g.DrawString(timePeriod.ToString(),font1, new SolidBrush(Color.Black),  rect, new StringFormat());
         }
         
+        //Draws the horizontal lines in the calendar.
         private void DrawCalendarDivisions()
         {
             Brush aSolidBrush = new SolidBrush(Color.Brown);  //Creates a black solid brush for the pen  
@@ -202,7 +199,14 @@ namespace CustomUserControl
            
 
         }
-        /****** END: Drawing Methods*******/
+
+        //Just a support method for obtaining the index given the day of the week.
+        private int GetDayIndex(DayOfWeek day)
+        {
+            return (int)day - 1;
+        }
+
+        /****** END: Drawing Methods For The Calendar*******/
 
 
         /****** START: EVENT LISTENERS*******/
@@ -443,26 +447,18 @@ namespace CustomUserControl
                 if (!isGroupBoxWidened)
                     WidenGroupBox();
 
-                //if (isGroupBoxWidened)
-                //ShortenGroupBox();
                 String date = defSchedule.StartTime.Date.ToString();
                 String time = defSchedule.StartTime.TimeOfDay.ToString();
 
-                /*
-                string date = defSchedule[2].ElementAt(0).Split(' ')[0];
-                string time = defSchedule[2].ElementAt(0).Split(' ')[1] + " " + defSchedule[2].ElementAt(0).Split(' ')[2];
-                */
-                //Console.WriteLine(date + "|" + time);
+                int year = defSchedule.StartTime.Year;
 
-                int year = Convert.ToInt16(date.Split('/')[2]);
-                int day = Convert.ToInt16(date.Split('/')[1]);
-                int month = Convert.ToInt16(date.Split('/')[0]);
-                int hour = Convert.ToInt16(time.Split(':')[0]);
-                int minute = Convert.ToInt16(time.Split(':')[1]);
-                if (time.Split(' ')[1].Equals("PM"))
-                    hour += 12;
-
+                int day = defSchedule.StartTime.Day;
+                int month = defSchedule.StartTime.Month;
+                int hour = defSchedule.StartTime.Hour;
+                int minute = defSchedule.StartTime.Minute;
+               
                 venueTextBox.Text = defSchedule.Place;
+                 
                 defenseDateTimePicker.Value = new DateTime(year, month, day, hour, minute, 0, 0);
             }
             else
