@@ -155,15 +155,18 @@ namespace CustomUserControl
 
             string lineToWrite;
 
-            if (CheckIfFileIsBeingUsed(saveFileDialog1.FileName))
-                MessageBox.Show("File is currently in use", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else
-                using (StreamWriter sw = new StreamWriter(saveFileDialog1.FileName))
+            if(File.Exists(saveFileDialog1.FileName))
+                if (CheckIfFileIsBeingUsed(saveFileDialog1.FileName))
+                {
+                    MessageBox.Show("File is currently in use", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+            using (StreamWriter sw = new StreamWriter(saveFileDialog1.FileName))
                 {
                     for (int i = 0; i < dataGridView1.Rows.Count; i++)
                     {
                         lineToWrite = "";
-
+                        
                         if (saveCourseColumn)
                         {
                             lineToWrite += dataGridView1.Rows[i].Cells[0].Value;
@@ -188,10 +191,10 @@ namespace CustomUserControl
                                     lineToWrite += ",";
                                 else
                                     lineToWrite += " ";
-                        }
+                         }
 
-                        if (savePanelColumn)
-                        {
+                         if (savePanelColumn)
+                         {
                             string[] panels = dataGridView1.Rows[i].Cells[6].Value.ToString().Split('\n');
 
                             for (int j = 0; j < panels.Count(); j++)
@@ -211,6 +214,7 @@ namespace CustomUserControl
                     sw.Close();
                 }
         }
+    
         public bool CheckIfFileIsBeingUsed(string fileName)
         {
             FileStream fs;
