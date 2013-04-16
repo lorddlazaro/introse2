@@ -289,15 +289,77 @@ namespace CustomUserControl
         {
             String query;
 
-            //CHECKING
-                //Duplicate
-                //Conflict with defense
-            //ADD 
+            
             if (dataGridViewExistingEvent.DataSource==null)
             { 
                 return;
             }
             int rowIndex = dataGridViewExistingEvent.SelectedRows[0].Index;
+            //VALIDATION
+            //-Conflict of Defense Checking
+            if (btnSwitchView.Text.Equals("Switch to Panelists"))
+            {
+                query = "SELECT        DefenseSchedule.defenseDateTime, DefenseSchedule.defenseID, ThesisGroup.course FROM            DefenseSchedule INNER JOIN ThesisGroup ON DefenseSchedule.thesisGroupID = ThesisGroup.thesisGroupID INNER JOIN Student ON ThesisGroup.thesisGroupID = Student.thesisGroupID WHERE        (Student.studentID = '"+currStudent+"')";
+            }
+            else
+                query = "SELECT        DefenseSchedule.defenseID, DefenseSchedule.defenseDateTime, ThesisGroup.course FROM            PanelAssignment INNER JOIN Panelist ON PanelAssignment.panelistID = Panelist.panelistID INNER JOIN ThesisGroup ON PanelAssignment.thesisGroupID = ThesisGroup.thesisGroupID INNER JOIN DefenseSchedule ON ThesisGroup.thesisGroupID = DefenseSchedule.thesisGroupID WHERE        (Panelist.panelistID = '"+currPanelist+"')";
+            Console.WriteLine("Conflict of Defense Checking for AddExistingEvent query: "+query);
+
+            List<String>[] defenseOfSelected = dbHandler.Select(query, 3);
+            Console.WriteLine("count of defense: "+defenseOfSelected[0].Count);
+            
+            if (defenseOfSelected[0].Count > 0)
+            {
+
+                for (int i = 0; i < defenseOfSelected[0].Count; i++)
+                {
+                    DateTime maxStart;
+                    DateTime minEnd;
+                    DateTime defenseEndtime;
+                    //get start of conflict
+                    if (Convert.ToDateTime(defenseOfSelected[0][i]) > Convert.ToDateTime(existingEvents[2][rowIndex]))
+                        maxStart = Convert.ToDateTime(defenseOfSelected[0][i]);
+                    else
+                        maxStart = Convert.ToDateTime(existingEvents[2][rowIndex]);
+
+                    Console.WriteLine(maxStart);
+                    //GET endtime of defense
+                    if (defenseOfSelected[2][i].Equals("THSST-1"))
+                        defenseEndtime = Convert.ToDateTime(defenseOfSelected[0][i]).AddMinutes(Constants.THSST1_DEFDURATION_MINS);
+                    else
+                        defenseEndtime = Convert.ToDateTime(defenseOfSelected[0][i]).AddMinutes(Constants.THSST3_DEFDURATION_MINS);
+                    Console.WriteLine(defenseEndtime);
+                    //get end of conflict
+                    if (defenseEndtime > Convert.ToDateTime(existingEvents[3][rowIndex]))
+                        minEnd = Convert.ToDateTime(existingEvents[3][rowIndex]);
+                    else
+                        minEnd = defenseEndtime;
+                    Console.WriteLine(minEnd);
+                    if (maxStart < minEnd)
+                    {
+                        DialogResult result;
+                        if (btnSwitchView.Text.Equals("Switch to Panelists"))
+                            result = MessageBox.Show("Event conflicts with selected student defense" + System.Environment.NewLine + "Unschedule conflicting defense?", "Conflict with Defense", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                        else
+                            result = MessageBox.Show("Event conflicts with selected panelists defense" + System.Environment.NewLine + "Unschedule conflicting defense?", "Conflict with Defense", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                        if (result == DialogResult.OK)
+                        {
+                            query = "DELETE FROM DefenseSchedule WHERE defenseID = " + Convert.ToInt32(defenseOfSelected[1][0]) + "";
+                            dbHandler.Delete(query);
+                            MessageBox.Show("Conflicting defense removed", "Conflict with Defense", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                            return;
+
+                    }
+                }
+               
+
+                
+            }
+
+            //ADD 
+            
             if (btnSwitchView.Text.Equals("Switch to Panelists"))
             {
                 
