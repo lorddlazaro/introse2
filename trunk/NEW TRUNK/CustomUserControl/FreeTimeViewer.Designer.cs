@@ -68,7 +68,7 @@
             this.venueTextBox = new System.Windows.Forms.TextBox();
             this.courseSectionTextBox = new System.Windows.Forms.TextBox();
             this.titleTextBox = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBoxDefenseType = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
             this.labelPanelists = new System.Windows.Forms.Label();
             this.defenseInfoGroupBox.SuspendLayout();
@@ -488,17 +488,17 @@
             this.titleTextBox.Size = new System.Drawing.Size(154, 20);
             this.titleTextBox.TabIndex = 0;
             // 
-            // comboBox1
+            // comboBoxDefenseType
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.comboBoxDefenseType.FormattingEnabled = true;
+            this.comboBoxDefenseType.Items.AddRange(new object[] {
             "Defense",
             "Re-Defense"});
-            this.comboBox1.Location = new System.Drawing.Point(584, 0);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 27;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.comboBoxDefenseType.Location = new System.Drawing.Point(584, 0);
+            this.comboBoxDefenseType.Name = "comboBoxDefenseType";
+            this.comboBoxDefenseType.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxDefenseType.TabIndex = 27;
+            this.comboBoxDefenseType.SelectedIndexChanged += new System.EventHandler(this.comboBoxDefenseType_SelectedIndexChanged);
             // 
             // label16
             // 
@@ -526,7 +526,7 @@
             this.BackColor = System.Drawing.SystemColors.Window;
             this.Controls.Add(this.labelPanelists);
             this.Controls.Add(this.label16);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboBoxDefenseType);
             this.Controls.Add(this.defenseInfoGroupBox);
             this.Controls.Add(this.labelGroupInfo);
             this.Controls.Add(this.label15);
@@ -607,7 +607,7 @@
         private System.Windows.Forms.Button deleteDefenseButton;
         private System.Windows.Forms.Button saveDefenseButton;
         private System.Windows.Forms.Button addDefenseButton;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBoxDefenseType;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label labelPanelists;
     }

@@ -24,6 +24,9 @@ namespace CustomUserControl
          * */
         private List<DefenseSchedule> clusterDefScheds;
 
+        /*Stores the IDs of thesis groups with defenses/re-defense in the defense/re-defense week. 
+         * Used for marking the groups in the tree views. 
+         */
         private List<String> scheduledGroupIDs;
 
         //This will be used to store the free times of the selected thesis group
@@ -194,15 +197,16 @@ namespace CustomUserControl
             String query;
             int size;
 
-            /*Start: 
-             * Initialize the distinct timeslotIDs of students' class schedules.
-             * */
-
+            /*Start: Initialize the distinct timeslotIDs of students' class schedules.*/
+             
             query = "SELECT studentID FROM Student WHERE thesisGroupID = " + thesisGroupID + ";";
             studentIDs = dbHandler.Select(query, 1)[0];
             size = studentIDs.Count;
-            
-            if (size == 0)
+
+            /* Just to make sure no exceptions will occur in the following parts. 
+                Return when there are no students in the group.
+             * */
+            if (size == 0)                 
                 return;
 
             query = "SELECT distinct timeslotID FROM  studentSchedule  WHERE ";
@@ -215,9 +219,8 @@ namespace CustomUserControl
                 else
                     query += ";";
             }
-       
-            
-            AddUniqueTimeSlots(timeSlotIDs, dbHandler.Select(query, 1)[0]);
+            AddTimeSlotIDSUniquely(timeSlotIDs, dbHandler.Select(query, 1)[0]);
+
 
             query = "SELECT distinct eventID FROM studentEventRecord WHERE ";
             for (int i = 0; i < size; i++)
@@ -229,10 +232,8 @@ namespace CustomUserControl
                 else
                     query += ";";
             }
-            Console.WriteLine(query);//debugging
-            AddUniqueTimeSlots(eventIDs, dbHandler.Select(query, 1)[0]);
-
-            /*End*/
+            AddTimeSlotIDSUniquely(eventIDs, dbHandler.Select(query, 1)[0]);
+            /*End Initialize the distinct timeslotIDs of students' class schedules.*/
 
             /*Start: Initialize panelists' class shcedules' timeslotIDs*/ 
 
@@ -254,7 +255,7 @@ namespace CustomUserControl
                     query += ";";
             }
 
-            AddUniqueTimeSlots(timeSlotIDs, dbHandler.Select(query, 1)[0]);
+            AddTimeSlotIDSUniquely(timeSlotIDs, dbHandler.Select(query, 1)[0]);
 
             query = "SELECT distinct eventID from PanelistEventRecord WHERE ";
 
@@ -267,17 +268,17 @@ namespace CustomUserControl
                 else
                     query += ";";
             }
-            AddUniqueTimeSlots(eventIDs, dbHandler.Select(query, 1)[0]);
+            AddTimeSlotIDSUniquely(eventIDs, dbHandler.Select(query, 1)[0]);
             /* End */
 
-            /*Start: 
+            /*Start: Add the TimePeriods to the List<TimePeriod>[] days.
              * 
              * */
-            List<TimePeriod>[] classSlots = GetUniqueClassTimeSlots(timeSlotIDs);
-            List<TimePeriod>[] eventSlots = GetUniqueEventSlots(eventIDs, startDate, endDate);
-            List<TimePeriod>[] defSlots = GetUniqueDefSlots(panelistIDs, startDate, endDate, defenseType);
+            List<TimePeriod>[] classSlots = GetUniqueClassTimePeriods(timeSlotIDs);
+            List<TimePeriod>[] eventSlots = GetUniqueEventTimePeriods(eventIDs, startDate, endDate);
+            List<TimePeriod>[] defSlots = GetUniqueDefenseTimePeriods(panelistIDs, startDate, endDate, defenseType);
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < Constants.DAYS_IN_DEF_WEEK; i++)
             {
                 if (classSlots[i] != null)
                     days[i].AddRange(classSlots[i]);
@@ -289,17 +290,16 @@ namespace CustomUserControl
                     days[i].AddRange(defSlots[i]);
 
                 days[i].Sort();
-                //Console.WriteLine("after sorting: " + i);
-                //DateTimeHelper.PrintTimePeriods(days[i]);
             }
             /* End */
         }
 
         /* This method is called by RefreshSelectedGroupFreeTimes() to add new distinct timeslots to the list. 
-       * It is only a support method for RefreshSelectedGroupFreeTimes(). This is used both for class timeslots
-       * and event timeslots.
+         *  It is only a support method for RefreshSelectedGroupFreeTimes(). This is used both for class timeslots
+         *  and event timeslots. The reason why this is needed, and 'distinct' in the query is not enough is because
+         *  addition is done separately for both students and panelists.
        * */
-        private void AddUniqueTimeSlots(List<String> timeslotIDs, List<String> newSlots)
+        private void AddTimeSlotIDSUniquely(List<String> timeslotIDs, List<String> newSlots)
         {
             int numTimeslots = newSlots.Count;
             for (int j = 0; j < numTimeslots; j++)
@@ -324,86 +324,10 @@ namespace CustomUserControl
             return -1;
         }
 
-        private List<TimePeriod>[] GetUniqueEventSlots(List<String> eventIDs, DateTime startDate, DateTime endDate)
-        {
-            int size = eventIDs.Count;
-            String query;
-            List<String>[] columns;
-
-            List<TimePeriod>[] busySlots = new List<TimePeriod>[Constants.DAYS_IN_DEF_WEEK];
-            InitListTimePeriodArray(busySlots);
-
-            int currDay;
-            TimePeriod newTimePeriod;
-
-            DateTime earliestTime = new DateTime(2013, 1, 1, Constants.START_HOUR, Constants.START_MIN, 0);
-            DateTime latestTime = new DateTime(2013, 1, 1, Constants.LIMIT_HOUR, Constants.LIMIT_MIN, 0);
-            /*For Debugging Purposes
-            Console.WriteLine("EventIDs size:"+size);
-            /*For Debugging Purposes*/
-            for (int i = 0; i < size; i++)
-            {
-                query = "SELECT eventStart, eventEnd FROM Event WHERE eventID = " + eventIDs.ElementAt(i) + ";";
-                columns = dbHandler.Select(query, 2);
-                DateTime eventStart = Convert.ToDateTime(columns[0].ElementAt(0));
-                DateTime eventEnd = Convert.ToDateTime(columns[1].ElementAt(0));
-               
-                if (DateTimeHelper.DatesIntersectInclusive(eventStart, eventEnd, startDate, endDate)) 
-                {
-                    for (DateTime curr = eventStart; curr.Date.CompareTo(eventEnd.Date) <= 0; curr = curr.AddDays(1))
-                    {
-                        currDay = (int)curr.DayOfWeek - 1;
-
-                        if (DateTimeHelper.IsBetweenInclusive(curr, startDate, endDate) && currDay >= 0) //If not sunday, because sunday is never included.
-                        {
-                            newTimePeriod = null;
-
-                            int comparisonToStart = curr.Date.CompareTo(eventStart.Date);
-                            int comparisonToEnd = curr.Date.CompareTo(eventEnd.Date);
-
-                            if (comparisonToStart == 0 && comparisonToEnd == 0)
-                                newTimePeriod = new TimePeriod(eventStart, eventEnd);
-                            else if (comparisonToStart == 0)
-                            {
-                                if (eventStart.TimeOfDay.CompareTo(latestTime.TimeOfDay) < 0)
-                                    newTimePeriod = new TimePeriod(eventStart, latestTime);
-                            }
-                            else if (comparisonToEnd == 0)
-                            {
-                                int comparisonToLatest = eventEnd.TimeOfDay.CompareTo(latestTime.TimeOfDay);
-                                int comparisonToEarliest = eventEnd.TimeOfDay.CompareTo(earliestTime.TimeOfDay);
-                                if (comparisonToLatest < 0 && comparisonToEarliest > 0)
-                                    newTimePeriod = new TimePeriod(earliestTime, eventEnd);
-                                else if (comparisonToLatest >= 0)
-                                    newTimePeriod = new TimePeriod(earliestTime, latestTime);
-                            }
-                            else
-                                newTimePeriod = new TimePeriod(earliestTime, latestTime);
-
-                            if (newTimePeriod != null)
-                            {
-                                if (!busySlots[currDay].Contains(newTimePeriod))
-                                    busySlots[currDay].Add(newTimePeriod);
-                            }
-                        }
-                    }
-                }
-            }
-
-            /*For debugging purposes
-            Console.WriteLine("Event busy slots:");
-            for (int i = 0; i < Constants.DAYS_IN_DEF_WEEK; i++) 
-            {
-                Console.WriteLine("Day:" + i);
-                DateTimeHelper.PrintTimePeriods(busySlots[i]);
-            }
-            Console.WriteLine();
-            /*For debugging purposes*/
-
-            return busySlots;
-        }
-
-        private List<TimePeriod>[] GetUniqueClassTimeSlots(List<String> timeSlotIDs)
+        /*Returns the List<TimePeriod>[] (One List<TimePeriod> for each day, index 0 = Monday) 
+          Even though the timeslotIDs are assumed to be unique, some of them may be on the exact same day and time.
+         */
+        private List<TimePeriod>[] GetUniqueClassTimePeriods(List<String> timeSlotIDs)
         {
             String query;
             List<String>[] columns;
@@ -440,11 +364,6 @@ namespace CustomUserControl
                 newSlot = new TimePeriod(startTime, endTime);
                 if (!busySlots[currDay].Contains(newSlot))
                 {
-                    /*
-                    Console.WriteLine("Added for "+day+": "+newSlot.StartTime+"-"+newSlot.EndTime);
-                    Console.WriteLine("The current list");
-                    DateTimeHelper.PrintTimePeriods(busyTimeSlots);
-                    */
                     busySlots[currDay].Add(newSlot);
                 }
             }
@@ -452,7 +371,8 @@ namespace CustomUserControl
             return busySlots;
         }
 
-        private List<TimePeriod>[] GetUniqueDefSlots(List<String> panelistIDs, DateTime startDate, DateTime endDate, String defenseType)
+        /*Returns the List<TimePeriod>[] of defense schedules given the panelists.*/
+        private List<TimePeriod>[] GetUniqueDefenseTimePeriods(List<String> panelistIDs, DateTime startDate, DateTime endDate, String defenseType)
         {
             String query;
             int size = panelistIDs.Count;
@@ -520,6 +440,86 @@ namespace CustomUserControl
             return busySlots;
         }
 
+        /*Returns the Lists<TimePeriod>[] (One List<TimePeriod> for each day, index 0 = Monday)
+         * Even though the timeslotIDs are assumed to be unique, some of them may be on the exact same day and time.
+         */
+        private List<TimePeriod>[] GetUniqueEventTimePeriods(List<String> eventIDs, DateTime startDate, DateTime endDate)
+        {
+            int size = eventIDs.Count;
+            String query;
+            List<String>[] columns;
+
+            List<TimePeriod>[] busySlots = new List<TimePeriod>[Constants.DAYS_IN_DEF_WEEK];
+            InitListTimePeriodArray(busySlots);
+
+            int currDay;
+            TimePeriod newTimePeriod;
+
+            DateTime earliestTime = new DateTime(2013, 1, 1, Constants.START_HOUR, Constants.START_MIN, 0);
+            DateTime latestTime = new DateTime(2013, 1, 1, Constants.LIMIT_HOUR, Constants.LIMIT_MIN, 0);
+           
+            for (int i = 0; i < size; i++)
+            {
+                query = "SELECT eventStart, eventEnd FROM Event WHERE eventID = " + eventIDs.ElementAt(i) + ";";
+                columns = dbHandler.Select(query, 2);
+                DateTime eventStart = Convert.ToDateTime(columns[0].ElementAt(0));
+                DateTime eventEnd = Convert.ToDateTime(columns[1].ElementAt(0));
+
+                if (DateTimeHelper.DatesIntersectInclusive(eventStart, eventEnd, startDate, endDate))
+                {
+                    for (DateTime curr = eventStart; curr.Date.CompareTo(eventEnd.Date) <= 0; curr = curr.AddDays(1))
+                    {
+                        currDay = (int)curr.DayOfWeek - 1;
+
+                        if (DateTimeHelper.IsBetweenInclusive(curr, startDate, endDate) && currDay >= 0) //If not sunday, because sunday is never included.
+                        {
+                            newTimePeriod = null;
+
+                            int comparisonToStart = curr.Date.CompareTo(eventStart.Date);
+                            int comparisonToEnd = curr.Date.CompareTo(eventEnd.Date);
+
+                            if (comparisonToStart == 0 && comparisonToEnd == 0)
+                                newTimePeriod = new TimePeriod(eventStart, eventEnd);
+                            else if (comparisonToStart == 0)
+                            {
+                                if (eventStart.TimeOfDay.CompareTo(latestTime.TimeOfDay) < 0)
+                                    newTimePeriod = new TimePeriod(eventStart, latestTime);
+                            }
+                            else if (comparisonToEnd == 0)
+                            {
+                                int comparisonToLatest = eventEnd.TimeOfDay.CompareTo(latestTime.TimeOfDay);
+                                int comparisonToEarliest = eventEnd.TimeOfDay.CompareTo(earliestTime.TimeOfDay);
+                                if (comparisonToLatest < 0 && comparisonToEarliest > 0)
+                                    newTimePeriod = new TimePeriod(earliestTime, eventEnd);
+                                else if (comparisonToLatest >= 0)
+                                    newTimePeriod = new TimePeriod(earliestTime, latestTime);
+                            }
+                            else
+                                newTimePeriod = new TimePeriod(earliestTime, latestTime);
+
+                            if (newTimePeriod != null)
+                            {
+                                if (!busySlots[currDay].Contains(newTimePeriod))
+                                    busySlots[currDay].Add(newTimePeriod);
+                            }
+                        }
+                    }
+                }
+            }
+
+            /*For debugging purposes
+            Console.WriteLine("Event busy slots:");
+            for (int i = 0; i < Constants.DAYS_IN_DEF_WEEK; i++) 
+            {
+                Console.WriteLine("Day:" + i);
+                DateTimeHelper.PrintTimePeriods(busySlots[i]);
+            }
+            Console.WriteLine();
+            /*For debugging purposes*/
+
+            return busySlots;
+        }
+
         /* Just a support method called by other methods 
        * to initialize the List<TimePeriod> objects in a List<TimePeriod>[].
        */
@@ -529,7 +529,9 @@ namespace CustomUserControl
                 list[i] = new List<TimePeriod>();
         }
 
-        //This method merges two intersecting timeperiods into one timeperiod to represent both.
+        /*This method merges two intersecting timeperiods into one timeperiod to represent both. 
+            It is assumed that the two TimePeriods passed on to it are intersecting.
+        */
         private TimePeriod MergeTimePeriods(TimePeriod tp1, TimePeriod tp2)
         {
             DateTime minStart;
@@ -735,9 +737,9 @@ namespace CustomUserControl
          */
         private DefenseSchedule GetDefSched(DateTime startDate, DateTime endDate, String thesisGroupID, String defenseType)
         {
-            String query = "SELECT defenseDateTime, place FROM defenseSchedule WHERE defenseType = '"+defenseType+"' AND thesisGroupID = " + thesisGroupID + " AND defenseDateTime >='" + startDate.Date + "' AND defenseDateTime <='" + endDate.AddDays(1).Date + "';";
-
-            List<String>[] columns = dbHandler.Select(query, 2);
+            String query = "SELECT defenseDateTime, place, defenseID FROM defenseSchedule WHERE defenseType = '" + defenseType + "' AND thesisGroupID = " + thesisGroupID +" AND defenseDateTime >='" + startDate.Date + "' AND defenseDateTime <='" + endDate.AddDays(1).Date + "';";
+            
+            List<String>[] columns = dbHandler.Select(query, 3);
 
             if (columns[0].Count == 0)//If the query result is an empty set.
                 return null;
@@ -746,6 +748,7 @@ namespace CustomUserControl
             if (defDuration == -1) //If course is neither THSST-1 nor THSST-3. There must be some input error.
                 return null;
 
+            String defenseID = columns[2].ElementAt(0);
             DateTime startTime = Convert.ToDateTime(columns[0].ElementAt(0));
             DateTime endTime = startTime.AddMinutes(defDuration);
             String place = columns[1].ElementAt(0);
@@ -753,7 +756,31 @@ namespace CustomUserControl
             query = "SELECT title from thesisGroup WHERE thesisGroupID = " + thesisGroupID + ";";
             groupTitle = dbHandler.Select(query, 1)[0].ElementAt(0);
 
-            return new DefenseSchedule(startTime, endTime, place, groupTitle);
+            return new DefenseSchedule(defenseID, startTime, endTime, place, groupTitle);
+        }
+
+        public DefenseSchedule GetDefSched(String thesisGroupID, String defenseType) 
+        {
+            String query = "SELECT defenseDateTime, place, defenseID FROM defenseSchedule WHERE defenseType = '" + defenseType + "' AND thesisGroupID = " + thesisGroupID+";";
+
+            List<String>[] columns = dbHandler.Select(query, 3);
+
+            if (columns[0].Count == 0)//If the query result is an empty set.
+                return null;
+
+            int defDuration = GetMinsDuration(thesisGroupID);
+            if (defDuration == -1) //If course is neither THSST-1 nor THSST-3. There must be some input error.
+                return null;
+
+            String defenseID = columns[2].ElementAt(0);
+            DateTime startTime = Convert.ToDateTime(columns[0].ElementAt(0));
+            DateTime endTime = startTime.AddMinutes(defDuration);
+            String place = columns[1].ElementAt(0);
+            String groupTitle;
+            query = "SELECT title from thesisGroup WHERE thesisGroupID = " + thesisGroupID + ";";
+            groupTitle = dbHandler.Select(query, 1)[0].ElementAt(0);
+
+            return new DefenseSchedule(defenseID, startTime, endTime, place, groupTitle);
         }
 
         /* The method returns the section, course and title of a group given its ID. 
@@ -787,7 +814,155 @@ namespace CustomUserControl
 
         /*** Miscellaneous Methods - END ***/
 
+        public String GetErrorWithThisDefenseInfo(String dateTimeString, String course, DayOfWeek dayOfWeek)
+        {
+          
+
+            int month = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[0]);
+            int day = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[1]);
+            int year = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[2]);
+            int hour = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[0]);
+            int minute = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[1]);
+
+            TimeSpan time = new TimeSpan(hour, minute, 0);
+            DateTime dateTime = new DateTime(year, month, day, hour, minute, 0);
+            DateTime savedDateTime = DateTime.Today;
+            TimePeriod timePeriod = new TimePeriod(DateTime.Today, DateTime.Today);
+            TimePeriod currPeriod = new TimePeriod(DateTime.Today, DateTime.Today);
+
+            if (currGroupDefSched!=null)
+            {
+                string query = "select defensedatetime from defenseschedule where defenseid =" + currGroupDefSched.DefenseID;
+                dateTimeString = string.Format("{0:M/d/yyyy H:mm}", dbHandler.Select(query, 1)[0].ElementAt(0));
+
+                month = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[0]);
+                day = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[1]);
+                year = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[2]);
+                hour = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[0]);
+                minute = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[1]);
+                savedDateTime = new DateTime(year, month, day, hour, minute, 0);
+            }
+
+            // CASE 1: Time selected is set before 8:00AM
+            if (time < new TimeSpan(8, 0, 0))
+            {
+                return "Invalid Time: You can only schedule from 8:00AM to 7:00PM for THSST-1 and 8:00AM to 8:00PM for THSST-3";
+   
+            }
+
+            // CASE 2: Time selected is set after 8:00PM (THSST-1) or 7:00PM (THSST-3)
+            if (course.Equals("THSST-1"))
+            {
+                if (currGroupDefSched!=null)
+                    currPeriod = new TimePeriod(savedDateTime, savedDateTime.AddHours(1));
+                timePeriod = new TimePeriod(dateTime, dateTime.AddHours(1));
+                if (time > new TimeSpan(20, 0, 0))
+                {
+                    return "Invalid Time: You can only schedule from 8:00AM to 8:00PM for THSST-1 and 8:00AM to 7:00PM for THSST-3";
+                }
+            }
+            else
+            {
+                if (currGroupDefSched!=null)
+                    currPeriod = new TimePeriod(savedDateTime, savedDateTime.AddHours(2));
+                timePeriod = new TimePeriod(dateTime, dateTime.AddHours(2));
+                if (time > new TimeSpan(19, 0, 0))
+                {
+                    return "Invalid Time: You can only schedule from 8:00AM to 8:00PM for THSST-1 and 8:00AM to 7:00PM for THSST-3";
+                }
+            }
+
+        
+            // Case 4: Date selected is a sunday
+            if (dayOfWeek == DayOfWeek.Sunday)
+            {
+                return "Invalid Date: Defenses can't be scheduled on a sunday.";
+            }
+
+            // Case 5: Selected time doesn't fit the free time of those involved
+                //if(defenseRecordExistsInDatabase)
+                    //schedulingDM.AddToSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1, timePeriod);
 
 
+            bool found = false;
+
+            bool upbool = false;
+            bool downbool = false;
+            bool foundOne = false;
+
+            if (currGroupDefSched!=null)
+            {
+                if (currPeriod.IsBetweenInclusive(currPeriod.StartTime, currPeriod.EndTime, timePeriod.StartTime))
+                    upbool = true;
+
+                if (currPeriod.IsBetweenInclusive(currPeriod.StartTime, currPeriod.EndTime, timePeriod.EndTime))
+                    downbool = true;
+
+                found = upbool && downbool;
+                foundOne = upbool || downbool;
+                //Console.WriteLine("   " + found + " " + foundOne+ "   "+ currPeriod.StartTime+" "+currPeriod.EndTime +"," + timePeriod.StartTime+" "+timePeriod.EndTime);
+            }
+
+            if (!found)
+            {
+                List<TimePeriod>[] list = this.selectedGroupFreeTimes;
+
+                //Console.WriteLine("comparing " + timePeriod.StartTime + " " + timePeriod.EndTime + ".");
+                foreach (TimePeriod freeTime in list[Convert.ToInt16(dayOfWeek) - 1])
+                {
+                    Console.WriteLine("   " + freeTime.StartTime + " " + freeTime.EndTime + ".");
+                    if (timePeriod.isWithin(freeTime))
+                    {
+                        found = true;
+                        break;
+                    }
+
+                    if (foundOne)
+                    {
+                        //Console.WriteLine(upbool + " " + downbool);
+                        if (!upbool)
+                            upbool = timePeriod.IsBetweenInclusive(freeTime.StartTime, freeTime.EndTime, timePeriod.StartTime);
+                        if (!downbool)
+                            downbool = timePeriod.IsBetweenInclusive(freeTime.StartTime, freeTime.EndTime, timePeriod.EndTime);
+                        found = upbool && downbool;
+                        if (found)
+                            break;
+                    }
+                }
+            }
+
+            if (!found)
+                return "Error: Time conflict, please choose another time.";
+
+            return "";
         }
+
+        public void InsertNewDefenseIntoDB(String currGroupID, String dateTime, String venue,  String currDefenseType) 
+        {
+            String query;
+            String currDefenseID;
+     
+            if (currGroupDefSched!=null)
+            {
+                currDefenseID = currGroupDefSched.DefenseID;
+                
+                query = "update defenseschedule set defensedatetime = '" + dateTime + "', place = '" + venue + "' where defenseid = '" + currDefenseID + "' AND defenseType ='" + currDefenseType + "';";
+                dbHandler.Update(query);
+            }
+            else
+            {
+                query = "insert into defenseschedule (defensedatetime,place,thesisgroupid, defenseType) values('" + dateTime + "','" + venue + "','" + currGroupID + "','" + currDefenseType + "');";
+                dbHandler.Insert(query);
+
+                query = "select defenseid from defenseschedule where defensedatetime= '" + dateTime + "' and place='" + venue + "' and thesisgroupid='" + currGroupID + "';";        
+            }
+        }
+
+        public void DeleteSelectedGroupDefense() 
+        {
+            String query = "delete from defenseschedule where defenseid ='" + currGroupDefSched.DefenseID + "';";
+            dbHandler.Delete(query);
+        }
+
+    }
 }
