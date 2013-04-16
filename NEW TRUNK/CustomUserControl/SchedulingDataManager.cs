@@ -821,36 +821,12 @@ namespace CustomUserControl
             return IsNewClassTimePeriodConflictFree(timeSlotIDs, classTimePeriod, dayOfWeek);
         }
 
-        private bool IsNewClassTimePeriodConflictFreeDefenses(String studentID, TimePeriod classTimePeriod, String dayOfWeek) 
+        public bool IsNewClassTimePeriodConflictFreeDefenses(String thesisGroupID, TimePeriod classTimePeriod, String dayOfWeek) 
         {
-            List<TimePeriod>[] defenseTimePeriods;
-            String query;
-            DefenseSchedule defSched;
-            DefenseSchedule redefSched;
-
-            bool conflictWithDefense = false;
-            bool conflictWithRedefense = false;
-            String defDayOfWeek;
-            String redefDayOfWeek;
-
-            defSched = GetDefSched(studentID, Constants.DEFENSE_TYPE);
-            redefSched = GetDefSched(studentID, Constants.REDEFENSE_TYPE);
-
-            if (defSched != null)
-            {
-                defDayOfWeek = ConvertDayOfWeekToString(defSched.StartTime.DayOfWeek);
-                conflictWithDefense = defDayOfWeek.Equals(dayOfWeek) && classTimePeriod.IntersectsExclusive(defSched);
-            }
-            if (redefSched != null)
-            {
-                redefDayOfWeek = ConvertDayOfWeekToString(redefSched.StartTime.DayOfWeek);
-                conflictWithRedefense = redefDayOfWeek.Equals(dayOfWeek) && classTimePeriod.IntersectsExclusive(redefSched);
-            }
-
-            if (conflictWithDefense || conflictWithRedefense)
-                return false;
-
-            return true;
+            List<DefenseSchedule> conflictedDefenses = GetDefenseConflictsWithClassTimePeriod(thesisGroupID, classTimePeriod, dayOfWeek);
+            if (conflictedDefenses.Count == 0)
+                return true;
+            return false;
         }
 
         private bool IsNewClassTimePeriodConflictFree(List<String>timeSlotIDs, TimePeriod classTimePeriod, String dayOfWeek) 
@@ -1017,6 +993,39 @@ namespace CustomUserControl
             dbHandler.Delete(query);
         }
 
+        public List<DefenseSchedule> GetDefenseConflictsWithClassTimePeriod(String thesisGroupID, TimePeriod classTimePeriod, String dayOfWeek) 
+        {
+            List<DefenseSchedule> conflictedDefenses = new List<DefenseSchedule>();
+            DefenseSchedule defSched;
+            DefenseSchedule redefSched;
+
+            bool conflictWithDefense = false;
+            bool conflictWithRedefense = false;
+            String defDayOfWeek;
+            String redefDayOfWeek;
+
+            defSched = GetDefSched(thesisGroupID, Constants.DEFENSE_TYPE);
+            redefSched = GetDefSched(thesisGroupID, Constants.REDEFENSE_TYPE);
+
+            if (defSched != null)
+            {
+                defDayOfWeek = ConvertDayOfWeekToString(defSched.StartTime.DayOfWeek);
+                conflictWithDefense = defDayOfWeek.Equals(dayOfWeek) && classTimePeriod.IntersectsExclusive(defSched);
+            }
+            if (redefSched != null)
+            {
+                redefDayOfWeek = ConvertDayOfWeekToString(redefSched.StartTime.DayOfWeek);
+                conflictWithRedefense = redefDayOfWeek.Equals(dayOfWeek) && classTimePeriod.IntersectsExclusive(redefSched);
+            }
+
+            if (conflictWithDefense)
+                conflictedDefenses.Add(defSched);
+            if (conflictWithRedefense)
+                conflictedDefenses.Add(redefSched);
+
+            return conflictedDefenses;
+        }
+        
         public String ConvertDayOfWeekToString(DayOfWeek dayOfWeek) 
         {
             if (dayOfWeek == DayOfWeek.Monday)
