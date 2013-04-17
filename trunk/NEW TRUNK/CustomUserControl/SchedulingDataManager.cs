@@ -11,12 +11,6 @@ namespace CustomUserControl
         private DBce dbHandler;
         private DefenseSchedule currGroupDefSched;
 
-
-        /*This will be used to draw the rectangles representing the defense schedules of
-         * the currently selected thesis group. 
-         * */
-        private List<DefenseSchedule> clusterDefScheds;
-
         /*Stores the IDs of thesis groups with defenses/re-defense in the defense/re-defense week. 
          * Used for marking the groups in the tree views. 
          */
@@ -26,15 +20,12 @@ namespace CustomUserControl
         private List<TimePeriod>[] selectedGroupFreeTimes;
 
         //Getters
-
         public DefenseSchedule CurrGroupDefSched { get { return currGroupDefSched; } }
-        public List<DefenseSchedule> ClusterDefScheds { get { return clusterDefScheds; } }
         public List<String> ScheduledGroupIDs { get { return scheduledGroupIDs; } }
         public List<TimePeriod>[] SelectedGroupFreeTimes { get { return selectedGroupFreeTimes; } }
 
         public SchedulingDataManager()
         {
-            clusterDefScheds = new List<DefenseSchedule>();
             selectedGroupFreeTimes = new List<TimePeriod>[Constants.DAYS_IN_DEF_WEEK];
             scheduledGroupIDs = new List<String>();
             InitListTimePeriodArray(selectedGroupFreeTimes);
@@ -43,32 +34,6 @@ namespace CustomUserControl
 
         
         /* REFRESH METHODS - START */
-
-        /* This method will be called by the UI to refresh clusterDefSchedules when a cluster is selected.
-         * Note: this was previously named initDefenseSchedules()
-         * */
-        public void RefreshClusterDefSchedules(DateTime startDate, DateTime endDate, String panelistID)
-        {
-            clusterDefScheds.Clear();
-            if (!panelistID.Equals(""))
-            {
-                List<String> groupIDs = new List<String>();
-                String query = "select thesisGroupID from panelassignment where panelistID = '" + panelistID + "';";
-
-                groupIDs = (dbHandler.Select(query, 1))[0];
-
-                int size = groupIDs.Count;
-                DefenseSchedule defSched;
-
-                for (int i = 0; i < size; i++)
-                {
-                    defSched = GetDefSched(startDate, endDate, groupIDs.ElementAt(i), "defense"); //temporary
-                    if (defSched != null)
-                        clusterDefScheds.Add(defSched);
-                }
-            }   
-        }
-
         public void RefreshGroupDefSched(DateTime startDate, DateTime endDate, String thesisGroupID, String defenseType) 
         {
             if (thesisGroupID.Equals(""))
@@ -96,29 +61,21 @@ namespace CustomUserControl
 
             for (int i = 0; i < Constants.DAYS_IN_DEF_WEEK; i++)
             {
-                //Console.WriteLine("Day " + i);
                 List<TimePeriod> mergedPeriods = new List<TimePeriod>();
                 List<TimePeriod> currDay = days[i];
                 int size = currDay.Count;
-                //Console.WriteLine("Before merging: Day" + i);
-                //DateTimeHelper.PrintTimePeriods(currDay);
                 if (size > 0)
                 {
-                    //Console.WriteLine("Going to merge day:" + i);
                     TimePeriod curr = currDay.ElementAt(0);
                     bool isNewSet = false;
                     for (int j = 1; j < size; j++)
                     {
-                        //Console.Write("j: "+j+" ==== ");
-
                         if (curr.IntersectsInclusive(currDay.ElementAt(j)))
                         {
-                            //Console.WriteLine(curr+" intersects with " + currDay.ElementAt(j));
                             curr = MergeTimePeriods(curr, currDay.ElementAt(j));
                         }
                         else
                         {
-                            //Console.WriteLine("here with "+curr);
                             mergedPeriods.Add(curr);
                             curr = currDay.ElementAt(j);
                         }
@@ -128,16 +85,14 @@ namespace CustomUserControl
                     if (!isNewSet)
                         mergedPeriods.Add(curr);
 
-                    //DateTimeHelper.PrintTimePeriods(mergedPeriods);
                 }
 
-                //Console.WriteLine("After merging: Day" + i);
-                //DateTimeHelper.PrintTimePeriods(mergedPeriods);
-
+                
                 DateTime currStart = new DateTime(2013, 1, 1, Constants.START_HOUR, Constants.START_MIN, 0);
                 DateTime currEnd;
                 size = mergedPeriods.Count;
                 List<TimePeriod> currDayFreeSlots = new List<TimePeriod>();
+                
                 for (int j = 0; j < size; j++)
                 {
                     currEnd = mergedPeriods.ElementAt(j).StartTime;
@@ -145,12 +100,11 @@ namespace CustomUserControl
                     //if (currStart != currEnd in terms of time only).
                     if (currStart.TimeOfDay.CompareTo(currEnd.TimeOfDay) != 0)
                         currDayFreeSlots.Add(new TimePeriod(currStart, currEnd));
-
+                       
                     currStart = mergedPeriods.ElementAt(j).EndTime;
                 }
 
                 //The following makes sure the free times end at 9pm.
-
 
                 if (currStart.Hour < Constants.LIMIT_HOUR || currStart.Hour == Constants.LIMIT_HOUR && currStart.Minute < Constants.LIMIT_MIN)
                 {
@@ -494,17 +448,6 @@ namespace CustomUserControl
                     }
                 }
             }
-
-            /*For debugging purposes
-            Console.WriteLine("Event busy slots:");
-            for (int i = 0; i < Constants.DAYS_IN_DEF_WEEK; i++) 
-            {
-                Console.WriteLine("Day:" + i);
-                DateTimeHelper.PrintTimePeriods(busySlots[i]);
-            }
-            Console.WriteLine();
-            /*For debugging purposes*/
-
             return busySlots;
         }
 
@@ -650,7 +593,6 @@ namespace CustomUserControl
             InitListTimePeriodArray(days);
             AddBusyTimePeriods(thesisGroupID, startDate, endDate, days, defenseType);
 
-            //Console.WriteLine(dayIndex+"       DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
             List<TimePeriod> mergedPeriods = new List<TimePeriod>();
             List<TimePeriod> currDay = days[dayIndex];
             int size = currDay.Count;
@@ -660,8 +602,6 @@ namespace CustomUserControl
                 bool isNewSet = false;
                 for (int j = 1; j < size; j++)
                 {
-                    //Console.WriteLine(curr.StartTime +"  "+curr.EndTime + "      AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-
                     if (curr.IntersectsInclusive(currDay.ElementAt(j)))
                         curr = MergeTimePeriods(curr, currDay.ElementAt(j));
                     else
@@ -669,8 +609,6 @@ namespace CustomUserControl
                         mergedPeriods.Add(curr);
                         curr = currDay.ElementAt(j);
                     }
-                    //Console.WriteLine(curr.StartTime + "  " + curr.EndTime + "      JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ");
-
                 }
                 if (!isNewSet)
                     mergedPeriods.Add(curr);
@@ -746,6 +684,114 @@ namespace CustomUserControl
             return new DefenseSchedule(defenseID, startTime, endTime, place, groupTitle);
         }
 
+        public String GetErrorWithThisDefenseInfo(String dateTimeString, String course, DayOfWeek dayOfWeek)
+        {
+            int month = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[0]);
+            int day = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[1]);
+            int year = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[2]);
+            int hour = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[0]);
+            int minute = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[1]);
+
+            TimeSpan time = new TimeSpan(hour, minute, 0);
+            DateTime dateTime = new DateTime(year, month, day, hour, minute, 0);
+            DateTime savedDateTime = DateTime.Today;
+            TimePeriod timePeriod = new TimePeriod(DateTime.Today, DateTime.Today);
+            TimePeriod currPeriod = new TimePeriod(DateTime.Today, DateTime.Today);
+
+            if (currGroupDefSched != null)
+            {
+                string query = "select defensedatetime from defenseschedule where defenseid =" + currGroupDefSched.DefenseID;
+                dateTimeString = dbHandler.Select(query, 1)[0][0];
+                savedDateTime = Convert.ToDateTime(dateTimeString);
+            }
+
+            // CASE 1: Time selected is set before 8:00AM
+            if (time < new TimeSpan(8, 0, 0))
+            {
+                return "Invalid Time: You can only schedule from 8:00AM to 7:00PM for THSST-1 and 8:00AM to 8:00PM for THSST-3";
+            }
+
+            // CASE 2: Time selected is set after 8:00PM (THSST-1) or 7:00PM (THSST-3)
+            if (course.Equals("THSST-1"))
+            {
+                if (currGroupDefSched != null)
+                    currPeriod = new TimePeriod(savedDateTime, savedDateTime.AddHours(1));
+                timePeriod = new TimePeriod(dateTime, dateTime.AddHours(1));
+                if (time > new TimeSpan(20, 0, 0))
+                {
+                    return "Invalid Time: You can only schedule from 8:00AM to 8:00PM for THSST-1 and 8:00AM to 7:00PM for THSST-3";
+                }
+            }
+            else
+            {
+                if (currGroupDefSched != null)
+                    currPeriod = new TimePeriod(savedDateTime, savedDateTime.AddHours(2));
+                timePeriod = new TimePeriod(dateTime, dateTime.AddHours(2));
+                if (time > new TimeSpan(19, 0, 0))
+                {
+                    return "Invalid Time: You can only schedule from 8:00AM to 8:00PM for THSST-1 and 8:00AM to 7:00PM for THSST-3";
+                }
+            }
+
+
+            // Case 4: Date selected is a sunday
+            if (dayOfWeek == DayOfWeek.Sunday)
+            {
+                return "Invalid Date: Defenses can't be scheduled on a sunday.";
+            }
+
+            // Case 5: Selected time doesn't fit the free time of those involved
+            //if(defenseRecordExistsInDatabase)
+            //schedulingDM.AddToSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1, timePeriod);
+
+
+            bool found = false;
+
+            bool upbool = false;
+            bool downbool = false;
+            bool foundOne = false;
+            bool isSameDate = currPeriod.StartTime.Date == timePeriod.StartTime.Date;
+            if (currGroupDefSched != null && isSameDate)
+            {
+                if (currPeriod.IsBetweenInclusive(currPeriod.StartTime, currPeriod.EndTime, timePeriod.StartTime))
+                    upbool = true;
+
+                if (currPeriod.IsBetweenInclusive(currPeriod.StartTime, currPeriod.EndTime, timePeriod.EndTime))
+                    downbool = true;
+
+                found = upbool && downbool;
+                foundOne = upbool || downbool;
+            }
+            if (!found)
+            {
+                List<TimePeriod>[] list = this.selectedGroupFreeTimes;
+                foreach (TimePeriod freeTime in list[GetDayIndex(dayOfWeek)])
+                {
+                    if (timePeriod.IsWithin(freeTime))
+                    {
+                        found = true;
+                        break;
+                    }
+
+                    if (foundOne)
+                    {
+                        if (!upbool)
+                            upbool = timePeriod.IsBetweenInclusive(freeTime.StartTime, freeTime.EndTime, timePeriod.StartTime);
+                        if (!downbool)
+                            downbool = timePeriod.IsBetweenInclusive(freeTime.StartTime, freeTime.EndTime, timePeriod.EndTime);
+                        found = upbool && downbool;
+                        if (found)
+                            break;
+                    }
+                }
+            }
+
+            if (!found)
+                return "Error: Time conflict, please choose another time.";
+
+            return "";
+        }
+        
         /* The method returns the section, course and title of a group given its ID. 
          * The String format is: section+" "+course+": "+title
             */
@@ -858,121 +904,6 @@ namespace CustomUserControl
             return -1;
         }
 
-        public String GetErrorWithThisDefenseInfo(String dateTimeString, String course, DayOfWeek dayOfWeek)
-        {
-            int month = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[0]);
-            int day = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[1]);
-            int year = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[2]);
-            int hour = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[0]);
-            int minute = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[1]);
-
-            TimeSpan time = new TimeSpan(hour, minute, 0);
-            DateTime dateTime = new DateTime(year, month, day, hour, minute, 0);
-            DateTime savedDateTime = DateTime.Today;
-            TimePeriod timePeriod = new TimePeriod(DateTime.Today, DateTime.Today);
-            TimePeriod currPeriod = new TimePeriod(DateTime.Today, DateTime.Today);
-
-            if (currGroupDefSched != null)
-            {
-                string query = "select defensedatetime from defenseschedule where defenseid =" + currGroupDefSched.DefenseID;
-                dateTimeString = dbHandler.Select(query, 1)[0][0];
-                savedDateTime = Convert.ToDateTime(dateTimeString);
-            }
-
-            // CASE 1: Time selected is set before 8:00AM
-            if (time < new TimeSpan(8, 0, 0))
-            {
-                return "Invalid Time: You can only schedule from 8:00AM to 7:00PM for THSST-1 and 8:00AM to 8:00PM for THSST-3";
-            }
-
-            // CASE 2: Time selected is set after 8:00PM (THSST-1) or 7:00PM (THSST-3)
-            if (course.Equals("THSST-1"))
-            {
-                if (currGroupDefSched != null)
-                    currPeriod = new TimePeriod(savedDateTime, savedDateTime.AddHours(1));
-                timePeriod = new TimePeriod(dateTime, dateTime.AddHours(1));
-                if (time > new TimeSpan(20, 0, 0))
-                {
-                    return "Invalid Time: You can only schedule from 8:00AM to 8:00PM for THSST-1 and 8:00AM to 7:00PM for THSST-3";
-                }
-            }
-            else
-            {
-                if (currGroupDefSched != null)
-                    currPeriod = new TimePeriod(savedDateTime, savedDateTime.AddHours(2));
-                timePeriod = new TimePeriod(dateTime, dateTime.AddHours(2));
-                if (time > new TimeSpan(19, 0, 0))
-                {
-                    return "Invalid Time: You can only schedule from 8:00AM to 8:00PM for THSST-1 and 8:00AM to 7:00PM for THSST-3";
-                }
-            }
-
-
-            // Case 4: Date selected is a sunday
-            if (dayOfWeek == DayOfWeek.Sunday)
-            {
-                return "Invalid Date: Defenses can't be scheduled on a sunday.";
-            }
-
-            // Case 5: Selected time doesn't fit the free time of those involved
-            //if(defenseRecordExistsInDatabase)
-            //schedulingDM.AddToSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1, timePeriod);
-
-
-            bool found = false;
-
-            bool upbool = false;
-            bool downbool = false;
-            bool foundOne = false;
-            bool isSameDate = currPeriod.StartTime.Date == timePeriod.StartTime.Date;
-            if (currGroupDefSched != null && isSameDate)
-            {
-                if (currPeriod.IsBetweenInclusive(currPeriod.StartTime, currPeriod.EndTime, timePeriod.StartTime))
-                    upbool = true;
-
-                if (currPeriod.IsBetweenInclusive(currPeriod.StartTime, currPeriod.EndTime, timePeriod.EndTime))
-                    downbool = true;
-
-                found = upbool && downbool;
-                foundOne = upbool || downbool;
-                Console.WriteLine("***********SDMCHECKCHECKCHECK   " + found + " " + foundOne+ "   "+ currPeriod+" vs "+timePeriod);
-            }
-
-            if (!found)
-            {
-                List<TimePeriod>[] list = this.selectedGroupFreeTimes;
-                Console.WriteLine("*********HEREHEREHERE");
-                //Console.WriteLine("comparing " + timePeriod.StartTime + " " + timePeriod.EndTime + ".");
-                foreach (TimePeriod freeTime in list[GetDayIndex(dayOfWeek)])
-                {
-                    //Console.WriteLine("   " + freeTime.StartTime + " " + freeTime.EndTime + ".");
-                    Console.WriteLine("\n" + timePeriod + " Is within " + freeTime + "?" + timePeriod.IsWithin(freeTime));
-                    if (timePeriod.IsWithin(freeTime))
-                    {
-                        found = true;
-                        break;
-                    }
-
-                    if (foundOne)
-                    {
-                        //Console.WriteLine(upbool + " " + downbool);
-                        if (!upbool)
-                            upbool = timePeriod.IsBetweenInclusive(freeTime.StartTime, freeTime.EndTime, timePeriod.StartTime);
-                        if (!downbool)
-                            downbool = timePeriod.IsBetweenInclusive(freeTime.StartTime, freeTime.EndTime, timePeriod.EndTime);
-                        found = upbool && downbool;
-                        if (found)
-                            break;
-                    }
-                }
-            }
-
-            if (!found)
-                return "Error: Time conflict, please choose another time.";
-
-            return "";
-        }
-        
         public bool IsNewClassTimePeriodConflictFreeDefenses(String thesisGroupID, TimePeriod classTimePeriod, String dayOfWeek)
         {
             List<DefenseSchedule> conflictedDefenses = GetDefenseConflictsWithClassTimePeriod(thesisGroupID, classTimePeriod, dayOfWeek);
