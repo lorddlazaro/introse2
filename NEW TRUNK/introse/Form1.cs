@@ -24,10 +24,10 @@ namespace introse
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Console.WriteLine("change tab to :" + tabControl1.TabIndex);
-            //if (tabControl1.TabPages. .TabIndex == 0)
+            if (tabControl1.SelectedIndex == 0)
                 freeTimeViewer.RefreshAll();
-            //else if (tabControl1.TabIndex == 2)
-                scheduleEditor2.RefreshTreeView();
+            else if (tabControl1.SelectedIndex == 2)
+                scheduleEditor2.RefreshAll();
         }
 
         private void freeTimeViewer_Load(object sender, EventArgs e)
