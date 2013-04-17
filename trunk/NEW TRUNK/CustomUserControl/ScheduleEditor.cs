@@ -1035,8 +1035,8 @@ namespace CustomUserControl
                     //get start of conflict
                     Console.WriteLine(defenseOfSelected[0][i]);
                     Console.WriteLine(existingEvents[2][rowIndex]);
-                    if (Convert.ToDateTime(defenseOfSelected[1][i]) > Convert.ToDateTime(existingEvents[2][rowIndex]))
-                        maxStart = Convert.ToDateTime(defenseOfSelected[1][i]);
+                    if (Convert.ToDateTime(defenseOfSelected[0][i]) > Convert.ToDateTime(existingEvents[2][rowIndex]))
+                        maxStart = Convert.ToDateTime(defenseOfSelected[0][i]);
                     else
                         maxStart = Convert.ToDateTime(existingEvents[2][rowIndex]);
 
