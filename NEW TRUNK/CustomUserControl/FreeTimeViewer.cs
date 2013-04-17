@@ -446,9 +446,8 @@ namespace CustomUserControl
         {
             if (defSchedule != null)
             {
+                WidenGroupBox();
                 
-                if (!isGroupBoxWidened)
-                    WidenGroupBox();
 
                 String date = defSchedule.StartTime.Date.ToString();
                 String time = defSchedule.StartTime.TimeOfDay.ToString();
@@ -466,9 +465,7 @@ namespace CustomUserControl
             }
             else
             {
-                
-                if (isGroupBoxWidened)
-                    ShortenGroupBox();
+                ShortenGroupBox();
             }
         }
 
