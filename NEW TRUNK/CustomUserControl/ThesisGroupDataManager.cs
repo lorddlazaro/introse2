@@ -116,59 +116,59 @@ namespace CustomUserControl
             }
         }
 
-        public List<String>[] getGroupPanelists(String thesisGroupID)
+        public List<String>[] GetGroupPanelists(String thesisGroupID)
         {
             String query = "select panelistID from panelassignment where thesisgroupid = " + thesisGroupID + " order by panelistID;";
             return dbHandler.Select(query, 1);
         }
-        public List<String>[] getGroupMembers(String thesisGroupID)
+        public List<String>[] GetGroupMembers(String thesisGroupID)
         {
             String query = "select studentID, firstname, lastname, mi from student where thesisgroupid = " + thesisGroupID + ";";
             return dbHandler.Select(query, 4);
         }
         // returns v containing panelistID, firstname, middleinitial, and lastname of the panelists
-        public List<String>[] getGroupPanelistNames(String thesisGroupID)
+        public List<String>[] GetGroupPanelistNames(String thesisGroupID)
         {
             String query = "select panelistID, firstname, lastname, MI from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid = " + thesisGroupID + ") order by lastname;";
             return dbHandler.Select(query, 4);
         }
         // used in the swapPanelists method
-        public List<String>[] getPanelistsNotInGroup(String thesisGroupID)
+        public List<String>[] GetPanelistsNotInGroup(String thesisGroupID)
         {
             String query = "select firstname, MI, lastname from panelist where panelistid not in (select panelistid from panelassignment where thesisgroupid = " + thesisGroupID + ");";
             return dbHandler.Select(query, 3);
         }
         // used for the treeview
-        public List<String>[] getCourses()
+        public List<String>[] GetCourses()
         {
             String query = "select distinct course from thesisgroup where course IS NOT NULL and course != 'THSST-2';";
             return dbHandler.Select(query, 1);
         }
 
-        public List<String>[] getAllPanelists()
+        public List<String>[] GetAllPanelists()
         {
             String query = "select panelistID from panelist;";
             return dbHandler.Select(query, 1);
         }
-        public List<String>[] getAllStudents()
+        public List<String>[] GetAllStudents()
         {
             String query = "select studentid from student;";
             return dbHandler.Select(query, 1);
         }
 
         // students
-        public List<String>[] getStudentInfo(String studentID)
+        public List<String>[] GetStudentInfo(String studentID)
         {
             String query = "select studentid, firstname, mi, lastname from student where studentid = " + studentID + ";";
             return dbHandler.Select(query, 4);
         }
-        public void insertNewStudent(String thesisGroupID, String studentID, String firstName, String MI, String lastName)
+        public void InsertNewStudent(String thesisGroupID, String studentID, String firstName, String MI, String lastName)
         {
             String query = "insert into student values(" + studentID + ", '" + firstName + "', '" + MI + "', '";
             query += lastName + "', " + thesisGroupID + ");";
             dbHandler.Insert(query);
         }
-        public void deleteStudent(String studentID, String thesisGroupID)
+        public void DeleteStudent(String studentID, String thesisGroupID)
         {
             String query;
 
@@ -178,7 +178,7 @@ namespace CustomUserControl
             query = "delete from student where thesisgroupid = " + thesisGroupID + ";";
             dbHandler.Delete(query);
         }
-        public void updateStudent(String studentID, String firstName, String MI, String lastName)
+        public void UpdateStudent(String studentID, String firstName, String MI, String lastName)
         {
             String query = "update student set firstname = '" + firstName + "', lastname = '" + lastName + "', MI = '" + MI + "' ";
             query += "where studentid = " + studentID + ";";
@@ -187,25 +187,25 @@ namespace CustomUserControl
         }
 
         // panelists
-        public List<String>[] getPanelistInfo(String panelistID)
+        public List<String>[] GetPanelistInfo(String panelistID)
         {
             String query = "select firstname, MI, lastname from panelist where panelistid = '" + panelistID + "';";
             return dbHandler.Select(query, 3);
         }
-        public String getPanelistName(String panelistID)
+        public String GetPanelistName(String panelistID)
         {
             if (panelistID == "")
                 return "";
 
-            List<String>[] panelName = getPanelistInfo(panelistID);
+            List<String>[] panelName = GetPanelistInfo(panelistID);
             return panelName[0].ElementAt(0) + " " + panelName[1].ElementAt(0) + ". " + panelName[2].ElementAt(0);
         }
-        public String getPanelistIDFromName(String firstName, String MI, String lastName)
+        public String GetPanelistIDFromName(String firstName, String MI, String lastName)
         {
             String query = "select panelistid from panelist where firstname = '" + firstName + "' and MI = '" + MI + "' and lastname = '" + lastName + "';";
             return dbHandler.Select(query, 1)[0].ElementAt(0);
         }
-        public String getPanelistIDFromName(String fullName)
+        public String GetPanelistIDFromName(String fullName)
         {
             String[] name = fullName.Split(' ');
 
@@ -232,15 +232,15 @@ namespace CustomUserControl
                     newLastName += " ";
             }
 
-            return getPanelistIDFromName(newFirstName, newMI, newLastName);
+            return GetPanelistIDFromName(newFirstName, newMI, newLastName);
         }
-        public void insertNewPanelist(String panelistID, String firstName, String MI, String lastName)
+        public void InsertNewPanelist(String panelistID, String firstName, String MI, String lastName)
         {
             String query = "insert into panelist values(" + panelistID + ", '" + firstName + "', '" + MI + "', '";
             query += lastName + "');";
             dbHandler.Insert(query);
         }
-        public void insertNewPanelist(String panelistID, String fullName)
+        public void InsertNewPanelist(String panelistID, String fullName)
         {
             String[] name = fullName.Split(' ');
 
@@ -267,62 +267,62 @@ namespace CustomUserControl
                     newLastName += " ";
             }
 
-            insertNewPanelist(panelistID, newFirstName, newMI, newLastName);
+            InsertNewPanelist(panelistID, newFirstName, newMI, newLastName);
         }
-        public void updatePanelist(String panelistID, String firstName, String MI, String lastName)
+        public void UpdatePanelist(String panelistID, String firstName, String MI, String lastName)
         {
             String query = "update panelist set firstname = '" + firstName + "', lastname = '" + lastName + "', MI = '" + MI + "' ";
             query += "where panelistid = " + panelistID + ";";
 
             dbHandler.Update(query);
         }
-        public void assignPanelistToGroup(String thesisGroupID, String panelistID)
+        public void AssignPanelistToGroup(String thesisGroupID, String panelistID)
         {
             String query = "insert into panelassignment values(" + thesisGroupID + ", " + panelistID + ");";
             dbHandler.Insert(query);
         }
-        public void removeAssignedPanelistFromGroup(String thesisGroupID, String panelistID)
+        public void RemoveAssignedPanelistFromGroup(String thesisGroupID, String panelistID)
         {
             String query = "delete from panelassignment where thesisgroupid = " + thesisGroupID + " and panelistid = " + panelistID + ";";
             dbHandler.Delete(query);
         }
 
         // adviseeeer
-        public String getAdviserID(String thesisGroupID)
+        public String GetAdviserID(String thesisGroupID)
         {
             String query = "select advisorid from thesisgroup where thesisgroupid = " + thesisGroupID + ";";
             return dbHandler.Select(query, 1)[0].ElementAt(0);
         }
-        public void updateAdviser(String thesisGroupID, String adviserID)
+        public void UpdateAdviser(String thesisGroupID, String adviserID)
         {
             String update = "update thesisgroup set advisorID = " + adviserID + " where thesisgroupid = " + thesisGroupID + ";";
             dbHandler.Update(update);
         }
-        public void removeAdviser(String thesisGroupID)
+        public void RemoveAdviser(String thesisGroupID)
         {
             String query = "update thesisgroup set advisorID = NULL where thesisgroupid = " + thesisGroupID + ";";
             dbHandler.Update(query);
         }
 
         // how many panelists/students does the thesis group have?
-        public int panelistCount(String thesisGroupID)
+        public int PanelistCount(String thesisGroupID)
         {
             String query = "select count(*) from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid =  " + thesisGroupID + ");";
             return Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
         }
-        public int panelistNotInGroupCount(String thesisGroupID)
+        public int PanelistNotInGroupCount(String thesisGroupID)
         {
             String query = "select count(*) from panelist where panelistid not in (select panelistid from panelassignment where thesisgroupid = " + thesisGroupID + ");";
             return Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
         }
-        public int studentCount(String thesisGroupID)
+        public int StudentCount(String thesisGroupID)
         {
             String query = "select count(*) from student where thesisgroupid = " + thesisGroupID + ";";
             return Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0));
         }
 
         // given a treeview, add groups sorted by section ordered alphabetically
-        public void showGroups(TreeNodeCollection tree)
+        public void ShowGroups(TreeNodeCollection tree)
         {
             String query = "select distinct course from thesisgroup where course IS NOT NULL and course != 'THSST-2';";
             List<String>[] parentList = dbHandler.Select(query, 1);
