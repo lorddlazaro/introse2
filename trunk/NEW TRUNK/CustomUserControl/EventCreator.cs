@@ -79,47 +79,7 @@ namespace CustomUserControl
                 }
 
             }
-            /*
-            //-Conflict with defense check for edit
-            if (isEditMode) 
-            {
-                query = "SELECT defenseID,thesisGroupID, defenseDateTime FROM DefenseSchedule";
-                List<String>[] defenseList = dbHandler.Select(query, 3);
-                List<int> numConflicts = new List<int>();
-                for (int i = 0; i < defenseList[0].Count; i++)
-                {
-                    Console.WriteLine("Conflict Check start---------");
-                    Console.WriteLine(dateTimePickerEventStartTime.Value.ToString());
-                    Console.WriteLine(Convert.ToDateTime(defenseList[2][i]).ToString());
-                    Console.WriteLine(dateTimePickerEventEndTime.Value.ToString());
-                    Console.WriteLine("Conflict Check end  ---------");
-                    if (dateTimePickerEventStartTime.Value < Convert.ToDateTime(defenseList[2][i]) && Convert.ToDateTime(defenseList[2][i]) < dateTimePickerEventEndTime.Value)
-                    {
-                        Console.WriteLine("Conflict!");
-                        numConflicts.Add(i);
-                    }
-                }
-                
-                if (numConflicts.Count > 0)
-                {
-                    DialogResult result;
-                    result = MessageBox.Show("There are " + numConflicts.Count + " conflicting defense schedule/s with this event. " + System.Environment.NewLine + "Do you want to unschedule all conflicting defenses?", "Conflicting with Defense", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                    if (result == System.Windows.Forms.DialogResult.OK)
-                    {
-                        for (int i = 0; i < numConflicts.Count; i++)
-                        {
-                            query = "DELETE FROM DefenseSchedule WHERE defenseID = " + Convert.ToInt32(numConflicts[i]) + "";
-                            dbHandler.Delete(query);
-                            MessageBox.Show("All conflicting defenses removed", "Conflict with Defense", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-
-                    }
-                    else
-                        return;
-                }
-            }
-             * */
-
+            
             //START: Conflict with defense checking
             Console.WriteLine("-----START OF EDIT_EVENT_DEFENSE_CONFLICT_CHECKING------");
             if (isEditMode)
@@ -229,7 +189,7 @@ namespace CustomUserControl
                 Console.WriteLine(query);
                 dbHandler.Insert(query);
             }
-            subParent.refreshAll();
+            subParent.RefreshAll();
             parent.Enabled = true;
             this.Dispose();
         }
