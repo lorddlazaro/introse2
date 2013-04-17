@@ -71,7 +71,9 @@
     <Compile Include="DateTimeHelper.cs" />
     <Compile Include="DBce.cs" />
     <Compile Include="DefenseSchedule.cs" />
-    <Compile Include="DefenseSchedulesViewer.cs" />
+    <Compile Include="DefenseSchedulesViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="DefenseSchedulesViewer.Designer.cs">
       <DependentUpon>DefenseSchedulesViewer.cs</DependentUpon>
     </Compile>
@@ -107,9 +109,11 @@
     </Compile>
     <Compile Include="FreeTimeViewer.cs">
       <SubType>UserControl</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="FreeTimeViewer.Designer.cs">
       <DependentUpon>FreeTimeViewer.cs</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -151,6 +155,7 @@
     <EmbeddedResource Include="FreeTimeViewer.resx">
       <DependentUpon>FreeTimeViewer.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
