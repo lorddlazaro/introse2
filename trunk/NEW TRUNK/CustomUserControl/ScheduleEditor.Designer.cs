@@ -89,9 +89,10 @@
             // labelSelectedPersonTimeslot
             // 
             this.labelSelectedPersonTimeslot.AutoSize = true;
-            this.labelSelectedPersonTimeslot.Location = new System.Drawing.Point(6, 24);
+            this.labelSelectedPersonTimeslot.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSelectedPersonTimeslot.Location = new System.Drawing.Point(6, 19);
             this.labelSelectedPersonTimeslot.Name = "labelSelectedPersonTimeslot";
-            this.labelSelectedPersonTimeslot.Size = new System.Drawing.Size(123, 13);
+            this.labelSelectedPersonTimeslot.Size = new System.Drawing.Size(207, 20);
             this.labelSelectedPersonTimeslot.TabIndex = 23;
             this.labelSelectedPersonTimeslot.Text = "Person\'s Class Schedule";
             // 
@@ -113,9 +114,10 @@
             // labelWeeklyTimeslot
             // 
             this.labelWeeklyTimeslot.AutoSize = true;
-            this.labelWeeklyTimeslot.Location = new System.Drawing.Point(521, 24);
+            this.labelWeeklyTimeslot.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelWeeklyTimeslot.Location = new System.Drawing.Point(520, 19);
             this.labelWeeklyTimeslot.Name = "labelWeeklyTimeslot";
-            this.labelWeeklyTimeslot.Size = new System.Drawing.Size(131, 13);
+            this.labelWeeklyTimeslot.Size = new System.Drawing.Size(219, 20);
             this.labelWeeklyTimeslot.TabIndex = 17;
             this.labelWeeklyTimeslot.Text = "Available Class Schedules";
             // 
@@ -139,6 +141,7 @@
             // 
             // buttonWeeklyTimeslotEdit
             // 
+            this.buttonWeeklyTimeslotEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonWeeklyTimeslotEdit.Location = new System.Drawing.Point(941, 8);
             this.buttonWeeklyTimeslotEdit.Name = "buttonWeeklyTimeslotEdit";
             this.buttonWeeklyTimeslotEdit.Size = new System.Drawing.Size(43, 29);
@@ -150,7 +153,8 @@
             // buttonAddExistingWeeklyTimeslot
             // 
             this.buttonAddExistingWeeklyTimeslot.Enabled = false;
-            this.buttonAddExistingWeeklyTimeslot.Location = new System.Drawing.Point(475, 107);
+            this.buttonAddExistingWeeklyTimeslot.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonAddExistingWeeklyTimeslot.Location = new System.Drawing.Point(475, 122);
             this.buttonAddExistingWeeklyTimeslot.Name = "buttonAddExistingWeeklyTimeslot";
             this.buttonAddExistingWeeklyTimeslot.Size = new System.Drawing.Size(43, 29);
             this.buttonAddExistingWeeklyTimeslot.TabIndex = 16;
@@ -161,7 +165,7 @@
             // buttonDeleteWeeklyTimeslot
             // 
             this.buttonDeleteWeeklyTimeslot.Enabled = false;
-            this.buttonDeleteWeeklyTimeslot.Location = new System.Drawing.Point(475, 164);
+            this.buttonDeleteWeeklyTimeslot.Location = new System.Drawing.Point(475, 195);
             this.buttonDeleteWeeklyTimeslot.Name = "buttonDeleteWeeklyTimeslot";
             this.buttonDeleteWeeklyTimeslot.Size = new System.Drawing.Size(43, 29);
             this.buttonDeleteWeeklyTimeslot.TabIndex = 13;
@@ -171,6 +175,7 @@
             // 
             // buttonAddWeeklyTimeslot
             // 
+            this.buttonAddWeeklyTimeslot.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonAddWeeklyTimeslot.Location = new System.Drawing.Point(892, 8);
             this.buttonAddWeeklyTimeslot.Name = "buttonAddWeeklyTimeslot";
             this.buttonAddWeeklyTimeslot.Size = new System.Drawing.Size(43, 29);
@@ -199,18 +204,20 @@
             // labelAvailableEvents
             // 
             this.labelAvailableEvents.AutoSize = true;
-            this.labelAvailableEvents.Location = new System.Drawing.Point(391, 25);
+            this.labelAvailableEvents.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelAvailableEvents.Location = new System.Drawing.Point(391, 21);
             this.labelAvailableEvents.Name = "labelAvailableEvents";
-            this.labelAvailableEvents.Size = new System.Drawing.Size(86, 13);
+            this.labelAvailableEvents.Size = new System.Drawing.Size(141, 20);
             this.labelAvailableEvents.TabIndex = 26;
             this.labelAvailableEvents.Text = "Available Events";
             // 
             // labelSelectedPersonEvent
             // 
             this.labelSelectedPersonEvent.AutoSize = true;
-            this.labelSelectedPersonEvent.Location = new System.Drawing.Point(3, 25);
+            this.labelSelectedPersonEvent.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSelectedPersonEvent.Location = new System.Drawing.Point(6, 21);
             this.labelSelectedPersonEvent.Name = "labelSelectedPersonEvent";
-            this.labelSelectedPersonEvent.Size = new System.Drawing.Size(83, 13);
+            this.labelSelectedPersonEvent.Size = new System.Drawing.Size(138, 20);
             this.labelSelectedPersonEvent.TabIndex = 25;
             this.labelSelectedPersonEvent.Text = "Person\'s Events";
             // 
@@ -226,12 +233,13 @@
             this.dataGridViewExistingEvent.ReadOnly = true;
             this.dataGridViewExistingEvent.RowHeadersVisible = false;
             this.dataGridViewExistingEvent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewExistingEvent.Size = new System.Drawing.Size(333, 313);
+            this.dataGridViewExistingEvent.Size = new System.Drawing.Size(343, 313);
             this.dataGridViewExistingEvent.TabIndex = 24;
             this.dataGridViewExistingEvent.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewExistingEvent_RowEnter);
             // 
             // buttonEventEdit
             // 
+            this.buttonEventEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonEventEdit.Location = new System.Drawing.Point(684, 9);
             this.buttonEventEdit.Name = "buttonEventEdit";
             this.buttonEventEdit.Size = new System.Drawing.Size(43, 29);
@@ -252,14 +260,14 @@
             this.dataGridViewEvent.ReadOnly = true;
             this.dataGridViewEvent.RowHeadersVisible = false;
             this.dataGridViewEvent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewEvent.Size = new System.Drawing.Size(333, 313);
+            this.dataGridViewEvent.Size = new System.Drawing.Size(343, 313);
             this.dataGridViewEvent.TabIndex = 16;
             this.dataGridViewEvent.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewEvent_RowEnter);
             // 
             // buttonAddExistingEvent
             // 
             this.buttonAddExistingEvent.Enabled = false;
-            this.buttonAddExistingEvent.Location = new System.Drawing.Point(345, 145);
+            this.buttonAddExistingEvent.Location = new System.Drawing.Point(350, 156);
             this.buttonAddExistingEvent.Name = "buttonAddExistingEvent";
             this.buttonAddExistingEvent.Size = new System.Drawing.Size(43, 30);
             this.buttonAddExistingEvent.TabIndex = 20;
@@ -269,6 +277,7 @@
             // 
             // buttonAddEvent
             // 
+            this.buttonAddEvent.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonAddEvent.Location = new System.Drawing.Point(635, 9);
             this.buttonAddEvent.Name = "buttonAddEvent";
             this.buttonAddEvent.Size = new System.Drawing.Size(43, 29);
@@ -280,7 +289,7 @@
             // buttondeleteEvent
             // 
             this.buttondeleteEvent.Enabled = false;
-            this.buttondeleteEvent.Location = new System.Drawing.Point(345, 208);
+            this.buttondeleteEvent.Location = new System.Drawing.Point(350, 215);
             this.buttondeleteEvent.Name = "buttondeleteEvent";
             this.buttondeleteEvent.Size = new System.Drawing.Size(43, 29);
             this.buttondeleteEvent.TabIndex = 18;
