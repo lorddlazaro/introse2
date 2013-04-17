@@ -32,15 +32,12 @@ namespace CustomUserControl
             InitializeComponent();
             initializePanel();
             comboBoxPanelist.SelectedIndex = comboBoxPanelist.FindStringExact(" None. ");
-<<<<<<< .mine
             //dateTimePickerWeeklyTimeslotStartTime.Value = DateTime.MinValue;
             //dateTimePickerWeeklyTimeslotEndTime.Value = DateTime.MinValue;
             Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value);
             Console.WriteLine(dateTimePickerWeeklyTimeslotEndTime.Value);
                 
-=======
             schedulingDM = new SchedulingDataManager();
->>>>>>> .r148
         }
         public void initializeTextBoxes() 
         {
@@ -208,7 +205,6 @@ namespace CustomUserControl
                         }
                     }
                 }
-<<<<<<< .mine
                 query = "SELECT timeslotID FROM Timeslot WHERE courseName = '" + textBoxWeeklyTimeslotCourse.Text + "' AND section ='" + textBoxWeeklyTimeslotSection.Text + "' AND day ='" + day + "'";
                 Console.WriteLine("duplicate check start----"+query);
                 List<String> duplicate = dbHandler.Select(query, 1)[0];
@@ -222,9 +218,7 @@ namespace CustomUserControl
                         return;
                     }
                 }
-=======
 
->>>>>>> .r148
                 if (comboBoxPanelist.Text.Equals(" None. "))
                     panelistID = "NULL";
                 else
