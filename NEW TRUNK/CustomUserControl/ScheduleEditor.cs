@@ -410,6 +410,8 @@ namespace CustomUserControl
             }
             dataGridViewExistingEvent.DataSource = existingEventList;
             dataGridViewExistingEvent.Columns["Id"].Visible = false;
+            dataGridViewExistingEvent.Columns[2].DefaultCellStyle.Format = "yyyy/MM/dd hh:mm tt";
+            dataGridViewExistingEvent.Columns[3].DefaultCellStyle.Format = "yyyy/MM/dd hh:mm tt";
         }
         private void UpdateTimeslot(String ID, String columnName)
         {
@@ -471,8 +473,8 @@ namespace CustomUserControl
             }
 
             dataGridViewWeeklyTimeslot.DataSource = classSchedList;
-            dataGridViewWeeklyTimeslot.Columns[5].DefaultCellStyle.Format = "HH:mm:ss tt";
-            dataGridViewWeeklyTimeslot.Columns[6].DefaultCellStyle.Format = "HH:mm:ss tt";
+            dataGridViewWeeklyTimeslot.Columns[5].DefaultCellStyle.Format = "hh:mm tt";
+            dataGridViewWeeklyTimeslot.Columns[6].DefaultCellStyle.Format = "hh:mm tt";
             dataGridViewWeeklyTimeslot.Columns["Id"].Visible = false;
 
             dataGridViewWeeklyTimeslot.Columns["Course"].Width = 70;
@@ -525,6 +527,10 @@ namespace CustomUserControl
 
             dataGridViewEvent.DataSource = eventList;
             dataGridViewEvent.Columns["Id"].Visible = false;
+
+            dataGridViewEvent.Columns[2].DefaultCellStyle.Format = "yyyy/MM/dd hh:mm tt";
+            dataGridViewEvent.Columns[3].DefaultCellStyle.Format = "yyyy/MM/dd hh:mm tt";
+
             dataGridViewEvent.Refresh();
 
         }
