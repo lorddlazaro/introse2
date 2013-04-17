@@ -832,7 +832,6 @@ namespace CustomUserControl
         private bool IsNewClassTimePeriodConflictFree(List<String>timeSlotIDs, TimePeriod classTimePeriod, String dayOfWeek) 
         { 
             List<TimePeriod>[] classSlots = GetUniqueClassTimePeriods(timeSlotIDs);
-
             int dayIndex = GetDayIndex(dayOfWeek);
             for (int i = 0; i < classSlots[dayIndex].Count; i++) 
             {

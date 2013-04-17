@@ -254,9 +254,8 @@ namespace CustomUserControl
 
                 if(!panelistID.Equals("NULL"))
                 {
-                    query = "SELECT startTime, endTime FROM timeslot WHERE day = '" + day + "' AND timeslot.timeslotID <> " + timeSlotID + " AND panelistID = '" + panelistID + "';";
+                    query = "SELECT startTime, endTime FROM timeslot WHERE day = '" + day + "' AND timeslotID != " + timeSlotID + " AND panelistID = '" + panelistID + "';";
                     timeslotTable = dbHandler.Select(query, 2);
-
                     for (int k = 0; k < timeslotTable[0].Count; k++)
                     {
                         currTimePeriod = new TimePeriod(Convert.ToDateTime(timeslotTable[0][k]), Convert.ToDateTime(timeslotTable[1][k]));
@@ -267,7 +266,6 @@ namespace CustomUserControl
                             break;
                         }
                     }
-                 
 
                     query = "SELECT thesisgroupID from panelAssignment WHERE panelistID = '"+panelistID+"';";
                     thesisGroupID = dbHandler.Select(query, 1)[0][0];
@@ -353,7 +351,7 @@ namespace CustomUserControl
                 
                 String warningMsg = "";
 
-                if (studentNamesWithClassConflict.Count > 0)
+                if (studentNamesWithClassConflict.Count > 0 || !String.IsNullOrEmpty(panelistName))
                 {
                     warningMsg += "The new class time period conflicts with the current class schedule for :";
                     if (!String.IsNullOrEmpty(panelistName))
@@ -367,7 +365,7 @@ namespace CustomUserControl
                     return;
                 }
 
-                if ( conflictedDefSchedIDs.Count > 0)
+                if ( conflictedDefSchedIDs.Count > 0 || !String.IsNullOrEmpty(panelistNameConflictDef))
                 {
                     warningMsg += "Defense Schedule Conflicts with:";
                    
