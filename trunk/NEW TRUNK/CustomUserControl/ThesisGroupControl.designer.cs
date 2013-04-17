@@ -714,9 +714,10 @@
             // selPanelist4
             // 
             this.selPanelist4.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.selPanelist4.Location = new System.Drawing.Point(0, 57);
+            this.selPanelist4.Location = new System.Drawing.Point(0, 59);
+            this.selPanelist4.Margin = new System.Windows.Forms.Padding(1, 3, 1, 3);
             this.selPanelist4.Name = "selPanelist4";
-            this.selPanelist4.Size = new System.Drawing.Size(94, 23);
+            this.selPanelist4.Size = new System.Drawing.Size(96, 23);
             this.selPanelist4.TabIndex = 27;
             this.selPanelist4.Text = "Select Existing:";
             this.selPanelist4.UseVisualStyleBackColor = true;
@@ -856,12 +857,14 @@
             // selPanelist3
             // 
             this.selPanelist3.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.selPanelist3.Location = new System.Drawing.Point(0, 57);
+            this.selPanelist3.Location = new System.Drawing.Point(0, 59);
+            this.selPanelist3.Margin = new System.Windows.Forms.Padding(1, 3, 1, 3);
             this.selPanelist3.Name = "selPanelist3";
-            this.selPanelist3.Size = new System.Drawing.Size(94, 23);
+            this.selPanelist3.Size = new System.Drawing.Size(96, 23);
             this.selPanelist3.TabIndex = 27;
             this.selPanelist3.Text = "Select Existing:";
             this.selPanelist3.UseVisualStyleBackColor = true;
+            this.selPanelist3.Click += new System.EventHandler(this.selPanelist3_Click);
             // 
             // selectPanelist3
             // 
@@ -998,12 +1001,14 @@
             // selPanelist2
             // 
             this.selPanelist2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.selPanelist2.Location = new System.Drawing.Point(0, 57);
+            this.selPanelist2.Location = new System.Drawing.Point(0, 59);
+            this.selPanelist2.Margin = new System.Windows.Forms.Padding(1, 3, 1, 3);
             this.selPanelist2.Name = "selPanelist2";
-            this.selPanelist2.Size = new System.Drawing.Size(94, 23);
+            this.selPanelist2.Size = new System.Drawing.Size(96, 23);
             this.selPanelist2.TabIndex = 27;
             this.selPanelist2.Text = "Select Existing:";
             this.selPanelist2.UseVisualStyleBackColor = true;
+            this.selPanelist2.Click += new System.EventHandler(this.selPanelist2_Click);
             // 
             // selectPanelist2
             // 
@@ -1150,12 +1155,14 @@
             // selPanelist1
             // 
             this.selPanelist1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.selPanelist1.Location = new System.Drawing.Point(0, 57);
+            this.selPanelist1.Location = new System.Drawing.Point(0, 59);
+            this.selPanelist1.Margin = new System.Windows.Forms.Padding(1, 3, 1, 3);
             this.selPanelist1.Name = "selPanelist1";
-            this.selPanelist1.Size = new System.Drawing.Size(94, 23);
+            this.selPanelist1.Size = new System.Drawing.Size(96, 23);
             this.selPanelist1.TabIndex = 27;
             this.selPanelist1.Text = "Select Existing:";
             this.selPanelist1.UseVisualStyleBackColor = true;
+            this.selPanelist1.Click += new System.EventHandler(this.selPanelist1_Click);
             // 
             // selectPanelist1
             // 

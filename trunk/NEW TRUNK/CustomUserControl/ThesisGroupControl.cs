@@ -587,16 +587,16 @@ namespace CustomUserControl
             if (tgDM.HasDefenseSchedule(currThesisGroupID))
             {
                 name += defenseSked;
-
-                DialogResult input = MessageBox.Show(name, "Confirm", MessageBoxButtons.YesNo);
-
-                if (input == DialogResult.Yes)
-                {
-                    tgDM.deleteStudent(studentDetails[studentIndex].ElementAt(0).Text, currThesisGroupID);
-                    tgDM.DeleteDefenseSchedule(currThesisGroupID);
-                }
-
             }
+
+            DialogResult input = MessageBox.Show(name, "Confirm", MessageBoxButtons.YesNo);
+
+            if (input == DialogResult.Yes)
+            {
+                tgDM.deleteStudent(studentDetails[studentIndex].ElementAt(0).Text, currThesisGroupID);
+                tgDM.DeleteDefenseSchedule(currThesisGroupID);
+            }
+
             UpdateComponents();
         }
         private void changeStudentSort(object sender, EventArgs e)
@@ -733,9 +733,15 @@ namespace CustomUserControl
 
             result = tgDM.getPanelistInfo(panelistID);
 
-            String name = result[0].ElementAt(0) + " " + result[1].ElementAt(0) + ". " + result[2].ElementAt(0);
+            String name = "Are you sure you want to remove panelist " + result[0].ElementAt(0) + " " + result[1].ElementAt(0) + ". " + result[2].ElementAt(0) + "?";
+            String defenseSked = "\nThe defense schedule assigned to this group will be deleted as well.";
 
-            DialogResult input = MessageBox.Show("Are you sure you want to remove panelist " + name + "?", "Confirm", MessageBoxButtons.YesNo);
+            if (tgDM.HasDefenseSchedule(currThesisGroupID))
+            {
+                name += defenseSked;
+            }
+
+            DialogResult input = MessageBox.Show(name, "Confirm", MessageBoxButtons.YesNo);
 
             if (input == DialogResult.Yes)
             {
@@ -979,6 +985,21 @@ namespace CustomUserControl
                 currThesisGroupID = e.Node.Name;
                 UpdateComponents();
             }
+        }
+
+        private void selPanelist1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void selPanelist2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void selPanelist3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
