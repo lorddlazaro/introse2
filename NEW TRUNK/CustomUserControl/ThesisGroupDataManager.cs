@@ -324,7 +324,7 @@ namespace CustomUserControl
         // given a treeview, add groups sorted by section ordered alphabetically
         public void ShowGroups(TreeNodeCollection tree)
         {
-            String query = "select distinct course from thesisgroup where course IS NOT NULL and course != 'THSST-2';";
+            String query = "select distinct course from thesisgroup where course IS NOT NULL;";
             List<String>[] parentList = dbHandler.Select(query, 1);
             //List<String>[] parentInfo;
             List<String>[] childList;
