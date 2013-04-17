@@ -46,7 +46,6 @@
             this.treeViewClusters = new System.Windows.Forms.TreeView();
             this.comboBoxView = new System.Windows.Forms.ComboBox();
             this.datePicker = new System.Windows.Forms.DateTimePicker();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.labelDate1 = new System.Windows.Forms.Label();
             this.labelDate2 = new System.Windows.Forms.Label();
             this.labelDate3 = new System.Windows.Forms.Label();
@@ -70,7 +69,6 @@
             this.titleTextBox = new System.Windows.Forms.TextBox();
             this.comboBoxDefenseType = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
-            this.labelPanelists = new System.Windows.Forms.Label();
             this.defenseInfoGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -260,14 +258,6 @@
             this.datePicker.TabIndex = 16;
             this.datePicker.ValueChanged += new System.EventHandler(this.datePicker_ValueChanged);
             // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(701, 592);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(254, 23);
-            this.progressBar1.TabIndex = 17;
-            this.progressBar1.Visible = false;
-            // 
             // labelDate1
             // 
             this.labelDate1.AutoSize = true;
@@ -347,7 +337,7 @@
             // 
             this.labelGroupInfo.AutoSize = true;
             this.labelGroupInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelGroupInfo.Location = new System.Drawing.Point(80, 600);
+            this.labelGroupInfo.Location = new System.Drawing.Point(80, 595);
             this.labelGroupInfo.Name = "labelGroupInfo";
             this.labelGroupInfo.Size = new System.Drawing.Size(0, 20);
             this.labelGroupInfo.TabIndex = 24;
@@ -510,21 +500,11 @@
             this.label16.TabIndex = 28;
             this.label16.Text = "Defense Type:";
             // 
-            // labelPanelists
-            // 
-            this.labelPanelists.AutoSize = true;
-            this.labelPanelists.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPanelists.Location = new System.Drawing.Point(80, 620);
-            this.labelPanelists.Name = "labelPanelists";
-            this.labelPanelists.Size = new System.Drawing.Size(0, 20);
-            this.labelPanelists.TabIndex = 29;
-            // 
             // FreeTimeViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.Controls.Add(this.labelPanelists);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.comboBoxDefenseType);
             this.Controls.Add(this.defenseInfoGroupBox);
@@ -536,7 +516,6 @@
             this.Controls.Add(this.labelDate3);
             this.Controls.Add(this.labelDate2);
             this.Controls.Add(this.labelDate1);
-            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.datePicker);
             this.Controls.Add(this.comboBoxView);
             this.Controls.Add(this.label14);
@@ -585,7 +564,6 @@
         private System.Windows.Forms.TreeView treeViewClusters;
         private System.Windows.Forms.ComboBox comboBoxView;
         private System.Windows.Forms.DateTimePicker datePicker;
-        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label labelDate1;
         private System.Windows.Forms.Label labelDate2;
         private System.Windows.Forms.Label labelDate3;
@@ -609,6 +587,5 @@
         private System.Windows.Forms.Button addDefenseButton;
         private System.Windows.Forms.ComboBox comboBoxDefenseType;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label labelPanelists;
     }
 }

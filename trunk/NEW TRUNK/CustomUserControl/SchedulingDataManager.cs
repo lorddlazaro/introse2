@@ -924,8 +924,8 @@ namespace CustomUserControl
             bool upbool = false;
             bool downbool = false;
             bool foundOne = false;
-
-            if (currGroupDefSched != null)
+            bool isSameDate = currPeriod.StartTime.Date == timePeriod.StartTime.Date;
+            if (currGroupDefSched != null && isSameDate)
             {
                 if (currPeriod.IsBetweenInclusive(currPeriod.StartTime, currPeriod.EndTime, timePeriod.StartTime))
                     upbool = true;
@@ -935,18 +935,18 @@ namespace CustomUserControl
 
                 found = upbool && downbool;
                 foundOne = upbool || downbool;
-                Console.WriteLine("***********SDMCHECKCHECKCHECK   " + found + " " + foundOne+ "   "+ currPeriod.StartTime+" "+currPeriod.EndTime +"," + timePeriod.StartTime+" "+timePeriod.EndTime);
+                Console.WriteLine("***********SDMCHECKCHECKCHECK   " + found + " " + foundOne+ "   "+ currPeriod+" vs "+timePeriod);
             }
 
             if (!found)
             {
                 List<TimePeriod>[] list = this.selectedGroupFreeTimes;
-
+                Console.WriteLine("*********HEREHEREHERE");
                 //Console.WriteLine("comparing " + timePeriod.StartTime + " " + timePeriod.EndTime + ".");
                 foreach (TimePeriod freeTime in list[GetDayIndex(dayOfWeek)])
                 {
-                    Console.WriteLine("   " + freeTime.StartTime + " " + freeTime.EndTime + ".");
-                    Console.WriteLine("*********HEREHEREHERE\n" + timePeriod + " Is within " + freeTime + "?" + timePeriod.IsWithin(freeTime));
+                    //Console.WriteLine("   " + freeTime.StartTime + " " + freeTime.EndTime + ".");
+                    Console.WriteLine("\n" + timePeriod + " Is within " + freeTime + "?" + timePeriod.IsWithin(freeTime));
                     if (timePeriod.IsWithin(freeTime))
                     {
                         found = true;
