@@ -231,6 +231,7 @@ namespace CustomUserControl
 
             if (IsDefenseInfoValid() && MessageBox.Show(messageBoxText, messageBoxCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) 
             {
+                Refresh();
                 schedulingDM.InsertNewDefenseIntoDB(currGroupID, dateTime, venueTextBox.Text, currDefenseType);
                 
                 //Refresh Part
@@ -333,7 +334,6 @@ namespace CustomUserControl
             }
             else
                 isCheckingInProgram = false;
-            
         }
 
         private void treeViewIsolatedGroups_BeforeCheck(object sender, TreeViewCancelEventArgs e)
@@ -475,150 +475,6 @@ namespace CustomUserControl
             /*New Implementation*/
 
 
-            /*Old Implementation
-            // note:    this is so that tbe cursor and focus will be moved away from the editable components
-            //          reason being that without these or some other workaround, data changed in the 
-            //          currently focused components will not be included in the checking. 
-            //          Basically it's to resolve the bug that the software does not recognize the most recent
-            //          input value if the focus is still on the component.
-            titleTextBox.Focus();
-            courseSectionTextBox.Focus();
-
-            // preprocessing current time selected
-            string dateTimeString = string.Format("{0:M/d/yyyy H:mm}", defenseDateTimePicker.Value);
-
-            int month = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[0]);
-            int day = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[1]);
-            int year = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[2]);
-            int hour = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[0]);
-            int minute = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[1]);
-
-            TimeSpan time = new TimeSpan(hour, minute, 0);
-            DateTime dateTime = new DateTime(year, month, day, hour, minute, 0);
-            DateTime savedDateTime = DateTime.Today;
-            TimePeriod timePeriod = new TimePeriod(DateTime.Today, DateTime.Today);
-            TimePeriod currPeriod = new TimePeriod(DateTime.Today, DateTime.Today);
-
-            if (defenseRecordExistsInDatabase)
-            {
-                string query = "select defensedatetime from defenseschedule where defenseid =" + currDefenseID;
-                dateTimeString = string.Format("{0:M/d/yyyy H:mm}", dbHandler.Select(query, 1)[0].ElementAt(0));
-
-                month = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[0]);
-                day = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[1]);
-                year = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[2]);
-                hour = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[0]);
-                minute = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[1]);
-                savedDateTime = new DateTime(year, month, day, hour, minute, 0);
-            }
-
-            // CASE 1: Time selected is set before 8:00AM
-            if (time < new TimeSpan(8, 0, 0))
-            {
-                MessageBox.Show("Invalid Time: You can only schedule from 8:00AM to 7:00PM for THSST-1 and 8:00AM to 8:00PM for THSST-3", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            // CASE 2: Time selected is set after 8:00PM (THSST-1) or 7:00PM (THSST-3)
-            if (courseSectionTextBox.Text.Split(' ')[1].Equals("THSST-1"))
-            {
-                if (defenseRecordExistsInDatabase)
-                    currPeriod = new TimePeriod(savedDateTime, savedDateTime.AddHours(1));
-                timePeriod = new TimePeriod(dateTime, dateTime.AddHours(1));
-                if (time > new TimeSpan(20, 0, 0))
-                {
-                    MessageBox.Show("Invalid Time: You can only schedule from 8:00AM to 8:00PM for THSST-1 and 8:00AM to 7:00PM for THSST-3", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-            }
-            else
-            {
-                if (defenseRecordExistsInDatabase)
-                    currPeriod = new TimePeriod(savedDateTime, savedDateTime.AddHours(2));
-                timePeriod = new TimePeriod(dateTime, dateTime.AddHours(2));
-                if (time > new TimeSpan(19, 0, 0))
-                {
-                    MessageBox.Show("Invalid Time: You can only schedule from 8:00AM to 8:00PM for THSST-1 and 8:00AM to 7:00PM for THSST-3", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-            }
-
-          
-            // Case 4: Date selected is a sunday
-            if (defenseDateTimePicker.Value.DayOfWeek == DayOfWeek.Sunday)
-            {
-                MessageBox.Show("Invalid Date: Defenses can't be scheduled on a sunday.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            // Case 5: Selected time doesn't fit the free time of those involved
-            //if(defenseRecordExistsInDatabase)
-                //schedulingDM.AddToSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1, timePeriod);
-
-
-            bool found = false;
-
-            bool upbool = false;
-            bool downbool = false;
-            bool foundOne = false;
-
-            if (defenseRecordExistsInDatabase)
-            {
-                if (currPeriod.IsBetweenInclusive(currPeriod.StartTime, currPeriod.EndTime, timePeriod.StartTime))
-                    upbool = true;
-
-                if (currPeriod.IsBetweenInclusive(currPeriod.StartTime, currPeriod.EndTime, timePeriod.EndTime))
-                    downbool = true;
-
-                found = upbool && downbool;
-                foundOne = upbool || downbool;
-                //Console.WriteLine("   " + found + " " + foundOne+ "   "+ currPeriod.StartTime+" "+currPeriod.EndTime +"," + timePeriod.StartTime+" "+timePeriod.EndTime);
-            }
-
-            if (!found)
-            {
-                List<TimePeriod>[] list = schedulingDM.SelectedGroupFreeTimes;
-
-                //Console.WriteLine("comparing " + timePeriod.StartTime + " " + timePeriod.EndTime + ".");
-                foreach (TimePeriod freeTime in list[Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1])
-                {
-                    Console.WriteLine("   " + freeTime.StartTime + " " + freeTime.EndTime + ".");
-                    if (timePeriod.isWithin(freeTime))
-                    {
-                        found = true;
-                        break;
-                    }
-
-                    if (foundOne)
-                    {
-                        //Console.WriteLine(upbool + " " + downbool);
-                        if (!upbool)
-                            upbool = timePeriod.IsBetweenInclusive(freeTime.StartTime, freeTime.EndTime, timePeriod.StartTime);
-                        if (!downbool)
-                            downbool = timePeriod.IsBetweenInclusive(freeTime.StartTime, freeTime.EndTime, timePeriod.EndTime);
-                        found = upbool && downbool;
-                        if (found)
-                            break;
-                    }
-                }
-            }
-
-
-            if (!found)
-            {
-                MessageBox.Show("Error: Time conflict, please choose another time.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            // Case 6: No venue specified (Could be accepted)
-            if (venueTextBox.Text.Length == 0)
-                if (MessageBox.Show("Warning: No venue specified, is this alright?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-                    return true;
-
-            // Valid input
-            return true;
-
-            /*Old Implementation*/
         }
         
         /****** END:   GUI Methods For Changing Defense Addition/Editing Forms *******/
