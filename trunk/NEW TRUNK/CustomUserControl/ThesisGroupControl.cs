@@ -513,7 +513,11 @@ namespace CustomUserControl
                 return;
             }
 
-            if (newMI[0] > 'a' && newMI[0] < 'z')
+            //lolcode
+            if (String.IsNullOrEmpty(newMI))
+            {
+            }
+            else if (newMI[0] > 'a' && newMI[0] < 'z')
             {
                 newMI = newMI.ToUpper();
             }
@@ -652,9 +656,6 @@ namespace CustomUserControl
             String newLastName = panelistDetails[panelIndex].ElementAt(2).Text;
             String newMI = panelistDetails[panelIndex].ElementAt(3).Text;
 
-            List<String>[] result = tgDM.GetGroupPanelists(currThesisGroupID);
-            List<String>[] result2 = tgDM.GetAllPanelists();
-
             if (String.IsNullOrEmpty(newID) || String.IsNullOrEmpty(newFirstName) || String.IsNullOrEmpty(newLastName))
             {
                 MessageBox.Show("Please fill incomplete fields.", "Error", MessageBoxButtons.OK);
@@ -676,6 +677,9 @@ namespace CustomUserControl
                 MessageBox.Show("Invalid ID Number, ID must be a sequence of 8 numbers.", "Error", MessageBoxButtons.OK);
                 return;
             }
+
+            List<String>[] result = tgDM.GetGroupPanelists(currThesisGroupID);
+            List<String>[] result2 = tgDM.GetAllPanelists();
 
             if (result[0].Count <= panelIndex)
             {
@@ -716,6 +720,15 @@ namespace CustomUserControl
                     {
                         MessageBox.Show("Panelist Already Assigned to Thesis Group", "Error", MessageBoxButtons.OK);
                         UpdateComponents();
+                        return;
+                    }
+                }
+
+                for (int i = 0; i < result2[0].Count; i++)
+                {
+                    if (result2[0].ElementAt(i).Equals(newID))
+                    {
+                        MessageBox.Show("Panelist Already Exists, use select existing", "Error", MessageBoxButtons.OK);
                         return;
                     }
                 }
