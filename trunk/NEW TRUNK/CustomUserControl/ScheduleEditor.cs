@@ -50,6 +50,7 @@ namespace CustomUserControl
         }
         private void studentTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            studentTreeView.SelectedNode = e.Node;
             if (e.Node.Level == 0)
             {
                 //e.Node.Expand();
@@ -81,10 +82,14 @@ namespace CustomUserControl
                 dataGridViewExistingTimeslot.Rows[0].Selected = true;
             labelSelectedPersonEvent.Text = "";
             labelSelectedPersonTimeslot.Text = "";
+            update_events();
+            update_courses();
+
         }
 
         private void panelistTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            panelistTreeView.SelectedNode = e.Node;
             if (e.Node.Level == 0)
             {
                 ClearEverything();
@@ -132,15 +137,18 @@ namespace CustomUserControl
 
         private void treeViewStudents_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            treeViewStudents.SelectedNode = e.Node;
             SwitchToStudentMode(e.Node);
         }
 
         private void treeViewPanelists_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            treeViewPanelists.SelectedNode = e.Node;
             SwitchToPanelistMode(e.Node);
         }
-        private void treeViewUngroupedPanelists_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void treeViewUngroupedPanelists_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)    
         {
+            treeViewUngroupedPanelists.SelectedNode = e.Node;
             SwitchToPanelistMode(e.Node);
         }
 
@@ -362,7 +370,7 @@ namespace CustomUserControl
             }
 
             update_courses();
-            if (dataGridViewWeeklyTimeslot.DataSource == null || dataGridViewWeeklyTimeslot.SelectedRows.Count == 0)
+            if (dataGridViewWeeklyTimeslot.Rows.Count > 0 && (dataGridViewWeeklyTimeslot.DataSource == null || dataGridViewWeeklyTimeslot.SelectedRows.Count == 0))
             {
                 dataGridViewWeeklyTimeslot.Rows[0].Selected = true;
                 dataGridViewExistingTimeslot.ClearSelection();
@@ -540,7 +548,7 @@ namespace CustomUserControl
 
             update_events();
 
-            if (dataGridViewEvent.DataSource == null || dataGridViewEvent.SelectedRows.Count == 0)
+            if (dataGridViewEvent.Rows.Count > 0 && (dataGridViewEvent.DataSource == null || dataGridViewEvent.SelectedRows.Count == 0))
             {
                 dataGridViewEvent.Rows[0].Selected = true;
                 dataGridViewExistingEvent.ClearSelection();
@@ -654,7 +662,7 @@ namespace CustomUserControl
             else
             {
                 Console.WriteLine(currPanelist);
-                query = "SELECT DISTINCT eventID, name,eventStart,eventEnd FROM Event WHERE eventID NOT IN ( SELECT eventID FROM StudentEventRecord WHERE studentID = '"+currPanelist+"');";
+                query = "SELECT DISTINCT eventID, name,eventStart,eventEnd FROM Event WHERE eventID NOT IN ( SELECT eventID FROM PanelistEventRecord WHERE panelistID = '"+currPanelist+"');";
                 Console.WriteLine(query);
             }
             
@@ -1040,12 +1048,12 @@ namespace CustomUserControl
             }
             String query = "DELETE FROM panelist WHERE panelistID = '" + currPanelist + "';";
             dbHandler.Delete(query);
+            query = "DELETE FROM panelAssignment WHERE panelistID = '" + currPanelist + "';";
+            dbHandler.Delete(query);
+            query = "UPDATE timeslot SET panelist = NULL WHERE panelistID = '" + currPanelist + "';";
             currPanelist = "";
             ClearEverything();
             UpdateUngroupedPanelistTreeView(treeViewUngroupedPanelists.Nodes);
         }
-
-        
-
     }
 }

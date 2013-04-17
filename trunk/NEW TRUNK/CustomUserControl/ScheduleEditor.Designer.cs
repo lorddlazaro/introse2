@@ -351,11 +351,11 @@
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.groupBoxWeeklyTimeslot);
             this.Controls.Add(this.groupBoxEvent);
-            this.Controls.Add(this.panelistTreeView);
             this.Controls.Add(this.studentTreeView);
             this.Controls.Add(this.treeViewUngroupedPanelists);
             this.Controls.Add(this.treeViewPanelists);
             this.Controls.Add(this.treeViewStudents);
+            this.Controls.Add(this.panelistTreeView);
             this.Name = "ScheduleEditor";
             this.Size = new System.Drawing.Size(1000, 679);
             this.groupBoxWeeklyTimeslot.ResumeLayout(false);
