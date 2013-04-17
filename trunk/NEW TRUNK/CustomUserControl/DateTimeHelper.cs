@@ -7,23 +7,16 @@ namespace CustomUserControl
 {
     public class DateTimeHelper
     {
-
-   
-
         public static bool DatesIntersectInclusive(DateTime sDate1, DateTime eDate1, DateTime sDate2, DateTime eDate2) 
         {
             if (sDate1.Date.CompareTo(sDate2.Date) == 0 && eDate1.Date.CompareTo(eDate2.Date) == 0)
                 return true;
 
-            //Console.WriteLine(sDate1.Date.CompareTo(sDate2.Date)+" "+eDate1.Date.CompareTo(eDate2.Date));
             if (IsBetweenInclusive(sDate1, sDate2, eDate2) || IsBetweenInclusive(eDate1, sDate2, eDate2))
                 return true;
 
-            //Console.WriteLine(IsBetweenInclusive(sDate1, sDate2, eDate2)+" "+IsBetweenInclusive(eDate1, sDate2, eDate2));
             if (IsBetweenInclusive(sDate2, sDate1, eDate1) || IsBetweenInclusive(eDate2, sDate1, eDate1))
                 return true;
-
-            //Console.WriteLine(IsBetweenInclusive(sDate2, sDate1, eDate1)+" "+ IsBetweenInclusive(eDate2, sDate1, eDate1));
 
             return false;
         }
@@ -59,20 +52,9 @@ namespace CustomUserControl
             return -1;
         }
 
-
         public static int SubtractTime(DateTime dt1, DateTime dt2) 
         {
             return 0;
         }
-
-        //Just for debugging purposes
-        public static void PrintTimePeriods(List<TimePeriod> list)
-        {
-            for (int i = 0; i < list.Count; i++)
-            {
-                Console.WriteLine(list.ElementAt(i).StartTime + "-" + list.ElementAt(i).EndTime);
-            }
-        }
-
     }
 }

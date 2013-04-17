@@ -28,7 +28,6 @@ namespace CustomUserControl{
             }
             catch (SqlCeException ex){
                 MessageBox.Show("Cannot connect to local database.");
-                System.Console.WriteLine(ex.ToString());
                 return false;
             }
         }
@@ -39,7 +38,6 @@ namespace CustomUserControl{
             }
             catch (SqlCeException ex){
                 MessageBox.Show("Database cannot be closed properly.");
-                System.Console.WriteLine(ex.ToString());
                 return false;
             }
         }

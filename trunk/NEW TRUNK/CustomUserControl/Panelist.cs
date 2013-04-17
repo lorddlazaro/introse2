@@ -7,7 +7,6 @@ namespace CustomUserControl
 {
     class Panelist
     {
-        
         private int panelistID;
         private String firstName;
         private String mI;

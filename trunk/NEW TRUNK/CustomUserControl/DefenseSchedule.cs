@@ -31,12 +31,10 @@ namespace CustomUserControl
         public DefenseSchedule(DateTime startTime, DateTime endTime, DateTime defenseDateTime, String defenseID, String thesisGroupID, String course)
             : base(startTime, endTime)
         {
-
             this.defenseDateTime = defenseDateTime; 
             this.defenseID = defenseID;
             this.thesisGroupID = thesisGroupID;
             this.course = course;
-
         }
 
         public override String ToString()

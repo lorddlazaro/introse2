@@ -52,8 +52,6 @@ namespace CustomUserControl
                 query = "select t.thesisgroupid, t.course, t.title, d.defensedatetime, d.place from defenseschedule d, thesisgroup t where d.thesisgroupid = t.thesisgroupid";
                 query += " and datepart(yyyy,d.defensedatetime) =" + i.Year + " and datepart(mm,d.defensedatetime) =" + i.Month + " and datepart(dd,d.defensedatetime) =" + i.Day + orderpart;
                 
-                
-
                 list = dbHandler.Select(query, 5);
 
                 for (int j = 0; j < list[0].Count(); j++, rowIndex++)
@@ -106,7 +104,6 @@ namespace CustomUserControl
             if (dataGridViewDefSchedInfo.Rows.Count == 0)
             {
                 labelNoSchedulesFound.Visible = true;
-                //MessageBox.Show("There are no defense schedules within the selected range", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 buttonSave.Enabled = false;
             }
             else
@@ -292,6 +289,5 @@ namespace CustomUserControl
                 sw.Close();
             }
         }
-        
     }
 }
