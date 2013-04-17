@@ -150,14 +150,14 @@ namespace CustomUserControl
             if (j == 0) 
             {
                 labelWarning.Text = "Select at least "+System.Environment.NewLine+"one checkbox.";
-                listViewWeeklyTimeslotDay.BackColor = Color.LightPink;
+                //listViewWeeklyTimeslotDay.BackColor = Color.LightPink;
                 //MessageBox.Show("select at least one checkbox", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (dateTimePickerWeeklyTimeslotStartTime.Value.TimeOfDay >= dateTimePickerWeeklyTimeslotEndTime.Value.TimeOfDay)
             {
                 labelWarning.Text = "Start time should come" + System.Environment.NewLine + "first before endtime.";
-                dateTimePickerWeeklyTimeslotStartTime.CalendarTitleForeColor = Color.LightPink;
+                //dateTimePickerWeeklyTimeslotStartTime.CalendarTitleForeColor = Color.LightPink;
                 Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.CompareTo(dateTimePickerWeeklyTimeslotEndTime.Value));
                 //MessageBox.Show("Time is invalid", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
