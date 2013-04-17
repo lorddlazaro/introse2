@@ -142,9 +142,9 @@
             this.labelWeeklyTimeslot.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelWeeklyTimeslot.Location = new System.Drawing.Point(524, 14);
             this.labelWeeklyTimeslot.Name = "labelWeeklyTimeslot";
-            this.labelWeeklyTimeslot.Size = new System.Drawing.Size(226, 26);
+            this.labelWeeklyTimeslot.Size = new System.Drawing.Size(154, 26);
             this.labelWeeklyTimeslot.TabIndex = 17;
-            this.labelWeeklyTimeslot.Text = "Available Class Schedules";
+            this.labelWeeklyTimeslot.Text = "Available Classes";
             // 
             // dataGridViewWeeklyTimeslot
             // 
