@@ -32,7 +32,15 @@ namespace CustomUserControl
             InitializeComponent();
             initializePanel();
             comboBoxPanelist.SelectedIndex = comboBoxPanelist.FindStringExact(" None. ");
+<<<<<<< .mine
+            //dateTimePickerWeeklyTimeslotStartTime.Value = DateTime.MinValue;
+            //dateTimePickerWeeklyTimeslotEndTime.Value = DateTime.MinValue;
+            Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value);
+            Console.WriteLine(dateTimePickerWeeklyTimeslotEndTime.Value);
+                
+=======
             schedulingDM = new SchedulingDataManager();
+>>>>>>> .r148
         }
         public void initializeTextBoxes() 
         {
@@ -116,14 +124,22 @@ namespace CustomUserControl
 
         private void buttonSaveTimeslot_Click(object r, EventArgs e)
         {
+            labelWarning.Text = "";
+            textBoxWeeklyTimeslotCourse.BackColor = Color.White;
+            textBoxWeeklyTimeslotSection.BackColor = Color.White;
+            listViewWeeklyTimeslotDay.BackColor = Color.White;
             if (textBoxWeeklyTimeslotCourse.Text.Length > 7 || textBoxWeeklyTimeslotCourse.Text == "") 
             {
-                MessageBox.Show("Course should be less than 7 characters and shouldn't be null", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                labelWarning.Text = "Course should be 7 characters.";
+                textBoxWeeklyTimeslotCourse.BackColor = Color.LightPink;
+                //MessageBox.Show("Course should be less than 7 characters and shouldn't be null", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (textBoxWeeklyTimeslotSection.Text.Length > 3 || textBoxWeeklyTimeslotSection.Text =="") 
             {
-                MessageBox.Show("section should be less than 3 characters and shouldn't be null", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                labelWarning.Text = "Section should be 3 characters.";
+                textBoxWeeklyTimeslotSection.BackColor = Color.LightPink;
+                //MessageBox.Show("section should be less than 3 characters and shouldn't be null", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             int j=0;
@@ -136,25 +152,31 @@ namespace CustomUserControl
             }
             if (j == 0) 
             {
-                MessageBox.Show("select at least one checkbox", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                labelWarning.Text = "Select at least one checkbox.";
+                listViewWeeklyTimeslotDay.BackColor = Color.LightPink;
+                //MessageBox.Show("select at least one checkbox", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (dateTimePickerWeeklyTimeslotStartTime.Value.CompareTo(dateTimePickerWeeklyTimeslotEndTime.Value) >= 0)
+            if (dateTimePickerWeeklyTimeslotStartTime.Value.TimeOfDay >= dateTimePickerWeeklyTimeslotEndTime.Value.TimeOfDay)
             {
+                labelWarning.Text = "Time is invalid";
+                dateTimePickerWeeklyTimeslotStartTime.CalendarTitleForeColor = Color.LightPink;
                 Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.CompareTo(dateTimePickerWeeklyTimeslotEndTime.Value));
-                MessageBox.Show("Time is invalid", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            if (comboBoxPanelist.FindStringExact(comboBoxPanelist.Text)==-1) 
-            {
-                MessageBox.Show("Panelist doesn't exist", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //MessageBox.Show("Time is invalid", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             
+            // START: Duplicate Checking
+
+            String query;
+
+            // END: Duplicate Checking
+
+
             if (isEditMode)
             {
                 
-                String query;
+                
                 String day = "";
                 for (int i = 0; i < 6; i++)
                 {
@@ -186,7 +208,23 @@ namespace CustomUserControl
                         }
                     }
                 }
+<<<<<<< .mine
+                query = "SELECT timeslotID FROM Timeslot WHERE courseName = '" + textBoxWeeklyTimeslotCourse.Text + "' AND section ='" + textBoxWeeklyTimeslotSection.Text + "' AND day ='" + day + "'";
+                Console.WriteLine("duplicate check start----"+query);
+                List<String> duplicate = dbHandler.Select(query, 1)[0];
+                
+                if (duplicate.Count > 0)
+                {
+                    Console.WriteLine("Count: "+duplicate[0]);
+                    if(!duplicate[0].Equals(forEditing[0]))
+                    {
+                        MessageBox.Show("The timeslot already exists", "Duplicate Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+=======
 
+>>>>>>> .r148
                 if (comboBoxPanelist.Text.Equals(" None. "))
                     panelistID = "NULL";
                 else
@@ -374,7 +412,6 @@ namespace CustomUserControl
             }
             else
             {
-                String query;
                 String day = "";
                 for (int i = 0; i < 6; i++)
                 {
@@ -405,8 +442,55 @@ namespace CustomUserControl
                             default: break;
 
                         }
+                        query = "SELECT timeslotID FROM Timeslot WHERE courseName = '" + textBoxWeeklyTimeslotCourse.Text + "' AND section ='" + textBoxWeeklyTimeslotSection.Text + "' AND day ='" + day + "'";
+                        Console.WriteLine("duplicate check start----" + query);
+                        List<String> duplicate = dbHandler.Select(query, 1)[0];
+
+                        if (duplicate.Count > 0)
+                        {
                         
-                       
+                            MessageBox.Show("The timeslot on day "+ day+" already exists", "Duplicate Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                            
+                        }
+                    }
+                }
+
+
+
+
+                day = "";
+                for (int i = 0; i < 6; i++)
+                {
+                    if (listViewWeeklyTimeslotDay.Items[i].Checked == true)
+                    {
+                        switch (listViewWeeklyTimeslotDay.Items[i].Index)
+                        {
+                            case 0:
+                                Console.WriteLine("Monday");
+                                day = "M";
+                                break;
+                            case 1:
+                                Console.WriteLine("Tuesday");
+                                day = "T";
+                                break;
+                            case 2: Console.WriteLine("Wednesday");
+                                day = "W";
+                                break;
+                            case 3: Console.WriteLine("Thursday");
+                                day = "H";
+                                break;
+                            case 4: Console.WriteLine("Friday");
+                                day = "F";
+                                break;
+                            case 5: Console.WriteLine("Saturday");
+                                day = "S";
+                                break;
+                            default: break;
+
+                        }
+
+                   
                         if (comboBoxPanelist.Text.Equals(" None. "))
                         {
                             //Console.WriteLine("comboboxpanelist = null");
@@ -443,6 +527,8 @@ namespace CustomUserControl
             }
             subParent.refreshAll();
             parent.Enabled = true;
+            Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value);
+            Console.WriteLine(dateTimePickerWeeklyTimeslotEndTime.Value);
             this.Dispose();
         }
 

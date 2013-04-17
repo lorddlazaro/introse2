@@ -48,6 +48,7 @@
             this.comboBoxPanelist = new System.Windows.Forms.ComboBox();
             this.buttonSaveTimeslot = new System.Windows.Forms.Button();
             this.buttonCancelTimeslot = new System.Windows.Forms.Button();
+            this.labelWarning = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBoxWeeklyTimeslotCourse
@@ -148,23 +149,28 @@
             // 
             // dateTimePickerWeeklyTimeslotStartTime
             // 
-            this.dateTimePickerWeeklyTimeslotStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePickerWeeklyTimeslotStartTime.CustomFormat = "hh:mm tt";
+            this.dateTimePickerWeeklyTimeslotStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePickerWeeklyTimeslotStartTime.Location = new System.Drawing.Point(66, 79);
+            this.dateTimePickerWeeklyTimeslotStartTime.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dateTimePickerWeeklyTimeslotStartTime.Name = "dateTimePickerWeeklyTimeslotStartTime";
             this.dateTimePickerWeeklyTimeslotStartTime.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dateTimePickerWeeklyTimeslotStartTime.ShowUpDown = true;
             this.dateTimePickerWeeklyTimeslotStartTime.Size = new System.Drawing.Size(134, 20);
             this.dateTimePickerWeeklyTimeslotStartTime.TabIndex = 29;
+            this.dateTimePickerWeeklyTimeslotStartTime.Value = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             // 
             // dateTimePickerWeeklyTimeslotEndTime
             // 
-            this.dateTimePickerWeeklyTimeslotEndTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePickerWeeklyTimeslotEndTime.CustomFormat = "hh:mm tt";
+            this.dateTimePickerWeeklyTimeslotEndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePickerWeeklyTimeslotEndTime.Location = new System.Drawing.Point(66, 105);
             this.dateTimePickerWeeklyTimeslotEndTime.Name = "dateTimePickerWeeklyTimeslotEndTime";
             this.dateTimePickerWeeklyTimeslotEndTime.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dateTimePickerWeeklyTimeslotEndTime.ShowUpDown = true;
             this.dateTimePickerWeeklyTimeslotEndTime.Size = new System.Drawing.Size(134, 20);
             this.dateTimePickerWeeklyTimeslotEndTime.TabIndex = 30;
+            this.dateTimePickerWeeklyTimeslotEndTime.Value = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             // 
             // comboBoxPanelist
             // 
@@ -195,11 +201,21 @@
             this.buttonCancelTimeslot.UseVisualStyleBackColor = true;
             this.buttonCancelTimeslot.Click += new System.EventHandler(this.buttonCancelTimeslot_Click);
             // 
+            // labelWarning
+            // 
+            this.labelWarning.AutoSize = true;
+            this.labelWarning.ForeColor = System.Drawing.Color.Red;
+            this.labelWarning.Location = new System.Drawing.Point(8, 187);
+            this.labelWarning.Name = "labelWarning";
+            this.labelWarning.Size = new System.Drawing.Size(0, 13);
+            this.labelWarning.TabIndex = 36;
+            // 
             // TimeslotCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(303, 186);
+            this.ClientSize = new System.Drawing.Size(298, 209);
+            this.Controls.Add(this.labelWarning);
             this.Controls.Add(this.buttonCancelTimeslot);
             this.Controls.Add(this.buttonSaveTimeslot);
             this.Controls.Add(this.textBoxWeeklyTimeslotCourse);
@@ -237,5 +253,6 @@
         private System.Windows.Forms.ComboBox comboBoxPanelist;
         private System.Windows.Forms.Button buttonSaveTimeslot;
         private System.Windows.Forms.Button buttonCancelTimeslot;
+        private System.Windows.Forms.Label labelWarning;
     }
 }
