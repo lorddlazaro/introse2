@@ -109,7 +109,7 @@
             this.labelStartPageText.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelStartPageText.Location = new System.Drawing.Point(212, 64);
             this.labelStartPageText.Name = "labelStartPageText";
-            this.labelStartPageText.Size = new System.Drawing.Size(465, 180);
+            this.labelStartPageText.Size = new System.Drawing.Size(448, 180);
             this.labelStartPageText.TabIndex = 4;
             this.labelStartPageText.Text = resources.GetString("labelStartPageText.Text");
             // 
@@ -223,7 +223,7 @@
             this.labelGroupSelectionText.Size = new System.Drawing.Size(407, 30);
             this.labelGroupSelectionText.TabIndex = 12;
             this.labelGroupSelectionText.Text = "Please select which Thesis Groups will move on to the next THSST Course.\r\nUncheck" +
-                "ed groups will retain their current THSST course.";
+    "ed groups will retain their current THSST course.";
             // 
             // labelGroupSelectionHeader
             // 
@@ -363,7 +363,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(714, 374);
+            this.ClientSize = new System.Drawing.Size(714, 377);
             this.Controls.Add(this.tabControlResetWizard);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(730, 412);
