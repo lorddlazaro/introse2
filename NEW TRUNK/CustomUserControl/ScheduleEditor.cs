@@ -1023,17 +1023,19 @@ namespace CustomUserControl
                     DateTime minEnd;
                     DateTime defenseEndtime;
                     //get start of conflict
-                    if (Convert.ToDateTime(defenseOfSelected[0][i]) > Convert.ToDateTime(existingEvents[2][rowIndex]))
-                        maxStart = Convert.ToDateTime(defenseOfSelected[0][i]);
+                    Console.WriteLine(defenseOfSelected[0][i]);
+                    Console.WriteLine(existingEvents[2][rowIndex]);
+                    if (Convert.ToDateTime(defenseOfSelected[1][i]) > Convert.ToDateTime(existingEvents[2][rowIndex]))
+                        maxStart = Convert.ToDateTime(defenseOfSelected[1][i]);
                     else
                         maxStart = Convert.ToDateTime(existingEvents[2][rowIndex]);
 
                     Console.WriteLine(maxStart);
                     //GET endtime of defense
                     if (defenseOfSelected[2][i].Equals("THSST-1"))
-                        defenseEndtime = Convert.ToDateTime(defenseOfSelected[0][i]).AddMinutes(Constants.THSST1_DEFDURATION_MINS);
+                        defenseEndtime = Convert.ToDateTime(defenseOfSelected[1][i]).AddMinutes(Constants.THSST1_DEFDURATION_MINS);
                     else
-                        defenseEndtime = Convert.ToDateTime(defenseOfSelected[0][i]).AddMinutes(Constants.THSST3_DEFDURATION_MINS);
+                        defenseEndtime = Convert.ToDateTime(defenseOfSelected[1][i]).AddMinutes(Constants.THSST3_DEFDURATION_MINS);
                     Console.WriteLine(defenseEndtime);
                     //get end of conflict
                     if (defenseEndtime > Convert.ToDateTime(existingEvents[3][rowIndex]))
