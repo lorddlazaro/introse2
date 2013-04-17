@@ -345,7 +345,7 @@ namespace CustomUserControl
         private void HideGroupBox()
         {
             int defaultWidth = 280;
-            int longLength = 480;
+            int longLength = 481;
             Size newSize = new Size(defaultWidth, longLength);
 
             treeViewClusters.Size = newSize;

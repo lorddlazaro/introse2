@@ -354,7 +354,7 @@
             this.treeViewIsolatedGroups.HotTracking = true;
             this.treeViewIsolatedGroups.Location = new System.Drawing.Point(685, 109);
             this.treeViewIsolatedGroups.Name = "treeViewIsolatedGroups";
-            this.treeViewIsolatedGroups.Size = new System.Drawing.Size(280, 477);
+            this.treeViewIsolatedGroups.Size = new System.Drawing.Size(280, 481);
             this.treeViewIsolatedGroups.TabIndex = 25;
             this.treeViewIsolatedGroups.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewIsolatedGroups_BeforeCheck);
             this.treeViewIsolatedGroups.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewIsolatedGroups_NodeMouseClick);
@@ -387,7 +387,7 @@
             // addDefenseButton
             // 
             this.addDefenseButton.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addDefenseButton.Location = new System.Drawing.Point(115, 71);
+            this.addDefenseButton.Location = new System.Drawing.Point(116, 71);
             this.addDefenseButton.Name = "addDefenseButton";
             this.addDefenseButton.Size = new System.Drawing.Size(156, 23);
             this.addDefenseButton.TabIndex = 10;
@@ -467,7 +467,7 @@
             this.defenseDateTimePicker.CustomFormat = "MMM d, yyyy  h:mm tt";
             this.defenseDateTimePicker.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.defenseDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.defenseDateTimePicker.Location = new System.Drawing.Point(124, 97);
+            this.defenseDateTimePicker.Location = new System.Drawing.Point(117, 97);
             this.defenseDateTimePicker.Name = "defenseDateTimePicker";
             this.defenseDateTimePicker.Size = new System.Drawing.Size(154, 23);
             this.defenseDateTimePicker.TabIndex = 3;
@@ -476,6 +476,7 @@
             // 
             this.venueTextBox.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.venueTextBox.Location = new System.Drawing.Point(117, 71);
+            this.venueTextBox.MaxLength = 3;
             this.venueTextBox.Name = "venueTextBox";
             this.venueTextBox.Size = new System.Drawing.Size(154, 23);
             this.venueTextBox.TabIndex = 2;
