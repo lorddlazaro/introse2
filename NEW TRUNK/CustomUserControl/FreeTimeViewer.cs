@@ -358,7 +358,6 @@ namespace CustomUserControl
             {
                 WidenGroupBox();
                 
-
                 String date = defSchedule.StartTime.Date.ToString();
                 String time = defSchedule.StartTime.TimeOfDay.ToString();
 
@@ -594,15 +593,14 @@ namespace CustomUserControl
             if (newThesisGroupID.Equals(""))
             {
                 labelGroupInfo.Text = "";
-                labelPanelists.Text = "";
                 HideGroupBox();
             }
             else
             {
                 ShowGroupBox();
 
-                labelGroupInfo.Text = "Selected Group: " + schedulingDM.GetGroupInfo(currGroupID);
-                labelPanelists.Text = "Panelists:"+schedulingDM.GetPanelists(currGroupID);
+                labelGroupInfo.Text = "Selected Group:    " + schedulingDM.GetGroupInfo(currGroupID) + Environment.NewLine + "Panelists:                " + schedulingDM.GetPanelists(currGroupID);
+                
                 //check
                 titleTextBox.Text = schedulingDM.GetGroupInfo(currGroupID).Split(':')[1];
                 courseSectionTextBox.Text = schedulingDM.GetGroupInfo(currGroupID).Split(':')[0];
