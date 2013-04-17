@@ -756,8 +756,28 @@ namespace CustomUserControl
                 node = new TreeNode();
                 node.Name = studentTable[0].ElementAt(j);
                 node.Text = studentTable[1].ElementAt(j);
+                if(!isScheduled(studentTable[0].ElementAt(j),"student"))
+                {
+                    node.BackColor = Color.LightPink;
+
+                }
                 tree.Add(node);
             }
+        }
+
+        public bool isScheduled(String ID, String personType) 
+        {
+            String query="";
+            
+            if(personType.Equals("student"))
+                query = "SELECT timeslotID FROM StudentSchedule WHERE studentID ='"+ID+"'";
+            else if(personType.Equals("panelist"))
+                query = "SELECT timeslotID FROM Timeslot WHERE panelistID ='"+ID+"'";
+
+            if (dbHandler.Select(query, 1)[0].Count > 0)
+                return true;
+            else
+                return false;
         }
 
         public void UpdatePanelistTreeView(TreeNodeCollection tree)
