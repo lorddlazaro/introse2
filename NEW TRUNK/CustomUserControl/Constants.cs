@@ -17,6 +17,5 @@ namespace CustomUserControl
         public const int MIN_DURATION_MINS = THSST1_DEFDURATION_MINS;
         public const String DEFENSE_TYPE = "defense";
         public const String REDEFENSE_TYPE = "redefense";
-
     }
 }

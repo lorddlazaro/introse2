@@ -6,7 +6,6 @@ using System.Windows.Forms;
 
 namespace CustomUserControl
 {
-    // DO I EVEN NEED TO DOCUMENT THIS
     class ThesisGroupDataManager
     {
         DBce dbHandler;

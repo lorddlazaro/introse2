@@ -26,7 +26,5 @@ namespace CustomUserControl
         {
             return StartTime + " - " + EndTime + " \n\t" + name;
         }
-
-
     }
 }

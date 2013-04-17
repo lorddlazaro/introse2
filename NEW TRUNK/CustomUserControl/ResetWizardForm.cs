@@ -200,9 +200,7 @@ namespace CustomUserControl
                     query = "delete from student where thesisgroupid = "+ groupID+" ;";
                     DBHandler.Delete(query);
                 }
-
             }
         }
-
     }
 }

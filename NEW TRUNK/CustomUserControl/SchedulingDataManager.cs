@@ -943,7 +943,7 @@ namespace CustomUserControl
         {
             String query;
             String currDefenseID;
-     
+    
             if (currGroupDefSched!=null)
             {
                 currDefenseID = currGroupDefSched.DefenseID;

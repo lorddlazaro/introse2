@@ -114,7 +114,6 @@ namespace CustomUserControl
         }
         /********END: Refresh Methods**********/
 
-
         /****** START: EVENT LISTENERS*******/
 
         //Facilitates the GUI changes to facilitate addition of defenses. E.g., make the form for addition visible.
@@ -428,9 +427,6 @@ namespace CustomUserControl
                     return false;
 
             return true;
-            /*New Implementation*/
-
-
         }
         
         /****** END:   GUI Methods For Changing Defense Addition/Editing Forms *******/
