@@ -813,6 +813,8 @@ namespace CustomUserControl
                     }
                 }
 
+                if (tgDM.HasDefenseSchedule(currThesisGroupID))
+                    tgDM.RemoveAssignedPanelistFromGroup(currThesisGroupID, panelistID);
                 tgDM.RemoveAssignedPanelistFromGroup(currThesisGroupID, panelistID);
                 panelistID = tgDM.GetPanelistIDFromName(panelistName);
                 tgDM.AssignPanelistToGroup(currThesisGroupID, panelistID);
