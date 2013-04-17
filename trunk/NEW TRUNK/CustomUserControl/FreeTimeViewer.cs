@@ -456,7 +456,7 @@ namespace CustomUserControl
         private bool IsDefenseInfoValid()
         {
             /*New Implementation*/
-            String dateTimeString = String.Format("{0:M/d/yyyy H:mm}", defenseDateTimePicker.Value);
+            String dateTimeString = String.Format("{0:M/d/yyyy H:mm:tt}", defenseDateTimePicker.Value);
             String course = courseSectionTextBox.Text.Split(' ')[1]; 
             String errorMsg = schedulingDM.GetErrorWithThisDefenseInfo(dateTimeString, course, defenseDateTimePicker.Value.DayOfWeek);
 
@@ -658,35 +658,10 @@ namespace CustomUserControl
                     dayIndex = schedulingDM.GetDayIndex(schedulingDM.CurrGroupDefSched.StartTime.DayOfWeek);
                     adjustedDayIndex = (dayIndex + (Constants.DAYS_IN_DEF_WEEK - startOfTheWeekDayIndex)) % Constants.DAYS_IN_DEF_WEEK;
 
-                    DrawTimePeriod(g, Color.Tomato, panelRectangle, adjustedDayIndex, schedulingDM.CurrGroupDefSched);
+                    int totalMinutes = (int) schedulingDM.CurrGroupDefSched.EndTime.TimeOfDay.Subtract(schedulingDM.CurrGroupDefSched.StartTime.TimeOfDay).TotalMinutes;
+
+                    DrawTimePeriod(g, Color.Tomato, panelRectangle, adjustedDayIndex, schedulingDM.CurrGroupDefSched, totalMinutes);
                 }
-            }
-        }
-
-        private void DrawClusterDefScheds(Graphics g, Rectangle panelRectangle)
-        {
-            int size = schedulingDM.ClusterDefScheds.Count;
-
-            /* The following two variables represent unadjusted day indices.
-             * That is, Mon = 0, Tues = 1, Wed = 2, Thu = 3, Fri = 4, Sat = 5.
-             * */
-            int dayIndex;
-            int startOfTheWeekDayIndex = schedulingDM.GetDayIndex(startOfTheWeek.DayOfWeek);
-
-            /* Represents the adjusted index depending on the starting day in the calendar. 
-             * Example, Monday, which is supposed to be 0, becomes 1 if the day starts with Saturday(which is the 0 in this case)),
-             * because Monday becomes the second day in the calendar.
-            * */
-            int adjustedDayIndex;
-
-            DefenseSchedule curr;
-            for (int i = 0; i < size; i++)
-            {
-                curr = schedulingDM.ClusterDefScheds[i];
-                dayIndex = schedulingDM.GetDayIndex(curr.StartTime.DayOfWeek);
-                adjustedDayIndex = (dayIndex + (Constants.DAYS_IN_DEF_WEEK - startOfTheWeekDayIndex)) % Constants.DAYS_IN_DEF_WEEK;
-
-                DrawTimePeriod(g, Color.CadetBlue, panelRectangle, adjustedDayIndex, curr);
             }
         }
 
@@ -695,21 +670,23 @@ namespace CustomUserControl
             int size;
             List<TimePeriod> currDay;
             DateTime currDateTime;
-
+            int totalMinutes;
             for (int i = 0; i < Constants.DAYS_IN_DEF_WEEK; i++)
             {
                 currDateTime = Convert.ToDateTime(labelDates[i].Text);
-                currDay = schedulingDM.SelectedGroupFreeTimes[(int)currDateTime.DayOfWeek - 1];
+                currDay = schedulingDM.SelectedGroupFreeTimes[schedulingDM.GetDayIndex(currDateTime.DayOfWeek)];
                 size = currDay.Count;
-                //Console.WriteLine("["+i+"] has "+size+" elements.");
+                
                 for (int j = 0; j < size; j++)
-                    if (currDay[j].EndTime.TimeOfDay.Subtract(currDay[j].StartTime.TimeOfDay).TotalMinutes >= Constants.MIN_DURATION_MINS)
-                        DrawTimePeriod(g, Color.LightGreen, panelRectangle, i, currDay[j]);
+                {
+                    totalMinutes = (int) currDay[j].EndTime.TimeOfDay.Subtract(currDay[j].StartTime.TimeOfDay).TotalMinutes;
+                    DrawTimePeriod(g, Color.LightGreen, panelRectangle, i, currDay[j], totalMinutes);
+                }
             }
         }
 
         //Does the actual drawing of those boxes that appear on-screen.
-        private void DrawTimePeriod(Graphics g, Color color, Rectangle panelRectangle, int dayIndex, TimePeriod timePeriod)
+        private void DrawTimePeriod(Graphics g, Color color, Rectangle panelRectangle, int dayIndex, TimePeriod timePeriod, int totalMinutes)
         {
             int leftX = panelRectangle.Left;
             int topY = panelRectangle.Top;
@@ -721,16 +698,11 @@ namespace CustomUserControl
 
             int margin = 2;
 
-            /* For Debugging Purposes
-            Console.WriteLine(timePeriod.ToString());
-            Console.WriteLine((leftX + dayIndex * dayWidth + margin)+", "+((int)(topY + yCoord))+", "+(dayWidth - margin * 2)+", "+schedHeight);
-            Console.WriteLine();
-            /* For Debugging Purposes*/
-
             Font font1 = new Font("Arial", 11, FontStyle.Bold, GraphicsUnit.Point);
             Rectangle rect = new Rectangle(leftX + dayIndex * dayWidth + margin, (int)(topY + yCoord), dayWidth - margin * 2, (int)schedHeight);
             g.FillRectangle(new SolidBrush(color), rect);
-            g.DrawString(timePeriod.ToString(), font1, new SolidBrush(Color.Black), rect, new StringFormat());
+            if (totalMinutes >= Constants.MIN_DURATION_MINS)
+                g.DrawString(timePeriod.ToString(), font1, new SolidBrush(Color.Black), rect, new StringFormat());
         }
 
         //Draws the horizontal lines in the calendar.
