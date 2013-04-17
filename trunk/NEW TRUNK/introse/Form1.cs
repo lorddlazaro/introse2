@@ -28,7 +28,7 @@ namespace introse
             {
                 case 0: freeTimeViewer.RefreshAll(); break;
                 case 1: scheduleEditor2.RefreshAll(); break;
-                //case 2: thesisGroupControl1.RefreshAll(); break;
+                case 2: thesisGroupControl1.RefreshAll(); break;
             }
         }
 

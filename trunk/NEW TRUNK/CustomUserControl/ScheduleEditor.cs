@@ -48,6 +48,7 @@ namespace CustomUserControl
         public void RefreshAll()
         {
             Cursor.Current = Cursors.WaitCursor;
+            Refresh();
             if (IsTreeViewSetToStudents())
             {
                 RefreshStudentClassScheds();
