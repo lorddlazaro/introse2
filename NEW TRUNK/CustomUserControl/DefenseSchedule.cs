@@ -39,11 +39,9 @@ namespace CustomUserControl
 
         }
 
-
-        public override string ToString()
+        public override String ToString()
         {
-            return base.ToString() + "\n" + place + "\n" + groupTitle;
+            return base.ToString() + "\n" + groupTitle;
         }
-
     }
 }
