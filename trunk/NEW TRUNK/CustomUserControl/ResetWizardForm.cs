@@ -29,10 +29,10 @@ namespace CustomUserControl
         }
         private void FillCheckedBoxList(TreeView tree, int course)
         {
-            List<string>[] list;
+            List<String>[] list;
             TreeNode tempNode;
 
-            string query = "select thesisgroupid, title from thesisgroup where course = 'THSST-" + course + "';";
+            String query = "select thesisgroupid, title from thesisgroup where course = 'THSST-" + course + "';";
             list = DBHandler.Select(query, 2);
 
             TreeNodeCollection nodes = tree.Nodes;
@@ -51,7 +51,7 @@ namespace CustomUserControl
         }
 
         // Refreshers
-        private int RefreshProgressLabel(string labelText, int stepsLeft) 
+        private int RefreshProgressLabel(String labelText, int stepsLeft) 
         {
             labelResetting.Text = labelText;
             return stepsLeft - 1;
@@ -82,7 +82,7 @@ namespace CustomUserControl
             switch (tabControlResetWizard.SelectedIndex)
             {
                 case 0: tabPageStartPage.Refresh(); break;
-                case 1: tabGroupSelection.Refresh(); break;
+                case 1: tabPageGroupSelection.Refresh(); break;
                 case 2: tabPageResetting.Refresh(); break;
             }
         }
@@ -90,7 +90,7 @@ namespace CustomUserControl
         // Resetting Methods
         private void ResetData()
         {
-            string query;
+            String query;
             int stepsLeft = 6; // amount of steps left + 1
 
             // Legend: Task (Database table/s involved)
@@ -162,8 +162,8 @@ namespace CustomUserControl
         }
         private void UpdateGroupsCourse(String newCourse, TreeView treeView)
         {
-            string inlist = "";
-            string query;
+            String inlist = "";
+            String query;
 
             foreach (TreeNode node in treeView.Nodes)
                 if (node.Checked)
@@ -178,9 +178,9 @@ namespace CustomUserControl
         }
         private void DeleteGroups(TreeView treeView)
         {
-            string inlist = "";
-            string query;
-            List<String> groupIDs = new List<string>();
+            String inlist = "";
+            String query;
+            List<String> groupIDs = new List<String>();
 
             foreach (TreeNode node in treeView.Nodes)
                 if (node.Checked)

@@ -321,9 +321,9 @@
         private System.Windows.Forms.DateTimePicker dateTimePickerEndDate;
         private System.Windows.Forms.DateTimePicker dateTimePickerStartDate;
         private System.Windows.Forms.Button buttonRefresh;
+        private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.DataGridView dataGridViewDefSchedInfo;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
-        private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.CheckBox checkBoxIncludeTHSST1;
         private System.Windows.Forms.CheckBox checkBoxIncludeTHSST3;
         private System.Windows.Forms.GroupBox groupBoxSettings;

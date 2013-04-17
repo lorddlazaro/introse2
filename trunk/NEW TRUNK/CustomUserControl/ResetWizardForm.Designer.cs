@@ -37,7 +37,7 @@
             this.pictureBoxStartPage = new System.Windows.Forms.PictureBox();
             this.labelStartPageDivider = new System.Windows.Forms.Label();
             this.buttonStartPageNext = new System.Windows.Forms.Button();
-            this.tabGroupSelection = new System.Windows.Forms.TabPage();
+            this.tabPageGroupSelection = new System.Windows.Forms.TabPage();
             this.buttonGroupSelectionBack = new System.Windows.Forms.Button();
             this.labelGroupSelectionDividerTop = new System.Windows.Forms.Label();
             this.labelGroupSelectionNote = new System.Windows.Forms.Label();
@@ -58,14 +58,14 @@
             this.tabControlResetWizard.SuspendLayout();
             this.tabPageStartPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStartPage)).BeginInit();
-            this.tabGroupSelection.SuspendLayout();
+            this.tabPageGroupSelection.SuspendLayout();
             this.tabPageResetting.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlResetWizard
             // 
             this.tabControlResetWizard.Controls.Add(this.tabPageStartPage);
-            this.tabControlResetWizard.Controls.Add(this.tabGroupSelection);
+            this.tabControlResetWizard.Controls.Add(this.tabPageGroupSelection);
             this.tabControlResetWizard.Controls.Add(this.tabPageResetting);
             this.tabControlResetWizard.Location = new System.Drawing.Point(0, 0);
             this.tabControlResetWizard.Multiline = true;
@@ -157,28 +157,28 @@
             this.buttonStartPageNext.UseVisualStyleBackColor = true;
             this.buttonStartPageNext.Click += new System.EventHandler(this.buttonStartPageNext_Click);
             // 
-            // tabGroupSelection
+            // tabPageGroupSelection
             // 
-            this.tabGroupSelection.BackColor = System.Drawing.SystemColors.Control;
-            this.tabGroupSelection.Controls.Add(this.buttonGroupSelectionBack);
-            this.tabGroupSelection.Controls.Add(this.labelGroupSelectionDividerTop);
-            this.tabGroupSelection.Controls.Add(this.labelGroupSelectionNote);
-            this.tabGroupSelection.Controls.Add(this.labelGroupSelectionText);
-            this.tabGroupSelection.Controls.Add(this.labelGroupSelectionHeader);
-            this.tabGroupSelection.Controls.Add(this.labelGroupSelectionDividerBottom);
-            this.tabGroupSelection.Controls.Add(this.treeViewGroupList3);
-            this.tabGroupSelection.Controls.Add(this.treeViewGroupList2);
-            this.tabGroupSelection.Controls.Add(this.treeViewGroupList1);
-            this.tabGroupSelection.Controls.Add(this.labelTreeView3);
-            this.tabGroupSelection.Controls.Add(this.labelTreeView2);
-            this.tabGroupSelection.Controls.Add(this.labelTreeView1);
-            this.tabGroupSelection.Controls.Add(this.buttonGroupSelectionNext);
-            this.tabGroupSelection.Location = new System.Drawing.Point(4, 22);
-            this.tabGroupSelection.Name = "tabGroupSelection";
-            this.tabGroupSelection.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGroupSelection.Size = new System.Drawing.Size(714, 374);
-            this.tabGroupSelection.TabIndex = 1;
-            this.tabGroupSelection.Text = "Group Selection";
+            this.tabPageGroupSelection.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageGroupSelection.Controls.Add(this.buttonGroupSelectionBack);
+            this.tabPageGroupSelection.Controls.Add(this.labelGroupSelectionDividerTop);
+            this.tabPageGroupSelection.Controls.Add(this.labelGroupSelectionNote);
+            this.tabPageGroupSelection.Controls.Add(this.labelGroupSelectionText);
+            this.tabPageGroupSelection.Controls.Add(this.labelGroupSelectionHeader);
+            this.tabPageGroupSelection.Controls.Add(this.labelGroupSelectionDividerBottom);
+            this.tabPageGroupSelection.Controls.Add(this.treeViewGroupList3);
+            this.tabPageGroupSelection.Controls.Add(this.treeViewGroupList2);
+            this.tabPageGroupSelection.Controls.Add(this.treeViewGroupList1);
+            this.tabPageGroupSelection.Controls.Add(this.labelTreeView3);
+            this.tabPageGroupSelection.Controls.Add(this.labelTreeView2);
+            this.tabPageGroupSelection.Controls.Add(this.labelTreeView1);
+            this.tabPageGroupSelection.Controls.Add(this.buttonGroupSelectionNext);
+            this.tabPageGroupSelection.Location = new System.Drawing.Point(4, 22);
+            this.tabPageGroupSelection.Name = "tabPageGroupSelection";
+            this.tabPageGroupSelection.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageGroupSelection.Size = new System.Drawing.Size(714, 374);
+            this.tabPageGroupSelection.TabIndex = 1;
+            this.tabPageGroupSelection.Text = "Group Selection";
             // 
             // buttonGroupSelectionBack
             // 
@@ -376,8 +376,8 @@
             this.tabPageStartPage.ResumeLayout(false);
             this.tabPageStartPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStartPage)).EndInit();
-            this.tabGroupSelection.ResumeLayout(false);
-            this.tabGroupSelection.PerformLayout();
+            this.tabPageGroupSelection.ResumeLayout(false);
+            this.tabPageGroupSelection.PerformLayout();
             this.tabPageResetting.ResumeLayout(false);
             this.tabPageResetting.PerformLayout();
             this.ResumeLayout(false);
@@ -387,21 +387,22 @@
         #endregion
 
         private ResetWizardTabControl tabControlResetWizard;
-        private System.Windows.Forms.TabPage tabPageStartPage;
-        private System.Windows.Forms.TabPage tabGroupSelection;
-        private System.Windows.Forms.TabPage tabPageResetting;
         private System.Windows.Forms.ProgressBar progressBarResetting;
-        private System.Windows.Forms.Label labelResetting;
+        private System.Windows.Forms.PictureBox pictureBoxStartPage;
+        private System.Windows.Forms.TabPage tabPageStartPage;
+        private System.Windows.Forms.TabPage tabPageGroupSelection;
+        private System.Windows.Forms.TabPage tabPageResetting;
         private System.Windows.Forms.Button buttonGroupSelectionNext;
-        private System.Windows.Forms.Label labelTreeView3;
-        private System.Windows.Forms.Label labelTreeView2;
-        private System.Windows.Forms.Label labelTreeView1;
+        private System.Windows.Forms.Button buttonStartPageNext;
         private System.Windows.Forms.Button buttonResettingExit;
+        private System.Windows.Forms.Button buttonGroupSelectionBack;
         private System.Windows.Forms.TreeView treeViewGroupList3;
         private System.Windows.Forms.TreeView treeViewGroupList2;
         private System.Windows.Forms.TreeView treeViewGroupList1;
-        private System.Windows.Forms.Button buttonStartPageNext;
-        private System.Windows.Forms.PictureBox pictureBoxStartPage;
+        private System.Windows.Forms.Label labelResetting;
+        private System.Windows.Forms.Label labelTreeView3;
+        private System.Windows.Forms.Label labelTreeView2;
+        private System.Windows.Forms.Label labelTreeView1;
         private System.Windows.Forms.Label labelStartPageDivider;
         private System.Windows.Forms.Label labelStartPageText;
         private System.Windows.Forms.Label labelStartPageHeader;
@@ -411,6 +412,5 @@
         private System.Windows.Forms.Label labelGroupSelectionHeader;
         private System.Windows.Forms.Label labelGroupSelectionDividerBottom;
         private System.Windows.Forms.Label labelGroupSelectionDividerTop;
-        private System.Windows.Forms.Button buttonGroupSelectionBack;
     }
 }
