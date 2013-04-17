@@ -30,194 +30,308 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DefenseSchedulesViewer));
-            this.labelDisplayMsg = new System.Windows.Forms.Label();
-            this.dateTimePickerEnd = new System.Windows.Forms.DateTimePicker();
-            this.label2 = new System.Windows.Forms.Label();
-            this.dateTimePickerStart = new System.Windows.Forms.DateTimePicker();
-            this.buttonViewDefScheds = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.button1 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.dateTimePickerEndDate = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerStartDate = new System.Windows.Forms.DateTimePicker();
+            this.buttonRefresh = new System.Windows.Forms.Button();
+            this.dataGridViewDefSchedInfo = new System.Windows.Forms.DataGridView();
+            this.columnCourse = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnVenue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnAdvisor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnPanels = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.checkBoxIncludeTHSST1 = new System.Windows.Forms.CheckBox();
+            this.checkBoxIncludeTHSST3 = new System.Windows.Forms.CheckBox();
+            this.groupBoxSettings = new System.Windows.Forms.GroupBox();
+            this.labelNoSchedulesFound = new System.Windows.Forms.Label();
+            this.labelInclude = new System.Windows.Forms.Label();
+            this.labelEndDate = new System.Windows.Forms.Label();
+            this.labelStartDate = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDefSchedInfo)).BeginInit();
+            this.groupBoxSettings.SuspendLayout();
             this.SuspendLayout();
             // 
-            // labelDisplayMsg
+            // dateTimePickerEndDate
             // 
-            this.labelDisplayMsg.AutoSize = true;
-            this.labelDisplayMsg.Location = new System.Drawing.Point(182, 81);
-            this.labelDisplayMsg.Name = "labelDisplayMsg";
-            this.labelDisplayMsg.Size = new System.Drawing.Size(0, 13);
-            this.labelDisplayMsg.TabIndex = 11;
+            this.dateTimePickerEndDate.CustomFormat = "MMM d, yyyy (ddd)";
+            this.dateTimePickerEndDate.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePickerEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerEndDate.Location = new System.Drawing.Point(173, 37);
+            this.dateTimePickerEndDate.Name = "dateTimePickerEndDate";
+            this.dateTimePickerEndDate.Size = new System.Drawing.Size(152, 23);
+            this.dateTimePickerEndDate.TabIndex = 10;
+            this.dateTimePickerEndDate.ValueChanged += new System.EventHandler(this.dateTimePickerEndDate_ValueChanged);
             // 
-            // dateTimePickerEnd
+            // dateTimePickerStartDate
             // 
-            this.dateTimePickerEnd.Location = new System.Drawing.Point(432, 9);
-            this.dateTimePickerEnd.Name = "dateTimePickerEnd";
-            this.dateTimePickerEnd.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePickerEnd.TabIndex = 10;
+            this.dateTimePickerStartDate.CustomFormat = "MMM d, yyyy (ddd)";
+            this.dateTimePickerStartDate.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePickerStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerStartDate.Location = new System.Drawing.Point(16, 37);
+            this.dateTimePickerStartDate.Name = "dateTimePickerStartDate";
+            this.dateTimePickerStartDate.Size = new System.Drawing.Size(151, 23);
+            this.dateTimePickerStartDate.TabIndex = 8;
+            this.dateTimePickerStartDate.ValueChanged += new System.EventHandler(this.dateTimePickerStartDate_ValueChanged);
             // 
-            // label2
+            // buttonRefresh
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(401, 15);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(16, 13);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "to";
+            this.buttonRefresh.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonRefresh.Location = new System.Drawing.Point(43, 8);
+            this.buttonRefresh.Name = "buttonRefresh";
+            this.buttonRefresh.Size = new System.Drawing.Size(163, 26);
+            this.buttonRefresh.TabIndex = 7;
+            this.buttonRefresh.Text = "Refresh Table";
+            this.buttonRefresh.UseVisualStyleBackColor = true;
+            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
             // 
-            // dateTimePickerStart
+            // dataGridViewDefSchedInfo
             // 
-            this.dateTimePickerStart.Location = new System.Drawing.Point(185, 9);
-            this.dateTimePickerStart.Name = "dateTimePickerStart";
-            this.dateTimePickerStart.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePickerStart.TabIndex = 8;
-            this.dateTimePickerStart.ValueChanged += new System.EventHandler(this.dateTimePickerStart_ValueChanged);
-            // 
-            // buttonViewDefScheds
-            // 
-            this.buttonViewDefScheds.Location = new System.Drawing.Point(16, 8);
-            this.buttonViewDefScheds.Name = "buttonViewDefScheds";
-            this.buttonViewDefScheds.Size = new System.Drawing.Size(163, 26);
-            this.buttonViewDefScheds.TabIndex = 7;
-            this.buttonViewDefScheds.Text = "Generate Schedules From";
-            this.buttonViewDefScheds.UseVisualStyleBackColor = true;
-            this.buttonViewDefScheds.Click += new System.EventHandler(this.buttonViewDefScheds_Click);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridViewDefSchedInfo.AllowUserToAddRows = false;
+            this.dataGridViewDefSchedInfo.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.NullValue = null;
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4,
-            this.Column5,
-            this.Column6,
-            this.Column7});
-            this.dataGridView1.Location = new System.Drawing.Point(2, 74);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(934, 568);
-            this.dataGridView1.TabIndex = 12;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Course";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Width = 60;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Title";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.Width = 300;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Date";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 70;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Time";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.Width = 90;
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Venue";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            this.Column5.Width = 70;
-            // 
-            // Column6
-            // 
+            this.dataGridViewDefSchedInfo.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridViewDefSchedInfo.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column6.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Column6.HeaderText = "Adviser/s";
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
-            this.Column6.Width = 150;
+            this.dataGridViewDefSchedInfo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridViewDefSchedInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewDefSchedInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.columnCourse,
+            this.columnTitle,
+            this.columnDate,
+            this.columnTime,
+            this.columnVenue,
+            this.columnAdvisor,
+            this.columnPanels});
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewDefSchedInfo.DefaultCellStyle = dataGridViewCellStyle5;
+            this.dataGridViewDefSchedInfo.Location = new System.Drawing.Point(2, 74);
+            this.dataGridViewDefSchedInfo.Name = "dataGridViewDefSchedInfo";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewDefSchedInfo.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.dataGridViewDefSchedInfo.Size = new System.Drawing.Size(934, 568);
+            this.dataGridViewDefSchedInfo.TabIndex = 12;
             // 
-            // Column7
+            // columnCourse
+            // 
+            this.columnCourse.HeaderText = "Course";
+            this.columnCourse.Name = "columnCourse";
+            this.columnCourse.ReadOnly = true;
+            this.columnCourse.Width = 60;
+            // 
+            // columnTitle
+            // 
+            this.columnTitle.HeaderText = "Title";
+            this.columnTitle.Name = "columnTitle";
+            this.columnTitle.ReadOnly = true;
+            this.columnTitle.Width = 300;
+            // 
+            // columnDate
+            // 
+            this.columnDate.HeaderText = "Date";
+            this.columnDate.Name = "columnDate";
+            this.columnDate.ReadOnly = true;
+            this.columnDate.Width = 70;
+            // 
+            // columnTime
+            // 
+            this.columnTime.HeaderText = "Time";
+            this.columnTime.Name = "columnTime";
+            this.columnTime.ReadOnly = true;
+            this.columnTime.Width = 90;
+            // 
+            // columnVenue
+            // 
+            this.columnVenue.HeaderText = "Venue";
+            this.columnVenue.Name = "columnVenue";
+            this.columnVenue.ReadOnly = true;
+            this.columnVenue.Width = 70;
+            // 
+            // columnAdvisor
             // 
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column7.DefaultCellStyle = dataGridViewCellStyle3;
-            this.Column7.HeaderText = "Panel/s";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            this.Column7.Width = 150;
+            this.columnAdvisor.DefaultCellStyle = dataGridViewCellStyle3;
+            this.columnAdvisor.HeaderText = "Advisor";
+            this.columnAdvisor.Name = "columnAdvisor";
+            this.columnAdvisor.ReadOnly = true;
+            this.columnAdvisor.Width = 150;
             // 
-            // saveFileDialog1
+            // columnPanels
             // 
-            this.saveFileDialog1.FileName = "DefenseSchedules";
-            this.saveFileDialog1.Filter = resources.GetString("saveFileDialog1.Filter");
-            this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.columnPanels.DefaultCellStyle = dataGridViewCellStyle4;
+            this.columnPanels.HeaderText = "Panelists";
+            this.columnPanels.Name = "columnPanels";
+            this.columnPanels.ReadOnly = true;
+            this.columnPanels.Width = 150;
             // 
-            // button1
+            // saveFileDialog
             // 
-            this.button1.Location = new System.Drawing.Point(16, 40);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(163, 23);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "Save Defense Schedule";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.saveFileDialog.FileName = "DefenseSchedules";
+            this.saveFileDialog.Filter = resources.GetString("saveFileDialog.Filter");
+            this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
             // 
-            // DefenseSchedulesViewercs
+            // buttonSave
+            // 
+            this.buttonSave.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonSave.Location = new System.Drawing.Point(43, 40);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(163, 23);
+            this.buttonSave.TabIndex = 13;
+            this.buttonSave.Text = "Save Table Content";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            // 
+            // checkBoxIncludeTHSST1
+            // 
+            this.checkBoxIncludeTHSST1.AutoSize = true;
+            this.checkBoxIncludeTHSST1.Checked = true;
+            this.checkBoxIncludeTHSST1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxIncludeTHSST1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxIncludeTHSST1.Location = new System.Drawing.Point(483, 40);
+            this.checkBoxIncludeTHSST1.Name = "checkBoxIncludeTHSST1";
+            this.checkBoxIncludeTHSST1.Size = new System.Drawing.Size(68, 19);
+            this.checkBoxIncludeTHSST1.TabIndex = 14;
+            this.checkBoxIncludeTHSST1.Text = "THSST-1";
+            this.checkBoxIncludeTHSST1.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxIncludeTHSST3
+            // 
+            this.checkBoxIncludeTHSST3.AutoSize = true;
+            this.checkBoxIncludeTHSST3.Checked = true;
+            this.checkBoxIncludeTHSST3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxIncludeTHSST3.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxIncludeTHSST3.Location = new System.Drawing.Point(570, 40);
+            this.checkBoxIncludeTHSST3.Name = "checkBoxIncludeTHSST3";
+            this.checkBoxIncludeTHSST3.Size = new System.Drawing.Size(68, 19);
+            this.checkBoxIncludeTHSST3.TabIndex = 15;
+            this.checkBoxIncludeTHSST3.Text = "THSST-3";
+            this.checkBoxIncludeTHSST3.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxSettings
+            // 
+            this.groupBoxSettings.Controls.Add(this.labelNoSchedulesFound);
+            this.groupBoxSettings.Controls.Add(this.labelInclude);
+            this.groupBoxSettings.Controls.Add(this.labelEndDate);
+            this.groupBoxSettings.Controls.Add(this.labelStartDate);
+            this.groupBoxSettings.Controls.Add(this.dateTimePickerStartDate);
+            this.groupBoxSettings.Controls.Add(this.checkBoxIncludeTHSST3);
+            this.groupBoxSettings.Controls.Add(this.dateTimePickerEndDate);
+            this.groupBoxSettings.Controls.Add(this.checkBoxIncludeTHSST1);
+            this.groupBoxSettings.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxSettings.Location = new System.Drawing.Point(241, 0);
+            this.groupBoxSettings.Name = "groupBoxSettings";
+            this.groupBoxSettings.Size = new System.Drawing.Size(656, 68);
+            this.groupBoxSettings.TabIndex = 16;
+            this.groupBoxSettings.TabStop = false;
+            this.groupBoxSettings.Text = "Settings";
+            // 
+            // labelNoSchedulesFound
+            // 
+            this.labelNoSchedulesFound.AutoSize = true;
+            this.labelNoSchedulesFound.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelNoSchedulesFound.ForeColor = System.Drawing.Color.Firebrick;
+            this.labelNoSchedulesFound.Location = new System.Drawing.Point(331, 37);
+            this.labelNoSchedulesFound.Name = "labelNoSchedulesFound";
+            this.labelNoSchedulesFound.Size = new System.Drawing.Size(146, 19);
+            this.labelNoSchedulesFound.TabIndex = 19;
+            this.labelNoSchedulesFound.Text = "No Schedules found";
+            this.labelNoSchedulesFound.Visible = false;
+            // 
+            // labelInclude
+            // 
+            this.labelInclude.AutoSize = true;
+            this.labelInclude.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelInclude.Location = new System.Drawing.Point(480, 20);
+            this.labelInclude.Name = "labelInclude";
+            this.labelInclude.Size = new System.Drawing.Size(57, 15);
+            this.labelInclude.TabIndex = 18;
+            this.labelInclude.Text = "Includes:";
+            // 
+            // labelEndDate
+            // 
+            this.labelEndDate.AutoSize = true;
+            this.labelEndDate.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelEndDate.Location = new System.Drawing.Point(170, 20);
+            this.labelEndDate.Name = "labelEndDate";
+            this.labelEndDate.Size = new System.Drawing.Size(58, 15);
+            this.labelEndDate.TabIndex = 17;
+            this.labelEndDate.Text = "End Date:";
+            // 
+            // labelStartDate
+            // 
+            this.labelStartDate.AutoSize = true;
+            this.labelStartDate.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelStartDate.Location = new System.Drawing.Point(13, 20);
+            this.labelStartDate.Name = "labelStartDate";
+            this.labelStartDate.Size = new System.Drawing.Size(64, 15);
+            this.labelStartDate.TabIndex = 16;
+            this.labelStartDate.Text = "Start Date:";
+            // 
+            // DefenseSchedulesViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.labelDisplayMsg);
-            this.Controls.Add(this.dateTimePickerEnd);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.dateTimePickerStart);
-            this.Controls.Add(this.buttonViewDefScheds);
-            this.Name = "DefenseSchedulesViewercs";
+            this.Controls.Add(this.groupBoxSettings);
+            this.Controls.Add(this.buttonSave);
+            this.Controls.Add(this.dataGridViewDefSchedInfo);
+            this.Controls.Add(this.buttonRefresh);
+            this.Name = "DefenseSchedulesViewer";
             this.Size = new System.Drawing.Size(940, 645);
-            this.Load += new System.EventHandler(this.DefenseSchedulesViewercs_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.Load += new System.EventHandler(this.DefenseSchedulesViewer_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDefSchedInfo)).EndInit();
+            this.groupBoxSettings.ResumeLayout(false);
+            this.groupBoxSettings.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label labelDisplayMsg;
-        private System.Windows.Forms.DateTimePicker dateTimePickerEnd;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DateTimePicker dateTimePickerStart;
-        private System.Windows.Forms.Button buttonViewDefScheds;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DateTimePicker dateTimePickerEndDate;
+        private System.Windows.Forms.DateTimePicker dateTimePickerStartDate;
+        private System.Windows.Forms.Button buttonRefresh;
+        private System.Windows.Forms.DataGridView dataGridViewDefSchedInfo;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.CheckBox checkBoxIncludeTHSST1;
+        private System.Windows.Forms.CheckBox checkBoxIncludeTHSST3;
+        private System.Windows.Forms.GroupBox groupBoxSettings;
+        private System.Windows.Forms.Label labelInclude;
+        private System.Windows.Forms.Label labelEndDate;
+        private System.Windows.Forms.Label labelStartDate;
+        private System.Windows.Forms.Label labelNoSchedulesFound;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnCourse;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnTitle;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnVenue;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnAdvisor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnPanels;
     }
 }
