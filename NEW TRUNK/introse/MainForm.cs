@@ -11,12 +11,12 @@ using CustomUserControl;
 
 namespace introse
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private FormResetWizard formResetWizard;
         private DefenseSchedulesViewerForm defenseSchedulesViewerForm;
      
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             scheduleEditor2.containerParent = this;
