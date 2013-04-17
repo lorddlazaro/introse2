@@ -124,17 +124,17 @@ namespace CustomUserControl
             labelWarning.Text = "";
             textBoxWeeklyTimeslotCourse.BackColor = Color.White;
             textBoxWeeklyTimeslotSection.BackColor = Color.White;
-            listViewWeeklyTimeslotDay.BackColor = Color.White;
+            listViewWeeklyTimeslotDay.BackColor = DefaultBackColor;
             if (textBoxWeeklyTimeslotCourse.Text.Length > 7 || textBoxWeeklyTimeslotCourse.Text == "") 
             {
-                labelWarning.Text = "Course should be 7 characters.";
+                labelWarning.Text = "Course should "+System.Environment.NewLine+"be 7 characters.";
                 textBoxWeeklyTimeslotCourse.BackColor = Color.LightPink;
                 //MessageBox.Show("Course should be less than 7 characters and shouldn't be null", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (textBoxWeeklyTimeslotSection.Text.Length > 3 || textBoxWeeklyTimeslotSection.Text =="") 
             {
-                labelWarning.Text = "Section should be 3 characters.";
+                labelWarning.Text = "Section should "+System.Environment.NewLine+"be 3 characters.";
                 textBoxWeeklyTimeslotSection.BackColor = Color.LightPink;
                 //MessageBox.Show("section should be less than 3 characters and shouldn't be null", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -149,14 +149,14 @@ namespace CustomUserControl
             }
             if (j == 0) 
             {
-                labelWarning.Text = "Select at least one checkbox.";
+                labelWarning.Text = "Select at least "+System.Environment.NewLine+"one checkbox.";
                 listViewWeeklyTimeslotDay.BackColor = Color.LightPink;
                 //MessageBox.Show("select at least one checkbox", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (dateTimePickerWeeklyTimeslotStartTime.Value.TimeOfDay >= dateTimePickerWeeklyTimeslotEndTime.Value.TimeOfDay)
             {
-                labelWarning.Text = "Time is invalid";
+                labelWarning.Text = "Start time should come" + System.Environment.NewLine + "first before endtime.";
                 dateTimePickerWeeklyTimeslotStartTime.CalendarTitleForeColor = Color.LightPink;
                 Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value.CompareTo(dateTimePickerWeeklyTimeslotEndTime.Value));
                 //MessageBox.Show("Time is invalid", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
