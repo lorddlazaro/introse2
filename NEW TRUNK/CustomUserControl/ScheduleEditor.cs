@@ -1173,7 +1173,5 @@ namespace CustomUserControl
         {
             return comboBoxSortType.SelectedIndex == 0 || comboBoxSortType.SelectedIndex == 1;
         }
-
-
     }
 }
