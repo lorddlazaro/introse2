@@ -564,7 +564,7 @@ namespace CustomUserControl
                 if (tgDM.HasDefenseSchedule(currThesisGroupID))
                     tgDM.DeleteDefenseSchedule(currThesisGroupID);
 
-                tgDM.DeleteStudent(oldID, currThesisGroupID);
+                tgDM.DeleteStudent(oldID);
                 tgDM.InsertNewStudent(currThesisGroupID, newID, newFirstName, newMI, newLastName);
             }
 
@@ -593,7 +593,7 @@ namespace CustomUserControl
 
             if (input == DialogResult.Yes)
             {
-                tgDM.DeleteStudent(studentDetails[studentIndex].ElementAt(0).Text, currThesisGroupID);
+                tgDM.DeleteStudent(studentDetails[studentIndex].ElementAt(0).Text);
                 tgDM.DeleteDefenseSchedule(currThesisGroupID);
             }
 

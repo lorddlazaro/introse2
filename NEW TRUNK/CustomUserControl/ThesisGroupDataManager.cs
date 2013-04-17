@@ -168,14 +168,14 @@ namespace CustomUserControl
             query += lastName + "', " + thesisGroupID + ");";
             dbHandler.Insert(query);
         }
-        public void DeleteStudent(String studentID, String thesisGroupID)
+        public void DeleteStudent(String studentID)
         {
             String query;
 
             query = "delete from studenteventrecord where studentid =" + studentID + ";";
             dbHandler.Delete(query);
 
-            query = "delete from student where thesisgroupid = " + thesisGroupID + ";";
+            query = "delete from student where studentid = " + studentID + ";";
             dbHandler.Delete(query);
         }
         public void UpdateStudent(String studentID, String firstName, String MI, String lastName)
