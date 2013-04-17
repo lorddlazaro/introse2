@@ -674,8 +674,6 @@ namespace CustomUserControl
             String newLastName = panelistDetails[panelIndex].ElementAt(2).Text;
             String newMI = panelistDetails[panelIndex].ElementAt(3).Text;
 
-            panelIndex++;
-
             if (String.IsNullOrEmpty(newID) || String.IsNullOrEmpty(newFirstName) || String.IsNullOrEmpty(newLastName))
             {
                 MessageBox.Show("Please fill incomplete fields.", "Error", MessageBoxButtons.OK);
@@ -713,8 +711,6 @@ namespace CustomUserControl
             List<String>[] result = tgDM.GetGroupPanelists(currThesisGroupID);
             List<String>[] result2 = tgDM.GetPanelistsNotInGroup(currThesisGroupID);
 
-            Console.WriteLine(newID + " " + result[0].ElementAt(panelIndex));
-
             if (result[0].Count <= panelIndex) // NEW PANELIST
             {
                 for (int i = 0; i < result[0].Count; i++)
@@ -750,7 +746,7 @@ namespace CustomUserControl
             {
                 for (int i = 0; i < result[0].Count; i++)
                 {
-                    if (result[0].ElementAt(i).Equals(newID) && i != panelIndex)
+                    if (result[0].ElementAt(i).Equals(newID))
                     {
                         MessageBox.Show("Panelist Already Assigned to Thesis Group", "Error", MessageBoxButtons.OK);
                         UpdateComponents();
@@ -831,7 +827,7 @@ namespace CustomUserControl
                 List<String>[] result = tgDM.GetPanelistsNotInGroup(currThesisGroupID);
 
                 for (int i = 0; i < memcount; i++)
-                    selPanel[panelIndex].Items.Add(result[0].ElementAt(i) + " " + result[1].ElementAt(i) + ". " + result[2].ElementAt(i));
+                    selPanel[panelIndex].Items.Add(result[1].ElementAt(i) + " " + result[2].ElementAt(i) + ". " + result[3].ElementAt(i));
             }
             else
             {
@@ -1019,22 +1015,7 @@ namespace CustomUserControl
         {
             if (!groupButtons[0].Enabled)
             {
-                for (int i = 0; i < 3; i++)
-                {
-                    groupDetails[i].Enabled = false;
-                    groupDetails[i].Text = "";
-                }
-
-                for (int i = 0; i < 2; i++)
-                    groupDetails2[i].Enabled = false;
-
-                groupButtons[0].Enabled = true;
-                groupButtons[1].Enabled = true;
-                groupButtons[2].Enabled = false;
-                groupButtons[3].Enabled = false;
-
-                defenseCheckBox.Enabled = false;
-                redefenseCheckBox.Enabled = false;
+                UpdateComponents();
                 return;
             }
 
