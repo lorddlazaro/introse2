@@ -72,12 +72,13 @@ namespace CustomUserControl
             Console.WriteLine("check success");
             if (duplicateEvents.Count > 0)
             {
-                if (!duplicateEvents[0].Equals(forEditing[1]))
-                {
-                    MessageBox.Show("This event already exists", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
+                if (isEditMode)
+                    if (!duplicateEvents[0].Equals(forEditing[0]))
+                        return;
+                       
+                
+                MessageBox.Show("This event already exists", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
             
             //START: Conflict with defense checking
