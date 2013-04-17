@@ -514,6 +514,9 @@ namespace CustomUserControl
                 MessageBox.Show("No Panelist Selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
+            if( DialogResult.Cancel == MessageBox.Show("Are you sure you want to delete this panelist?", "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question))
+                return;
+
             String query = "DELETE FROM panelist WHERE panelistID = '" + currPanelist + "';";
             dbHandler.Delete(query);
             query = "DELETE FROM panelAssignment WHERE panelistID = '" + currPanelist + "';";
