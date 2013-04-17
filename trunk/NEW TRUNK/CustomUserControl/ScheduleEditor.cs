@@ -41,6 +41,7 @@ namespace CustomUserControl
             update_courses();
             update_events();
             schedulingDM = new SchedulingDataManager();
+            comboBox1.SelectedIndex = 0;
         }
         //Tree View
         private void InitStudentListBox() 
@@ -52,112 +53,105 @@ namespace CustomUserControl
             if (e.Node.Level == 0)
             {
                 //e.Node.Expand();
-
-                //disables buttons
-                buttonAddExistingEvent.Enabled = false;
-                buttonAddExistingWeeklyTimeslot.Enabled = false;
-                buttonDeleteWeeklyTimeslot.Enabled = false;
-                buttondeleteEvent.Enabled = false;
-                //clears the tables
-                dataGridViewWeeklyTimeslot.DataSource = null;
-                dataGridViewWeeklyTimeslot.Refresh();
-                dataGridViewEvent.DataSource = null;
-                dataGridViewEvent.Refresh();
-                if (dataGridViewExistingEvent.DataSource != null)
-                    dataGridViewExistingEvent.Rows[0].Selected = true;
-                if (dataGridViewExistingTimeslot.DataSource != null)
-                    dataGridViewExistingTimeslot.Rows[0].Selected = true;
-                labelSelectedPersonEvent.Text = "";
-                labelSelectedPersonTimeslot.Text = "";
+                ClearEverything();
             }
             else if (e.Node.Level == 1)
             {
-                //enable buttons
-                buttonAddExistingEvent.Enabled = true;
-                buttonAddExistingWeeklyTimeslot.Enabled = true;
-                buttonDeleteWeeklyTimeslot.Enabled = true;
-                buttondeleteEvent.Enabled = true;
-                //updates tables
-                labelSelectedPersonEvent.Text = e.Node.Text+"'s Events";
-                labelSelectedPersonTimeslot.Text = e.Node.Text + "'s Class Schedule";
-                currStudent = e.Node.Name;
-                RefreshStudentClassScheds();
-                RefreshStudentEvents();
-                update_courses();
-                update_events();
-                
-                
+                SwitchToStudentMode(e.Node);
             }
         }
+
+        private void ClearEverything() 
+        {
+            currPanelist = "";
+            currStudent = "";
+            //disables buttons
+            buttonAddExistingEvent.Enabled = false;
+            buttonAddExistingWeeklyTimeslot.Enabled = false;
+            buttonDeleteWeeklyTimeslot.Enabled = false;
+            buttondeleteEvent.Enabled = false;
+            //clears the tables
+            dataGridViewWeeklyTimeslot.DataSource = null;
+            dataGridViewWeeklyTimeslot.Refresh();
+            dataGridViewEvent.DataSource = null;
+            dataGridViewEvent.Refresh();
+            if (dataGridViewExistingEvent.DataSource != null)
+                dataGridViewExistingEvent.Rows[0].Selected = true;
+            if (dataGridViewExistingTimeslot.DataSource != null)
+                dataGridViewExistingTimeslot.Rows[0].Selected = true;
+            labelSelectedPersonEvent.Text = "";
+            labelSelectedPersonTimeslot.Text = "";
+        }
+
         private void panelistTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Node.Level == 0)
             {
-                //disables buttons
-                buttonAddExistingEvent.Enabled = false;
-                buttonAddExistingWeeklyTimeslot.Enabled = false;
-                buttonDeleteWeeklyTimeslot.Enabled = false;
-                buttondeleteEvent.Enabled = false;
-                //clears the tables
-                dataGridViewWeeklyTimeslot.DataSource = null;
-                dataGridViewWeeklyTimeslot.Refresh();
-                dataGridViewEvent.DataSource = null;
-                dataGridViewEvent.Refresh();
-                if (dataGridViewExistingEvent.DataSource != null)
-                    dataGridViewExistingEvent.Rows[0].Selected = true;
-                if (dataGridViewExistingTimeslot.DataSource != null)
-                    dataGridViewExistingTimeslot.Rows[0].Selected = true;
-                labelSelectedPersonEvent.Text = "";
-                labelSelectedPersonTimeslot.Text = "";
+                ClearEverything();
             }
             else if (e.Node.Level == 1)
             {
-                //enable buttons
-                buttonAddExistingEvent.Enabled = true;
-                buttonAddExistingWeeklyTimeslot.Enabled = true;
-                buttonDeleteWeeklyTimeslot.Enabled = true;
-                buttondeleteEvent.Enabled = true;
-                
-                //updates tables
-                labelSelectedPersonEvent.Text = e.Node.Text + "'s Events";
-                labelSelectedPersonTimeslot.Text = e.Node.Text + "'s Class Schedule";
-                currPanelist = e.Node.Name;
-                RefreshPanelistClassScheds();
-                RefreshPanelistEvents();
-                update_courses();
-                update_events();
+                SwitchToPanelistMode(e.Node);
             }
         }
-        private void btnSwitchView_Click(object sender, EventArgs e)
+
+        private void SwitchToPanelistMode(TreeNode selectedNode) 
         {
-            if (btnSwitchView.Text.Equals("Switch to Panelists"))
-            {
-                currPanelist = "";
-                personLabel.Text = "Panelists:";
-                btnSwitchView.Text = "Switch to Students";
-                studentTreeView.Hide();
-                panelistTreeView.Show();
-                panelistTreeView.Enabled = true;
-                studentTreeView.Enabled = false;
-                UpdatePanelistList(panelistTreeView.Nodes);
-                refreshAll();
-            }
-            else 
-            {
-                currStudent = "";
-                personLabel.Text = "Students:";
-                btnSwitchView.Text = "Switch to Panelists";
-                studentTreeView.Show();
-                panelistTreeView.Hide();
-                panelistTreeView.Enabled = false;
-                studentTreeView.Enabled = true;
-                UpdateStudentList(studentTreeView.Nodes);
-                refreshAll();
-            }
+            //enable buttons
+            buttonAddExistingEvent.Enabled = true;
+            buttonAddExistingWeeklyTimeslot.Enabled = true;
+            buttonDeleteWeeklyTimeslot.Enabled = true;
+            buttondeleteEvent.Enabled = true;
+
+            //updates tables
+            labelSelectedPersonEvent.Text = selectedNode.Text + "'s Events";
+            labelSelectedPersonTimeslot.Text = selectedNode.Text + "'s Class Schedule";
+            currPanelist = selectedNode.Name;
+            RefreshPanelistClassScheds();
+            RefreshPanelistEvents();
+            update_courses();
+            update_events();
         }
+
+        private void SwitchToStudentMode(TreeNode selectedNode) 
+        {
+            //enable buttons
+            buttonAddExistingEvent.Enabled = true;
+            buttonAddExistingWeeklyTimeslot.Enabled = true;
+            buttonDeleteWeeklyTimeslot.Enabled = true;
+            buttondeleteEvent.Enabled = true;
+            //updates tables
+            labelSelectedPersonEvent.Text = selectedNode.Text + "'s Events";
+            labelSelectedPersonTimeslot.Text = selectedNode.Text + "'s Class Schedule";
+            currStudent = selectedNode.Name;
+            RefreshStudentClassScheds();
+            RefreshStudentEvents();
+            update_courses();
+            update_events();
+        }
+
+        private void treeViewStudents_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            SwitchToStudentMode(e.Node);
+        }
+
+        private void treeViewPanelists_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            SwitchToPanelistMode(e.Node);
+        }
+        private void treeViewUngroupedPanelists_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            SwitchToPanelistMode(e.Node);
+        }
+
+        private bool IsTreeViewSetToStudents() 
+        {
+            return comboBox1.SelectedIndex == 0 || comboBox1.SelectedIndex == 1;
+        }
+
         public void refreshAll()
         {
-            if (btnSwitchView.Text.Equals("Switch to Panelists"))
+            if (IsTreeViewSetToStudents())
             {
                 RefreshStudentClassScheds();
                 RefreshStudentEvents();
@@ -191,8 +185,8 @@ namespace CustomUserControl
             int rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index;
             TimePeriod classTimePeriod = new TimePeriod(Convert.ToDateTime(existingTimeslots[4][rowIndex]), Convert.ToDateTime(existingTimeslots[5][rowIndex]));
             String dayOfWeek = existingTimeslots[3][rowIndex];
-             
-            if (btnSwitchView.Text.Equals("Switch to Panelists"))
+
+            if (IsTreeViewSetToStudents())
             {
                 
                 Console.WriteLine("rowindex: "+rowIndex);
@@ -350,7 +344,7 @@ namespace CustomUserControl
             String selectedRowIndex = dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString();
             Console.WriteLine("selected row index(string): " + dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString());
             String currTimeslot = timeSlotTable[0][dataGridViewWeeklyTimeslot.SelectedRows[0].Index];
-            if (btnSwitchView.Text.Equals("Switch to Panelists"))
+            if (IsTreeViewSetToStudents())
             {
                 Console.WriteLine(currTimeslot + "-" + currStudent + "-");
                 String query = "DELETE FROM StudentSchedule WHERE studentID = " + currStudent + " AND timeslotID = " + currTimeslot + ";";
@@ -428,7 +422,7 @@ namespace CustomUserControl
             int rowIndex = dataGridViewExistingEvent.SelectedRows[0].Index;
             //VALIDATION
             //-Conflict of Defense Checking
-            if (btnSwitchView.Text.Equals("Switch to Panelists"))
+            if (IsTreeViewSetToStudents())
             {
                 query = "SELECT        DefenseSchedule.defenseDateTime, DefenseSchedule.defenseID, ThesisGroup.course FROM            DefenseSchedule INNER JOIN ThesisGroup ON DefenseSchedule.thesisGroupID = ThesisGroup.thesisGroupID INNER JOIN Student ON ThesisGroup.thesisGroupID = Student.thesisGroupID WHERE        (Student.studentID = '"+currStudent+"')";
             }
@@ -469,7 +463,7 @@ namespace CustomUserControl
                     if (maxStart < minEnd)
                     {
                         DialogResult result;
-                        if (btnSwitchView.Text.Equals("Switch to Panelists"))
+                        if (IsTreeViewSetToStudents())
                             result = MessageBox.Show("Event conflicts with selected student defense" + System.Environment.NewLine + "Unschedule conflicting defense?", "Conflict with Defense", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                         else
                             result = MessageBox.Show("Event conflicts with selected panelists defense" + System.Environment.NewLine + "Unschedule conflicting defense?", "Conflict with Defense", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
@@ -490,8 +484,8 @@ namespace CustomUserControl
             }
 
             //ADD 
-            
-            if (btnSwitchView.Text.Equals("Switch to Panelists"))
+
+            if (IsTreeViewSetToStudents())
             {
                 
                 int eventID = Convert.ToInt32(existingEvents[0][rowIndex]);
@@ -527,7 +521,7 @@ namespace CustomUserControl
             String selectedRowIndex = dataGridViewEvent.SelectedRows[0].Index.ToString();
             //Console.WriteLine("selected row index(string): " + dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString());
             String currEvent = eventTable[0][dataGridViewEvent.SelectedRows[0].Index];
-            if (btnSwitchView.Text.Equals("Switch to Panelists"))
+            if (IsTreeViewSetToStudents())
             {
                 Console.WriteLine(currEvent + "-" + currStudent + "-");
                 String query = "DELETE FROM StudentEventRecord WHERE studentID = " + currStudent + " AND eventID = " + currEvent + ";";
@@ -588,7 +582,7 @@ namespace CustomUserControl
         {
 
             String query = "";
-            if (btnSwitchView.Text.Equals("Switch to Panelists"))
+            if (IsTreeViewSetToStudents())
             {
                 Console.WriteLine(currStudent);
                 query = "SELECT DISTINCT  Timeslot.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime,  Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM StudentSchedule RIGHT OUTER JOIN Timeslot ON StudentSchedule.timeslotID = Timeslot.timeslotID LEFT OUTER JOIN Panelist ON Timeslot.panelistID = Panelist.panelistID WHERE (Timeslot.timeslotID NOT IN (SELECT        timeslotID FROM            StudentSchedule AS StudentSchedule_1 WHERE        (studentID = '"+currStudent+"'))) ORDER BY Timeslot.courseName, Timeslot.section";
@@ -651,7 +645,7 @@ namespace CustomUserControl
         public void update_events()
         {
             String query = "";
-            if (btnSwitchView.Text.Equals("Switch to Panelists")) 
+            if (IsTreeViewSetToStudents()) 
             {
                 Console.WriteLine(currStudent);
                 query = "SELECT DISTINCT eventID, name,eventStart,eventEnd FROM Event WHERE eventID NOT IN ( SELECT eventID FROM StudentEventRecord WHERE studentID = '"+currStudent+"');";
@@ -740,6 +734,58 @@ namespace CustomUserControl
                 tree.Add(parent);
             }
         }
+
+        public void UpdateStudentTreeView(TreeNodeCollection tree)
+        {
+            tree.Clear();
+            List<String>[] studentTable;
+            TreeNode node;
+            String query = "select studentID, lastName+', '+firstName+ ' '+MI+'.' FROM student ORDER BY lastName ;";
+              
+            studentTable = dbHandler.Select(query, 2);
+            for (int j = 0; j < studentTable[0].Count; j++)
+            {
+                node = new TreeNode();
+                node.Name = studentTable[0].ElementAt(j);
+                node.Text = studentTable[1].ElementAt(j);
+                tree.Add(node);
+            }
+        }
+
+        public void UpdatePanelistTreeView(TreeNodeCollection tree)
+        {
+            tree.Clear();
+            List<String>[] studentTable;
+            TreeNode node;
+            String query = "select panelistID, lastName+', '+firstName+ ' '+MI+'.' FROM panelist ORDER BY lastName ;";
+
+            studentTable = dbHandler.Select(query, 2);
+            for (int j = 0; j < studentTable[0].Count; j++)
+            {
+                node = new TreeNode();
+                node.Name = studentTable[0].ElementAt(j);
+                node.Text = studentTable[1].ElementAt(j);
+                tree.Add(node);
+            }
+        }
+
+        public void UpdateUngroupedPanelistTreeView(TreeNodeCollection tree)
+        {
+            tree.Clear();
+            List<String>[] studentTable;
+            TreeNode node;
+            String query = "select panelistID, lastName+', '+firstName+ ' '+MI+'.' FROM panelist WHERE panelistID NOT IN (SELECT distinct panelistID FROM panelAssignment)  ORDER BY lastName ;";
+
+            studentTable = dbHandler.Select(query, 2);
+            for (int j = 0; j < studentTable[0].Count; j++)
+            {
+                node = new TreeNode();
+                node.Name = studentTable[0].ElementAt(j);
+                node.Text = studentTable[1].ElementAt(j);
+                tree.Add(node);
+            }
+        }
+
         private void RefreshClassScheds(String ID, String columnName)
         {
             classSchedList.Clear();
@@ -913,5 +959,76 @@ namespace CustomUserControl
             dataGridViewExistingTimeslot.ClearSelection();
             selectedTimeslotDGV = "current";
         }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ClearEverything();
+            if (comboBox1.SelectedIndex != 4)
+                buttonDeletePanelist.Hide();
+            else
+                buttonDeletePanelist.Show();
+
+            if (comboBox1.SelectedIndex == 0) 
+            {
+                studentTreeView.Show();
+                treeViewStudents.Hide();
+                panelistTreeView.Hide();
+                treeViewPanelists.Hide();
+                treeViewUngroupedPanelists.Hide();
+
+                currPanelist = "";
+                UpdateStudentList(studentTreeView.Nodes);
+            }
+            else if (comboBox1.SelectedIndex == 1)
+            {
+                studentTreeView.Hide();
+                treeViewStudents.Show();
+                panelistTreeView.Hide();
+                treeViewPanelists.Hide();
+                treeViewUngroupedPanelists.Hide();
+                UpdateStudentTreeView(treeViewStudents.Nodes);
+                currPanelist = "";
+            }
+            else if (comboBox1.SelectedIndex == 2)
+            {
+                studentTreeView.Hide();
+                treeViewStudents.Hide();
+                panelistTreeView.Show();
+                treeViewPanelists.Hide();
+                treeViewUngroupedPanelists.Hide();
+                currStudent = "";
+                UpdatePanelistList(panelistTreeView.Nodes);     
+            }
+            else if (comboBox1.SelectedIndex == 3)
+            {
+                studentTreeView.Hide();
+                treeViewStudents.Hide();
+                panelistTreeView.Hide();
+                treeViewPanelists.Show();
+                treeViewUngroupedPanelists.Hide();
+                currStudent = "";
+                UpdatePanelistTreeView(treeViewPanelists.Nodes);
+            }
+            else if (comboBox1.SelectedIndex == 4)
+            {
+                studentTreeView.Hide();
+                treeViewStudents.Hide();
+                panelistTreeView.Hide();
+                treeViewPanelists.Hide();
+                treeViewUngroupedPanelists.Show();
+                UpdateUngroupedPanelistTreeView(treeViewUngroupedPanelists.Nodes);
+                currStudent = "";
+            }
+        }
+
+        public void RefreshAll() 
+        {
+            int old = comboBox1.SelectedIndex;
+            comboBox1.SelectedIndex = 0;
+            comboBox1.SelectedIndex = old;
+        }
+
+        
+
     }
 }
