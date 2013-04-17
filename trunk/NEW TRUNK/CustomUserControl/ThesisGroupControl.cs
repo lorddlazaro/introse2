@@ -35,8 +35,6 @@ namespace CustomUserControl
             InitDB();
             InitButtons();
             InitPanels();
-
-            sortStudents.SelectedIndex = 0;
             
             thesisGroupTreeView.BeginUpdate();
             tgDM.showGroups(thesisGroupTreeView.Nodes);
@@ -349,7 +347,7 @@ namespace CustomUserControl
             List<String>[] groupInfo;
 
             int memcount = tgDM.studentCount(currThesisGroupID);
-            groupInfo = tgDM.getGroupMembers(currThesisGroupID, sortStudents.SelectedItem + "");
+            groupInfo = tgDM.getGroupMembers(currThesisGroupID);
 
             for (int i = 0; i < 4; i++)
             {
@@ -562,8 +560,12 @@ namespace CustomUserControl
 
                 String oldID = result[0].ElementAt(studentIndex);
 
+
+                if (tgDM.HasDefenseSchedule(currThesisGroupID))
+                    tgDM.DeleteDefenseSchedule(currThesisGroupID);
+
                 tgDM.deleteStudent(oldID, currThesisGroupID);
-                tgDM.insertNewStudent(currThesisGroupID, newID, newFirstName, newMI, newLastName); 
+                tgDM.insertNewStudent(currThesisGroupID, newID, newFirstName, newMI, newLastName);
             }
 
 
@@ -579,15 +581,22 @@ namespace CustomUserControl
 
             List<String>[] result = tgDM.getStudentInfo(studentDetails[studentIndex].ElementAt(0).Text);
 
-            String name = result[0].ElementAt(0) + " - " + result[1].ElementAt(0) + " " + result[2].ElementAt(0) + ". " + result[3].ElementAt(0);
+            String name = "Are you sure you want to delete student " + result[0].ElementAt(0) + " - " + result[1].ElementAt(0) + " " + result[2].ElementAt(0) + ". " + result[3].ElementAt(0) + "?";
+            String defenseSked = "\nThe defense schedule assigned to this group will be deleted as well.";
 
-            DialogResult input = MessageBox.Show("Are you sure you want to delete student " + name + "?", "Confirm", MessageBoxButtons.YesNo);
-
-            if (input == DialogResult.Yes)
+            if (tgDM.HasDefenseSchedule(currThesisGroupID))
             {
-                tgDM.deleteStudent(studentDetails[studentIndex].ElementAt(0).Text,currThesisGroupID);
-            }
+                name += defenseSked;
 
+                DialogResult input = MessageBox.Show(name, "Confirm", MessageBoxButtons.YesNo);
+
+                if (input == DialogResult.Yes)
+                {
+                    tgDM.deleteStudent(studentDetails[studentIndex].ElementAt(0).Text, currThesisGroupID);
+                    tgDM.DeleteDefenseSchedule(currThesisGroupID);
+                }
+
+            }
             UpdateComponents();
         }
         private void changeStudentSort(object sender, EventArgs e)
@@ -703,6 +712,7 @@ namespace CustomUserControl
                     }
                 }
 
+                tgDM.DeleteDefenseSchedule(currThesisGroupID);
                 tgDM.removeAssignedPanelistFromGroup(currThesisGroupID, result[0].ElementAt(panelIndex));
                 tgDM.insertNewPanelist(newID, newFirstName, newMI, newLastName);
                 tgDM.assignPanelistToGroup(currThesisGroupID, newID);
@@ -730,6 +740,7 @@ namespace CustomUserControl
             if (input == DialogResult.Yes)
             {
                 tgDM.removeAssignedPanelistFromGroup(currThesisGroupID, panelistID);
+                tgDM.DeleteDefenseSchedule(currThesisGroupID);
             }
 
             UpdateComponents();
