@@ -54,13 +54,16 @@ namespace CustomUserControl
         {
             String query;
 
-            query = "delete from studenteventrecord where thesisgroupid = " + thesisGroupID + ";";
-            dbHandler.Delete(query);
-
             query = "delete from panelassignment where thesisgroupid = " + thesisGroupID + ";";
             dbHandler.Delete(query);
 
             query = "delete from defenseschedule where thesisgroupid = " + thesisGroupID + ";";
+            dbHandler.Delete(query);
+
+            query = "delete from studenteventrecord where studentid in (select studentid from student where thesisgroupid = " + thesisGroupID + ");";
+            dbHandler.Delete(query);
+
+            query = "delete from studentschedule where studentid in (select studentid from student where thesisgroupid = " + thesisGroupID + ");";
             dbHandler.Delete(query);
 
             query = "delete from student where thesisgroupid = " + thesisGroupID + ";";

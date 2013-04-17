@@ -970,11 +970,16 @@ namespace CustomUserControl
             if (String.IsNullOrEmpty(currThesisGroupID))
                 return;
 
-            tgDM.DeleteGroup(currThesisGroupID);
-            currThesisGroupID = "";
+            String thesisTitle = tgDM.GetGroupInfo(currThesisGroupID)[0].ElementAt(0);
+            DialogResult input = MessageBox.Show("Deleting Thesis Group - " + thesisTitle + "\nAre you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-            UpdateComponents();
-            UpdateTreeview();
+            if (input == DialogResult.Yes) {
+                tgDM.DeleteGroup(currThesisGroupID);
+                currThesisGroupID = "";
+
+                UpdateComponents();
+                UpdateTreeview();
+            }
         }
 
         //TREEVIEW LISTENER
@@ -985,21 +990,6 @@ namespace CustomUserControl
                 currThesisGroupID = e.Node.Name;
                 UpdateComponents();
             }
-        }
-
-        private void selPanelist1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void selPanelist2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void selPanelist3_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
