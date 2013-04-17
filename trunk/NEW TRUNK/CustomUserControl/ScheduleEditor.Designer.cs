@@ -28,32 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.studentTreeView = new System.Windows.Forms.TreeView();
-            this.groupBoxWeeklyTimeslot = new System.Windows.Forms.GroupBox();
+            this.treeViewStudentGroup = new System.Windows.Forms.TreeView();
+            this.groupBoxTimeslot = new System.Windows.Forms.GroupBox();
+            this.buttonDeleteTimeslot = new System.Windows.Forms.Button();
+            this.buttonAddTimeslot = new System.Windows.Forms.Button();
             this.labelSelectedPersonTimeslot = new System.Windows.Forms.Label();
             this.dataGridViewExistingTimeslot = new System.Windows.Forms.DataGridView();
             this.labelWeeklyTimeslot = new System.Windows.Forms.Label();
             this.dataGridViewWeeklyTimeslot = new System.Windows.Forms.DataGridView();
-            this.buttonWeeklyTimeslotEdit = new System.Windows.Forms.Button();
-            this.buttonAddExistingWeeklyTimeslot = new System.Windows.Forms.Button();
-            this.buttonDeleteWeeklyTimeslot = new System.Windows.Forms.Button();
-            this.buttonAddWeeklyTimeslot = new System.Windows.Forms.Button();
+            this.buttonTimeslotEdit = new System.Windows.Forms.Button();
+            this.buttonAssignTimeslot = new System.Windows.Forms.Button();
+            this.buttonUnassignTimeslot = new System.Windows.Forms.Button();
             this.groupBoxEvent = new System.Windows.Forms.GroupBox();
+            this.buttonDeleteEvent = new System.Windows.Forms.Button();
             this.labelAvailableEvents = new System.Windows.Forms.Label();
             this.labelSelectedPersonEvent = new System.Windows.Forms.Label();
             this.dataGridViewExistingEvent = new System.Windows.Forms.DataGridView();
-            this.buttonEventEdit = new System.Windows.Forms.Button();
+            this.buttonEditEvent = new System.Windows.Forms.Button();
             this.dataGridViewEvent = new System.Windows.Forms.DataGridView();
-            this.buttonAddExistingEvent = new System.Windows.Forms.Button();
+            this.buttonAssignEvent = new System.Windows.Forms.Button();
             this.buttonAddEvent = new System.Windows.Forms.Button();
-            this.buttondeleteEvent = new System.Windows.Forms.Button();
-            this.panelistTreeView = new System.Windows.Forms.TreeView();
+            this.buttonUnassignEvent = new System.Windows.Forms.Button();
+            this.treeViewPanelistGroup = new System.Windows.Forms.TreeView();
             this.treeViewStudents = new System.Windows.Forms.TreeView();
             this.treeViewPanelists = new System.Windows.Forms.TreeView();
             this.treeViewUngroupedPanelists = new System.Windows.Forms.TreeView();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBoxSortType = new System.Windows.Forms.ComboBox();
             this.buttonDeletePanelist = new System.Windows.Forms.Button();
-            this.groupBoxWeeklyTimeslot.SuspendLayout();
+            this.groupBoxTimeslot.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExistingTimeslot)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWeeklyTimeslot)).BeginInit();
             this.groupBoxEvent.SuspendLayout();
@@ -61,38 +63,61 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEvent)).BeginInit();
             this.SuspendLayout();
             // 
-            // studentTreeView
+            // treeViewStudentGroup
             // 
-            this.studentTreeView.Location = new System.Drawing.Point(3, 36);
-            this.studentTreeView.Name = "studentTreeView";
-            this.studentTreeView.Size = new System.Drawing.Size(245, 327);
-            this.studentTreeView.TabIndex = 6;
-            this.studentTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.studentTreeView_NodeMouseClick);
+            this.treeViewStudentGroup.Location = new System.Drawing.Point(3, 36);
+            this.treeViewStudentGroup.Name = "treeViewStudentGroup";
+            this.treeViewStudentGroup.Size = new System.Drawing.Size(245, 327);
+            this.treeViewStudentGroup.TabIndex = 6;
+            this.treeViewStudentGroup.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewStudentGroup_NodeMouseClick);
             // 
-            // groupBoxWeeklyTimeslot
+            // groupBoxTimeslot
             // 
-            this.groupBoxWeeklyTimeslot.Controls.Add(this.labelSelectedPersonTimeslot);
-            this.groupBoxWeeklyTimeslot.Controls.Add(this.dataGridViewExistingTimeslot);
-            this.groupBoxWeeklyTimeslot.Controls.Add(this.labelWeeklyTimeslot);
-            this.groupBoxWeeklyTimeslot.Controls.Add(this.dataGridViewWeeklyTimeslot);
-            this.groupBoxWeeklyTimeslot.Controls.Add(this.buttonWeeklyTimeslotEdit);
-            this.groupBoxWeeklyTimeslot.Controls.Add(this.buttonAddExistingWeeklyTimeslot);
-            this.groupBoxWeeklyTimeslot.Controls.Add(this.buttonDeleteWeeklyTimeslot);
-            this.groupBoxWeeklyTimeslot.Controls.Add(this.buttonAddWeeklyTimeslot);
-            this.groupBoxWeeklyTimeslot.Location = new System.Drawing.Point(3, 369);
-            this.groupBoxWeeklyTimeslot.Name = "groupBoxWeeklyTimeslot";
-            this.groupBoxWeeklyTimeslot.Size = new System.Drawing.Size(994, 307);
-            this.groupBoxWeeklyTimeslot.TabIndex = 10;
-            this.groupBoxWeeklyTimeslot.TabStop = false;
-            this.groupBoxWeeklyTimeslot.Text = "Class Schedule";
+            this.groupBoxTimeslot.Controls.Add(this.buttonDeleteTimeslot);
+            this.groupBoxTimeslot.Controls.Add(this.buttonAddTimeslot);
+            this.groupBoxTimeslot.Controls.Add(this.labelSelectedPersonTimeslot);
+            this.groupBoxTimeslot.Controls.Add(this.dataGridViewExistingTimeslot);
+            this.groupBoxTimeslot.Controls.Add(this.labelWeeklyTimeslot);
+            this.groupBoxTimeslot.Controls.Add(this.dataGridViewWeeklyTimeslot);
+            this.groupBoxTimeslot.Controls.Add(this.buttonTimeslotEdit);
+            this.groupBoxTimeslot.Controls.Add(this.buttonAssignTimeslot);
+            this.groupBoxTimeslot.Controls.Add(this.buttonUnassignTimeslot);
+            this.groupBoxTimeslot.Location = new System.Drawing.Point(3, 369);
+            this.groupBoxTimeslot.Name = "groupBoxTimeslot";
+            this.groupBoxTimeslot.Size = new System.Drawing.Size(994, 307);
+            this.groupBoxTimeslot.TabIndex = 10;
+            this.groupBoxTimeslot.TabStop = false;
+            this.groupBoxTimeslot.Text = "Class Schedule";
+            // 
+            // buttonDeleteTimeslot
+            // 
+            this.buttonDeleteTimeslot.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonDeleteTimeslot.Location = new System.Drawing.Point(928, 13);
+            this.buttonDeleteTimeslot.Name = "buttonDeleteTimeslot";
+            this.buttonDeleteTimeslot.Size = new System.Drawing.Size(57, 23);
+            this.buttonDeleteTimeslot.TabIndex = 24;
+            this.buttonDeleteTimeslot.Text = "Delete";
+            this.buttonDeleteTimeslot.UseVisualStyleBackColor = true;
+            this.buttonDeleteTimeslot.Click += new System.EventHandler(this.buttonDeleteTimeslot_Click);
+            // 
+            // buttonAddTimeslot
+            // 
+            this.buttonAddTimeslot.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonAddTimeslot.Location = new System.Drawing.Point(802, 14);
+            this.buttonAddTimeslot.Name = "buttonAddTimeslot";
+            this.buttonAddTimeslot.Size = new System.Drawing.Size(57, 23);
+            this.buttonAddTimeslot.TabIndex = 12;
+            this.buttonAddTimeslot.Text = "Add";
+            this.buttonAddTimeslot.UseVisualStyleBackColor = true;
+            this.buttonAddTimeslot.Click += new System.EventHandler(this.buttonAddTimeslot_Click);
             // 
             // labelSelectedPersonTimeslot
             // 
             this.labelSelectedPersonTimeslot.AutoSize = true;
-            this.labelSelectedPersonTimeslot.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSelectedPersonTimeslot.Location = new System.Drawing.Point(6, 19);
+            this.labelSelectedPersonTimeslot.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSelectedPersonTimeslot.Location = new System.Drawing.Point(8, 13);
             this.labelSelectedPersonTimeslot.Name = "labelSelectedPersonTimeslot";
-            this.labelSelectedPersonTimeslot.Size = new System.Drawing.Size(207, 20);
+            this.labelSelectedPersonTimeslot.Size = new System.Drawing.Size(212, 26);
             this.labelSelectedPersonTimeslot.TabIndex = 23;
             this.labelSelectedPersonTimeslot.Text = "Person\'s Class Schedule";
             // 
@@ -109,15 +134,15 @@
             this.dataGridViewExistingTimeslot.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewExistingTimeslot.Size = new System.Drawing.Size(460, 261);
             this.dataGridViewExistingTimeslot.TabIndex = 22;
-            this.dataGridViewExistingTimeslot.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewExistingTimeslot_RowEnter);
+            this.dataGridViewExistingTimeslot.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewExistingTimeslot_RowEnter);
             // 
             // labelWeeklyTimeslot
             // 
             this.labelWeeklyTimeslot.AutoSize = true;
-            this.labelWeeklyTimeslot.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelWeeklyTimeslot.Location = new System.Drawing.Point(520, 19);
+            this.labelWeeklyTimeslot.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelWeeklyTimeslot.Location = new System.Drawing.Point(524, 14);
             this.labelWeeklyTimeslot.Name = "labelWeeklyTimeslot";
-            this.labelWeeklyTimeslot.Size = new System.Drawing.Size(219, 20);
+            this.labelWeeklyTimeslot.Size = new System.Drawing.Size(226, 26);
             this.labelWeeklyTimeslot.TabIndex = 17;
             this.labelWeeklyTimeslot.Text = "Available Class Schedules";
             // 
@@ -137,63 +162,53 @@
             this.dataGridViewWeeklyTimeslot.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewWeeklyTimeslot.Size = new System.Drawing.Size(460, 261);
             this.dataGridViewWeeklyTimeslot.TabIndex = 15;
-            this.dataGridViewWeeklyTimeslot.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewWeeklyTimeslot_RowEnter);
+            this.dataGridViewWeeklyTimeslot.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewWeeklyTimeslot_RowEnter);
             // 
-            // buttonWeeklyTimeslotEdit
+            // buttonTimeslotEdit
             // 
-            this.buttonWeeklyTimeslotEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonWeeklyTimeslotEdit.Location = new System.Drawing.Point(941, 8);
-            this.buttonWeeklyTimeslotEdit.Name = "buttonWeeklyTimeslotEdit";
-            this.buttonWeeklyTimeslotEdit.Size = new System.Drawing.Size(43, 29);
-            this.buttonWeeklyTimeslotEdit.TabIndex = 20;
-            this.buttonWeeklyTimeslotEdit.Text = "Edit";
-            this.buttonWeeklyTimeslotEdit.UseVisualStyleBackColor = true;
-            this.buttonWeeklyTimeslotEdit.Click += new System.EventHandler(this.buttonWeeklyTimeslotEdit_Click);
+            this.buttonTimeslotEdit.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonTimeslotEdit.Location = new System.Drawing.Point(865, 13);
+            this.buttonTimeslotEdit.Name = "buttonTimeslotEdit";
+            this.buttonTimeslotEdit.Size = new System.Drawing.Size(57, 24);
+            this.buttonTimeslotEdit.TabIndex = 20;
+            this.buttonTimeslotEdit.Text = "Edit";
+            this.buttonTimeslotEdit.UseVisualStyleBackColor = true;
+            this.buttonTimeslotEdit.Click += new System.EventHandler(this.buttonEditTimeslot_Click);
             // 
-            // buttonAddExistingWeeklyTimeslot
+            // buttonAssignTimeslot
             // 
-            this.buttonAddExistingWeeklyTimeslot.Enabled = false;
-            this.buttonAddExistingWeeklyTimeslot.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAddExistingWeeklyTimeslot.Location = new System.Drawing.Point(475, 122);
-            this.buttonAddExistingWeeklyTimeslot.Name = "buttonAddExistingWeeklyTimeslot";
-            this.buttonAddExistingWeeklyTimeslot.Size = new System.Drawing.Size(43, 29);
-            this.buttonAddExistingWeeklyTimeslot.TabIndex = 16;
-            this.buttonAddExistingWeeklyTimeslot.Text = "<--";
-            this.buttonAddExistingWeeklyTimeslot.UseVisualStyleBackColor = true;
-            this.buttonAddExistingWeeklyTimeslot.Click += new System.EventHandler(this.buttonAddExistingWeeklyTimeslot_Click);
+            this.buttonAssignTimeslot.Enabled = false;
+            this.buttonAssignTimeslot.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonAssignTimeslot.Location = new System.Drawing.Point(475, 122);
+            this.buttonAssignTimeslot.Name = "buttonAssignTimeslot";
+            this.buttonAssignTimeslot.Size = new System.Drawing.Size(43, 29);
+            this.buttonAssignTimeslot.TabIndex = 16;
+            this.buttonAssignTimeslot.Text = "<--";
+            this.buttonAssignTimeslot.UseVisualStyleBackColor = true;
+            this.buttonAssignTimeslot.Click += new System.EventHandler(this.buttonAssignTimeslot_Click);
             // 
-            // buttonDeleteWeeklyTimeslot
+            // buttonUnassignTimeslot
             // 
-            this.buttonDeleteWeeklyTimeslot.Enabled = false;
-            this.buttonDeleteWeeklyTimeslot.Location = new System.Drawing.Point(475, 195);
-            this.buttonDeleteWeeklyTimeslot.Name = "buttonDeleteWeeklyTimeslot";
-            this.buttonDeleteWeeklyTimeslot.Size = new System.Drawing.Size(43, 29);
-            this.buttonDeleteWeeklyTimeslot.TabIndex = 13;
-            this.buttonDeleteWeeklyTimeslot.Text = "-->";
-            this.buttonDeleteWeeklyTimeslot.UseVisualStyleBackColor = true;
-            this.buttonDeleteWeeklyTimeslot.Click += new System.EventHandler(this.buttonDeleteWeeklyTimeslot_Click);
-            // 
-            // buttonAddWeeklyTimeslot
-            // 
-            this.buttonAddWeeklyTimeslot.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAddWeeklyTimeslot.Location = new System.Drawing.Point(892, 8);
-            this.buttonAddWeeklyTimeslot.Name = "buttonAddWeeklyTimeslot";
-            this.buttonAddWeeklyTimeslot.Size = new System.Drawing.Size(43, 29);
-            this.buttonAddWeeklyTimeslot.TabIndex = 12;
-            this.buttonAddWeeklyTimeslot.Text = "Add";
-            this.buttonAddWeeklyTimeslot.UseVisualStyleBackColor = true;
-            this.buttonAddWeeklyTimeslot.Click += new System.EventHandler(this.buttonAddWeeklyTimeslot_Click);
+            this.buttonUnassignTimeslot.Enabled = false;
+            this.buttonUnassignTimeslot.Location = new System.Drawing.Point(475, 195);
+            this.buttonUnassignTimeslot.Name = "buttonUnassignTimeslot";
+            this.buttonUnassignTimeslot.Size = new System.Drawing.Size(43, 29);
+            this.buttonUnassignTimeslot.TabIndex = 13;
+            this.buttonUnassignTimeslot.Text = "-->";
+            this.buttonUnassignTimeslot.UseVisualStyleBackColor = true;
+            this.buttonUnassignTimeslot.Click += new System.EventHandler(this.buttonUnassignTimeslot_Click);
             // 
             // groupBoxEvent
             // 
+            this.groupBoxEvent.Controls.Add(this.buttonDeleteEvent);
             this.groupBoxEvent.Controls.Add(this.labelAvailableEvents);
             this.groupBoxEvent.Controls.Add(this.labelSelectedPersonEvent);
             this.groupBoxEvent.Controls.Add(this.dataGridViewExistingEvent);
-            this.groupBoxEvent.Controls.Add(this.buttonEventEdit);
+            this.groupBoxEvent.Controls.Add(this.buttonEditEvent);
             this.groupBoxEvent.Controls.Add(this.dataGridViewEvent);
-            this.groupBoxEvent.Controls.Add(this.buttonAddExistingEvent);
+            this.groupBoxEvent.Controls.Add(this.buttonAssignEvent);
             this.groupBoxEvent.Controls.Add(this.buttonAddEvent);
-            this.groupBoxEvent.Controls.Add(this.buttondeleteEvent);
+            this.groupBoxEvent.Controls.Add(this.buttonUnassignEvent);
             this.groupBoxEvent.Location = new System.Drawing.Point(254, 3);
             this.groupBoxEvent.Name = "groupBoxEvent";
             this.groupBoxEvent.Size = new System.Drawing.Size(743, 360);
@@ -201,23 +216,34 @@
             this.groupBoxEvent.TabStop = false;
             this.groupBoxEvent.Text = "Events";
             // 
+            // buttonDeleteEvent
+            // 
+            this.buttonDeleteEvent.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonDeleteEvent.Location = new System.Drawing.Point(679, 14);
+            this.buttonDeleteEvent.Name = "buttonDeleteEvent";
+            this.buttonDeleteEvent.Size = new System.Drawing.Size(57, 23);
+            this.buttonDeleteEvent.TabIndex = 27;
+            this.buttonDeleteEvent.Text = "Delete";
+            this.buttonDeleteEvent.UseVisualStyleBackColor = true;
+            this.buttonDeleteEvent.Click += new System.EventHandler(this.buttonDeleteEvent_Click);
+            // 
             // labelAvailableEvents
             // 
             this.labelAvailableEvents.AutoSize = true;
-            this.labelAvailableEvents.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelAvailableEvents.Location = new System.Drawing.Point(391, 21);
+            this.labelAvailableEvents.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelAvailableEvents.Location = new System.Drawing.Point(393, 15);
             this.labelAvailableEvents.Name = "labelAvailableEvents";
-            this.labelAvailableEvents.Size = new System.Drawing.Size(141, 20);
+            this.labelAvailableEvents.Size = new System.Drawing.Size(149, 26);
             this.labelAvailableEvents.TabIndex = 26;
             this.labelAvailableEvents.Text = "Available Events";
             // 
             // labelSelectedPersonEvent
             // 
             this.labelSelectedPersonEvent.AutoSize = true;
-            this.labelSelectedPersonEvent.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSelectedPersonEvent.Location = new System.Drawing.Point(6, 21);
+            this.labelSelectedPersonEvent.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSelectedPersonEvent.Location = new System.Drawing.Point(6, 15);
             this.labelSelectedPersonEvent.Name = "labelSelectedPersonEvent";
-            this.labelSelectedPersonEvent.Size = new System.Drawing.Size(138, 20);
+            this.labelSelectedPersonEvent.Size = new System.Drawing.Size(143, 26);
             this.labelSelectedPersonEvent.TabIndex = 25;
             this.labelSelectedPersonEvent.Text = "Person\'s Events";
             // 
@@ -235,18 +261,18 @@
             this.dataGridViewExistingEvent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewExistingEvent.Size = new System.Drawing.Size(343, 313);
             this.dataGridViewExistingEvent.TabIndex = 24;
-            this.dataGridViewExistingEvent.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewExistingEvent_RowEnter);
+            this.dataGridViewExistingEvent.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewExistingEvent_RowEnter);
             // 
-            // buttonEventEdit
+            // buttonEditEvent
             // 
-            this.buttonEventEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonEventEdit.Location = new System.Drawing.Point(684, 9);
-            this.buttonEventEdit.Name = "buttonEventEdit";
-            this.buttonEventEdit.Size = new System.Drawing.Size(43, 29);
-            this.buttonEventEdit.TabIndex = 23;
-            this.buttonEventEdit.Text = "Edit";
-            this.buttonEventEdit.UseVisualStyleBackColor = true;
-            this.buttonEventEdit.Click += new System.EventHandler(this.buttonEventEdit_Click);
+            this.buttonEditEvent.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonEditEvent.Location = new System.Drawing.Point(616, 14);
+            this.buttonEditEvent.Name = "buttonEditEvent";
+            this.buttonEditEvent.Size = new System.Drawing.Size(57, 23);
+            this.buttonEditEvent.TabIndex = 23;
+            this.buttonEditEvent.Text = "Edit";
+            this.buttonEditEvent.UseVisualStyleBackColor = true;
+            this.buttonEditEvent.Click += new System.EventHandler(this.buttonEditEvent_Click);
             // 
             // dataGridViewEvent
             // 
@@ -262,48 +288,48 @@
             this.dataGridViewEvent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewEvent.Size = new System.Drawing.Size(343, 313);
             this.dataGridViewEvent.TabIndex = 16;
-            this.dataGridViewEvent.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewEvent_RowEnter);
+            this.dataGridViewEvent.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewEvent_RowEnter);
             // 
-            // buttonAddExistingEvent
+            // buttonAssignEvent
             // 
-            this.buttonAddExistingEvent.Enabled = false;
-            this.buttonAddExistingEvent.Location = new System.Drawing.Point(350, 156);
-            this.buttonAddExistingEvent.Name = "buttonAddExistingEvent";
-            this.buttonAddExistingEvent.Size = new System.Drawing.Size(43, 30);
-            this.buttonAddExistingEvent.TabIndex = 20;
-            this.buttonAddExistingEvent.Text = "<--";
-            this.buttonAddExistingEvent.UseVisualStyleBackColor = true;
-            this.buttonAddExistingEvent.Click += new System.EventHandler(this.buttonAddExistingEvent_Click);
+            this.buttonAssignEvent.Enabled = false;
+            this.buttonAssignEvent.Location = new System.Drawing.Point(350, 156);
+            this.buttonAssignEvent.Name = "buttonAssignEvent";
+            this.buttonAssignEvent.Size = new System.Drawing.Size(43, 30);
+            this.buttonAssignEvent.TabIndex = 20;
+            this.buttonAssignEvent.Text = "<--";
+            this.buttonAssignEvent.UseVisualStyleBackColor = true;
+            this.buttonAssignEvent.Click += new System.EventHandler(this.buttonAssignEvent_Click);
             // 
             // buttonAddEvent
             // 
-            this.buttonAddEvent.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAddEvent.Location = new System.Drawing.Point(635, 9);
+            this.buttonAddEvent.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonAddEvent.Location = new System.Drawing.Point(553, 14);
             this.buttonAddEvent.Name = "buttonAddEvent";
-            this.buttonAddEvent.Size = new System.Drawing.Size(43, 29);
+            this.buttonAddEvent.Size = new System.Drawing.Size(57, 24);
             this.buttonAddEvent.TabIndex = 17;
             this.buttonAddEvent.Text = "Add";
             this.buttonAddEvent.UseVisualStyleBackColor = true;
             this.buttonAddEvent.Click += new System.EventHandler(this.buttonAddEvent_Click);
             // 
-            // buttondeleteEvent
+            // buttonUnassignEvent
             // 
-            this.buttondeleteEvent.Enabled = false;
-            this.buttondeleteEvent.Location = new System.Drawing.Point(350, 215);
-            this.buttondeleteEvent.Name = "buttondeleteEvent";
-            this.buttondeleteEvent.Size = new System.Drawing.Size(43, 29);
-            this.buttondeleteEvent.TabIndex = 18;
-            this.buttondeleteEvent.Text = "-->";
-            this.buttondeleteEvent.UseVisualStyleBackColor = true;
-            this.buttondeleteEvent.Click += new System.EventHandler(this.buttondeleteEvent_Click);
+            this.buttonUnassignEvent.Enabled = false;
+            this.buttonUnassignEvent.Location = new System.Drawing.Point(350, 215);
+            this.buttonUnassignEvent.Name = "buttonUnassignEvent";
+            this.buttonUnassignEvent.Size = new System.Drawing.Size(43, 29);
+            this.buttonUnassignEvent.TabIndex = 18;
+            this.buttonUnassignEvent.Text = "-->";
+            this.buttonUnassignEvent.UseVisualStyleBackColor = true;
+            this.buttonUnassignEvent.Click += new System.EventHandler(this.buttonUnassignEvent_Click);
             // 
-            // panelistTreeView
+            // treeViewPanelistGroup
             // 
-            this.panelistTreeView.Location = new System.Drawing.Point(3, 36);
-            this.panelistTreeView.Name = "panelistTreeView";
-            this.panelistTreeView.Size = new System.Drawing.Size(245, 327);
-            this.panelistTreeView.TabIndex = 7;
-            this.panelistTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.panelistTreeView_NodeMouseClick);
+            this.treeViewPanelistGroup.Location = new System.Drawing.Point(3, 36);
+            this.treeViewPanelistGroup.Name = "treeViewPanelistGroup";
+            this.treeViewPanelistGroup.Size = new System.Drawing.Size(245, 327);
+            this.treeViewPanelistGroup.TabIndex = 7;
+            this.treeViewPanelistGroup.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewPanelistGroup_NodeMouseClick);
             // 
             // treeViewStudents
             // 
@@ -329,24 +355,25 @@
             this.treeViewUngroupedPanelists.TabIndex = 14;
             this.treeViewUngroupedPanelists.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewUngroupedPanelists_NodeMouseClick);
             // 
-            // comboBox1
+            // comboBoxSortType
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.comboBoxSortType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSortType.FormattingEnabled = true;
+            this.comboBoxSortType.Items.AddRange(new object[] {
             "Students (By Thesis Group)",
             "Students",
             "Panelists (By Thesis Group)",
             "Panelists",
             "Panelists (Ungrouped)"});
-            this.comboBox1.Location = new System.Drawing.Point(4, 9);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(173, 21);
-            this.comboBox1.TabIndex = 15;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.comboBoxSortType.Location = new System.Drawing.Point(4, 9);
+            this.comboBoxSortType.Name = "comboBoxSortType";
+            this.comboBoxSortType.Size = new System.Drawing.Size(173, 21);
+            this.comboBoxSortType.TabIndex = 15;
+            this.comboBoxSortType.SelectionChangeCommitted += new System.EventHandler(this.comboBoxSortType_SelectionChangeCommitted);
             // 
             // buttonDeletePanelist
             // 
+            this.buttonDeletePanelist.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonDeletePanelist.Location = new System.Drawing.Point(183, 9);
             this.buttonDeletePanelist.Name = "buttonDeletePanelist";
             this.buttonDeletePanelist.Size = new System.Drawing.Size(65, 23);
@@ -360,18 +387,18 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.buttonDeletePanelist);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.groupBoxWeeklyTimeslot);
+            this.Controls.Add(this.comboBoxSortType);
+            this.Controls.Add(this.groupBoxTimeslot);
             this.Controls.Add(this.groupBoxEvent);
-            this.Controls.Add(this.studentTreeView);
+            this.Controls.Add(this.treeViewStudentGroup);
             this.Controls.Add(this.treeViewUngroupedPanelists);
             this.Controls.Add(this.treeViewPanelists);
             this.Controls.Add(this.treeViewStudents);
-            this.Controls.Add(this.panelistTreeView);
+            this.Controls.Add(this.treeViewPanelistGroup);
             this.Name = "ScheduleEditor";
             this.Size = new System.Drawing.Size(1000, 679);
-            this.groupBoxWeeklyTimeslot.ResumeLayout(false);
-            this.groupBoxWeeklyTimeslot.PerformLayout();
+            this.groupBoxTimeslot.ResumeLayout(false);
+            this.groupBoxTimeslot.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExistingTimeslot)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWeeklyTimeslot)).EndInit();
             this.groupBoxEvent.ResumeLayout(false);
@@ -384,30 +411,32 @@
 
         #endregion
 
-        private System.Windows.Forms.TreeView studentTreeView;
-        private System.Windows.Forms.GroupBox groupBoxWeeklyTimeslot;
+        private System.Windows.Forms.TreeView treeViewStudentGroup;
+        private System.Windows.Forms.GroupBox groupBoxTimeslot;
         private System.Windows.Forms.GroupBox groupBoxEvent;
-        private System.Windows.Forms.Button buttonAddWeeklyTimeslot;
-        private System.Windows.Forms.Button buttonDeleteWeeklyTimeslot;
+        private System.Windows.Forms.Button buttonAddTimeslot;
+        private System.Windows.Forms.Button buttonUnassignTimeslot;
         private System.Windows.Forms.DataGridView dataGridViewWeeklyTimeslot;
-        private System.Windows.Forms.Button buttonAddExistingWeeklyTimeslot;
+        private System.Windows.Forms.Button buttonAssignTimeslot;
         private System.Windows.Forms.DataGridView dataGridViewEvent;
-        private System.Windows.Forms.Button buttonAddExistingEvent;
-        private System.Windows.Forms.Button buttondeleteEvent;
+        private System.Windows.Forms.Button buttonAssignEvent;
+        private System.Windows.Forms.Button buttonUnassignEvent;
         private System.Windows.Forms.Button buttonAddEvent;
         private System.Windows.Forms.Label labelWeeklyTimeslot;
-        private System.Windows.Forms.Button buttonWeeklyTimeslotEdit;
-        private System.Windows.Forms.Button buttonEventEdit;
+        private System.Windows.Forms.Button buttonTimeslotEdit;
+        private System.Windows.Forms.Button buttonEditEvent;
         private System.Windows.Forms.DataGridView dataGridViewExistingTimeslot;
         private System.Windows.Forms.DataGridView dataGridViewExistingEvent;
-        private System.Windows.Forms.TreeView panelistTreeView;
+        private System.Windows.Forms.TreeView treeViewPanelistGroup;
         private System.Windows.Forms.Label labelSelectedPersonTimeslot;
         private System.Windows.Forms.Label labelAvailableEvents;
         private System.Windows.Forms.Label labelSelectedPersonEvent;
         private System.Windows.Forms.TreeView treeViewStudents;
         private System.Windows.Forms.TreeView treeViewPanelists;
         private System.Windows.Forms.TreeView treeViewUngroupedPanelists;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBoxSortType;
         private System.Windows.Forms.Button buttonDeletePanelist;
+        private System.Windows.Forms.Button buttonDeleteTimeslot;
+        private System.Windows.Forms.Button buttonDeleteEvent;
     }
 }
