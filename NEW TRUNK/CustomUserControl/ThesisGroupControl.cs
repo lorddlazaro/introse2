@@ -224,9 +224,12 @@ namespace CustomUserControl
         }
 
         // UPDATES/REFRESHES
-        private void RefreshAll() 
+        public void RefreshAll() 
         {
+            Cursor.Current = Cursors.WaitCursor;
             Refresh();
+            UpdateTreeview();
+            Cursor.Current = Cursors.Arrow;
         }
         private void UpdateTreeview()
         {
