@@ -348,7 +348,6 @@ namespace CustomUserControl
         }
         /****** END: EVENT LISTENERS*******/
 
-
         /****** START: GUI Methods For Changing Defense Addition/Editing Forms *******/
         //GroupBox here refers to the form for adding/editing defense schedules.
 
