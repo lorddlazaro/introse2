@@ -59,7 +59,7 @@ namespace CustomUserControl
                     dataGridViewDefSchedInfo.Rows[rowIndex].Cells[0].Value = list[1].ElementAt(j);
                     dataGridViewDefSchedInfo.Rows[rowIndex].Cells[1].Value = list[2].ElementAt(j);
 
-                    string dateTimeString = string.Format("{0:M/d/yyyy H:mm}", list[3].ElementAt(j));
+                    String dateTimeString = String.Format("{0:M/d/yyyy H:mm}", list[3].ElementAt(j));
 
                     int month = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[0]);
                     int day = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[1]);
@@ -69,12 +69,12 @@ namespace CustomUserControl
 
                     DateTime dateTime = new DateTime(year, month, day, hour, minute, 0);
 
-                    dataGridViewDefSchedInfo.Rows[rowIndex].Cells[2].Value = string.Format("{0:M/d/yyyy}", dateTime);
+                    dataGridViewDefSchedInfo.Rows[rowIndex].Cells[2].Value = String.Format("{0:M/d/yyyy}", dateTime);
 
                     if (list[1].ElementAt(j).Equals("THSST-1"))
-                        dataGridViewDefSchedInfo.Rows[rowIndex].Cells[3].Value = string.Format("{0:HHmm}", dateTime) + " - " + string.Format("{0:HHmm}", dateTime.AddHours(1));
+                        dataGridViewDefSchedInfo.Rows[rowIndex].Cells[3].Value = String.Format("{0:HHmm}", dateTime) + " - " + String.Format("{0:HHmm}", dateTime.AddHours(1));
                     else
-                        dataGridViewDefSchedInfo.Rows[rowIndex].Cells[3].Value = string.Format("{0:HHmm}", dateTime) + " - " + string.Format("{0:HHmm}", dateTime.AddHours(2));
+                        dataGridViewDefSchedInfo.Rows[rowIndex].Cells[3].Value = String.Format("{0:HHmm}", dateTime) + " - " + String.Format("{0:HHmm}", dateTime.AddHours(2));
 
                     dataGridViewDefSchedInfo.Rows[rowIndex].Cells[4].Value = list[4].ElementAt(j);
 
@@ -142,7 +142,7 @@ namespace CustomUserControl
         }
         
 	    // Other Methods
-        private bool CheckIfFileIsBeingUsed(string fileName)
+        private bool CheckIfFileIsBeingUsed(String fileName)
         {
             FileStream fs;
 
@@ -193,7 +193,7 @@ namespace CustomUserControl
                     break;
             }
 
-            string lineToWrite;
+            String lineToWrite;
 
             if (File.Exists(saveFileDialog.FileName))
                 if (CheckIfFileIsBeingUsed(saveFileDialog.FileName))
@@ -263,7 +263,7 @@ namespace CustomUserControl
 
                     if (savePanelColumn)
                     {
-                        string[] panels = dataGridViewDefSchedInfo.Rows[i].Cells[6].Value.ToString().Split('\n');
+                        String[] panels = dataGridViewDefSchedInfo.Rows[i].Cells[6].Value.ToString().Split('\n');
 
                         for (int j = 0; j < panels.Count(); j++)
                         {
