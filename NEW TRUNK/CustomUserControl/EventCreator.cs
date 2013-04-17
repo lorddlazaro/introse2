@@ -50,7 +50,7 @@ namespace CustomUserControl
             {
                 textBoxEventName.BackColor = Color.LightPink;
 
-                labelWarning.Text = "*Name is empty";
+                labelWarning.Text = "Name cannot be empty";
                 //MessageBox.Show("name shouldn't be null", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -58,7 +58,7 @@ namespace CustomUserControl
             //if (dateTimePickerEventStartTime.Value.CompareTo(dateTimePickerEventEndTime.Value) >= 0)
             if (dateTimePickerEventStartTime.Value >= dateTimePickerEventEndTime.Value)
             {
-                labelWarning.Text = "Time error";
+                labelWarning.Text = "Start time should come" + System.Environment.NewLine + "first before endtime.";
                 Console.WriteLine(dateTimePickerEventStartTime.Value.CompareTo(dateTimePickerEventEndTime.Value));
                 //MessageBox.Show("Time is invalid", "Invalid time", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -73,12 +73,24 @@ namespace CustomUserControl
             if (duplicateEvents.Count > 0)
             {
                 if (isEditMode)
-                    if (!duplicateEvents[0].Equals(forEditing[0]))
+                {
+                    if (!duplicateEvents[0].Equals(forEditing[1]))
+                    {
+                        MessageBox.Show("This event already exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
-                       
+                    }
+                    else
+                    {
+
+                    }
+                    
+                }
+                else
+                {
+                    MessageBox.Show("This event already exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 
-                MessageBox.Show("This event already exists", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
             }
             
             //START: Conflict with defense checking
@@ -209,5 +221,6 @@ namespace CustomUserControl
 
             parent.Enabled = true;
         }
+
     }
 }
