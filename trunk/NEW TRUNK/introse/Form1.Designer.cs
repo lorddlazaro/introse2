@@ -58,6 +58,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1007, 682);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // freeTimeViewerControl
             // 
@@ -76,7 +77,6 @@
             this.freeTimeViewer.Name = "freeTimeViewer";
             this.freeTimeViewer.Size = new System.Drawing.Size(970, 637);
             this.freeTimeViewer.TabIndex = 0;
-            this.freeTimeViewer.Load += new System.EventHandler(this.freeTimeViewer_Load);
             // 
             // scheduleEditorControl
             // 
@@ -163,6 +163,7 @@
             this.ClientSize = new System.Drawing.Size(1008, 706);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

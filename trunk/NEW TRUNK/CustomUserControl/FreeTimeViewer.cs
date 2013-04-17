@@ -719,13 +719,14 @@ namespace CustomUserControl
         /********START: Refresh Methods*********/
         public void RefreshAll()
         {
-            Invalidate();
+            Cursor.Current = Cursors.WaitCursor;
+            Refresh();
             ChangeSelectedGroup(currGroupID);
             RefreshTreeViews();
             MarkAllScheduledGroups();
             RefreshCalendar();   
             defenseInfoGroupBox.Refresh();
-            Validate();
+            Cursor.Current = Cursors.Arrow;
         }
 
         private void RefreshCalendar()

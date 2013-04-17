@@ -26,6 +26,7 @@ namespace CustomUserControl
 
         public ThesisGroupControl()
         {
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             tgDM = new ThesisGroupDataManager();
             InitializeComponent();
 
@@ -225,6 +226,10 @@ namespace CustomUserControl
         }
 
         // UPDATES/REFRESHES
+        private void RefreshAll() 
+        {
+            Refresh();
+        }
         private void UpdateTreeview()
         {
             thesisGroupTreeView.BeginUpdate();

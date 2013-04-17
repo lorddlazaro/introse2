@@ -18,24 +18,18 @@ namespace introse
      
         public Form1()
         {
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             InitializeComponent();
-            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             scheduleEditor2.containerParent = this;
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Console.WriteLine("change tab to :" + tabControl1.TabIndex);
-            if (tabControl1.SelectedIndex == 0)
-                freeTimeViewer.RefreshAll();
-            else if (tabControl1.SelectedIndex == 2)
-                scheduleEditor2.RefreshAll();
-        }
-
-        private void freeTimeViewer_Load(object sender, EventArgs e)
-        {
-
+            switch (tabControl1.SelectedIndex) 
+            {
+                case 0: freeTimeViewer.RefreshAll(); break;
+                case 1: scheduleEditor2.RefreshAll(); break;
+                //case 2: thesisGroupControl1.RefreshAll(); break;
+            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)

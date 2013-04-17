@@ -1422,6 +1422,7 @@
             this.Controls.Add(this.panelistControl);
             this.Controls.Add(this.labelGroupView);
             this.Controls.Add(this.studentsPanel);
+            this.DoubleBuffered = true;
             this.Name = "ThesisGroupControl";
             this.Size = new System.Drawing.Size(1000, 680);
             this.studentsPanel.ResumeLayout(false);
