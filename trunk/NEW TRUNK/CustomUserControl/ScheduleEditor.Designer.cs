@@ -123,12 +123,15 @@
             // 
             this.dataGridViewWeeklyTimeslot.AllowUserToAddRows = false;
             this.dataGridViewWeeklyTimeslot.AllowUserToDeleteRows = false;
+            this.dataGridViewWeeklyTimeslot.AllowUserToResizeColumns = false;
+            this.dataGridViewWeeklyTimeslot.AllowUserToResizeRows = false;
             this.dataGridViewWeeklyTimeslot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewWeeklyTimeslot.Location = new System.Drawing.Point(9, 40);
             this.dataGridViewWeeklyTimeslot.MultiSelect = false;
             this.dataGridViewWeeklyTimeslot.Name = "dataGridViewWeeklyTimeslot";
             this.dataGridViewWeeklyTimeslot.ReadOnly = true;
             this.dataGridViewWeeklyTimeslot.RowHeadersVisible = false;
+            this.dataGridViewWeeklyTimeslot.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridViewWeeklyTimeslot.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewWeeklyTimeslot.Size = new System.Drawing.Size(460, 261);
             this.dataGridViewWeeklyTimeslot.TabIndex = 15;
