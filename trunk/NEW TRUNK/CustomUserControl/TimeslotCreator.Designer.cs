@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Monday");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Tuesday");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Wednesday");
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Thursday");
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("Friday");
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("Saturday");
+            System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem("Monday");
+            System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem("Tuesday");
+            System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem("Wednesday");
+            System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem("Thursday");
+            System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem("Friday");
+            System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem("Saturday");
             this.textBoxWeeklyTimeslotCourse = new System.Windows.Forms.TextBox();
             this.listViewWeeklyTimeslotDay = new System.Windows.Forms.ListView();
             this.labelWeeklyTimeslotCourse = new System.Windows.Forms.Label();
@@ -53,34 +53,39 @@
             // 
             // textBoxWeeklyTimeslotCourse
             // 
-            this.textBoxWeeklyTimeslotCourse.Location = new System.Drawing.Point(66, 30);
+            this.textBoxWeeklyTimeslotCourse.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBoxWeeklyTimeslotCourse.Location = new System.Drawing.Point(56, 8);
+            this.textBoxWeeklyTimeslotCourse.MaxLength = 7;
             this.textBoxWeeklyTimeslotCourse.Name = "textBoxWeeklyTimeslotCourse";
-            this.textBoxWeeklyTimeslotCourse.Size = new System.Drawing.Size(134, 20);
+            this.textBoxWeeklyTimeslotCourse.Size = new System.Drawing.Size(85, 20);
             this.textBoxWeeklyTimeslotCourse.TabIndex = 27;
             // 
             // listViewWeeklyTimeslotDay
             // 
             this.listViewWeeklyTimeslotDay.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.listViewWeeklyTimeslotDay.BackColor = System.Drawing.SystemColors.Control;
+            this.listViewWeeklyTimeslotDay.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listViewWeeklyTimeslotDay.CheckBoxes = true;
             this.listViewWeeklyTimeslotDay.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.listViewWeeklyTimeslotDay.HotTracking = true;
             this.listViewWeeklyTimeslotDay.HoverSelection = true;
-            listViewItem1.StateImageIndex = 0;
-            listViewItem2.StateImageIndex = 0;
-            listViewItem3.StateImageIndex = 0;
-            listViewItem4.StateImageIndex = 0;
-            listViewItem5.StateImageIndex = 0;
-            listViewItem6.StateImageIndex = 0;
+            listViewItem19.StateImageIndex = 0;
+            listViewItem20.StateImageIndex = 0;
+            listViewItem21.StateImageIndex = 0;
+            listViewItem22.StateImageIndex = 0;
+            listViewItem23.StateImageIndex = 0;
+            listViewItem24.StateImageIndex = 0;
             this.listViewWeeklyTimeslotDay.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4,
-            listViewItem5,
-            listViewItem6});
-            this.listViewWeeklyTimeslotDay.Location = new System.Drawing.Point(206, 3);
+            listViewItem19,
+            listViewItem20,
+            listViewItem21,
+            listViewItem22,
+            listViewItem23,
+            listViewItem24});
+            this.listViewWeeklyTimeslotDay.Location = new System.Drawing.Point(56, 59);
             this.listViewWeeklyTimeslotDay.Name = "listViewWeeklyTimeslotDay";
-            this.listViewWeeklyTimeslotDay.Size = new System.Drawing.Size(85, 122);
+            this.listViewWeeklyTimeslotDay.Scrollable = false;
+            this.listViewWeeklyTimeslotDay.Size = new System.Drawing.Size(202, 59);
             this.listViewWeeklyTimeslotDay.TabIndex = 33;
             this.listViewWeeklyTimeslotDay.UseCompatibleStateImageBehavior = false;
             this.listViewWeeklyTimeslotDay.View = System.Windows.Forms.View.SmallIcon;
@@ -89,7 +94,7 @@
             // labelWeeklyTimeslotCourse
             // 
             this.labelWeeklyTimeslotCourse.AutoSize = true;
-            this.labelWeeklyTimeslotCourse.Location = new System.Drawing.Point(20, 33);
+            this.labelWeeklyTimeslotCourse.Location = new System.Drawing.Point(13, 11);
             this.labelWeeklyTimeslotCourse.Name = "labelWeeklyTimeslotCourse";
             this.labelWeeklyTimeslotCourse.Size = new System.Drawing.Size(40, 13);
             this.labelWeeklyTimeslotCourse.TabIndex = 22;
@@ -98,7 +103,7 @@
             // labelWeeklyTimeslotSection
             // 
             this.labelWeeklyTimeslotSection.AutoSize = true;
-            this.labelWeeklyTimeslotSection.Location = new System.Drawing.Point(17, 56);
+            this.labelWeeklyTimeslotSection.Location = new System.Drawing.Point(10, 38);
             this.labelWeeklyTimeslotSection.Name = "labelWeeklyTimeslotSection";
             this.labelWeeklyTimeslotSection.Size = new System.Drawing.Size(43, 13);
             this.labelWeeklyTimeslotSection.TabIndex = 23;
@@ -107,7 +112,7 @@
             // labelWeeklyTimeslotStartTime
             // 
             this.labelWeeklyTimeslotStartTime.AutoSize = true;
-            this.labelWeeklyTimeslotStartTime.Location = new System.Drawing.Point(5, 86);
+            this.labelWeeklyTimeslotStartTime.Location = new System.Drawing.Point(150, 11);
             this.labelWeeklyTimeslotStartTime.Name = "labelWeeklyTimeslotStartTime";
             this.labelWeeklyTimeslotStartTime.Size = new System.Drawing.Size(55, 13);
             this.labelWeeklyTimeslotStartTime.TabIndex = 24;
@@ -116,7 +121,7 @@
             // labelWeeklyTimeslotEndTime
             // 
             this.labelWeeklyTimeslotEndTime.AutoSize = true;
-            this.labelWeeklyTimeslotEndTime.Location = new System.Drawing.Point(8, 111);
+            this.labelWeeklyTimeslotEndTime.Location = new System.Drawing.Point(153, 38);
             this.labelWeeklyTimeslotEndTime.Name = "labelWeeklyTimeslotEndTime";
             this.labelWeeklyTimeslotEndTime.Size = new System.Drawing.Size(52, 13);
             this.labelWeeklyTimeslotEndTime.TabIndex = 25;
@@ -125,7 +130,7 @@
             // labelWeeklyTimeslotDay
             // 
             this.labelWeeklyTimeslotDay.AutoSize = true;
-            this.labelWeeklyTimeslotDay.Location = new System.Drawing.Point(176, 9);
+            this.labelWeeklyTimeslotDay.Location = new System.Drawing.Point(24, 64);
             this.labelWeeklyTimeslotDay.Name = "labelWeeklyTimeslotDay";
             this.labelWeeklyTimeslotDay.Size = new System.Drawing.Size(26, 13);
             this.labelWeeklyTimeslotDay.TabIndex = 26;
@@ -133,15 +138,17 @@
             // 
             // textBoxWeeklyTimeslotSection
             // 
-            this.textBoxWeeklyTimeslotSection.Location = new System.Drawing.Point(66, 53);
+            this.textBoxWeeklyTimeslotSection.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBoxWeeklyTimeslotSection.Location = new System.Drawing.Point(56, 35);
+            this.textBoxWeeklyTimeslotSection.MaxLength = 3;
             this.textBoxWeeklyTimeslotSection.Name = "textBoxWeeklyTimeslotSection";
-            this.textBoxWeeklyTimeslotSection.Size = new System.Drawing.Size(134, 20);
+            this.textBoxWeeklyTimeslotSection.Size = new System.Drawing.Size(85, 20);
             this.textBoxWeeklyTimeslotSection.TabIndex = 28;
             // 
             // labelWeeklyTimeslotPanelist
             // 
             this.labelWeeklyTimeslotPanelist.AutoSize = true;
-            this.labelWeeklyTimeslotPanelist.Location = new System.Drawing.Point(12, 134);
+            this.labelWeeklyTimeslotPanelist.Location = new System.Drawing.Point(2, 124);
             this.labelWeeklyTimeslotPanelist.Name = "labelWeeklyTimeslotPanelist";
             this.labelWeeklyTimeslotPanelist.Size = new System.Drawing.Size(51, 13);
             this.labelWeeklyTimeslotPanelist.TabIndex = 32;
@@ -151,12 +158,12 @@
             // 
             this.dateTimePickerWeeklyTimeslotStartTime.CustomFormat = "hh:mm tt";
             this.dateTimePickerWeeklyTimeslotStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerWeeklyTimeslotStartTime.Location = new System.Drawing.Point(66, 79);
+            this.dateTimePickerWeeklyTimeslotStartTime.Location = new System.Drawing.Point(206, 8);
             this.dateTimePickerWeeklyTimeslotStartTime.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dateTimePickerWeeklyTimeslotStartTime.Name = "dateTimePickerWeeklyTimeslotStartTime";
             this.dateTimePickerWeeklyTimeslotStartTime.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dateTimePickerWeeklyTimeslotStartTime.ShowUpDown = true;
-            this.dateTimePickerWeeklyTimeslotStartTime.Size = new System.Drawing.Size(134, 20);
+            this.dateTimePickerWeeklyTimeslotStartTime.Size = new System.Drawing.Size(85, 20);
             this.dateTimePickerWeeklyTimeslotStartTime.TabIndex = 29;
             this.dateTimePickerWeeklyTimeslotStartTime.Value = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             // 
@@ -164,11 +171,11 @@
             // 
             this.dateTimePickerWeeklyTimeslotEndTime.CustomFormat = "hh:mm tt";
             this.dateTimePickerWeeklyTimeslotEndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerWeeklyTimeslotEndTime.Location = new System.Drawing.Point(66, 105);
+            this.dateTimePickerWeeklyTimeslotEndTime.Location = new System.Drawing.Point(206, 35);
             this.dateTimePickerWeeklyTimeslotEndTime.Name = "dateTimePickerWeeklyTimeslotEndTime";
             this.dateTimePickerWeeklyTimeslotEndTime.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dateTimePickerWeeklyTimeslotEndTime.ShowUpDown = true;
-            this.dateTimePickerWeeklyTimeslotEndTime.Size = new System.Drawing.Size(134, 20);
+            this.dateTimePickerWeeklyTimeslotEndTime.Size = new System.Drawing.Size(85, 20);
             this.dateTimePickerWeeklyTimeslotEndTime.TabIndex = 30;
             this.dateTimePickerWeeklyTimeslotEndTime.Value = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             // 
@@ -176,14 +183,14 @@
             // 
             this.comboBoxPanelist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxPanelist.FormattingEnabled = true;
-            this.comboBoxPanelist.Location = new System.Drawing.Point(66, 131);
+            this.comboBoxPanelist.Location = new System.Drawing.Point(56, 121);
             this.comboBoxPanelist.Name = "comboBoxPanelist";
-            this.comboBoxPanelist.Size = new System.Drawing.Size(225, 21);
+            this.comboBoxPanelist.Size = new System.Drawing.Size(235, 21);
             this.comboBoxPanelist.TabIndex = 31;
             // 
             // buttonSaveTimeslot
             // 
-            this.buttonSaveTimeslot.Location = new System.Drawing.Point(135, 158);
+            this.buttonSaveTimeslot.Location = new System.Drawing.Point(135, 148);
             this.buttonSaveTimeslot.Name = "buttonSaveTimeslot";
             this.buttonSaveTimeslot.Size = new System.Drawing.Size(75, 23);
             this.buttonSaveTimeslot.TabIndex = 34;
@@ -193,7 +200,7 @@
             // 
             // buttonCancelTimeslot
             // 
-            this.buttonCancelTimeslot.Location = new System.Drawing.Point(216, 158);
+            this.buttonCancelTimeslot.Location = new System.Drawing.Point(216, 148);
             this.buttonCancelTimeslot.Name = "buttonCancelTimeslot";
             this.buttonCancelTimeslot.Size = new System.Drawing.Size(75, 23);
             this.buttonCancelTimeslot.TabIndex = 35;
@@ -205,7 +212,7 @@
             // 
             this.labelWarning.AutoSize = true;
             this.labelWarning.ForeColor = System.Drawing.Color.Red;
-            this.labelWarning.Location = new System.Drawing.Point(8, 187);
+            this.labelWarning.Location = new System.Drawing.Point(7, 146);
             this.labelWarning.Name = "labelWarning";
             this.labelWarning.Size = new System.Drawing.Size(0, 13);
             this.labelWarning.TabIndex = 36;
@@ -214,7 +221,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(298, 209);
+            this.ClientSize = new System.Drawing.Size(298, 179);
+            this.Controls.Add(this.comboBoxPanelist);
             this.Controls.Add(this.labelWarning);
             this.Controls.Add(this.buttonCancelTimeslot);
             this.Controls.Add(this.buttonSaveTimeslot);
@@ -229,9 +237,9 @@
             this.Controls.Add(this.labelWeeklyTimeslotPanelist);
             this.Controls.Add(this.dateTimePickerWeeklyTimeslotStartTime);
             this.Controls.Add(this.dateTimePickerWeeklyTimeslotEndTime);
-            this.Controls.Add(this.comboBoxPanelist);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "TimeslotCreator";
-            this.Text = "New Timeslot";
+            this.Text = "Timeslot Editor";
             this.ResumeLayout(false);
             this.PerformLayout();
 
