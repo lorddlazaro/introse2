@@ -245,7 +245,7 @@
             this.comboBoxView.FormattingEnabled = true;
             this.comboBoxView.Items.AddRange(new object[] {
             "Clustered Groups (According to Panelist)",
-            "Isolated Groups"});
+            "Thesis Groups"});
             this.comboBoxView.Location = new System.Drawing.Point(701, 83);
             this.comboBoxView.Name = "comboBoxView";
             this.comboBoxView.Size = new System.Drawing.Size(254, 21);
