@@ -75,6 +75,17 @@ namespace CustomUserControl
             return dbHandler.Select(query, 1)[0].ElementAt(0);
         }
 
+        public void DeleteDefenseSchedule(String thesisGroupID)
+        {
+            String query = "delete from defenseschedule where thesisgroupID = " + thesisGroupID + ";";
+            dbHandler.Delete(query);
+        }
+        public Boolean HasDefenseSchedule(String thesisGroupID)
+        {
+            String query = "select count(*) from defenseschedule where thesisgroupID = " + thesisGroupID + ";";
+            return Convert.ToInt32(dbHandler.Select(query, 1)[0].ElementAt(0)) > 0;
+        }
+
         // returns a Boolean[2], index 0 contains eligiblefordefense and index 1 contains eligibleforredefense
         public Boolean[] GetEligibilities(String thesisGroupID)
         {
@@ -109,20 +120,8 @@ namespace CustomUserControl
         }
         public List<String>[] getGroupMembers(String thesisGroupID)
         {
-            String query = "select studentID from student where thesisgroupid = " + thesisGroupID + ";";
-            return dbHandler.Select(query, 1);
-        }
-        public List<String>[] getGroupMembers(String thesisGroupID, String orderBy)
-        {
-            String query = "select studentID, firstname, lastname, MI from student where thesisgroupid = " + thesisGroupID;
-            String order = " order by ";
-
-            if (orderBy == "Last Name")
-                order += "lastname;";
-            else
-                order += "studentid;";
-
-            return dbHandler.Select(query + order, 4);
+            String query = "select studentID, firstname, lastname, mi from student where thesisgroupid = " + thesisGroupID + ";";
+            return dbHandler.Select(query, 4);
         }
         // returns v containing panelistID, firstname, middleinitial, and lastname of the panelists
         public List<String>[] getGroupPanelistNames(String thesisGroupID)
@@ -175,14 +174,6 @@ namespace CustomUserControl
 
             query = "delete from student where thesisgroupid = " + thesisGroupID + ";";
             dbHandler.Delete(query);
-
-            query = "select from defenseschedule where thesisgroupid =" +thesisGroupID+";";
-            if (dbHandler.Select(query, 1)[0].Count() != 0)
-            {
-                MessageBox.Show("The defense schedule associated with this thesis group has also been deleted","Notice",MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                query = "delete from defenseschedule where thesisgroupid = " + thesisGroupID + ";";
-                dbHandler.Delete(query);
-            }
         }
         public void updateStudent(String studentID, String firstName, String MI, String lastName)
         {
