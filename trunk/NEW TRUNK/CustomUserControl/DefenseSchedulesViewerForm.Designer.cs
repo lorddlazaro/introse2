@@ -32,20 +32,13 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DefenseSchedulesViewerForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DefenseSchedulesViewerForm));
             this.dateTimePickerEndDate = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerStartDate = new System.Windows.Forms.DateTimePicker();
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.dataGridViewDefSchedInfo = new System.Windows.Forms.DataGridView();
-            this.columnCourse = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnVenue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnAdvisor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnPanels = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.buttonSave = new System.Windows.Forms.Button();
             this.checkBoxIncludeTHSST1 = new System.Windows.Forms.CheckBox();
@@ -55,6 +48,13 @@
             this.labelInclude = new System.Windows.Forms.Label();
             this.labelEndDate = new System.Windows.Forms.Label();
             this.labelStartDate = new System.Windows.Forms.Label();
+            this.columnCourse = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnVenue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnAdvisor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnPanels = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDefSchedInfo)).BeginInit();
             this.groupBoxSettings.SuspendLayout();
             this.SuspendLayout();
@@ -136,59 +136,6 @@
             this.dataGridViewDefSchedInfo.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridViewDefSchedInfo.Size = new System.Drawing.Size(934, 456);
             this.dataGridViewDefSchedInfo.TabIndex = 12;
-            // 
-            // columnCourse
-            // 
-            this.columnCourse.HeaderText = "Course";
-            this.columnCourse.Name = "columnCourse";
-            this.columnCourse.ReadOnly = true;
-            this.columnCourse.Width = 60;
-            // 
-            // columnTitle
-            // 
-            this.columnTitle.HeaderText = "Title";
-            this.columnTitle.Name = "columnTitle";
-            this.columnTitle.ReadOnly = true;
-            this.columnTitle.Width = 300;
-            // 
-            // columnDate
-            // 
-            this.columnDate.HeaderText = "Date";
-            this.columnDate.Name = "columnDate";
-            this.columnDate.ReadOnly = true;
-            this.columnDate.Width = 70;
-            // 
-            // columnTime
-            // 
-            this.columnTime.HeaderText = "Time";
-            this.columnTime.Name = "columnTime";
-            this.columnTime.ReadOnly = true;
-            this.columnTime.Width = 90;
-            // 
-            // columnVenue
-            // 
-            this.columnVenue.HeaderText = "Venue";
-            this.columnVenue.Name = "columnVenue";
-            this.columnVenue.ReadOnly = true;
-            this.columnVenue.Width = 70;
-            // 
-            // columnAdvisor
-            // 
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.columnAdvisor.DefaultCellStyle = dataGridViewCellStyle3;
-            this.columnAdvisor.HeaderText = "Advisor";
-            this.columnAdvisor.Name = "columnAdvisor";
-            this.columnAdvisor.ReadOnly = true;
-            this.columnAdvisor.Width = 150;
-            // 
-            // columnPanels
-            // 
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.columnPanels.DefaultCellStyle = dataGridViewCellStyle4;
-            this.columnPanels.HeaderText = "Panelists";
-            this.columnPanels.Name = "columnPanels";
-            this.columnPanels.ReadOnly = true;
-            this.columnPanels.Width = 150;
             // 
             // saveFileDialog
             // 
@@ -292,6 +239,69 @@
             this.labelStartDate.Size = new System.Drawing.Size(64, 15);
             this.labelStartDate.TabIndex = 16;
             this.labelStartDate.Text = "Start Date:";
+            // 
+            // columnCourse
+            // 
+            this.columnCourse.HeaderText = "Course";
+            this.columnCourse.MinimumWidth = 60;
+            this.columnCourse.Name = "columnCourse";
+            this.columnCourse.ReadOnly = true;
+            this.columnCourse.Width = 60;
+            // 
+            // columnTitle
+            // 
+            this.columnTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.columnTitle.HeaderText = "Title";
+            this.columnTitle.MinimumWidth = 300;
+            this.columnTitle.Name = "columnTitle";
+            this.columnTitle.ReadOnly = true;
+            this.columnTitle.Width = 300;
+            // 
+            // columnDate
+            // 
+            this.columnDate.HeaderText = "Date";
+            this.columnDate.MinimumWidth = 70;
+            this.columnDate.Name = "columnDate";
+            this.columnDate.ReadOnly = true;
+            this.columnDate.Width = 70;
+            // 
+            // columnTime
+            // 
+            this.columnTime.HeaderText = "Time";
+            this.columnTime.MinimumWidth = 90;
+            this.columnTime.Name = "columnTime";
+            this.columnTime.ReadOnly = true;
+            this.columnTime.Width = 90;
+            // 
+            // columnVenue
+            // 
+            this.columnVenue.HeaderText = "Venue";
+            this.columnVenue.MinimumWidth = 70;
+            this.columnVenue.Name = "columnVenue";
+            this.columnVenue.ReadOnly = true;
+            this.columnVenue.Width = 70;
+            // 
+            // columnAdvisor
+            // 
+            this.columnAdvisor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.columnAdvisor.DefaultCellStyle = dataGridViewCellStyle3;
+            this.columnAdvisor.HeaderText = "Advisor";
+            this.columnAdvisor.MinimumWidth = 150;
+            this.columnAdvisor.Name = "columnAdvisor";
+            this.columnAdvisor.ReadOnly = true;
+            this.columnAdvisor.Width = 150;
+            // 
+            // columnPanels
+            // 
+            this.columnPanels.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.columnPanels.DefaultCellStyle = dataGridViewCellStyle4;
+            this.columnPanels.HeaderText = "Panelists";
+            this.columnPanels.MinimumWidth = 150;
+            this.columnPanels.Name = "columnPanels";
+            this.columnPanels.ReadOnly = true;
+            this.columnPanels.Width = 150;
             // 
             // DefenseSchedulesViewerForm
             // 
