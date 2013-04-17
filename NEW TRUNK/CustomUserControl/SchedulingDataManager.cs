@@ -9,6 +9,8 @@ namespace CustomUserControl
     public class SchedulingDataManager
     {
         private DBce dbHandler;
+        private DefenseSchedule currGroupDefSched;
+
 
         /*This will be used to draw the rectangles representing the defense schedules of
          * the currently selected thesis group. 
@@ -23,17 +25,12 @@ namespace CustomUserControl
         //This will be used to store the free times of the selected thesis group
         private List<TimePeriod>[] selectedGroupFreeTimes;
 
-        private DefenseSchedule currGroupDefSched;
-
-        //This will be used to draw the rectangles representing the free slots of the selected thesis group.
-        //private List<TimePeriod> selectedGroupFreeSlots;
-
         //Getters
 
+        public DefenseSchedule CurrGroupDefSched { get { return currGroupDefSched; } }
         public List<DefenseSchedule> ClusterDefScheds { get { return clusterDefScheds; } }
         public List<String> ScheduledGroupIDs { get { return scheduledGroupIDs; } }
         public List<TimePeriod>[] SelectedGroupFreeTimes { get { return selectedGroupFreeTimes; } }
-        public DefenseSchedule CurrGroupDefSched { get { return currGroupDefSched; } }
 
         public SchedulingDataManager()
         {
@@ -548,6 +545,42 @@ namespace CustomUserControl
 
         /*** Miscellaneous Methods - START ***/
 
+        public void AddIsolatedGroupsToTree(TreeNodeCollection tree, String eligibilityColumnName)
+        {
+
+            String query = "select thesisgroupID, title from thesisgroup where " + eligibilityColumnName + "= 'True' AND course = 'THSST-1' ORDER BY title;";
+
+            TreeNode courseNode = new TreeNode();
+            TreeNode groupNode;
+            courseNode.Text = "THSST-1";
+            tree.Add(courseNode);
+
+
+            List<String>[] groupTable = dbHandler.Select(query, 2);
+            for (int i = 0; i < groupTable[0].Count; i++)
+            {
+                groupNode = new TreeNode();
+                groupNode.Text = groupTable[1].ElementAt(i);
+                groupNode.Name = groupTable[0].ElementAt(i);
+                courseNode.Nodes.Add(groupNode);
+            }
+
+            query = "select thesisgroupID, title from thesisgroup where " + eligibilityColumnName + "= 'True' AND course = 'THSST-3';";
+            courseNode = new TreeNode();
+            courseNode.Text = "THSST-3";
+            tree.Add(courseNode);
+
+            groupTable = dbHandler.Select(query, 2);
+
+            for (int i = 0; i < groupTable[0].Count; i++)
+            {
+                groupNode = new TreeNode();
+                groupNode.Text = groupTable[1].ElementAt(i);
+                groupNode.Name = groupTable[0].ElementAt(i);
+                courseNode.Nodes.Add(groupNode);
+            }
+        }
+
         /* This method will be called by the GUI to add multigrouped panelists to the tree.
          * */
         public void AddPanelistsToTree(TreeNodeCollection tree, String eligibilityColumnName)
@@ -598,67 +631,6 @@ namespace CustomUserControl
                 if (children.Count > 0)
                     tree.Add(parent);
             }
-        }
-
-        public void AddIsolatedGroupsToTree(TreeNodeCollection tree, String eligibilityColumnName)
-        {
-
-            String query = "select thesisgroupID, title from thesisgroup where " + eligibilityColumnName + "= 'True' AND course = 'THSST-1' ORDER BY title;";
-
-            TreeNode courseNode = new TreeNode();
-            TreeNode groupNode;
-            courseNode.Text = "THSST-1";
-            tree.Add(courseNode);
-
-
-            List<String>[] groupTable = dbHandler.Select(query, 2);
-            for (int i = 0; i < groupTable[0].Count; i++) 
-            {
-                groupNode = new TreeNode();
-                groupNode.Text = groupTable[1].ElementAt(i);
-                groupNode.Name = groupTable[0].ElementAt(i);
-                courseNode.Nodes.Add(groupNode);
-            }
-
-            query = "select thesisgroupID, title from thesisgroup where " + eligibilityColumnName + "= 'True' AND course = 'THSST-3';";
-            courseNode = new TreeNode();
-            courseNode.Text = "THSST-3";
-            tree.Add(courseNode);
-
-            groupTable = dbHandler.Select(query, 2);
-
-            for (int i = 0; i < groupTable[0].Count; i++)
-            {
-                groupNode = new TreeNode();
-                groupNode.Text = groupTable[1].ElementAt(i);
-                groupNode.Name = groupTable[0].ElementAt(i);
-                courseNode.Nodes.Add(groupNode);
-            }
-
-            /*
-            String query = "select thesisgroupID,title from thesisgroup where " + eligibilityColumnName + " = 'True' AND thesisgroupID not in (select thesisgroupID from panelassignment where panelistID in (select panelistID from panelassignment group by panelistID having count(*) > 1));";
-            List<String>[] list = dbHandler.Select(query, 2);
-            TreeNode node;
-            for (int i = 0; i < list[0].Count(); i++)
-            {
-                node = new TreeNode();
-
-                // check whether thesis group has >= 1 student and 3 panelists
-                String subq1 = "select count(*) from panelassignment where thesisgroupid = " + list[0].ElementAt(i) + ";";
-                String subq2 = "select count(*) from student where thesisgroupid = " + list[0].ElementAt(i) + ";";
-
-                int panelCount = Convert.ToInt32(dbHandler.Select(subq1, 1)[0].ElementAt(0));
-                int memberCount = Convert.ToInt32(dbHandler.Select(subq2, 1)[0].ElementAt(0));
-
-                if (panelCount == 3 && memberCount >= 1)
-                {
-                    node.Name = list[0].ElementAt(i);
-                    node.Text = list[1].ElementAt(i);
-                }
-
-                tree.Add(node);
-            }
-             * */
         }
 
         /*  Adds a certain timeslot to the free times. Used specifically by FreeTimeViewer to add a group's
@@ -806,46 +778,88 @@ namespace CustomUserControl
         /*** Miscellaneous Methods - END ***/
 
 
-
-        public bool IsNewClassTimePeriodConflictFreeStudent(String studentID, TimePeriod classTimePeriod, String dayOfWeek) 
+        /*** Methods for ScheduleEditor***/
+        public String ConvertDayOfWeekToString(DayOfWeek dayOfWeek)
         {
-            String query = "SELECT distinct timeslotID FROM studentSchedule WHERE studentID = '" + studentID + "';";
-            List<String> timeSlotIDs = dbHandler.Select(query, 1)[0];
-            return IsNewClassTimePeriodConflictFree(timeSlotIDs, classTimePeriod, dayOfWeek);
+            if (dayOfWeek == DayOfWeek.Monday)
+                return "M";
+            else if (dayOfWeek == DayOfWeek.Tuesday)
+                return "T";
+            else if (dayOfWeek == DayOfWeek.Wednesday)
+                return "W";
+            else if (dayOfWeek == DayOfWeek.Thursday)
+                return "H";
+            else if (dayOfWeek == DayOfWeek.Friday)
+                return "F";
+            else if (dayOfWeek == DayOfWeek.Saturday)
+                return "S";
+            return "";
         }
 
-        public bool IsNewClassTimePeriodConflictFreePanelist(String panelistID, TimePeriod classTimePeriod, String dayOfWeek)
+        public void DeleteSelectedGroupDefense()
         {
-            String query = "SELECT distinct timeslotID FROM timeslot WHERE panelistID = '" + panelistID + "';";
-            List<String> timeSlotIDs = dbHandler.Select(query, 1)[0];
-            return IsNewClassTimePeriodConflictFree(timeSlotIDs, classTimePeriod, dayOfWeek);
+            String query = "delete from defenseschedule where defenseid ='" + currGroupDefSched.DefenseID + "';";
+            dbHandler.Delete(query);
         }
 
-        public bool IsNewClassTimePeriodConflictFreeDefenses(String thesisGroupID, TimePeriod classTimePeriod, String dayOfWeek) 
+        public List<DefenseSchedule> GetDefenseConflictsWithClassTimePeriod(String thesisGroupID, TimePeriod classTimePeriod, String dayOfWeek)
         {
-            List<DefenseSchedule> conflictedDefenses = GetDefenseConflictsWithClassTimePeriod(thesisGroupID, classTimePeriod, dayOfWeek);
-            if (conflictedDefenses.Count == 0)
-                return true;
-            return false;
-        }
+            List<DefenseSchedule> conflictedDefenses = new List<DefenseSchedule>();
+            DefenseSchedule defSched;
+            DefenseSchedule redefSched;
 
-        private bool IsNewClassTimePeriodConflictFree(List<String>timeSlotIDs, TimePeriod classTimePeriod, String dayOfWeek) 
-        { 
-            List<TimePeriod>[] classSlots = GetUniqueClassTimePeriods(timeSlotIDs);
-            int dayIndex = GetDayIndex(dayOfWeek);
-            for (int i = 0; i < classSlots[dayIndex].Count; i++) 
+            bool conflictWithDefense = false;
+            bool conflictWithRedefense = false;
+            String defDayOfWeek;
+            String redefDayOfWeek;
+
+            defSched = GetDefSched(thesisGroupID, Constants.DEFENSE_TYPE);
+            redefSched = GetDefSched(thesisGroupID, Constants.REDEFENSE_TYPE);
+
+            if (defSched != null)
             {
-                if (classSlots[dayIndex][i].IntersectsExclusive(classTimePeriod))
-                    return false;
+                defDayOfWeek = ConvertDayOfWeekToString(defSched.StartTime.DayOfWeek);
+                conflictWithDefense = defDayOfWeek.Equals(dayOfWeek) && classTimePeriod.IntersectsExclusive(defSched);
             }
-           
-            return true;
+            if (redefSched != null)
+            {
+                redefDayOfWeek = ConvertDayOfWeekToString(redefSched.StartTime.DayOfWeek);
+                conflictWithRedefense = redefDayOfWeek.Equals(dayOfWeek) && classTimePeriod.IntersectsExclusive(redefSched);
+            }
+
+            if (conflictWithDefense)
+                conflictedDefenses.Add(defSched);
+            if (conflictWithRedefense)
+                conflictedDefenses.Add(redefSched);
+
+            return conflictedDefenses;
+        }
+
+        //Just a support method for obtaining the index given the day of the week.
+        public int GetDayIndex(DayOfWeek day)
+        {
+            return (int)day - 1;
+        }
+
+        public int GetDayIndex(String dayOfWeek)
+        {
+            if (dayOfWeek.Equals("M"))
+                return GetDayIndex(DayOfWeek.Monday);
+            else if (dayOfWeek.Equals("T"))
+                return GetDayIndex(DayOfWeek.Tuesday);
+            else if (dayOfWeek.Equals("W"))
+                return GetDayIndex(DayOfWeek.Wednesday);
+            else if (dayOfWeek.Equals("H"))
+                return GetDayIndex(DayOfWeek.Thursday);
+            else if (dayOfWeek.Equals("F"))
+                return GetDayIndex(DayOfWeek.Friday);
+            else if (dayOfWeek.Equals("S"))
+                return GetDayIndex(DayOfWeek.Saturday);
+            return -1;
         }
 
         public String GetErrorWithThisDefenseInfo(String dateTimeString, String course, DayOfWeek dayOfWeek)
         {
-          
-
             int month = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[0]);
             int day = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[1]);
             int year = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[2]);
@@ -858,30 +872,23 @@ namespace CustomUserControl
             TimePeriod timePeriod = new TimePeriod(DateTime.Today, DateTime.Today);
             TimePeriod currPeriod = new TimePeriod(DateTime.Today, DateTime.Today);
 
-            if (currGroupDefSched!=null)
+            if (currGroupDefSched != null)
             {
                 string query = "select defensedatetime from defenseschedule where defenseid =" + currGroupDefSched.DefenseID;
-                dateTimeString = string.Format("{0:M/d/yyyy H:mm}", dbHandler.Select(query, 1)[0].ElementAt(0));
-
-                month = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[0]);
-                day = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[1]);
-                year = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[2]);
-                hour = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[0]);
-                minute = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[1]);
-                savedDateTime = new DateTime(year, month, day, hour, minute, 0);
+                dateTimeString = dbHandler.Select(query, 1)[0][0];
+                savedDateTime = Convert.ToDateTime(dateTimeString);
             }
 
             // CASE 1: Time selected is set before 8:00AM
             if (time < new TimeSpan(8, 0, 0))
             {
                 return "Invalid Time: You can only schedule from 8:00AM to 7:00PM for THSST-1 and 8:00AM to 8:00PM for THSST-3";
-   
             }
 
             // CASE 2: Time selected is set after 8:00PM (THSST-1) or 7:00PM (THSST-3)
             if (course.Equals("THSST-1"))
             {
-                if (currGroupDefSched!=null)
+                if (currGroupDefSched != null)
                     currPeriod = new TimePeriod(savedDateTime, savedDateTime.AddHours(1));
                 timePeriod = new TimePeriod(dateTime, dateTime.AddHours(1));
                 if (time > new TimeSpan(20, 0, 0))
@@ -891,7 +898,7 @@ namespace CustomUserControl
             }
             else
             {
-                if (currGroupDefSched!=null)
+                if (currGroupDefSched != null)
                     currPeriod = new TimePeriod(savedDateTime, savedDateTime.AddHours(2));
                 timePeriod = new TimePeriod(dateTime, dateTime.AddHours(2));
                 if (time > new TimeSpan(19, 0, 0))
@@ -900,7 +907,7 @@ namespace CustomUserControl
                 }
             }
 
-        
+
             // Case 4: Date selected is a sunday
             if (dayOfWeek == DayOfWeek.Sunday)
             {
@@ -908,8 +915,8 @@ namespace CustomUserControl
             }
 
             // Case 5: Selected time doesn't fit the free time of those involved
-                //if(defenseRecordExistsInDatabase)
-                    //schedulingDM.AddToSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1, timePeriod);
+            //if(defenseRecordExistsInDatabase)
+            //schedulingDM.AddToSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, Convert.ToInt16(defenseDateTimePicker.Value.DayOfWeek) - 1, timePeriod);
 
 
             bool found = false;
@@ -918,7 +925,7 @@ namespace CustomUserControl
             bool downbool = false;
             bool foundOne = false;
 
-            if (currGroupDefSched!=null)
+            if (currGroupDefSched != null)
             {
                 if (currPeriod.IsBetweenInclusive(currPeriod.StartTime, currPeriod.EndTime, timePeriod.StartTime))
                     upbool = true;
@@ -928,7 +935,7 @@ namespace CustomUserControl
 
                 found = upbool && downbool;
                 foundOne = upbool || downbool;
-                //Console.WriteLine("   " + found + " " + foundOne+ "   "+ currPeriod.StartTime+" "+currPeriod.EndTime +"," + timePeriod.StartTime+" "+timePeriod.EndTime);
+                Console.WriteLine("***********SDMCHECKCHECKCHECK   " + found + " " + foundOne+ "   "+ currPeriod.StartTime+" "+currPeriod.EndTime +"," + timePeriod.StartTime+" "+timePeriod.EndTime);
             }
 
             if (!found)
@@ -965,6 +972,41 @@ namespace CustomUserControl
 
             return "";
         }
+        
+        public bool IsNewClassTimePeriodConflictFreeDefenses(String thesisGroupID, TimePeriod classTimePeriod, String dayOfWeek)
+        {
+            List<DefenseSchedule> conflictedDefenses = GetDefenseConflictsWithClassTimePeriod(thesisGroupID, classTimePeriod, dayOfWeek);
+            if (conflictedDefenses.Count == 0)
+                return true;
+            return false;
+        }
+        
+        public bool IsNewClassTimePeriodConflictFreeStudent(String studentID, TimePeriod classTimePeriod, String dayOfWeek) 
+        {
+            String query = "SELECT distinct timeslotID FROM studentSchedule WHERE studentID = '" + studentID + "';";
+            List<String> timeSlotIDs = dbHandler.Select(query, 1)[0];
+            return IsNewClassTimePeriodConflictFree(timeSlotIDs, classTimePeriod, dayOfWeek);
+        }
+
+        public bool IsNewClassTimePeriodConflictFreePanelist(String panelistID, TimePeriod classTimePeriod, String dayOfWeek)
+        {
+            String query = "SELECT distinct timeslotID FROM timeslot WHERE panelistID = '" + panelistID + "';";
+            List<String> timeSlotIDs = dbHandler.Select(query, 1)[0];
+            return IsNewClassTimePeriodConflictFree(timeSlotIDs, classTimePeriod, dayOfWeek);
+        }
+        
+        private bool IsNewClassTimePeriodConflictFree(List<String>timeSlotIDs, TimePeriod classTimePeriod, String dayOfWeek) 
+        { 
+            List<TimePeriod>[] classSlots = GetUniqueClassTimePeriods(timeSlotIDs);
+            int dayIndex = GetDayIndex(dayOfWeek);
+            for (int i = 0; i < classSlots[dayIndex].Count; i++) 
+            {
+                if (classSlots[dayIndex][i].IntersectsExclusive(classTimePeriod))
+                    return false;
+            }
+           
+            return true;
+        }
 
         public void InsertNewDefenseIntoDB(String currGroupID, String dateTime, String venue,  String currDefenseType) 
         {
@@ -985,87 +1027,8 @@ namespace CustomUserControl
 
                 query = "select defenseid from defenseschedule where defensedatetime= '" + dateTime + "' and place='" + venue + "' and thesisgroupid=" + currGroupID + ";";        
             }
-        }
-
-        public void DeleteSelectedGroupDefense() 
-        {
-            String query = "delete from defenseschedule where defenseid ='" + currGroupDefSched.DefenseID + "';";
-            dbHandler.Delete(query);
-        }
-
-        public List<DefenseSchedule> GetDefenseConflictsWithClassTimePeriod(String thesisGroupID, TimePeriod classTimePeriod, String dayOfWeek) 
-        {
-            List<DefenseSchedule> conflictedDefenses = new List<DefenseSchedule>();
-            DefenseSchedule defSched;
-            DefenseSchedule redefSched;
-
-            bool conflictWithDefense = false;
-            bool conflictWithRedefense = false;
-            String defDayOfWeek;
-            String redefDayOfWeek;
-
-            defSched = GetDefSched(thesisGroupID, Constants.DEFENSE_TYPE);
-            redefSched = GetDefSched(thesisGroupID, Constants.REDEFENSE_TYPE);
-
-            if (defSched != null)
-            {
-                defDayOfWeek = ConvertDayOfWeekToString(defSched.StartTime.DayOfWeek);
-                conflictWithDefense = defDayOfWeek.Equals(dayOfWeek) && classTimePeriod.IntersectsExclusive(defSched);
-            }
-            if (redefSched != null)
-            {
-                redefDayOfWeek = ConvertDayOfWeekToString(redefSched.StartTime.DayOfWeek);
-                conflictWithRedefense = redefDayOfWeek.Equals(dayOfWeek) && classTimePeriod.IntersectsExclusive(redefSched);
-            }
-
-            if (conflictWithDefense)
-                conflictedDefenses.Add(defSched);
-            if (conflictWithRedefense)
-                conflictedDefenses.Add(redefSched);
-
-            return conflictedDefenses;
-        }
-        
-        public String ConvertDayOfWeekToString(DayOfWeek dayOfWeek) 
-        {
-            if (dayOfWeek == DayOfWeek.Monday)
-                return "M";
-            else if (dayOfWeek == DayOfWeek.Tuesday)
-                return "T";
-            else if (dayOfWeek == DayOfWeek.Wednesday)
-                return "W";
-            else if (dayOfWeek == DayOfWeek.Thursday)
-                return "H";
-            else if (dayOfWeek == DayOfWeek.Friday)
-                return "F";
-            else if (dayOfWeek == DayOfWeek.Saturday)
-                return "S";
-            return "";
-        }
-
-        //Just a support method for obtaining the index given the day of the week.
-        public int GetDayIndex(DayOfWeek day)
-        {
-            return (int)day - 1;
-        }
-
-        public int GetDayIndex(String dayOfWeek)
-        {
-            if (dayOfWeek.Equals("M"))
-                return GetDayIndex(DayOfWeek.Monday);
-            else if (dayOfWeek.Equals("T"))
-                return GetDayIndex(DayOfWeek.Tuesday);
-            else if (dayOfWeek.Equals("W"))
-                return GetDayIndex(DayOfWeek.Wednesday);
-            else if (dayOfWeek.Equals("H"))
-                return GetDayIndex(DayOfWeek.Thursday);
-            else if (dayOfWeek.Equals("F"))
-                return GetDayIndex(DayOfWeek.Friday);
-            else if (dayOfWeek.Equals("S"))
-                return GetDayIndex(DayOfWeek.Saturday);
-            return -1;
-        }
-
+        }        
+        /*** Methods for ScheduleEditor***/
 
     }
 }
