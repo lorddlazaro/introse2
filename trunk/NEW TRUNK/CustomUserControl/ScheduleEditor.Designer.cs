@@ -341,6 +341,7 @@
             this.buttonDeletePanelist.TabIndex = 16;
             this.buttonDeletePanelist.Text = "Delete";
             this.buttonDeletePanelist.UseVisualStyleBackColor = true;
+            this.buttonDeletePanelist.Click += new System.EventHandler(this.buttonDeletePanelist_Click);
             // 
             // ScheduleEditor
             // 
