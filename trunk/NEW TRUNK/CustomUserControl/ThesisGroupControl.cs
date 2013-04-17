@@ -541,10 +541,14 @@ namespace CustomUserControl
                     }
                 }
 
+                if (tgDM.HasDefenseSchedule(currThesisGroupID))
+                    tgDM.DeleteDefenseSchedule(currThesisGroupID);
                 tgDM.InsertNewStudent(currThesisGroupID, newID, newFirstName, newMI, newLastName);
             }
             else if (result[0].ElementAt(studentIndex).Equals(newID))
             {
+                if (tgDM.HasDefenseSchedule(currThesisGroupID))
+                    tgDM.DeleteDefenseSchedule(currThesisGroupID);
                 tgDM.UpdateStudent(result[0].ElementAt(studentIndex), newFirstName, newMI, newLastName);
             }
             else
@@ -693,11 +697,15 @@ namespace CustomUserControl
                     }
                 }
 
+                if (tgDM.HasDefenseSchedule(currThesisGroupID))
+                    tgDM.DeleteDefenseSchedule(currThesisGroupID);
                 tgDM.InsertNewPanelist(newID, newFirstName, newMI, newLastName);
                 tgDM.AssignPanelistToGroup(currThesisGroupID, newID);
             }
             else if (result[0].ElementAt(panelIndex).Equals(newID))
             {
+                if (tgDM.HasDefenseSchedule(currThesisGroupID))
+                    tgDM.DeleteDefenseSchedule(currThesisGroupID);
                 tgDM.UpdatePanelist(newID, newFirstName, newMI, newLastName);
             }
             else
@@ -794,6 +802,8 @@ namespace CustomUserControl
 
             if (String.IsNullOrEmpty(panelistID))
             {
+                if (tgDM.HasDefenseSchedule(currThesisGroupID))
+                    tgDM.DeleteDefenseSchedule(currThesisGroupID);
                 panelistID = tgDM.GetPanelistIDFromName(panelistName);
                 tgDM.AssignPanelistToGroup(currThesisGroupID, panelistID);
             }
