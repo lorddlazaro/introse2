@@ -26,7 +26,6 @@ namespace CustomUserControl
 
         public ThesisGroupControl()
         {
-            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             tgDM = new ThesisGroupDataManager();
             InitializeComponent();
 
