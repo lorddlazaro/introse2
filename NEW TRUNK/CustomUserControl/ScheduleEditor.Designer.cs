@@ -28,9 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.personLabel = new System.Windows.Forms.Label();
             this.studentTreeView = new System.Windows.Forms.TreeView();
-            this.btnSwitchView = new System.Windows.Forms.Button();
             this.groupBoxWeeklyTimeslot = new System.Windows.Forms.GroupBox();
             this.labelSelectedPersonTimeslot = new System.Windows.Forms.Label();
             this.dataGridViewExistingTimeslot = new System.Windows.Forms.DataGridView();
@@ -50,6 +48,11 @@
             this.buttonAddEvent = new System.Windows.Forms.Button();
             this.buttondeleteEvent = new System.Windows.Forms.Button();
             this.panelistTreeView = new System.Windows.Forms.TreeView();
+            this.treeViewStudents = new System.Windows.Forms.TreeView();
+            this.treeViewPanelists = new System.Windows.Forms.TreeView();
+            this.treeViewUngroupedPanelists = new System.Windows.Forms.TreeView();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.buttonDeletePanelist = new System.Windows.Forms.Button();
             this.groupBoxWeeklyTimeslot.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExistingTimeslot)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewWeeklyTimeslot)).BeginInit();
@@ -58,15 +61,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEvent)).BeginInit();
             this.SuspendLayout();
             // 
-            // personLabel
-            // 
-            this.personLabel.AutoSize = true;
-            this.personLabel.Location = new System.Drawing.Point(3, 12);
-            this.personLabel.Name = "personLabel";
-            this.personLabel.Size = new System.Drawing.Size(52, 13);
-            this.personLabel.TabIndex = 4;
-            this.personLabel.Text = "Students:";
-            // 
             // studentTreeView
             // 
             this.studentTreeView.Location = new System.Drawing.Point(3, 36);
@@ -74,16 +68,6 @@
             this.studentTreeView.Size = new System.Drawing.Size(245, 327);
             this.studentTreeView.TabIndex = 6;
             this.studentTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.studentTreeView_NodeMouseClick);
-            // 
-            // btnSwitchView
-            // 
-            this.btnSwitchView.Location = new System.Drawing.Point(52, 7);
-            this.btnSwitchView.Name = "btnSwitchView";
-            this.btnSwitchView.Size = new System.Drawing.Size(108, 23);
-            this.btnSwitchView.TabIndex = 8;
-            this.btnSwitchView.Text = "Switch to Panelists";
-            this.btnSwitchView.UseVisualStyleBackColor = true;
-            this.btnSwitchView.Click += new System.EventHandler(this.btnSwitchView_Click);
             // 
             // groupBoxWeeklyTimeslot
             // 
@@ -309,16 +293,68 @@
             this.panelistTreeView.TabIndex = 7;
             this.panelistTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.panelistTreeView_NodeMouseClick);
             // 
+            // treeViewStudents
+            // 
+            this.treeViewStudents.Location = new System.Drawing.Point(3, 36);
+            this.treeViewStudents.Name = "treeViewStudents";
+            this.treeViewStudents.Size = new System.Drawing.Size(245, 327);
+            this.treeViewStudents.TabIndex = 12;
+            this.treeViewStudents.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewStudents_NodeMouseClick);
+            // 
+            // treeViewPanelists
+            // 
+            this.treeViewPanelists.Location = new System.Drawing.Point(3, 36);
+            this.treeViewPanelists.Name = "treeViewPanelists";
+            this.treeViewPanelists.Size = new System.Drawing.Size(245, 327);
+            this.treeViewPanelists.TabIndex = 13;
+            this.treeViewPanelists.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewPanelists_NodeMouseClick);
+            // 
+            // treeViewUngroupedPanelists
+            // 
+            this.treeViewUngroupedPanelists.Location = new System.Drawing.Point(3, 36);
+            this.treeViewUngroupedPanelists.Name = "treeViewUngroupedPanelists";
+            this.treeViewUngroupedPanelists.Size = new System.Drawing.Size(245, 327);
+            this.treeViewUngroupedPanelists.TabIndex = 14;
+            this.treeViewUngroupedPanelists.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewUngroupedPanelists_NodeMouseClick);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Students (By Thesis Group)",
+            "Students",
+            "Panelists (By Thesis Group)",
+            "Panelists",
+            "Panelists (Ungrouped)"});
+            this.comboBox1.Location = new System.Drawing.Point(4, 9);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(173, 21);
+            this.comboBox1.TabIndex = 15;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // buttonDeletePanelist
+            // 
+            this.buttonDeletePanelist.Location = new System.Drawing.Point(183, 9);
+            this.buttonDeletePanelist.Name = "buttonDeletePanelist";
+            this.buttonDeletePanelist.Size = new System.Drawing.Size(65, 23);
+            this.buttonDeletePanelist.TabIndex = 16;
+            this.buttonDeletePanelist.Text = "Delete";
+            this.buttonDeletePanelist.UseVisualStyleBackColor = true;
+            // 
             // ScheduleEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonDeletePanelist);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.groupBoxWeeklyTimeslot);
             this.Controls.Add(this.groupBoxEvent);
-            this.Controls.Add(this.btnSwitchView);
-            this.Controls.Add(this.personLabel);
             this.Controls.Add(this.panelistTreeView);
             this.Controls.Add(this.studentTreeView);
+            this.Controls.Add(this.treeViewUngroupedPanelists);
+            this.Controls.Add(this.treeViewPanelists);
+            this.Controls.Add(this.treeViewStudents);
             this.Name = "ScheduleEditor";
             this.Size = new System.Drawing.Size(1000, 679);
             this.groupBoxWeeklyTimeslot.ResumeLayout(false);
@@ -330,15 +366,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExistingEvent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEvent)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label personLabel;
         private System.Windows.Forms.TreeView studentTreeView;
-        private System.Windows.Forms.Button btnSwitchView;
         private System.Windows.Forms.GroupBox groupBoxWeeklyTimeslot;
         private System.Windows.Forms.GroupBox groupBoxEvent;
         private System.Windows.Forms.Button buttonAddWeeklyTimeslot;
@@ -358,5 +391,10 @@
         private System.Windows.Forms.Label labelSelectedPersonTimeslot;
         private System.Windows.Forms.Label labelAvailableEvents;
         private System.Windows.Forms.Label labelSelectedPersonEvent;
+        private System.Windows.Forms.TreeView treeViewStudents;
+        private System.Windows.Forms.TreeView treeViewPanelists;
+        private System.Windows.Forms.TreeView treeViewUngroupedPanelists;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button buttonDeletePanelist;
     }
 }
