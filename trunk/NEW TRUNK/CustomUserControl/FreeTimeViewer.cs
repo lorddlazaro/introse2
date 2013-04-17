@@ -33,7 +33,6 @@ namespace CustomUserControl
         private SchedulingDataManager schedulingDM;
 
         private String currDefenseType;
-        private String currPanelistID;
         private String currGroupID;
 
         /****** START: Initializing Methods *******/
@@ -51,7 +50,6 @@ namespace CustomUserControl
             dayWidth = panelCalendar.DisplayRectangle.Width / Constants.DAYS_IN_DEF_WEEK;
             totalMinsInDay = Convert.ToDateTime(Constants.LIMIT_HOUR + ":" + Constants.LIMIT_MIN).Subtract(Convert.ToDateTime(Constants.START_HOUR + ":" + Constants.START_MIN)).TotalMinutes;
 
-            currPanelistID = "";
             currGroupID = "";
 
             labelDates = new List<Label>();
@@ -84,19 +82,19 @@ namespace CustomUserControl
 
         private void RefreshCalendar()
         {
-            //if (!currPanelistID.Equals(""))
-            //schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
+            Cursor.Current = Cursors.WaitCursor;
             if (!currGroupID.Equals(""))
             {
                 schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
                 schedulingDM.RefreshGroupDefSched(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
             }
             panelCalendar.Refresh();
+            Cursor.Current = Cursors.Arrow;
         }
 
-        // refresh treeviews from form1
         public void RefreshTreeViews()
         {
+            Cursor.Current = Cursors.WaitCursor;
             treeViewClusters.BeginUpdate();
             treeViewClusters.Nodes.Clear();
             schedulingDM.AddPanelistsToTree(treeViewClusters.Nodes, "eligibleFor" + currDefenseType);
@@ -111,6 +109,8 @@ namespace CustomUserControl
             treeViewIsolatedGroups.ExpandAll();
 
             MarkAllScheduledGroups();
+
+            Cursor.Current = Cursors.Arrow;
         }
         /********END: Refresh Methods**********/
 
@@ -180,8 +180,6 @@ namespace CustomUserControl
 
             endOfTheWeek = Convert.ToDateTime(labelDates[i - 1].Text);
 
-            if (!currPanelistID.Equals(""))
-                schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
             if (!currGroupID.Equals(""))
                 schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
             
@@ -235,8 +233,6 @@ namespace CustomUserControl
                 schedulingDM.InsertNewDefenseIntoDB(currGroupID, dateTime, venueTextBox.Text, currDefenseType);
                 
                 //Refresh Part
-                //if (!currPanelistID.Equals(""))
-                //  schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
                 if (!currGroupID.Equals(""))
                     schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
 
@@ -253,57 +249,20 @@ namespace CustomUserControl
         {
             if (e.Node.Level == 0)
             {
-                /* Progress Bar 
-                int numTasks = 3;
-                int progressBarIncrement = progressBar1.Maximum / numTasks;
-                /* Progress Bar */
-
-
-                //Task1: Refresh Cluster Defense Schedules
-                currPanelistID = e.Node.Name;
-                schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
-                //UpdateProgressBar(progressBar1, progressBarIncrement);
-
-                //Task 2: Deselect the currently selected thesis group if any.
                 if(!currGroupID.Equals(""))
                     ChangeSelectedGroup("");
-                //UpdateProgressBar(progressBar1, progressBarIncrement);
-
-                //Task 3: Refresh 
+             
                 panelCalendar.Refresh();
-               // UpdateProgressBar(progressBar1, progressBarIncrement);
-
-                //UpdateProgressBar(progressBar1, progressBar1.Maximum); //Just to make the progress bar reach its maximum.
             }
             else if (e.Node.Level == 1)
             {
-                /* Progress Bar
-                int numTasks = 3;
-                int progressBarIncrement = progressBar1.Maximum / numTasks;
-                /* Progress Bar */
-
-                //Task 1: Change panelists if user clicked on another cluster.
-                if (!e.Node.Parent.Name.Equals(currPanelistID))
-                {
-                    currPanelistID = e.Node.Parent.Name;
-                    schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
-                }
-                //UpdateProgressBar(progressBar1, progressBarIncrement);
-
-                //Task 2: Change selected group if user clicked on a different one.
+                //Change selected group if user clicked on a different one.
                 if (!currGroupID.Equals(e.Node.Name))
                 {
                     ChangeSelectedGroup(e.Node.Name);
                 } 
-                //UpdateProgressBar(progressBar1, progressBarIncrement);
-
-                //Task 3: Refresh
+                
                 panelCalendar.Refresh();
-                //UpdateProgressBar(progressBar1, progressBarIncrement);
-
-                //Just to make sure the progress bar reaches its maximum.
-                //UpdateProgressBar(progressBar1, progressBar1.Maximum);             
-
                 treeViewClusters.SelectedNode = e.Node;
             }
         }
@@ -311,8 +270,7 @@ namespace CustomUserControl
         //Handles the selection of thesis groups in the tree view.
         private void treeViewIsolatedGroups_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            currPanelistID = "";
-
+           
             //Task 1: Refresh the current free times.
             ChangeSelectedGroup(e.Node.Name);
           
@@ -480,8 +438,6 @@ namespace CustomUserControl
         /****** START: Drawing Methods For The Calendar*******/
         private void panelCalendar_Paint(object sender, PaintEventArgs e)
         {
-            //if(!currPanelistID.Equals(""))
-            //DrawClusterDefScheds(e.Graphics, panelCalendar.DisplayRectangle);
             if (!currGroupID.Equals(""))
             {
                 DrawFreeTimes(e.Graphics, panelCalendar.DisplayRectangle);
@@ -597,11 +553,9 @@ namespace CustomUserControl
             }
             else
             {
+                Cursor.Current = Cursors.WaitCursor;
                 ShowGroupBox();
-
                 labelGroupInfo.Text = "Selected Group:    " + schedulingDM.GetGroupInfo(currGroupID) + Environment.NewLine + "Panelists:                " + schedulingDM.GetPanelists(currGroupID);
-                
-                //check
                 titleTextBox.Text = schedulingDM.GetGroupInfo(currGroupID).Split(':')[1];
                 courseSectionTextBox.Text = schedulingDM.GetGroupInfo(currGroupID).Split(':')[0];
 
@@ -614,15 +568,7 @@ namespace CustomUserControl
             }
             schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID,currDefenseType);
             schedulingDM.RefreshGroupDefSched(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
-
-            /*For debugging purposes
-            for (int currDay = 0; currDay < 6; currDay++)
-            {
-                Console.WriteLine("Day: " + currDay);
-                for (int i = 0; i < schedulingDM.SelectedGroupFreeTimes[currDay].Count; i++)
-                    Console.WriteLine(schedulingDM.SelectedGroupFreeTimes[currDay].ElementAt(i));
-            }
-            /*For debugging purposes*/
+            Cursor.Current = Cursors.Arrow;
         }
 
         //Check the checkboxes of groups that already have a defense schedule.
@@ -645,30 +591,51 @@ namespace CustomUserControl
                 currTreeView.BeginUpdate();
                 if (currTreeView.Nodes.Count > 2) // If Cluster View
                 {
-                    foreach (TreeNode level1 in currTreeView.Nodes)
+                    bool allChildrenAreMarked;
+                    foreach (TreeNode panelist in currTreeView.Nodes)
                     {
-                        foreach (TreeNode group in level1.Nodes)
+                        allChildrenAreMarked = true; 
+                    
+                        foreach (TreeNode group in panelist.Nodes)
                         {
                             isCheckingInProgram = true;
                             if (schedulingDM.ScheduledGroupIDs.Contains(group.Name))
                                 group.Checked = true;
                             else
+                            {
                                 group.Checked = false;
+                                allChildrenAreMarked = false;
+                            }
                         }
+                        isCheckingInProgram = true;
+                        if (allChildrenAreMarked)
+                            panelist.Checked = true;
+                        else
+                            panelist.Checked = false;
                     }
                 }
                 else 
                 {
+                    bool allChildrenAreMarked; 
                     foreach (TreeNode course in currTreeView.Nodes)
                     {
+                        allChildrenAreMarked = true;
                         foreach (TreeNode group in course.Nodes)
                         {
                             isCheckingInProgram = true;
                             if (schedulingDM.ScheduledGroupIDs.Contains(group.Name))
                                 group.Checked = true;
                             else
+                            {
                                 group.Checked = false;
+                                allChildrenAreMarked = false;
+                            }
                         }
+                        isCheckingInProgram = true;
+                        if (allChildrenAreMarked)
+                            course.Checked = true;
+                        else
+                            course.Checked = false;
                     }
                 }
               
