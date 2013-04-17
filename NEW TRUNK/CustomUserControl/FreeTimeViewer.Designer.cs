@@ -253,7 +253,7 @@
             // 
             // datePicker
             // 
-            this.datePicker.Location = new System.Drawing.Point(144, 0);
+            this.datePicker.Location = new System.Drawing.Point(144, 6);
             this.datePicker.Name = "datePicker";
             this.datePicker.Size = new System.Drawing.Size(196, 20);
             this.datePicker.TabIndex = 16;
@@ -328,7 +328,7 @@
             // 
             this.labelStartDate.AutoSize = true;
             this.labelStartDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelStartDate.Location = new System.Drawing.Point(3, -6);
+            this.labelStartDate.Location = new System.Drawing.Point(3, 0);
             this.labelStartDate.Name = "labelStartDate";
             this.labelStartDate.Size = new System.Drawing.Size(135, 29);
             this.labelStartDate.TabIndex = 23;
@@ -485,7 +485,7 @@
             this.comboBoxDefenseType.Items.AddRange(new object[] {
             "Defense",
             "Re-Defense"});
-            this.comboBoxDefenseType.Location = new System.Drawing.Point(584, 0);
+            this.comboBoxDefenseType.Location = new System.Drawing.Point(553, 6);
             this.comboBoxDefenseType.Name = "comboBoxDefenseType";
             this.comboBoxDefenseType.Size = new System.Drawing.Size(121, 21);
             this.comboBoxDefenseType.TabIndex = 27;
@@ -495,7 +495,7 @@
             // 
             this.labelDefenseType.AutoSize = true;
             this.labelDefenseType.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDefenseType.Location = new System.Drawing.Point(379, -5);
+            this.labelDefenseType.Location = new System.Drawing.Point(364, 0);
             this.labelDefenseType.Name = "labelDefenseType";
             this.labelDefenseType.Size = new System.Drawing.Size(183, 29);
             this.labelDefenseType.TabIndex = 28;
@@ -505,7 +505,7 @@
             // 
             this.labelDefDuration.AutoSize = true;
             this.labelDefDuration.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDefDuration.Location = new System.Drawing.Point(698, 589);
+            this.labelDefDuration.Location = new System.Drawing.Point(697, 6);
             this.labelDefDuration.Name = "labelDefDuration";
             this.labelDefDuration.Size = new System.Drawing.Size(0, 19);
             this.labelDefDuration.TabIndex = 29;
