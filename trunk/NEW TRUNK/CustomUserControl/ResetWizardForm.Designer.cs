@@ -223,7 +223,7 @@
             this.labelGroupSelectionText.Size = new System.Drawing.Size(407, 30);
             this.labelGroupSelectionText.TabIndex = 12;
             this.labelGroupSelectionText.Text = "Please select which Thesis Groups will move on to the next THSST Course.\r\nUncheck" +
-    "ed groups will retain their current THSST course.";
+                "ed groups will retain their current THSST course.";
             // 
             // labelGroupSelectionHeader
             // 
@@ -287,9 +287,9 @@
             this.labelTreeView3.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTreeView3.Location = new System.Drawing.Point(480, 80);
             this.labelTreeView3.Name = "labelTreeView3";
-            this.labelTreeView3.Size = new System.Drawing.Size(211, 19);
+            this.labelTreeView3.Size = new System.Drawing.Size(203, 19);
             this.labelTreeView3.TabIndex = 6;
-            this.labelTreeView3.Text = "THSST->3 Groups to be Deleted";
+            this.labelTreeView3.Text = "THSST-3 Groups to be Deleted";
             // 
             // labelTreeView2
             // 
@@ -363,7 +363,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(714, 377);
+            this.ClientSize = new System.Drawing.Size(714, 374);
             this.Controls.Add(this.tabControlResetWizard);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(730, 412);
