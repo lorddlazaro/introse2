@@ -1640,8 +1640,6 @@
         private System.Windows.Forms.Button editStudent4;
         private System.Windows.Forms.Button deleteStudent4;
 
-        // sort the students. not sure why i put this
-
         // panelist panels lelz
         private System.Windows.Forms.Panel panelistControl; // main panel
         private System.Windows.Forms.Panel panelist1; // per panelist
