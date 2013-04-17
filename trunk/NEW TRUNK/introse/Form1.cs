@@ -56,5 +56,10 @@ namespace introse
             catch (Exception ex2) { }
             formResetWizard = new FormResetWizard();
         }
+
+        private void freeTimeViewer_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -77,6 +77,7 @@
             this.freeTimeViewer.Name = "freeTimeViewer";
             this.freeTimeViewer.Size = new System.Drawing.Size(970, 637);
             this.freeTimeViewer.TabIndex = 0;
+            this.freeTimeViewer.Load += new System.EventHandler(this.freeTimeViewer_Load);
             // 
             // scheduleEditorControl
             // 
@@ -121,7 +122,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip1.Size = new System.Drawing.Size(43, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(45, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -132,27 +133,27 @@
             this.viewDefenseSchedulesToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // resetToolStripMenuItem
             // 
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.resetToolStripMenuItem.Text = "Reset";
             this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
             // viewDefenseSchedulesToolStripMenuItem
             // 
             this.viewDefenseSchedulesToolStripMenuItem.Name = "viewDefenseSchedulesToolStripMenuItem";
-            this.viewDefenseSchedulesToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.viewDefenseSchedulesToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.viewDefenseSchedulesToolStripMenuItem.Text = "View Defense Schedules";
             this.viewDefenseSchedulesToolStripMenuItem.Click += new System.EventHandler(this.viewDefenseSchedulesToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -167,7 +168,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Thesis Scheduling Aid";
+            this.Text = "Thesis Defense Scheduling Aid";
             this.tabControl1.ResumeLayout(false);
             this.freeTimeViewerControl.ResumeLayout(false);
             this.scheduleEditorControl.ResumeLayout(false);
