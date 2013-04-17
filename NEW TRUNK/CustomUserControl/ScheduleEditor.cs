@@ -1112,5 +1112,6 @@ namespace CustomUserControl
             ClearEverything();
             UpdateUngroupedPanelistTreeView(treeViewUngroupedPanelists.Nodes);
         }
+
     }
 }
