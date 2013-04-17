@@ -1,4 +1,6 @@
-﻿namespace CustomUserControl
+﻿using System.Windows.Forms;
+
+namespace CustomUserControl
 {
     partial class FreeTimeViewer
     {
@@ -19,6 +21,16 @@
             }
             base.Dispose(disposing);
         }
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+                return cp;
+            }
+        } 
 
         #region Component Designer generated code
 
@@ -476,7 +488,7 @@
             // 
             this.venueTextBox.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.venueTextBox.Location = new System.Drawing.Point(117, 71);
-            this.venueTextBox.MaxLength = 3;
+            this.venueTextBox.MaxLength = 4;
             this.venueTextBox.Name = "venueTextBox";
             this.venueTextBox.Size = new System.Drawing.Size(154, 23);
             this.venueTextBox.TabIndex = 2;

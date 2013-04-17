@@ -1,4 +1,6 @@
-﻿namespace introse
+﻿using System.Windows.Forms;
+
+namespace introse
 {
     partial class Form1
     {
@@ -18,6 +20,17 @@
                 components.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        // Reduce Flicker
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+                return cp;
+            }
         }
 
         #region Windows Form Designer generated code
@@ -59,6 +72,8 @@
             this.tabControl1.Size = new System.Drawing.Size(1007, 682);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            // not auto-generated
+            //this.tabControl1.SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
             // 
             // freeTimeViewerControl
             // 
@@ -77,7 +92,6 @@
             this.freeTimeViewer.Name = "freeTimeViewer";
             this.freeTimeViewer.Size = new System.Drawing.Size(970, 637);
             this.freeTimeViewer.TabIndex = 0;
-            this.freeTimeViewer.Load += new System.EventHandler(this.freeTimeViewer_Load);
             // 
             // scheduleEditorControl
             // 
@@ -99,9 +113,9 @@
             // thesisGroupControl
             // 
             this.thesisGroupControl.Controls.Add(this.thesisGroupControl1);
-            this.thesisGroupControl.Location = new System.Drawing.Point(4, 27);
+            this.thesisGroupControl.Location = new System.Drawing.Point(4, 22);
             this.thesisGroupControl.Name = "thesisGroupControl";
-            this.thesisGroupControl.Size = new System.Drawing.Size(999, 651);
+            this.thesisGroupControl.Size = new System.Drawing.Size(999, 656);
             this.thesisGroupControl.TabIndex = 5;
             this.thesisGroupControl.Text = "Thesis Groups";
             this.thesisGroupControl.UseVisualStyleBackColor = true;
