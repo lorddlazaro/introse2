@@ -89,6 +89,7 @@
             // textBoxEventName
             // 
             this.textBoxEventName.Location = new System.Drawing.Point(62, 6);
+            this.textBoxEventName.MaxLength = 64;
             this.textBoxEventName.Name = "textBoxEventName";
             this.textBoxEventName.Size = new System.Drawing.Size(218, 20);
             this.textBoxEventName.TabIndex = 17;
@@ -117,7 +118,7 @@
             // 
             this.labelWarning.AutoSize = true;
             this.labelWarning.ForeColor = System.Drawing.Color.Red;
-            this.labelWarning.Location = new System.Drawing.Point(6, 96);
+            this.labelWarning.Location = new System.Drawing.Point(6, 87);
             this.labelWarning.Name = "labelWarning";
             this.labelWarning.Size = new System.Drawing.Size(97, 13);
             this.labelWarning.TabIndex = 25;
@@ -138,7 +139,7 @@
             this.Controls.Add(this.labelEventStartTime);
             this.Controls.Add(this.textBoxEventName);
             this.Name = "EventCreator";
-            this.Text = "EventCreator";
+            this.Text = "Event Editor";
             this.ResumeLayout(false);
             this.PerformLayout();
 
