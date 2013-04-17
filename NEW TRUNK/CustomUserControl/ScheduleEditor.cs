@@ -1023,9 +1023,12 @@ namespace CustomUserControl
 
         public void RefreshAll() 
         {
+            Refresh();
+            Cursor.Current = Cursors.WaitCursor;
             int old = comboBox1.SelectedIndex;
             comboBox1.SelectedIndex = 0;
             comboBox1.SelectedIndex = old;
+            Cursor.Current = Cursors.Arrow;
         }
 
         private void buttonDeletePanelist_Click(object sender, EventArgs e)
