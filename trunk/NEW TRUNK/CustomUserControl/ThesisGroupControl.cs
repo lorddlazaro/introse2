@@ -37,7 +37,7 @@ namespace CustomUserControl
             InitPanels();
             
             thesisGroupTreeView.BeginUpdate();
-            tgDM.showGroups(thesisGroupTreeView.Nodes);
+            tgDM.ShowGroups(thesisGroupTreeView.Nodes);
             thesisGroupTreeView.EndUpdate();
             thesisGroupTreeView.ExpandAll();
         }
@@ -232,7 +232,7 @@ namespace CustomUserControl
         {
             thesisGroupTreeView.BeginUpdate();
             thesisGroupTreeView.Nodes.Clear();
-            tgDM.showGroups(thesisGroupTreeView.Nodes);
+            tgDM.ShowGroups(thesisGroupTreeView.Nodes);
             thesisGroupTreeView.EndUpdate();
             thesisGroupTreeView.ExpandAll();
         }
@@ -288,8 +288,8 @@ namespace CustomUserControl
             defenseCheckBox.Enabled = false;
             redefenseCheckBox.Enabled = false;
 
-            int studentCount = tgDM.studentCount(currThesisGroupID);
-            int panelCount = tgDM.panelistCount(currThesisGroupID);
+            int studentCount = tgDM.StudentCount(currThesisGroupID);
+            int panelCount = tgDM.PanelistCount(currThesisGroupID);
 
             Boolean[] eligibility = tgDM.GetEligibilities(currThesisGroupID);
 
@@ -346,8 +346,8 @@ namespace CustomUserControl
 
             List<String>[] groupInfo;
 
-            int memcount = tgDM.studentCount(currThesisGroupID);
-            groupInfo = tgDM.getGroupMembers(currThesisGroupID);
+            int memcount = tgDM.StudentCount(currThesisGroupID);
+            groupInfo = tgDM.GetGroupMembers(currThesisGroupID);
 
             for (int i = 0; i < 4; i++)
             {
@@ -403,9 +403,9 @@ namespace CustomUserControl
 
             List<String>[] groupInfo;
 
-            int memcount = tgDM.panelistCount(currThesisGroupID);
+            int memcount = tgDM.PanelistCount(currThesisGroupID);
 
-            groupInfo = tgDM.getGroupPanelistNames(currThesisGroupID);
+            groupInfo = tgDM.GetGroupPanelistNames(currThesisGroupID);
 
             for (int i = 0; i < 4; i++)
             {
@@ -451,13 +451,13 @@ namespace CustomUserControl
             selectAdviser.Items.Clear();
             selectAdviser.Items.Add("");
 
-            List<String>[] panelists = tgDM.getGroupPanelists(currThesisGroupID);
+            List<String>[] panelists = tgDM.GetGroupPanelists(currThesisGroupID);
             for (int i = 0; i < panelists[0].Count; i++)
             {
-                selectAdviser.Items.Add(tgDM.getPanelistName(panelists[0].ElementAt(i)));
+                selectAdviser.Items.Add(tgDM.GetPanelistName(panelists[0].ElementAt(i)));
             }
 
-            selectAdviser.SelectedItem = tgDM.getPanelistName(tgDM.getAdviserID(currThesisGroupID));
+            selectAdviser.SelectedItem = tgDM.GetPanelistName(tgDM.GetAdviserID(currThesisGroupID));
         }
 
         //STUDENT LISTENERS
@@ -504,8 +504,8 @@ namespace CustomUserControl
             String newLastName = studentDetails[studentIndex].ElementAt(2).Text;
             String newMI = studentDetails[studentIndex].ElementAt(3).Text;
 
-            List<String>[] result = tgDM.getGroupMembers(currThesisGroupID);
-            List<String>[] studentsInGroups = tgDM.getAllStudents();
+            List<String>[] result = tgDM.GetGroupMembers(currThesisGroupID);
+            List<String>[] studentsInGroups = tgDM.GetAllStudents();
 
             if (String.IsNullOrEmpty(newID) || String.IsNullOrEmpty(newFirstName) || String.IsNullOrEmpty(newLastName))
             {
@@ -541,11 +541,11 @@ namespace CustomUserControl
                     }
                 }
 
-                tgDM.insertNewStudent(currThesisGroupID, newID, newFirstName, newMI, newLastName);
+                tgDM.InsertNewStudent(currThesisGroupID, newID, newFirstName, newMI, newLastName);
             }
             else if (result[0].ElementAt(studentIndex).Equals(newID))
             {
-                tgDM.updateStudent(result[0].ElementAt(studentIndex), newFirstName, newMI, newLastName);
+                tgDM.UpdateStudent(result[0].ElementAt(studentIndex), newFirstName, newMI, newLastName);
             }
             else
             {
@@ -564,8 +564,8 @@ namespace CustomUserControl
                 if (tgDM.HasDefenseSchedule(currThesisGroupID))
                     tgDM.DeleteDefenseSchedule(currThesisGroupID);
 
-                tgDM.deleteStudent(oldID, currThesisGroupID);
-                tgDM.insertNewStudent(currThesisGroupID, newID, newFirstName, newMI, newLastName);
+                tgDM.DeleteStudent(oldID, currThesisGroupID);
+                tgDM.InsertNewStudent(currThesisGroupID, newID, newFirstName, newMI, newLastName);
             }
 
 
@@ -579,7 +579,7 @@ namespace CustomUserControl
             if (String.IsNullOrEmpty(currThesisGroupID))
                 return;
 
-            List<String>[] result = tgDM.getStudentInfo(studentDetails[studentIndex].ElementAt(0).Text);
+            List<String>[] result = tgDM.GetStudentInfo(studentDetails[studentIndex].ElementAt(0).Text);
 
             String name = "Are you sure you want to delete student " + result[0].ElementAt(0) + " - " + result[1].ElementAt(0) + " " + result[2].ElementAt(0) + ". " + result[3].ElementAt(0) + "?";
             String defenseSked = "\nThe defense schedule assigned to this group will be deleted as well.";
@@ -593,7 +593,7 @@ namespace CustomUserControl
 
             if (input == DialogResult.Yes)
             {
-                tgDM.deleteStudent(studentDetails[studentIndex].ElementAt(0).Text, currThesisGroupID);
+                tgDM.DeleteStudent(studentDetails[studentIndex].ElementAt(0).Text, currThesisGroupID);
                 tgDM.DeleteDefenseSchedule(currThesisGroupID);
             }
 
@@ -648,8 +648,8 @@ namespace CustomUserControl
             String newLastName = panelistDetails[panelIndex].ElementAt(2).Text;
             String newMI = panelistDetails[panelIndex].ElementAt(3).Text;
 
-            List<String>[] result = tgDM.getGroupPanelists(currThesisGroupID);
-            List<String>[] result2 = tgDM.getAllPanelists();
+            List<String>[] result = tgDM.GetGroupPanelists(currThesisGroupID);
+            List<String>[] result2 = tgDM.GetAllPanelists();
 
             if (String.IsNullOrEmpty(newID) || String.IsNullOrEmpty(newFirstName) || String.IsNullOrEmpty(newLastName))
             {
@@ -693,12 +693,12 @@ namespace CustomUserControl
                     }
                 }
 
-                tgDM.insertNewPanelist(newID, newFirstName, newMI, newLastName);
-                tgDM.assignPanelistToGroup(currThesisGroupID, newID);
+                tgDM.InsertNewPanelist(newID, newFirstName, newMI, newLastName);
+                tgDM.AssignPanelistToGroup(currThesisGroupID, newID);
             }
             else if (result[0].ElementAt(panelIndex).Equals(newID))
             {
-                tgDM.updatePanelist(newID, newFirstName, newMI, newLastName);
+                tgDM.UpdatePanelist(newID, newFirstName, newMI, newLastName);
             }
             else
             {
@@ -713,9 +713,9 @@ namespace CustomUserControl
                 }
 
                 tgDM.DeleteDefenseSchedule(currThesisGroupID);
-                tgDM.removeAssignedPanelistFromGroup(currThesisGroupID, result[0].ElementAt(panelIndex));
-                tgDM.insertNewPanelist(newID, newFirstName, newMI, newLastName);
-                tgDM.assignPanelistToGroup(currThesisGroupID, newID);
+                tgDM.RemoveAssignedPanelistFromGroup(currThesisGroupID, result[0].ElementAt(panelIndex));
+                tgDM.InsertNewPanelist(newID, newFirstName, newMI, newLastName);
+                tgDM.AssignPanelistToGroup(currThesisGroupID, newID);
             }
 
             UpdateComponents();
@@ -731,7 +731,7 @@ namespace CustomUserControl
 
             List<String>[] result;
 
-            result = tgDM.getPanelistInfo(panelistID);
+            result = tgDM.GetPanelistInfo(panelistID);
 
             String name = "Are you sure you want to remove panelist " + result[0].ElementAt(0) + " " + result[1].ElementAt(0) + ". " + result[2].ElementAt(0) + "?";
             String defenseSked = "\nThe defense schedule assigned to this group will be deleted as well.";
@@ -745,7 +745,7 @@ namespace CustomUserControl
 
             if (input == DialogResult.Yes)
             {
-                tgDM.removeAssignedPanelistFromGroup(currThesisGroupID, panelistID);
+                tgDM.RemoveAssignedPanelistFromGroup(currThesisGroupID, panelistID);
                 tgDM.DeleteDefenseSchedule(currThesisGroupID);
             }
 
@@ -766,8 +766,8 @@ namespace CustomUserControl
                 panelistButtons[panelIndex].ElementAt(3).Text = "Cancel Select";
                 selPanel[panelIndex].Enabled = true;
 
-                int memcount = tgDM.panelistNotInGroupCount(currThesisGroupID);
-                List<String>[] result = tgDM.getPanelistsNotInGroup(currThesisGroupID);
+                int memcount = tgDM.PanelistNotInGroupCount(currThesisGroupID);
+                List<String>[] result = tgDM.GetPanelistsNotInGroup(currThesisGroupID);
 
                 for (int i = 0; i < memcount; i++)
                     selPanel[panelIndex].Items.Add(result[0].ElementAt(i) + " " + result[1].ElementAt(i) + ". " + result[2].ElementAt(i));
@@ -794,12 +794,12 @@ namespace CustomUserControl
 
             if (String.IsNullOrEmpty(panelistID))
             {
-                panelistID = tgDM.getPanelistIDFromName(panelistName);
-                tgDM.assignPanelistToGroup(currThesisGroupID, panelistID);
+                panelistID = tgDM.GetPanelistIDFromName(panelistName);
+                tgDM.AssignPanelistToGroup(currThesisGroupID, panelistID);
             }
             else
             {
-                if (panelistID.Equals(tgDM.getAdviserID(currThesisGroupID))) {
+                if (panelistID.Equals(tgDM.GetAdviserID(currThesisGroupID))) {
                     DialogResult input = MessageBox.Show("Replacing adviser. Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                     if (input == DialogResult.No)
@@ -809,13 +809,13 @@ namespace CustomUserControl
                     }
                     else
                     {
-                        tgDM.removeAdviser(currThesisGroupID);
+                        tgDM.RemoveAdviser(currThesisGroupID);
                     }
                 }
 
-                tgDM.removeAssignedPanelistFromGroup(currThesisGroupID, panelistID);
-                panelistID = tgDM.getPanelistIDFromName(panelistName);
-                tgDM.assignPanelistToGroup(currThesisGroupID, panelistID);
+                tgDM.RemoveAssignedPanelistFromGroup(currThesisGroupID, panelistID);
+                panelistID = tgDM.GetPanelistIDFromName(panelistName);
+                tgDM.AssignPanelistToGroup(currThesisGroupID, panelistID);
             }
 
             UpdateComponents();
@@ -824,14 +824,14 @@ namespace CustomUserControl
         {
             if (String.IsNullOrEmpty(selectAdviser.SelectedItem + ""))
             {
-                tgDM.removeAdviser(currThesisGroupID);
+                tgDM.RemoveAdviser(currThesisGroupID);
                 return;
             }
 
-            String adviserID = tgDM.getPanelistIDFromName(selectAdviser.SelectedItem+"");
+            String adviserID = tgDM.GetPanelistIDFromName(selectAdviser.SelectedItem+"");
 
-            tgDM.removeAdviser(currThesisGroupID);
-            tgDM.updateAdviser(currThesisGroupID, adviserID);
+            tgDM.RemoveAdviser(currThesisGroupID);
+            tgDM.UpdateAdviser(currThesisGroupID, adviserID);
         }
 
         //GROUP LISTENERS
@@ -870,8 +870,8 @@ namespace CustomUserControl
             groupButtons[2].Enabled = true;
             groupButtons[3].Enabled = true;
 
-            int studentCount = tgDM.studentCount(currThesisGroupID);
-            int panelCount = tgDM.panelistCount(currThesisGroupID);
+            int studentCount = tgDM.StudentCount(currThesisGroupID);
+            int panelCount = tgDM.PanelistCount(currThesisGroupID);
 
             if (studentCount > 0 && panelCount >= 3)
             {
