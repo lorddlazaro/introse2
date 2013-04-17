@@ -520,7 +520,7 @@ namespace CustomUserControl
                     }
                 }
             }
-            subParent.refreshAll();
+            subParent.RefreshAll();
             parent.Enabled = true;
             Console.WriteLine(dateTimePickerWeeklyTimeslotStartTime.Value);
             Console.WriteLine(dateTimePickerWeeklyTimeslotEndTime.Value);
