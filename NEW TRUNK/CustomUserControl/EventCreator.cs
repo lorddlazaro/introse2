@@ -46,7 +46,7 @@ namespace CustomUserControl
             labelWarning.Text = "";
             textBoxEventName.BackColor = Color.White;
             //-Event null check
-            if (textBoxEventName.Text == "")
+            if (String.IsNullOrWhiteSpace(textBoxEventName.Text))
             {
                 textBoxEventName.BackColor = Color.LightPink;
 
