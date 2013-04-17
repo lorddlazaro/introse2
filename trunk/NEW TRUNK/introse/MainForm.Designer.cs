@@ -71,7 +71,7 @@ namespace introse
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(1007, 682);
             this.tabControl.TabIndex = 0;
-            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             // 
             // tabPageScheduleDefenses
             // 
@@ -153,21 +153,21 @@ namespace introse
             this.toolStripMenuItem_Reset.Name = "toolStripMenuItem_Reset";
             this.toolStripMenuItem_Reset.Size = new System.Drawing.Size(190, 22);
             this.toolStripMenuItem_Reset.Text = "Reset";
-            this.toolStripMenuItem_Reset.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
+            this.toolStripMenuItem_Reset.Click += new System.EventHandler(this.toolStripMenuItem_Reset_Click);
             // 
             // toolStripMenuItem_ViewDefenseSchedules
             // 
             this.toolStripMenuItem_ViewDefenseSchedules.Name = "toolStripMenuItem_ViewDefenseSchedules";
             this.toolStripMenuItem_ViewDefenseSchedules.Size = new System.Drawing.Size(190, 22);
             this.toolStripMenuItem_ViewDefenseSchedules.Text = "View Defense Schedules";
-            this.toolStripMenuItem_ViewDefenseSchedules.Click += new System.EventHandler(this.viewDefenseSchedulesToolStripMenuItem_Click);
+            this.toolStripMenuItem_ViewDefenseSchedules.Click += new System.EventHandler(this.toolStripMenuItem_ViewDefenseSchedules_Click);
             // 
             // toolStripMenuItem_Exit
             // 
             this.toolStripMenuItem_Exit.Name = "toolStripMenuItem_Exit";
             this.toolStripMenuItem_Exit.Size = new System.Drawing.Size(190, 22);
             this.toolStripMenuItem_Exit.Text = "Exit";
-            this.toolStripMenuItem_Exit.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.toolStripMenuItem_Exit.Click += new System.EventHandler(this.toolStripMenuItem_Exit_Click);
             // 
             // MainForm
             // 
@@ -196,22 +196,18 @@ namespace introse
 
         #endregion
 
-        private CustomUserControl.ScheduleEditor scheduleEditor1;
-        private System.Windows.Forms.TabPage scheduleDefense;
         private System.Windows.Forms.TabControl tabControl;
-        private System.Windows.Forms.TabPage tabPageThesisGroups;
-        private CustomUserControl.ThesisGroupControl customUserControl_ThesisGroupControl;
-        private System.Windows.Forms.TabPage tabPageClassSchedulesAndEvents;
-        private CustomUserControl.ScheduleEditor scheduleEditorControl;
         private System.Windows.Forms.TabPage tabPageScheduleDefenses;
+        private System.Windows.Forms.TabPage tabPageClassSchedulesAndEvents;
+        private System.Windows.Forms.TabPage tabPageThesisGroups;
         private CustomUserControl.FreeTimeViewer freeTimeViewerControl;
+        private CustomUserControl.ThesisGroupControl customUserControl_ThesisGroupControl;
+        private CustomUserControl.ScheduleEditor scheduleEditorControl;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_File;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Reset;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_ViewDefenseSchedules;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Exit;
-
-
     }
 }
 

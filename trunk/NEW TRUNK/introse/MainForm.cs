@@ -22,7 +22,7 @@ namespace introse
             scheduleEditorControl.containerParent = this;
         }
 
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (tabControl.SelectedIndex) 
             {
@@ -31,11 +31,11 @@ namespace introse
                 case 2: customUserControl_ThesisGroupControl.RefreshAll(); break;
             }
         }
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void toolStripMenuItem_Exit_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-        private void viewDefenseSchedulesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void toolStripMenuItem_ViewDefenseSchedules_Click(object sender, EventArgs e)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace introse
             catch (Exception ex1) { }
             defenseSchedulesViewerForm = new DefenseSchedulesViewerForm();
         }
-        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        private void toolStripMenuItem_Reset_Click(object sender, EventArgs e)
         {
             try 
             {
