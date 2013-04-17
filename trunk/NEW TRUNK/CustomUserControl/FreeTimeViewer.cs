@@ -344,8 +344,8 @@ namespace CustomUserControl
 
         private void HideGroupBox()
         {
-            int defaultWidth = 254;
-            int longLength = 477;
+            int defaultWidth = 280;
+            int longLength = 480;
             Size newSize = new Size(defaultWidth, longLength);
 
             treeViewClusters.Size = newSize;
@@ -360,15 +360,15 @@ namespace CustomUserControl
             defenseDateTimePicker.Visible = true;
             labelDateTime.Visible = true;
 
-            int defaultWidth = 254;
+            int defaultWidth = 280;
             int longLength = 153;
             groupBoxDefenseInfo.Size = new Size(defaultWidth, longLength);
 
-            int defaultX = 701;
-            int longY = 433;
+            int defaultX = 685;
+            int longY = 437;
             groupBoxDefenseInfo.Location = new Point(defaultX, longY);
 
-            int treeViewDefaultWidth = 254;
+            int treeViewDefaultWidth = 280;
             int treeViewShortLength = 318;
             Size newSize = new Size(treeViewDefaultWidth, treeViewShortLength);
 
@@ -385,15 +385,15 @@ namespace CustomUserControl
             defenseDateTimePicker.Visible = false;
             labelDateTime.Visible = false;
 
-            int defaultWidth = 254;
+            int defaultWidth = 280;
             int shortLength = 100;
             groupBoxDefenseInfo.Size = new Size(defaultWidth, shortLength);
 
-            int defaultX = 701;
-            int shortY = 486;
+            int defaultX = 685;
+            int shortY = 490;
             groupBoxDefenseInfo.Location = new Point(defaultX, shortY);
 
-            int treeViewDefaultWidth = 254;
+            int treeViewDefaultWidth = 280;
             int treeViewShortLength = 371;
             Size newSize = new Size(treeViewDefaultWidth, treeViewShortLength);
 
