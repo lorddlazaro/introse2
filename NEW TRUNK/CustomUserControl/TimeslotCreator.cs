@@ -127,14 +127,14 @@ namespace CustomUserControl
             listViewWeeklyTimeslotDay.BackColor = DefaultBackColor;
             if (textBoxWeeklyTimeslotCourse.Text.Length !=7 || String.IsNullOrWhiteSpace(textBoxWeeklyTimeslotCourse.Text) ) 
             {
-                labelWarning.Text = "Course should "+System.Environment.NewLine+"be 7 characters.";
+                labelWarning.Text = "Course should "+System.Environment.NewLine+"be 7 characters and non-empty.";
                 textBoxWeeklyTimeslotCourse.BackColor = Color.LightPink;
                 //MessageBox.Show("Course should be less than 7 characters and shouldn't be null", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (textBoxWeeklyTimeslotSection.Text.Length != 3 || String.IsNullOrWhiteSpace(textBoxWeeklyTimeslotSection.Text) ) 
+            if (textBoxWeeklyTimeslotSection.Text.Length > 3 || String.IsNullOrWhiteSpace(textBoxWeeklyTimeslotSection.Text) ) 
             {
-                labelWarning.Text = "Section should "+System.Environment.NewLine+"be 3 characters.";
+                labelWarning.Text = "Section should "+System.Environment.NewLine+"be less than 3 characters and non-empty.";
                 textBoxWeeklyTimeslotSection.BackColor = Color.LightPink;
                 //MessageBox.Show("section should be less than 3 characters and shouldn't be null", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
