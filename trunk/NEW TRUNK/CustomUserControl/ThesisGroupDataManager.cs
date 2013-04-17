@@ -52,7 +52,21 @@ namespace CustomUserControl
         }
         public void DeleteGroup(String thesisGroupID)
         {
-            String query = "delete from thesisgroup where thesisgroupid = " + thesisGroupID + ";";
+            String query;
+
+            query = "delete from studenteventrecord where thesisgroupid = " + thesisGroupID + ";";
+            dbHandler.Delete(query);
+
+            query = "delete from panelassignment where thesisgroupid = " + thesisGroupID + ";";
+            dbHandler.Delete(query);
+
+            query = "delete from defenseschedule where thesisgroupid = " + thesisGroupID + ";";
+            dbHandler.Delete(query);
+
+            query = "delete from student where thesisgroupid = " + thesisGroupID + ";";
+            dbHandler.Delete(query);
+
+            query = "delete from thesisgroup where thesisgroupid = " + thesisGroupID + ";";
             dbHandler.Delete(query);
         }
         public String GetGroupIDFromTitle(String title)
@@ -152,10 +166,23 @@ namespace CustomUserControl
             query += lastName + "', " + thesisGroupID + ");";
             dbHandler.Insert(query);
         }
-        public void deleteStudent(String studentID)
+        public void deleteStudent(String studentID, String thesisGroupID)
         {
-            String query = "delete from student where studentid = " + studentID + ";";
+            String query;
+
+            query = "delete from studenteventrecord where studentid =" + studentID + ";";
             dbHandler.Delete(query);
+
+            query = "delete from student where thesisgroupid = " + thesisGroupID + ";";
+            dbHandler.Delete(query);
+
+            query = "select from defenseschedule where thesisgroupid =" +thesisGroupID+";";
+            if (dbHandler.Select(query, 1)[0].Count() != 0)
+            {
+                MessageBox.Show("The defense schedule associated with this thesis group has also been deleted","Notice",MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                query = "delete from defenseschedule where thesisgroupid = " + thesisGroupID + ";";
+                dbHandler.Delete(query);
+            }
         }
         public void updateStudent(String studentID, String firstName, String MI, String lastName)
         {

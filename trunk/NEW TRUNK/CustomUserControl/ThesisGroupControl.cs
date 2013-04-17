@@ -562,7 +562,7 @@ namespace CustomUserControl
 
                 String oldID = result[0].ElementAt(studentIndex);
 
-                tgDM.deleteStudent(oldID);
+                tgDM.deleteStudent(oldID, currThesisGroupID);
                 tgDM.insertNewStudent(currThesisGroupID, newID, newFirstName, newMI, newLastName); 
             }
 
@@ -585,7 +585,7 @@ namespace CustomUserControl
 
             if (input == DialogResult.Yes)
             {
-                tgDM.deleteStudent(studentDetails[studentIndex].ElementAt(0).Text);
+                tgDM.deleteStudent(studentDetails[studentIndex].ElementAt(0).Text,currThesisGroupID);
             }
 
             UpdateComponents();
