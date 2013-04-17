@@ -172,6 +172,7 @@ namespace CustomUserControl
             }
             update_courses();
             update_events();
+            RefreshTreeView();
         }
         //WEEKLY TIMESLOT
         private void buttonAddWeeklyTimeslot_Click(object sender, EventArgs e)
@@ -282,6 +283,7 @@ namespace CustomUserControl
 
             }
             update_courses();
+            RefreshTreeView();
         }
         
         private bool ClassAssignmentConflictFreeWithDefScheds(String thesisGroupID, int rowIndex, TimePeriod classTimePeriod) 
@@ -370,6 +372,7 @@ namespace CustomUserControl
             }
 
             update_courses();
+            RefreshTreeView();
             if (dataGridViewWeeklyTimeslot.Rows.Count > 0 && (dataGridViewWeeklyTimeslot.DataSource == null || dataGridViewWeeklyTimeslot.SelectedRows.Count == 0))
             {
                 dataGridViewWeeklyTimeslot.Rows[0].Selected = true;
@@ -518,6 +521,7 @@ namespace CustomUserControl
                 
             }
             update_events();
+            RefreshTreeView();
             
         }
         private void buttondeleteEvent_Click(object sender, EventArgs e)
@@ -547,6 +551,7 @@ namespace CustomUserControl
             }
 
             update_events();
+            RefreshTreeView();
 
             if (dataGridViewEvent.Rows.Count > 0 && (dataGridViewEvent.DataSource == null || dataGridViewEvent.SelectedRows.Count == 0))
             {
@@ -724,21 +729,36 @@ namespace CustomUserControl
                 children = parent.Nodes;
                 children.Clear();
 
+                String personType = "";
                 if (idColumnName.Equals("studentID"))
+                {
                     query = "select " + idColumnName + ", lastName, firstName, MI FROM student WHERE thesisGroupID = " + groupsTable[0].ElementAt(i) + " ORDER BY lastName ;";
+                    personType = "student";
+                }
                 else if (idColumnName.Equals("panelistID"))
+                {
                     query = "SELECT " + idColumnName + ", lastName, firstName, MI FROM panelist WHERE panelistID IN (SELECT panelistID FROM panelAssignment WHERE thesisGroupID = " + groupsTable[0].ElementAt(i) + ") ORDER BY lastName;";
+                    personType = "panelist";
+                }
                 else
                     return;
-
+                int numUnscheduled = 0; ;
                 studentTable = dbHandler.Select(query, 4);
                 for (int j = 0; j < studentTable[0].Count; j++)
                 {
                     currChild = new TreeNode();
                     currChild.Name = studentTable[0].ElementAt(j);
                     currChild.Text = studentTable[1].ElementAt(j) + ", " + studentTable[2].ElementAt(j) + " " + studentTable[3].ElementAt(j) + ".";
+                    if (!isScheduled(studentTable[0].ElementAt(j), personType))
+                    {
+                        currChild.BackColor = Color.LightPink;
+                        numUnscheduled++;
+                    }
                     children.Add(currChild);
                 }
+                if (numUnscheduled >0)
+                    parent.BackColor = Color.LightPink;
+
                 tree.Add(parent);
             }
         }
@@ -768,13 +788,20 @@ namespace CustomUserControl
         public bool isScheduled(String ID, String personType) 
         {
             String query="";
-            
-            if(personType.Equals("student"))
-                query = "SELECT timeslotID FROM StudentSchedule WHERE studentID ='"+ID+"'";
-            else if(personType.Equals("panelist"))
-                query = "SELECT timeslotID FROM Timeslot WHERE panelistID ='"+ID+"'";
+            String query2 = "";
 
-            if (dbHandler.Select(query, 1)[0].Count > 0)
+            if (personType.Equals("student"))
+            {
+                query = "SELECT timeslotID FROM StudentSchedule WHERE studentID ='" + ID + "'";
+                query2 = "SELECT eventID FROM StudentEventRecord WHERE studentID ='"+ID+"'";
+            }
+            else if (personType.Equals("panelist"))
+            {
+                query = "SELECT timeslotID FROM Timeslot WHERE panelistID ='" + ID + "'";
+                query2 = "SELECT eventID FROM PanelistEventRecord WHERE panelistID ='" + ID + "'";
+            }    
+            
+            if (dbHandler.Select(query, 1)[0].Count > 0 || dbHandler.Select(query2,1)[0].Count>0)
                 return true;
             else
                 return false;
@@ -793,6 +820,11 @@ namespace CustomUserControl
                 node = new TreeNode();
                 node.Name = studentTable[0].ElementAt(j);
                 node.Text = studentTable[1].ElementAt(j);
+                if (!isScheduled(studentTable[0].ElementAt(j), "panelist"))
+                {
+                    node.BackColor = Color.LightPink;
+
+                }
                 tree.Add(node);
             }
         }
@@ -810,6 +842,11 @@ namespace CustomUserControl
                 node = new TreeNode();
                 node.Name = studentTable[0].ElementAt(j);
                 node.Text = studentTable[1].ElementAt(j);
+                if (!isScheduled(studentTable[0].ElementAt(j), "panelist"))
+                {
+                    node.BackColor = Color.LightPink;
+
+                }
                 tree.Add(node);
             }
         }
