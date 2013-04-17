@@ -16,7 +16,7 @@ namespace CustomUserControl
         private const int TYPE_INDEX_DEFENSE = 0;
         private const int TYPE_INDEX_REDEFENSE = 1;
         private const int VIEW_INDEX_CLUSTER = 0;
-        private const int VIEW_INDEX_ISOLATED = 1;
+        private const int VIEW_INDEX_REGULAR = 1;
 
         private bool isCheckingInProgram;
         private bool isGroupBoxWidened;
@@ -64,146 +64,55 @@ namespace CustomUserControl
 
             //Initialize ComboBoxes
             datePicker_ValueChanged(new Object(), new EventArgs());
-            comboBoxView.SelectedIndex = VIEW_INDEX_ISOLATED;
+            comboBoxView.SelectedIndex = VIEW_INDEX_REGULAR;
             comboBoxDefenseType.SelectedIndex = TYPE_INDEX_DEFENSE; //this will trigger a refresh all that will initialize the whole thing            
         }
         /****** END: Initializing Methods *******/
 
-
-        /****** START: Drawing Methods For The Calendar*******/
-        private void panelCalendar_Paint(object sender, PaintEventArgs e)
+        /********START: Refresh Methods*********/
+        public void RefreshAll()
         {
-            //if(!currPanelistID.Equals(""))
-                //DrawClusterDefScheds(e.Graphics, panelCalendar.DisplayRectangle);
+            Cursor.Current = Cursors.WaitCursor;
+            Refresh();
+            ChangeSelectedGroup(currGroupID);
+            RefreshTreeViews();
+            MarkAllScheduledGroups();
+            RefreshCalendar();
+            defenseInfoGroupBox.Refresh();
+            Cursor.Current = Cursors.Arrow;
+        }
+
+        private void RefreshCalendar()
+        {
+            //if (!currPanelistID.Equals(""))
+            //schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
             if (!currGroupID.Equals(""))
             {
-                DrawFreeTimes(e.Graphics, panelCalendar.DisplayRectangle);
-                DrawCurrGroupDefSched(e.Graphics, panelCalendar.DisplayRectangle);
+                schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
+                schedulingDM.RefreshGroupDefSched(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
             }
-
-            DrawCalendarDivisions();
+            panelCalendar.Refresh();
         }
 
-        private void DrawCurrGroupDefSched(Graphics g, Rectangle panelRectangle) 
+        // refresh treeviews from form1
+        public void RefreshTreeViews()
         {
-            if (schedulingDM.CurrGroupDefSched != null)
-            {
-                if (DateTimeHelper.IsBetweenInclusive(schedulingDM.CurrGroupDefSched.StartTime.Date, startOfTheWeek, endOfTheWeek))
-                {
-                    /* The following two variables represent unadjusted day indices.
-                    * That is, Mon = 0, Tues = 1, Wed = 2, Thu = 3, Fri = 4, Sat = 5.
-                    * */
-                    int dayIndex;
-                    int startOfTheWeekDayIndex = schedulingDM.GetDayIndex(startOfTheWeek.DayOfWeek);
+            treeViewClusters.BeginUpdate();
+            treeViewClusters.Nodes.Clear();
+            schedulingDM.AddPanelistsToTree(treeViewClusters.Nodes, "eligibleFor" + currDefenseType);
+            treeViewClusters.EndUpdate();
+            treeViewClusters.ExpandAll();
+            treeViewClusters.Focus();
 
-                    /* Represents the adjusted index depending on the starting day in the calendar. 
-                     * Example, Monday, which is supposed to be 0, becomes 1 if the day starts with Saturday(which is the 0 in this case)),
-                     * because Monday becomes the second day in the calendar.
-                    * */
-                    int adjustedDayIndex;
+            treeViewIsolatedGroups.BeginUpdate();
+            treeViewIsolatedGroups.Nodes.Clear();
+            schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes, "eligibleFor" + currDefenseType);
+            treeViewIsolatedGroups.EndUpdate();
+            treeViewIsolatedGroups.ExpandAll();
 
-                    dayIndex = schedulingDM.GetDayIndex(schedulingDM.CurrGroupDefSched.StartTime.DayOfWeek);
-                    adjustedDayIndex = (dayIndex + (Constants.DAYS_IN_DEF_WEEK - startOfTheWeekDayIndex)) % Constants.DAYS_IN_DEF_WEEK;
-
-                    DrawTimePeriod(g, Color.Tomato, panelRectangle, adjustedDayIndex, schedulingDM.CurrGroupDefSched);
-                }
-            }
+            MarkAllScheduledGroups();
         }
-
-        private void DrawClusterDefScheds(Graphics g, Rectangle panelRectangle) 
-        {
-            int size = schedulingDM.ClusterDefScheds.Count;
-
-            /* The following two variables represent unadjusted day indices.
-             * That is, Mon = 0, Tues = 1, Wed = 2, Thu = 3, Fri = 4, Sat = 5.
-             * */
-            int dayIndex;
-            int startOfTheWeekDayIndex = schedulingDM.GetDayIndex(startOfTheWeek.DayOfWeek);
-
-            /* Represents the adjusted index depending on the starting day in the calendar. 
-             * Example, Monday, which is supposed to be 0, becomes 1 if the day starts with Saturday(which is the 0 in this case)),
-             * because Monday becomes the second day in the calendar.
-            * */
-            int adjustedDayIndex; 
-
-            DefenseSchedule curr;
-            for (int i = 0; i < size; i++)
-            {
-                curr = schedulingDM.ClusterDefScheds[i];
-                dayIndex = schedulingDM.GetDayIndex(curr.StartTime.DayOfWeek);
-                adjustedDayIndex = (dayIndex+(Constants.DAYS_IN_DEF_WEEK - startOfTheWeekDayIndex))%Constants.DAYS_IN_DEF_WEEK;
-
-                DrawTimePeriod(g, Color.CadetBlue, panelRectangle, adjustedDayIndex, curr );
-            }
-        }
-        
-        private void DrawFreeTimes(Graphics g, Rectangle panelRectangle) 
-        {
-            int size;
-            List<TimePeriod> currDay;
-            DateTime currDateTime;
-
-            for (int i = 0; i < Constants.DAYS_IN_DEF_WEEK; i++) 
-            {
-                currDateTime = Convert.ToDateTime(labelDates[i].Text);
-                currDay = schedulingDM.SelectedGroupFreeTimes[(int)currDateTime.DayOfWeek - 1];
-                size = currDay.Count;
-                //Console.WriteLine("["+i+"] has "+size+" elements.");
-                for (int j = 0; j < size; j++) 
-                    if(currDay[j].EndTime.TimeOfDay.Subtract(currDay[j].StartTime.TimeOfDay).TotalMinutes >= Constants.MIN_DURATION_MINS)
-                        DrawTimePeriod(g, Color.LightGreen, panelRectangle, i, currDay[j]);
-            }
-        }
-
-        //Does the actual drawing of those boxes that appear on-screen.
-        private void DrawTimePeriod(Graphics g, Color color, Rectangle panelRectangle, int dayIndex, TimePeriod timePeriod)
-        {
-            int leftX = panelRectangle.Left;
-            int topY = panelRectangle.Top;
-
-            DateTime earliestTime = new DateTime(timePeriod.StartTime.Year, timePeriod.StartTime.Month, timePeriod.StartTime.Day, Constants.START_HOUR, Constants.START_MIN, 0);
-
-            double yCoord = panelRectangle.Height * (timePeriod.StartTime.TimeOfDay.Subtract(earliestTime.TimeOfDay).TotalMinutes / totalMinsInDay);
-            double schedHeight = panelRectangle.Height * (timePeriod.EndTime.TimeOfDay.Subtract(timePeriod.StartTime.TimeOfDay).TotalMinutes / totalMinsInDay);
-
-            int margin = 2;
-
-            /* For Debugging Purposes
-            Console.WriteLine(timePeriod.ToString());
-            Console.WriteLine((leftX + dayIndex * dayWidth + margin)+", "+((int)(topY + yCoord))+", "+(dayWidth - margin * 2)+", "+schedHeight);
-            Console.WriteLine();
-            /* For Debugging Purposes*/
-
-            Font font1 = new Font("Arial", 11, FontStyle.Bold, GraphicsUnit.Point);
-            Rectangle rect = new Rectangle(leftX + dayIndex * dayWidth + margin, (int)(topY + yCoord), dayWidth - margin * 2, (int)schedHeight);
-            g.FillRectangle(new SolidBrush(color), rect);
-            g.DrawString(timePeriod.ToString(),font1, new SolidBrush(Color.Black),  rect, new StringFormat());
-        }
-        
-        //Draws the horizontal lines in the calendar.
-        private void DrawCalendarDivisions()
-        {
-            Brush aSolidBrush = new SolidBrush(Color.Brown);  //Creates a black solid brush for the pen  
-            Pen aSolidPen = new Pen(aSolidBrush);  //Assigns the SolidBrush to the Pen  
-            Graphics graphics = panelCalendar.CreateGraphics();
-            aSolidPen.DashStyle = DashStyle.Dash;
-
-            int numHours = Constants.LIMIT_HOUR - Constants.START_HOUR;
-            Rectangle displayRect = panelCalendar.DisplayRectangle;
-            int hourHeight = (int) Math.Round(displayRect.Height * (60/totalMinsInDay));
-           
-            int yCoord;
-
-            for (int i = 1; i < numHours; i++) 
-            {
-                yCoord = displayRect.Top+i*hourHeight;
-                graphics.DrawLine(aSolidPen, new Point(displayRect.Left, yCoord), new Point(displayRect.Right, yCoord));
-            }
-           
-
-        }
-
-        /****** END: Drawing Methods For The Calendar*******/
+        /********END: Refresh Methods**********/
 
 
         /****** START: EVENT LISTENERS*******/
@@ -235,7 +144,7 @@ namespace CustomUserControl
                 treeViewIsolatedGroups.Hide();
                 MarkAllScheduledGroups();
             }
-            else if (comboBoxView.SelectedIndex == VIEW_INDEX_ISOLATED)
+            else if (comboBoxView.SelectedIndex == VIEW_INDEX_REGULAR)
             {
                 treeViewClusters.Hide();
                 treeViewIsolatedGroups.Show();
@@ -441,7 +350,9 @@ namespace CustomUserControl
 
 
         /****** START: GUI Methods For Changing Defense Addition/Editing Forms *******/
+        //GroupBox here refers to the form for adding/editing defense schedules.
 
+        //Changes the group info in the form for adding/editing form
         private void ChangeGroupBox(DefenseSchedule defSchedule)
         {
             if (defSchedule != null)
@@ -712,52 +623,141 @@ namespace CustomUserControl
         
         /****** END:   GUI Methods For Changing Defense Addition/Editing Forms *******/
 
-        
-        /********START: Refresh Methods*********/
-        public void RefreshAll()
+        /****** START: Drawing Methods For The Calendar*******/
+        private void panelCalendar_Paint(object sender, PaintEventArgs e)
         {
-            Cursor.Current = Cursors.WaitCursor;
-            Refresh();
-            ChangeSelectedGroup(currGroupID);
-            RefreshTreeViews();
-            MarkAllScheduledGroups();
-            RefreshCalendar();   
-            defenseInfoGroupBox.Refresh();
-            Cursor.Current = Cursors.Arrow;
-        }
-
-        private void RefreshCalendar()
-        {
-            //if (!currPanelistID.Equals(""))
-            //schedulingDM.RefreshClusterDefSchedules(startOfTheWeek, endOfTheWeek, currPanelistID);
+            //if(!currPanelistID.Equals(""))
+            //DrawClusterDefScheds(e.Graphics, panelCalendar.DisplayRectangle);
             if (!currGroupID.Equals(""))
             {
-                schedulingDM.RefreshSelectedGroupFreeTimes(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
-                schedulingDM.RefreshGroupDefSched(startOfTheWeek, endOfTheWeek, currGroupID, currDefenseType);
+                DrawFreeTimes(e.Graphics, panelCalendar.DisplayRectangle);
+                DrawCurrGroupDefSched(e.Graphics, panelCalendar.DisplayRectangle);
             }
-            panelCalendar.Refresh();
+
+            DrawCalendarDivisions();
         }
 
-        // refresh treeviews from form1
-        public void RefreshTreeViews()
+        private void DrawCurrGroupDefSched(Graphics g, Rectangle panelRectangle)
         {
-            treeViewClusters.BeginUpdate();
-            treeViewClusters.Nodes.Clear();
-            schedulingDM.AddPanelistsToTree(treeViewClusters.Nodes, "eligibleFor" + currDefenseType);
-            treeViewClusters.EndUpdate();
-            treeViewClusters.ExpandAll();
-            treeViewClusters.Focus();
+            if (schedulingDM.CurrGroupDefSched != null)
+            {
+                if (DateTimeHelper.IsBetweenInclusive(schedulingDM.CurrGroupDefSched.StartTime.Date, startOfTheWeek, endOfTheWeek))
+                {
+                    /* The following two variables represent unadjusted day indices.
+                    * That is, Mon = 0, Tues = 1, Wed = 2, Thu = 3, Fri = 4, Sat = 5.
+                    * */
+                    int dayIndex;
+                    int startOfTheWeekDayIndex = schedulingDM.GetDayIndex(startOfTheWeek.DayOfWeek);
 
-            treeViewIsolatedGroups.BeginUpdate();
-            treeViewIsolatedGroups.Nodes.Clear();
-            schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes, "eligibleFor" + currDefenseType);
-            treeViewIsolatedGroups.EndUpdate();
-            treeViewIsolatedGroups.ExpandAll();
+                    /* Represents the adjusted index depending on the starting day in the calendar. 
+                     * Example, Monday, which is supposed to be 0, becomes 1 if the day starts with Saturday(which is the 0 in this case)),
+                     * because Monday becomes the second day in the calendar.
+                    * */
+                    int adjustedDayIndex;
 
-            MarkAllScheduledGroups();
+                    dayIndex = schedulingDM.GetDayIndex(schedulingDM.CurrGroupDefSched.StartTime.DayOfWeek);
+                    adjustedDayIndex = (dayIndex + (Constants.DAYS_IN_DEF_WEEK - startOfTheWeekDayIndex)) % Constants.DAYS_IN_DEF_WEEK;
+
+                    DrawTimePeriod(g, Color.Tomato, panelRectangle, adjustedDayIndex, schedulingDM.CurrGroupDefSched);
+                }
+            }
         }
-        /********END: Refresh Methods**********/
 
+        private void DrawClusterDefScheds(Graphics g, Rectangle panelRectangle)
+        {
+            int size = schedulingDM.ClusterDefScheds.Count;
+
+            /* The following two variables represent unadjusted day indices.
+             * That is, Mon = 0, Tues = 1, Wed = 2, Thu = 3, Fri = 4, Sat = 5.
+             * */
+            int dayIndex;
+            int startOfTheWeekDayIndex = schedulingDM.GetDayIndex(startOfTheWeek.DayOfWeek);
+
+            /* Represents the adjusted index depending on the starting day in the calendar. 
+             * Example, Monday, which is supposed to be 0, becomes 1 if the day starts with Saturday(which is the 0 in this case)),
+             * because Monday becomes the second day in the calendar.
+            * */
+            int adjustedDayIndex;
+
+            DefenseSchedule curr;
+            for (int i = 0; i < size; i++)
+            {
+                curr = schedulingDM.ClusterDefScheds[i];
+                dayIndex = schedulingDM.GetDayIndex(curr.StartTime.DayOfWeek);
+                adjustedDayIndex = (dayIndex + (Constants.DAYS_IN_DEF_WEEK - startOfTheWeekDayIndex)) % Constants.DAYS_IN_DEF_WEEK;
+
+                DrawTimePeriod(g, Color.CadetBlue, panelRectangle, adjustedDayIndex, curr);
+            }
+        }
+
+        private void DrawFreeTimes(Graphics g, Rectangle panelRectangle)
+        {
+            int size;
+            List<TimePeriod> currDay;
+            DateTime currDateTime;
+
+            for (int i = 0; i < Constants.DAYS_IN_DEF_WEEK; i++)
+            {
+                currDateTime = Convert.ToDateTime(labelDates[i].Text);
+                currDay = schedulingDM.SelectedGroupFreeTimes[(int)currDateTime.DayOfWeek - 1];
+                size = currDay.Count;
+                //Console.WriteLine("["+i+"] has "+size+" elements.");
+                for (int j = 0; j < size; j++)
+                    if (currDay[j].EndTime.TimeOfDay.Subtract(currDay[j].StartTime.TimeOfDay).TotalMinutes >= Constants.MIN_DURATION_MINS)
+                        DrawTimePeriod(g, Color.LightGreen, panelRectangle, i, currDay[j]);
+            }
+        }
+
+        //Does the actual drawing of those boxes that appear on-screen.
+        private void DrawTimePeriod(Graphics g, Color color, Rectangle panelRectangle, int dayIndex, TimePeriod timePeriod)
+        {
+            int leftX = panelRectangle.Left;
+            int topY = panelRectangle.Top;
+
+            DateTime earliestTime = new DateTime(timePeriod.StartTime.Year, timePeriod.StartTime.Month, timePeriod.StartTime.Day, Constants.START_HOUR, Constants.START_MIN, 0);
+
+            double yCoord = panelRectangle.Height * (timePeriod.StartTime.TimeOfDay.Subtract(earliestTime.TimeOfDay).TotalMinutes / totalMinsInDay);
+            double schedHeight = panelRectangle.Height * (timePeriod.EndTime.TimeOfDay.Subtract(timePeriod.StartTime.TimeOfDay).TotalMinutes / totalMinsInDay);
+
+            int margin = 2;
+
+            /* For Debugging Purposes
+            Console.WriteLine(timePeriod.ToString());
+            Console.WriteLine((leftX + dayIndex * dayWidth + margin)+", "+((int)(topY + yCoord))+", "+(dayWidth - margin * 2)+", "+schedHeight);
+            Console.WriteLine();
+            /* For Debugging Purposes*/
+
+            Font font1 = new Font("Arial", 11, FontStyle.Bold, GraphicsUnit.Point);
+            Rectangle rect = new Rectangle(leftX + dayIndex * dayWidth + margin, (int)(topY + yCoord), dayWidth - margin * 2, (int)schedHeight);
+            g.FillRectangle(new SolidBrush(color), rect);
+            g.DrawString(timePeriod.ToString(), font1, new SolidBrush(Color.Black), rect, new StringFormat());
+        }
+
+        //Draws the horizontal lines in the calendar.
+        private void DrawCalendarDivisions()
+        {
+            Brush aSolidBrush = new SolidBrush(Color.Brown);  //Creates a black solid brush for the pen  
+            Pen aSolidPen = new Pen(aSolidBrush);  //Assigns the SolidBrush to the Pen  
+            Graphics graphics = panelCalendar.CreateGraphics();
+            aSolidPen.DashStyle = DashStyle.Dash;
+
+            int numHours = Constants.LIMIT_HOUR - Constants.START_HOUR;
+            Rectangle displayRect = panelCalendar.DisplayRectangle;
+            int hourHeight = (int)Math.Round(displayRect.Height * (60 / totalMinsInDay));
+
+            int yCoord;
+
+            for (int i = 1; i < numHours; i++)
+            {
+                yCoord = displayRect.Top + i * hourHeight;
+                graphics.DrawLine(aSolidPen, new Point(displayRect.Left, yCoord), new Point(displayRect.Right, yCoord));
+            }
+
+
+        }
+
+        /****** END: Drawing Methods For The Calendar*******/
+        
         /****** START: OTHER METHODS******/
         
         //Changes the selectedGroupID to the new ID given in the parameter, then refreshes the list of free times in schedulingDM.
@@ -852,9 +852,6 @@ namespace CustomUserControl
             }
         }
         
-        /****** END:   OTHER METHODS******/
-        
-        
-        
+        /****** END:   OTHER METHODS******/        
     }
 }
