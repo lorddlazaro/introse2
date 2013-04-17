@@ -674,6 +674,8 @@ namespace CustomUserControl
             String newLastName = panelistDetails[panelIndex].ElementAt(2).Text;
             String newMI = panelistDetails[panelIndex].ElementAt(3).Text;
 
+            panelIndex++;
+
             if (String.IsNullOrEmpty(newID) || String.IsNullOrEmpty(newFirstName) || String.IsNullOrEmpty(newLastName))
             {
                 MessageBox.Show("Please fill incomplete fields.", "Error", MessageBoxButtons.OK);
@@ -709,9 +711,11 @@ namespace CustomUserControl
             }
 
             List<String>[] result = tgDM.GetGroupPanelists(currThesisGroupID);
-            List<String>[] result2 = tgDM.GetAllPanelists();
+            List<String>[] result2 = tgDM.GetPanelistsNotInGroup(currThesisGroupID);
 
-            if (result[0].Count <= panelIndex)
+            Console.WriteLine(newID + " " + result[0].ElementAt(panelIndex));
+
+            if (result[0].Count <= panelIndex) // NEW PANELIST
             {
                 for (int i = 0; i < result[0].Count; i++)
                 {
@@ -746,7 +750,7 @@ namespace CustomUserControl
             {
                 for (int i = 0; i < result[0].Count; i++)
                 {
-                    if (result[0].ElementAt(i).Equals(newID))
+                    if (result[0].ElementAt(i).Equals(newID) && i != panelIndex)
                     {
                         MessageBox.Show("Panelist Already Assigned to Thesis Group", "Error", MessageBoxButtons.OK);
                         UpdateComponents();
@@ -1069,141 +1073,5 @@ namespace CustomUserControl
                 UpdateComponents();
             }
         }
-
-        private void editStudent1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void saveStudent1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void deleteStudent1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void editStudent2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void saveStudent2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void deleteStudent2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void editStudent3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void saveStudent3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void deleteStudent3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void editStudent4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void saveStudent4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void deleteStudent4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void selPanelist4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void selPanelist3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void selPanelist2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void selPanelist1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void editPanelist1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void savePanelist1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void delPanelist1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void editPanelist2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void savePanelist2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void delPanelist2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void editPanelist3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void savePanelist3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void delPanelist3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void editPanelist4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void savePanelist4_Click(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }

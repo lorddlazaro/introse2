@@ -244,7 +244,6 @@
             this.deleteStudent4.TabIndex = 22;
             this.deleteStudent4.Text = "Delete";
             this.deleteStudent4.UseVisualStyleBackColor = true;
-            this.deleteStudent4.Click += new System.EventHandler(this.deleteStudent4_Click);
             // 
             // saveStudent4
             // 
@@ -256,7 +255,6 @@
             this.saveStudent4.TabIndex = 21;
             this.saveStudent4.Text = "Save";
             this.saveStudent4.UseVisualStyleBackColor = true;
-            this.saveStudent4.Click += new System.EventHandler(this.saveStudent4_Click);
             // 
             // editStudent4
             // 
@@ -268,7 +266,6 @@
             this.editStudent4.TabIndex = 20;
             this.editStudent4.Text = "Edit";
             this.editStudent4.UseVisualStyleBackColor = true;
-            this.editStudent4.Click += new System.EventHandler(this.editStudent4_Click);
             // 
             // studentID4
             // 
@@ -367,7 +364,6 @@
             this.deleteStudent3.TabIndex = 22;
             this.deleteStudent3.Text = "Delete";
             this.deleteStudent3.UseVisualStyleBackColor = true;
-            this.deleteStudent3.Click += new System.EventHandler(this.deleteStudent3_Click);
             // 
             // saveStudent3
             // 
@@ -379,7 +375,6 @@
             this.saveStudent3.TabIndex = 21;
             this.saveStudent3.Text = "Save";
             this.saveStudent3.UseVisualStyleBackColor = true;
-            this.saveStudent3.Click += new System.EventHandler(this.saveStudent3_Click);
             // 
             // editStudent3
             // 
@@ -391,7 +386,6 @@
             this.editStudent3.TabIndex = 20;
             this.editStudent3.Text = "Edit";
             this.editStudent3.UseVisualStyleBackColor = true;
-            this.editStudent3.Click += new System.EventHandler(this.editStudent3_Click);
             // 
             // studentID3
             // 
@@ -490,7 +484,6 @@
             this.deleteStudent2.TabIndex = 22;
             this.deleteStudent2.Text = "Delete";
             this.deleteStudent2.UseVisualStyleBackColor = true;
-            this.deleteStudent2.Click += new System.EventHandler(this.deleteStudent2_Click);
             // 
             // saveStudent2
             // 
@@ -502,7 +495,6 @@
             this.saveStudent2.TabIndex = 21;
             this.saveStudent2.Text = "Save";
             this.saveStudent2.UseVisualStyleBackColor = true;
-            this.saveStudent2.Click += new System.EventHandler(this.saveStudent2_Click);
             // 
             // editStudent2
             // 
@@ -514,7 +506,6 @@
             this.editStudent2.TabIndex = 20;
             this.editStudent2.Text = "Edit";
             this.editStudent2.UseVisualStyleBackColor = true;
-            this.editStudent2.Click += new System.EventHandler(this.editStudent2_Click);
             // 
             // studentID2
             // 
@@ -604,7 +595,6 @@
             this.deleteStudent1.TabIndex = 22;
             this.deleteStudent1.Text = "Delete";
             this.deleteStudent1.UseVisualStyleBackColor = true;
-            this.deleteStudent1.Click += new System.EventHandler(this.deleteStudent1_Click);
             // 
             // saveStudent1
             // 
@@ -616,7 +606,6 @@
             this.saveStudent1.TabIndex = 21;
             this.saveStudent1.Text = "Save";
             this.saveStudent1.UseVisualStyleBackColor = true;
-            this.saveStudent1.Click += new System.EventHandler(this.saveStudent1_Click);
             // 
             // editStudent1
             // 
@@ -628,7 +617,6 @@
             this.editStudent1.TabIndex = 20;
             this.editStudent1.Text = "Edit";
             this.editStudent1.UseVisualStyleBackColor = true;
-            this.editStudent1.Click += new System.EventHandler(this.editStudent1_Click);
             // 
             // studentID1
             // 
@@ -746,7 +734,6 @@
             this.selPanelist4.TabIndex = 27;
             this.selPanelist4.Text = "Select Existing:";
             this.selPanelist4.UseVisualStyleBackColor = true;
-            this.selPanelist4.Click += new System.EventHandler(this.selPanelist4_Click);
             // 
             // selectPanelist4
             // 
@@ -810,7 +797,6 @@
             this.savePanelist4.TabIndex = 21;
             this.savePanelist4.Text = "Save";
             this.savePanelist4.UseVisualStyleBackColor = true;
-            this.savePanelist4.Click += new System.EventHandler(this.savePanelist4_Click);
             // 
             // editPanelist4
             // 
@@ -823,7 +809,6 @@
             this.editPanelist4.TabIndex = 20;
             this.editPanelist4.Text = "Edit";
             this.editPanelist4.UseVisualStyleBackColor = true;
-            this.editPanelist4.Click += new System.EventHandler(this.editPanelist4_Click);
             // 
             // panelistID4
             // 
@@ -896,7 +881,6 @@
             this.selPanelist3.TabIndex = 27;
             this.selPanelist3.Text = "Select Existing:";
             this.selPanelist3.UseVisualStyleBackColor = true;
-            this.selPanelist3.Click += new System.EventHandler(this.selPanelist3_Click);
             // 
             // selectPanelist3
             // 
@@ -948,7 +932,6 @@
             this.delPanelist3.TabIndex = 22;
             this.delPanelist3.Text = "Delete";
             this.delPanelist3.UseVisualStyleBackColor = true;
-            this.delPanelist3.Click += new System.EventHandler(this.delPanelist3_Click);
             // 
             // savePanelist3
             // 
@@ -961,7 +944,6 @@
             this.savePanelist3.TabIndex = 21;
             this.savePanelist3.Text = "Save";
             this.savePanelist3.UseVisualStyleBackColor = true;
-            this.savePanelist3.Click += new System.EventHandler(this.savePanelist3_Click);
             // 
             // editPanelist3
             // 
@@ -974,7 +956,6 @@
             this.editPanelist3.TabIndex = 20;
             this.editPanelist3.Text = "Edit";
             this.editPanelist3.UseVisualStyleBackColor = true;
-            this.editPanelist3.Click += new System.EventHandler(this.editPanelist3_Click);
             // 
             // panelistID3
             // 
@@ -1047,7 +1028,6 @@
             this.selPanelist2.TabIndex = 27;
             this.selPanelist2.Text = "Select Existing:";
             this.selPanelist2.UseVisualStyleBackColor = true;
-            this.selPanelist2.Click += new System.EventHandler(this.selPanelist2_Click);
             // 
             // selectPanelist2
             // 
@@ -1099,7 +1079,6 @@
             this.delPanelist2.TabIndex = 22;
             this.delPanelist2.Text = "Delete";
             this.delPanelist2.UseVisualStyleBackColor = true;
-            this.delPanelist2.Click += new System.EventHandler(this.delPanelist2_Click);
             // 
             // savePanelist2
             // 
@@ -1112,7 +1091,6 @@
             this.savePanelist2.TabIndex = 21;
             this.savePanelist2.Text = "Save";
             this.savePanelist2.UseVisualStyleBackColor = true;
-            this.savePanelist2.Click += new System.EventHandler(this.savePanelist2_Click);
             // 
             // editPanelist2
             // 
@@ -1125,7 +1103,6 @@
             this.editPanelist2.TabIndex = 20;
             this.editPanelist2.Text = "Edit";
             this.editPanelist2.UseVisualStyleBackColor = true;
-            this.editPanelist2.Click += new System.EventHandler(this.editPanelist2_Click);
             // 
             // panelistID2
             // 
@@ -1208,7 +1185,6 @@
             this.selPanelist1.TabIndex = 27;
             this.selPanelist1.Text = "Select Existing:";
             this.selPanelist1.UseVisualStyleBackColor = true;
-            this.selPanelist1.Click += new System.EventHandler(this.selPanelist1_Click);
             // 
             // selectPanelist1
             // 
@@ -1260,7 +1236,6 @@
             this.delPanelist1.TabIndex = 22;
             this.delPanelist1.Text = "Delete";
             this.delPanelist1.UseVisualStyleBackColor = true;
-            this.delPanelist1.Click += new System.EventHandler(this.delPanelist1_Click);
             // 
             // savePanelist1
             // 
@@ -1273,7 +1248,6 @@
             this.savePanelist1.TabIndex = 21;
             this.savePanelist1.Text = "Save";
             this.savePanelist1.UseVisualStyleBackColor = true;
-            this.savePanelist1.Click += new System.EventHandler(this.savePanelist1_Click);
             // 
             // editPanelist1
             // 
@@ -1286,7 +1260,6 @@
             this.editPanelist1.TabIndex = 20;
             this.editPanelist1.Text = "Edit";
             this.editPanelist1.UseVisualStyleBackColor = true;
-            this.editPanelist1.Click += new System.EventHandler(this.editPanelist1_Click);
             // 
             // panelistID1
             // 
