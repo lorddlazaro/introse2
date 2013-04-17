@@ -33,23 +33,26 @@ namespace CustomUserControl
             dataGridViewDefSchedInfo.Rows.Clear();
             rowIndex = 0;
 
+            String orderpart ="";
+            if (checkBoxIncludeTHSST1.Checked && checkBoxIncludeTHSST3.Checked)
+                orderpart += " order by t.course, t.section, d.defensedatetime;";
+            else if (checkBoxIncludeTHSST1.Checked)
+                orderpart += " and t.course = 'THSST-1' order by t.course, t.section, d.defensedatetime;";
+            else if (checkBoxIncludeTHSST3.Checked)
+                orderpart += " and t.course = 'THSST-3' order by t.course, t.section, d.defensedatetime;";
+            else
+            {
+                MessageBox.Show("No Course Included", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                labelNoSchedulesFound.Visible = true;
+                return;
+            }
+
             for (DateTime i = start; i.CompareTo(end) != 1; i = i.AddDays(1))
             {
                 query = "select t.thesisgroupid, t.course, t.title, d.defensedatetime, d.place from defenseschedule d, thesisgroup t where d.thesisgroupid = t.thesisgroupid";
-                query += " and datepart(yyyy,d.defensedatetime) =" + i.Year + " and datepart(mm,d.defensedatetime) =" + i.Month + " and datepart(dd,d.defensedatetime) =" + i.Day;
+                query += " and datepart(yyyy,d.defensedatetime) =" + i.Year + " and datepart(mm,d.defensedatetime) =" + i.Month + " and datepart(dd,d.defensedatetime) =" + i.Day + orderpart;
                 
-                if(checkBoxIncludeTHSST1.Checked && checkBoxIncludeTHSST3.Checked)
-                    query += " order by t.course, t.section, d.defensedatetime;";
-                else if(checkBoxIncludeTHSST1.Enabled)
-                    query += " and t.course = 'THSST-1' order by t.course, t.section, d.defensedatetime;";
-                else if (checkBoxIncludeTHSST3.Enabled)
-                    query += " and t.course = 'THSST-3' order by t.course, t.section, d.defensedatetime;";
-                else
-                {
-                    MessageBox.Show("No course included","Warning",MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    labelNoSchedulesFound.Visible = true;
-                    return;
-                }
+                
 
                 list = dbHandler.Select(query, 5);
 
@@ -121,7 +124,9 @@ namespace CustomUserControl
         }
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             RefreshDataGridView(dateTimePickerStartDate.Value, dateTimePickerEndDate.Value);
+            Cursor.Current = Cursors.Arrow;
         }
         private void buttonSave_Click(object sender, EventArgs e)
         {
@@ -215,9 +220,9 @@ namespace CustomUserControl
                         lineToWrite += "\t";
                 }
                 if (isCSVfile)
-                    lineToWrite += "title,date,time,venue,advisor";
+                    lineToWrite += "Title,Date,Time,Venue,Advisor";
                 else
-                    lineToWrite += "title\tdate\ttime\tvenue\tadvisor";
+                    lineToWrite += "Title\tDate\tTime\tVenue\tAdvisor";
                 if (savePanelColumn)
                 {
                     if (isCSVfile)
@@ -250,11 +255,11 @@ namespace CustomUserControl
                     //   3    time
                     //   4    venue
                     //   5    advisor
-                    for (int j = 1; j <= 5; j++)
+                    for (int j = 1; j <= 4; j++)
                     {
                         lineToWrite += dataGridViewDefSchedInfo.Rows[i].Cells[j].Value;
 
-                        if (j < 5 || savePanelColumn)
+                        if (j < 4 || savePanelColumn)
                             if (isCSVfile)
                                 lineToWrite += ",";
                             else
@@ -263,6 +268,11 @@ namespace CustomUserControl
 
                     if (savePanelColumn)
                     {
+                        if(isCSVfile)
+                            lineToWrite += dataGridViewDefSchedInfo.Rows[i].Cells[5].Value + ",";
+                        else
+                            lineToWrite += dataGridViewDefSchedInfo.Rows[i].Cells[5].Value + "\t";
+                        
                         String[] panels = dataGridViewDefSchedInfo.Rows[i].Cells[6].Value.ToString().Split('\n');
 
                         for (int j = 0; j < panels.Count(); j++)
