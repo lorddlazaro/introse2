@@ -355,11 +355,14 @@ namespace CustomUserControl
 
                 if (studentNamesWithClassConflict.Count > 0)
                 {
-                    warningMsg += "Class Schedule Conflicts with:";
+                    warningMsg += "The new class time period conflicts with the current class schedule for :";
                     if (!String.IsNullOrEmpty(panelistName))
-                        warningMsg += Environment.NewLine+"Panelist: " + panelistName;
+                        warningMsg += Environment.NewLine+"(Panelist) " + panelistName;
                     for (int i = 0; i < studentNamesWithClassConflict.Count; i++)
                         warningMsg += Environment.NewLine+studentNamesWithClassConflict[i];
+
+                    warningMsg += Environment.NewLine + Environment.NewLine + "Please make sure there is no conflict first, then try your changes again.";
+                    
                     MessageBox.Show(warningMsg, "Conflict with Class Schedules", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
