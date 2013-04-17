@@ -125,14 +125,14 @@ namespace CustomUserControl
             textBoxWeeklyTimeslotCourse.BackColor = Color.White;
             textBoxWeeklyTimeslotSection.BackColor = Color.White;
             listViewWeeklyTimeslotDay.BackColor = DefaultBackColor;
-            if (textBoxWeeklyTimeslotCourse.Text.Length > 7 || textBoxWeeklyTimeslotCourse.Text == "") 
+            if (textBoxWeeklyTimeslotCourse.Text.Length !=7 ) 
             {
                 labelWarning.Text = "Course should "+System.Environment.NewLine+"be 7 characters.";
                 textBoxWeeklyTimeslotCourse.BackColor = Color.LightPink;
                 //MessageBox.Show("Course should be less than 7 characters and shouldn't be null", "Incorrect Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (textBoxWeeklyTimeslotSection.Text.Length > 3 || textBoxWeeklyTimeslotSection.Text =="") 
+            if (textBoxWeeklyTimeslotSection.Text.Length != 3) 
             {
                 labelWarning.Text = "Section should "+System.Environment.NewLine+"be 3 characters.";
                 textBoxWeeklyTimeslotSection.BackColor = Color.LightPink;
