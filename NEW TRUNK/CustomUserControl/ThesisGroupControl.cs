@@ -338,6 +338,7 @@ namespace CustomUserControl
                     }
 
                     studentButtons[i].ElementAt(0).Text = "Add";
+                    studentButtons[i].ElementAt(0).Enabled = true;
                     studentButtons[i].ElementAt(1).Enabled = false;
                     studentButtons[i].ElementAt(2).Enabled = false;
                 }
@@ -360,6 +361,7 @@ namespace CustomUserControl
                     }
 
                     studentButtons[i].ElementAt(0).Text = "Add";
+                    studentButtons[i].ElementAt(0).Enabled = true;
                     studentButtons[i].ElementAt(1).Enabled = false;
                     studentButtons[i].ElementAt(2).Enabled = false;
                 }
@@ -372,6 +374,7 @@ namespace CustomUserControl
                     }
 
                     studentButtons[i].ElementAt(0).Text = "Edit";
+                    studentButtons[i].ElementAt(0).Enabled = true;
                     studentButtons[i].ElementAt(1).Enabled = false;
                     studentButtons[i].ElementAt(2).Enabled = true;
                 }
@@ -394,9 +397,11 @@ namespace CustomUserControl
                     }
 
                     panelistButtons[i].ElementAt(0).Text = "Add";
+                    panelistButtons[i].ElementAt(0).Enabled = true;
                     panelistButtons[i].ElementAt(1).Enabled = false;
                     panelistButtons[i].ElementAt(2).Enabled = false;
                     panelistButtons[i].ElementAt(3).Text = "Select Existing";
+                    panelistButtons[i].ElementAt(3).Enabled = true;
                 }
                 return;
             }
@@ -421,9 +426,11 @@ namespace CustomUserControl
                     }
 
                     panelistButtons[i].ElementAt(0).Text = "Add";
+                    panelistButtons[i].ElementAt(0).Enabled = true;
                     panelistButtons[i].ElementAt(1).Enabled = false;
                     panelistButtons[i].ElementAt(2).Enabled = false;
                     panelistButtons[i].ElementAt(3).Text = "Select Existing";
+                    panelistButtons[i].ElementAt(3).Enabled = true;
                 }
                 else
                 {
@@ -434,9 +441,11 @@ namespace CustomUserControl
                     }
 
                     panelistButtons[i].ElementAt(0).Text = "Edit";
+                    panelistButtons[i].ElementAt(0).Enabled = true;
                     panelistButtons[i].ElementAt(1).Enabled = false;
                     panelistButtons[i].ElementAt(2).Enabled = true;
                     panelistButtons[i].ElementAt(3).Text = "Select Existing";
+                    panelistButtons[i].ElementAt(3).Enabled = true;
                 }
             }
 
@@ -531,6 +540,15 @@ namespace CustomUserControl
             {
                 MessageBox.Show("Invalid ID Number, ID must be a sequence of 8 numbers.", "Error", MessageBoxButtons.OK);
                 return;
+            }
+
+            if (tgDM.HasDefenseSchedule(currThesisGroupID))
+            {
+                DialogResult confirm = MessageBox.Show("This will cause the deletion of the currently selected group's defense schedule. Proceed?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirm == DialogResult.No)
+                {
+                    return;
+                }
             }
 
             if (result[0].Count <= studentIndex)
@@ -662,20 +680,32 @@ namespace CustomUserControl
                 return;
             }
 
-            if (newMI[0] > 'a' && newMI[0] < 'z')
+            if (newMI.Length == 1)
             {
-                newMI = newMI.ToUpper();
-            }
-            else if (newMI[0] < 'A' || newMI[0] > 'Z')
-            {
-                MessageBox.Show("Invalid Middle Initial, Middle Initial must be a letter.", "Error", MessageBoxButtons.OK);
-                return;
+                if (newMI[0] > 'a' && newMI[0] < 'z')
+                {
+                    newMI = newMI.ToUpper();
+                }
+                else if (newMI[0] < 'A' || newMI[0] > 'Z')
+                {
+                    MessageBox.Show("Invalid Middle Initial, Middle Initial must be a letter.", "Error", MessageBoxButtons.OK);
+                    return;
+                }
             }
 
             if (!Regex.IsMatch(newID, "\\d{8}$"))
             {
                 MessageBox.Show("Invalid ID Number, ID must be a sequence of 8 numbers.", "Error", MessageBoxButtons.OK);
                 return;
+            }
+
+            if (tgDM.HasDefenseSchedule(currThesisGroupID))
+            {
+                DialogResult confirm = MessageBox.Show("This will cause the deletion of the currently selected group's defense schedule. Proceed?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirm == DialogResult.No)
+                {
+                    return;
+                }
             }
 
             List<String>[] result = tgDM.GetGroupPanelists(currThesisGroupID);
@@ -766,6 +796,12 @@ namespace CustomUserControl
 
             if (input == DialogResult.Yes)
             {
+                if (tgDM.GetAdviserID(currThesisGroupID) == panelistID)
+                {
+                    tgDM.RemoveAdviser(currThesisGroupID);
+                    selectAdviser.SelectedIndex = 0;
+                }
+
                 tgDM.RemoveAssignedPanelistFromGroup(currThesisGroupID, panelistID);
                 tgDM.DeleteDefenseSchedule(currThesisGroupID);
             }
@@ -801,7 +837,7 @@ namespace CustomUserControl
                 UpdateComponents();
             }
         }
-        private void swapPanelists(object sender, EventArgs e)
+        private void swapPanelists(object sender, EventArgs e) 
         {
             ComboBox currPanel = (ComboBox)sender;
             int panelIndex = Convert.ToInt32(currPanel.Name.Substring(14)) - 1;
@@ -812,6 +848,14 @@ namespace CustomUserControl
 
             String panelistID = panelistDetails[panelIndex].ElementAt(0).Text;
             String panelistName = selPanel[panelIndex].SelectedItem + "";
+
+            if (tgDM.HasDefenseSchedule(currThesisGroupID)) {
+                DialogResult confirm = MessageBox.Show("This will cause the deletion of the currently selected group's defense schedule. Proceed?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirm == DialogResult.No)
+                {
+                    return;
+                }
+            }
 
             if (String.IsNullOrEmpty(panelistID))
             {
@@ -878,6 +922,7 @@ namespace CustomUserControl
 
             groupButtons[1].Enabled = false;
             groupButtons[2].Enabled = true;
+            groupButtons[3].Enabled = true;
 
             defenseCheckBox.Enabled = false;
             defenseCheckBox.Checked = false;
@@ -906,6 +951,11 @@ namespace CustomUserControl
         }
         private void saveGroupDetails_Click(object sender, EventArgs e)
         {
+            if (String.IsNullOrWhiteSpace(groupDetails[0].Text)) {
+                MessageBox.Show("Please fill incomplete fields.", "Error", MessageBoxButtons.OK);
+                return;
+            }
+
             for (int i = 0; i < 3; i++)
                 if (String.IsNullOrEmpty(groupDetails[i].Text))
                 {
@@ -966,7 +1016,10 @@ namespace CustomUserControl
             if (!groupButtons[0].Enabled)
             {
                 for (int i = 0; i < 3; i++)
+                {
                     groupDetails[i].Enabled = false;
+                    groupDetails[i].Text = "";
+                }
 
                 for (int i = 0; i < 2; i++)
                     groupDetails2[i].Enabled = false;
@@ -1016,5 +1069,141 @@ namespace CustomUserControl
                 UpdateComponents();
             }
         }
+
+        private void editStudent1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveStudent1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void deleteStudent1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editStudent2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveStudent2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void deleteStudent2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editStudent3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveStudent3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void deleteStudent3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editStudent4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveStudent4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void deleteStudent4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void selPanelist4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void selPanelist3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void selPanelist2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void selPanelist1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editPanelist1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void savePanelist1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void delPanelist1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editPanelist2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void savePanelist2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void delPanelist2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editPanelist3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void savePanelist3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void delPanelist3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editPanelist4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void savePanelist4_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

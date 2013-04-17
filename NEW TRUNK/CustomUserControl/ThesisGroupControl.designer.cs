@@ -236,6 +236,7 @@
             // 
             // deleteStudent4
             // 
+            this.deleteStudent4.Enabled = false;
             this.deleteStudent4.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deleteStudent4.Location = new System.Drawing.Point(263, 64);
             this.deleteStudent4.Name = "deleteStudent4";
@@ -243,9 +244,11 @@
             this.deleteStudent4.TabIndex = 22;
             this.deleteStudent4.Text = "Delete";
             this.deleteStudent4.UseVisualStyleBackColor = true;
+            this.deleteStudent4.Click += new System.EventHandler(this.deleteStudent4_Click);
             // 
             // saveStudent4
             // 
+            this.saveStudent4.Enabled = false;
             this.saveStudent4.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveStudent4.Location = new System.Drawing.Point(263, 35);
             this.saveStudent4.Name = "saveStudent4";
@@ -253,9 +256,11 @@
             this.saveStudent4.TabIndex = 21;
             this.saveStudent4.Text = "Save";
             this.saveStudent4.UseVisualStyleBackColor = true;
+            this.saveStudent4.Click += new System.EventHandler(this.saveStudent4_Click);
             // 
             // editStudent4
             // 
+            this.editStudent4.Enabled = false;
             this.editStudent4.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editStudent4.Location = new System.Drawing.Point(263, 6);
             this.editStudent4.Name = "editStudent4";
@@ -263,6 +268,7 @@
             this.editStudent4.TabIndex = 20;
             this.editStudent4.Text = "Edit";
             this.editStudent4.UseVisualStyleBackColor = true;
+            this.editStudent4.Click += new System.EventHandler(this.editStudent4_Click);
             // 
             // studentID4
             // 
@@ -353,6 +359,7 @@
             // 
             // deleteStudent3
             // 
+            this.deleteStudent3.Enabled = false;
             this.deleteStudent3.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deleteStudent3.Location = new System.Drawing.Point(263, 64);
             this.deleteStudent3.Name = "deleteStudent3";
@@ -360,9 +367,11 @@
             this.deleteStudent3.TabIndex = 22;
             this.deleteStudent3.Text = "Delete";
             this.deleteStudent3.UseVisualStyleBackColor = true;
+            this.deleteStudent3.Click += new System.EventHandler(this.deleteStudent3_Click);
             // 
             // saveStudent3
             // 
+            this.saveStudent3.Enabled = false;
             this.saveStudent3.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveStudent3.Location = new System.Drawing.Point(263, 35);
             this.saveStudent3.Name = "saveStudent3";
@@ -370,9 +379,11 @@
             this.saveStudent3.TabIndex = 21;
             this.saveStudent3.Text = "Save";
             this.saveStudent3.UseVisualStyleBackColor = true;
+            this.saveStudent3.Click += new System.EventHandler(this.saveStudent3_Click);
             // 
             // editStudent3
             // 
+            this.editStudent3.Enabled = false;
             this.editStudent3.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editStudent3.Location = new System.Drawing.Point(263, 6);
             this.editStudent3.Name = "editStudent3";
@@ -380,6 +391,7 @@
             this.editStudent3.TabIndex = 20;
             this.editStudent3.Text = "Edit";
             this.editStudent3.UseVisualStyleBackColor = true;
+            this.editStudent3.Click += new System.EventHandler(this.editStudent3_Click);
             // 
             // studentID3
             // 
@@ -470,6 +482,7 @@
             // 
             // deleteStudent2
             // 
+            this.deleteStudent2.Enabled = false;
             this.deleteStudent2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deleteStudent2.Location = new System.Drawing.Point(263, 64);
             this.deleteStudent2.Name = "deleteStudent2";
@@ -477,9 +490,11 @@
             this.deleteStudent2.TabIndex = 22;
             this.deleteStudent2.Text = "Delete";
             this.deleteStudent2.UseVisualStyleBackColor = true;
+            this.deleteStudent2.Click += new System.EventHandler(this.deleteStudent2_Click);
             // 
             // saveStudent2
             // 
+            this.saveStudent2.Enabled = false;
             this.saveStudent2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveStudent2.Location = new System.Drawing.Point(263, 35);
             this.saveStudent2.Name = "saveStudent2";
@@ -487,9 +502,11 @@
             this.saveStudent2.TabIndex = 21;
             this.saveStudent2.Text = "Save";
             this.saveStudent2.UseVisualStyleBackColor = true;
+            this.saveStudent2.Click += new System.EventHandler(this.saveStudent2_Click);
             // 
             // editStudent2
             // 
+            this.editStudent2.Enabled = false;
             this.editStudent2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editStudent2.Location = new System.Drawing.Point(263, 6);
             this.editStudent2.Name = "editStudent2";
@@ -497,6 +514,7 @@
             this.editStudent2.TabIndex = 20;
             this.editStudent2.Text = "Edit";
             this.editStudent2.UseVisualStyleBackColor = true;
+            this.editStudent2.Click += new System.EventHandler(this.editStudent2_Click);
             // 
             // studentID2
             // 
@@ -578,6 +596,7 @@
             // 
             // deleteStudent1
             // 
+            this.deleteStudent1.Enabled = false;
             this.deleteStudent1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deleteStudent1.Location = new System.Drawing.Point(263, 64);
             this.deleteStudent1.Name = "deleteStudent1";
@@ -585,9 +604,11 @@
             this.deleteStudent1.TabIndex = 22;
             this.deleteStudent1.Text = "Delete";
             this.deleteStudent1.UseVisualStyleBackColor = true;
+            this.deleteStudent1.Click += new System.EventHandler(this.deleteStudent1_Click);
             // 
             // saveStudent1
             // 
+            this.saveStudent1.Enabled = false;
             this.saveStudent1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveStudent1.Location = new System.Drawing.Point(263, 35);
             this.saveStudent1.Name = "saveStudent1";
@@ -595,9 +616,11 @@
             this.saveStudent1.TabIndex = 21;
             this.saveStudent1.Text = "Save";
             this.saveStudent1.UseVisualStyleBackColor = true;
+            this.saveStudent1.Click += new System.EventHandler(this.saveStudent1_Click);
             // 
             // editStudent1
             // 
+            this.editStudent1.Enabled = false;
             this.editStudent1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editStudent1.Location = new System.Drawing.Point(263, 6);
             this.editStudent1.Name = "editStudent1";
@@ -605,6 +628,7 @@
             this.editStudent1.TabIndex = 20;
             this.editStudent1.Text = "Edit";
             this.editStudent1.UseVisualStyleBackColor = true;
+            this.editStudent1.Click += new System.EventHandler(this.editStudent1_Click);
             // 
             // studentID1
             // 
@@ -713,6 +737,7 @@
             // 
             // selPanelist4
             // 
+            this.selPanelist4.Enabled = false;
             this.selPanelist4.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.selPanelist4.Location = new System.Drawing.Point(0, 59);
             this.selPanelist4.Margin = new System.Windows.Forms.Padding(1, 3, 1, 3);
@@ -721,6 +746,7 @@
             this.selPanelist4.TabIndex = 27;
             this.selPanelist4.Text = "Select Existing:";
             this.selPanelist4.UseVisualStyleBackColor = true;
+            this.selPanelist4.Click += new System.EventHandler(this.selPanelist4_Click);
             // 
             // selectPanelist4
             // 
@@ -763,6 +789,7 @@
             // 
             // delPanelist4
             // 
+            this.delPanelist4.Enabled = false;
             this.delPanelist4.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.delPanelist4.Location = new System.Drawing.Point(264, 68);
             this.delPanelist4.MaximumSize = new System.Drawing.Size(80, 20);
@@ -774,6 +801,7 @@
             // 
             // savePanelist4
             // 
+            this.savePanelist4.Enabled = false;
             this.savePanelist4.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.savePanelist4.Location = new System.Drawing.Point(264, 48);
             this.savePanelist4.MaximumSize = new System.Drawing.Size(80, 20);
@@ -782,9 +810,11 @@
             this.savePanelist4.TabIndex = 21;
             this.savePanelist4.Text = "Save";
             this.savePanelist4.UseVisualStyleBackColor = true;
+            this.savePanelist4.Click += new System.EventHandler(this.savePanelist4_Click);
             // 
             // editPanelist4
             // 
+            this.editPanelist4.Enabled = false;
             this.editPanelist4.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editPanelist4.Location = new System.Drawing.Point(264, 28);
             this.editPanelist4.MaximumSize = new System.Drawing.Size(80, 20);
@@ -793,6 +823,7 @@
             this.editPanelist4.TabIndex = 20;
             this.editPanelist4.Text = "Edit";
             this.editPanelist4.UseVisualStyleBackColor = true;
+            this.editPanelist4.Click += new System.EventHandler(this.editPanelist4_Click);
             // 
             // panelistID4
             // 
@@ -856,6 +887,7 @@
             // 
             // selPanelist3
             // 
+            this.selPanelist3.Enabled = false;
             this.selPanelist3.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.selPanelist3.Location = new System.Drawing.Point(0, 59);
             this.selPanelist3.Margin = new System.Windows.Forms.Padding(1, 3, 1, 3);
@@ -864,6 +896,7 @@
             this.selPanelist3.TabIndex = 27;
             this.selPanelist3.Text = "Select Existing:";
             this.selPanelist3.UseVisualStyleBackColor = true;
+            this.selPanelist3.Click += new System.EventHandler(this.selPanelist3_Click);
             // 
             // selectPanelist3
             // 
@@ -906,6 +939,7 @@
             // 
             // delPanelist3
             // 
+            this.delPanelist3.Enabled = false;
             this.delPanelist3.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.delPanelist3.Location = new System.Drawing.Point(264, 68);
             this.delPanelist3.MaximumSize = new System.Drawing.Size(80, 20);
@@ -914,9 +948,11 @@
             this.delPanelist3.TabIndex = 22;
             this.delPanelist3.Text = "Delete";
             this.delPanelist3.UseVisualStyleBackColor = true;
+            this.delPanelist3.Click += new System.EventHandler(this.delPanelist3_Click);
             // 
             // savePanelist3
             // 
+            this.savePanelist3.Enabled = false;
             this.savePanelist3.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.savePanelist3.Location = new System.Drawing.Point(264, 48);
             this.savePanelist3.MaximumSize = new System.Drawing.Size(80, 20);
@@ -925,9 +961,11 @@
             this.savePanelist3.TabIndex = 21;
             this.savePanelist3.Text = "Save";
             this.savePanelist3.UseVisualStyleBackColor = true;
+            this.savePanelist3.Click += new System.EventHandler(this.savePanelist3_Click);
             // 
             // editPanelist3
             // 
+            this.editPanelist3.Enabled = false;
             this.editPanelist3.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editPanelist3.Location = new System.Drawing.Point(264, 28);
             this.editPanelist3.MaximumSize = new System.Drawing.Size(80, 20);
@@ -936,6 +974,7 @@
             this.editPanelist3.TabIndex = 20;
             this.editPanelist3.Text = "Edit";
             this.editPanelist3.UseVisualStyleBackColor = true;
+            this.editPanelist3.Click += new System.EventHandler(this.editPanelist3_Click);
             // 
             // panelistID3
             // 
@@ -999,6 +1038,7 @@
             // 
             // selPanelist2
             // 
+            this.selPanelist2.Enabled = false;
             this.selPanelist2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.selPanelist2.Location = new System.Drawing.Point(0, 59);
             this.selPanelist2.Margin = new System.Windows.Forms.Padding(1, 3, 1, 3);
@@ -1007,6 +1047,7 @@
             this.selPanelist2.TabIndex = 27;
             this.selPanelist2.Text = "Select Existing:";
             this.selPanelist2.UseVisualStyleBackColor = true;
+            this.selPanelist2.Click += new System.EventHandler(this.selPanelist2_Click);
             // 
             // selectPanelist2
             // 
@@ -1049,6 +1090,7 @@
             // 
             // delPanelist2
             // 
+            this.delPanelist2.Enabled = false;
             this.delPanelist2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.delPanelist2.Location = new System.Drawing.Point(264, 68);
             this.delPanelist2.MaximumSize = new System.Drawing.Size(80, 20);
@@ -1057,9 +1099,11 @@
             this.delPanelist2.TabIndex = 22;
             this.delPanelist2.Text = "Delete";
             this.delPanelist2.UseVisualStyleBackColor = true;
+            this.delPanelist2.Click += new System.EventHandler(this.delPanelist2_Click);
             // 
             // savePanelist2
             // 
+            this.savePanelist2.Enabled = false;
             this.savePanelist2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.savePanelist2.Location = new System.Drawing.Point(264, 48);
             this.savePanelist2.MaximumSize = new System.Drawing.Size(80, 20);
@@ -1068,9 +1112,11 @@
             this.savePanelist2.TabIndex = 21;
             this.savePanelist2.Text = "Save";
             this.savePanelist2.UseVisualStyleBackColor = true;
+            this.savePanelist2.Click += new System.EventHandler(this.savePanelist2_Click);
             // 
             // editPanelist2
             // 
+            this.editPanelist2.Enabled = false;
             this.editPanelist2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editPanelist2.Location = new System.Drawing.Point(264, 28);
             this.editPanelist2.MaximumSize = new System.Drawing.Size(80, 20);
@@ -1079,6 +1125,7 @@
             this.editPanelist2.TabIndex = 20;
             this.editPanelist2.Text = "Edit";
             this.editPanelist2.UseVisualStyleBackColor = true;
+            this.editPanelist2.Click += new System.EventHandler(this.editPanelist2_Click);
             // 
             // panelistID2
             // 
@@ -1152,6 +1199,7 @@
             // 
             // selPanelist1
             // 
+            this.selPanelist1.Enabled = false;
             this.selPanelist1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.selPanelist1.Location = new System.Drawing.Point(0, 59);
             this.selPanelist1.Margin = new System.Windows.Forms.Padding(1, 3, 1, 3);
@@ -1160,6 +1208,7 @@
             this.selPanelist1.TabIndex = 27;
             this.selPanelist1.Text = "Select Existing:";
             this.selPanelist1.UseVisualStyleBackColor = true;
+            this.selPanelist1.Click += new System.EventHandler(this.selPanelist1_Click);
             // 
             // selectPanelist1
             // 
@@ -1202,6 +1251,7 @@
             // 
             // delPanelist1
             // 
+            this.delPanelist1.Enabled = false;
             this.delPanelist1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.delPanelist1.Location = new System.Drawing.Point(264, 68);
             this.delPanelist1.MaximumSize = new System.Drawing.Size(80, 20);
@@ -1210,9 +1260,11 @@
             this.delPanelist1.TabIndex = 22;
             this.delPanelist1.Text = "Delete";
             this.delPanelist1.UseVisualStyleBackColor = true;
+            this.delPanelist1.Click += new System.EventHandler(this.delPanelist1_Click);
             // 
             // savePanelist1
             // 
+            this.savePanelist1.Enabled = false;
             this.savePanelist1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.savePanelist1.Location = new System.Drawing.Point(264, 48);
             this.savePanelist1.MaximumSize = new System.Drawing.Size(80, 20);
@@ -1221,9 +1273,11 @@
             this.savePanelist1.TabIndex = 21;
             this.savePanelist1.Text = "Save";
             this.savePanelist1.UseVisualStyleBackColor = true;
+            this.savePanelist1.Click += new System.EventHandler(this.savePanelist1_Click);
             // 
             // editPanelist1
             // 
+            this.editPanelist1.Enabled = false;
             this.editPanelist1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editPanelist1.Location = new System.Drawing.Point(264, 28);
             this.editPanelist1.MaximumSize = new System.Drawing.Size(80, 20);
@@ -1232,6 +1286,7 @@
             this.editPanelist1.TabIndex = 20;
             this.editPanelist1.Text = "Edit";
             this.editPanelist1.UseVisualStyleBackColor = true;
+            this.editPanelist1.Click += new System.EventHandler(this.editPanelist1_Click);
             // 
             // panelistID1
             // 
