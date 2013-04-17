@@ -10,14 +10,15 @@ using System.IO;
 
 namespace CustomUserControl
 {
-    public partial class DefenseSchedulesViewer : UserControl
+    public partial class DefenseSchedulesViewerForm : Form
     {
         DBce dbHandler;
 
-        public DefenseSchedulesViewer()
+        public DefenseSchedulesViewerForm()
         {
             InitializeComponent();
             dbHandler = new DBce();
+            Show();
         }
 
         // Refreshers

@@ -144,4 +144,10 @@
   <data name="saveFileDialog.Filter" xml:space="preserve">
     <value>CSV file (for Groups format)|*.csv|CSV file (for Panels format)|*.csv|CSV file (general format)|*.csv|Text file (for Groups format)|*.txt|Text file (for Panels format)|*.txt|Text file (general format)|*.txt</value>
   </data>
+  <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>44</value>
+  </metadata>
 </root>
