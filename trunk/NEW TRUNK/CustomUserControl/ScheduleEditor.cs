@@ -47,6 +47,7 @@ namespace CustomUserControl
         //REFRESHERS
         public void RefreshAll()
         {
+            Cursor.Current = Cursors.WaitCursor;
             if (IsTreeViewSetToStudents())
             {
                 RefreshStudentClassScheds();
@@ -60,9 +61,11 @@ namespace CustomUserControl
             UpdateAvailableTimeslot();
             UpdateAvailableEvents();
             RefreshTreeView();
+            Cursor.Current = Cursors.Arrow;
         }
         public void RefreshTreeView()
         {
+            Cursor.Current = Cursors.WaitCursor;
             if (comboBoxSortType.SelectedIndex != 4)
                 buttonDeletePanelist.Hide();
             else
@@ -119,6 +122,7 @@ namespace CustomUserControl
                 UpdateUngroupedPanelistTreeView(treeViewUngroupedPanelists.Nodes);
                 currStudent = "";
             }
+            Cursor.Current = Cursors.Arrow;
         }
         
         //Students
