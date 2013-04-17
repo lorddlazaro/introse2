@@ -29,20 +29,20 @@
         private void InitializeComponent()
         {
             this.panelCalendar = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
+            this.label8AM = new System.Windows.Forms.Label();
+            this.label9AM = new System.Windows.Forms.Label();
+            this.label8PM = new System.Windows.Forms.Label();
+            this.label10AM = new System.Windows.Forms.Label();
+            this.label11AM = new System.Windows.Forms.Label();
+            this.label12AM = new System.Windows.Forms.Label();
+            this.label1PM = new System.Windows.Forms.Label();
+            this.label2PM = new System.Windows.Forms.Label();
+            this.label3PM = new System.Windows.Forms.Label();
+            this.label4PM = new System.Windows.Forms.Label();
+            this.label5PM = new System.Windows.Forms.Label();
+            this.label6PM = new System.Windows.Forms.Label();
+            this.label7PM = new System.Windows.Forms.Label();
+            this.label9PM = new System.Windows.Forms.Label();
             this.treeViewClusters = new System.Windows.Forms.TreeView();
             this.comboBoxView = new System.Windows.Forms.ComboBox();
             this.datePicker = new System.Windows.Forms.DateTimePicker();
@@ -52,24 +52,25 @@
             this.labelDate4 = new System.Windows.Forms.Label();
             this.labelDate5 = new System.Windows.Forms.Label();
             this.labelDate6 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
+            this.labelStartDate = new System.Windows.Forms.Label();
             this.labelGroupInfo = new System.Windows.Forms.Label();
             this.treeViewIsolatedGroups = new System.Windows.Forms.TreeView();
-            this.defenseInfoGroupBox = new System.Windows.Forms.GroupBox();
+            this.groupBoxDefenseInfo = new System.Windows.Forms.GroupBox();
             this.addDefenseButton = new System.Windows.Forms.Button();
             this.deleteDefenseButton = new System.Windows.Forms.Button();
             this.saveDefenseButton = new System.Windows.Forms.Button();
-            this.dateTimeLabel = new System.Windows.Forms.Label();
-            this.venueLabel = new System.Windows.Forms.Label();
-            this.courseSectionLabel = new System.Windows.Forms.Label();
-            this.titleLabel = new System.Windows.Forms.Label();
+            this.labelDateTime = new System.Windows.Forms.Label();
+            this.labelVenue = new System.Windows.Forms.Label();
+            this.labelSectionCourse = new System.Windows.Forms.Label();
+            this.labelThesisTitle = new System.Windows.Forms.Label();
             this.defenseDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.venueTextBox = new System.Windows.Forms.TextBox();
             this.courseSectionTextBox = new System.Windows.Forms.TextBox();
             this.titleTextBox = new System.Windows.Forms.TextBox();
             this.comboBoxDefenseType = new System.Windows.Forms.ComboBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.defenseInfoGroupBox.SuspendLayout();
+            this.labelDefenseType = new System.Windows.Forms.Label();
+            this.labelDefDuration = new System.Windows.Forms.Label();
+            this.groupBoxDefenseInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelCalendar
@@ -82,145 +83,145 @@
             this.panelCalendar.TabIndex = 0;
             this.panelCalendar.Paint += new System.Windows.Forms.PaintEventHandler(this.panelCalendar_Paint);
             // 
-            // label1
+            // label8AM
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(9, 71);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(68, 20);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "8:00 AM";
+            this.label8AM.AutoSize = true;
+            this.label8AM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8AM.Location = new System.Drawing.Point(9, 71);
+            this.label8AM.Name = "label8AM";
+            this.label8AM.Size = new System.Drawing.Size(68, 20);
+            this.label8AM.TabIndex = 0;
+            this.label8AM.Text = "8:00 AM";
             // 
-            // label2
+            // label9AM
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(9, 110);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(68, 20);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "9:00 AM";
+            this.label9AM.AutoSize = true;
+            this.label9AM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9AM.Location = new System.Drawing.Point(9, 110);
+            this.label9AM.Name = "label9AM";
+            this.label9AM.Size = new System.Drawing.Size(68, 20);
+            this.label9AM.TabIndex = 1;
+            this.label9AM.Text = "9:00 AM";
             // 
-            // label3
+            // label8PM
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(9, 539);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 20);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "8:00 PM";
+            this.label8PM.AutoSize = true;
+            this.label8PM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8PM.Location = new System.Drawing.Point(9, 539);
+            this.label8PM.Name = "label8PM";
+            this.label8PM.Size = new System.Drawing.Size(67, 20);
+            this.label8PM.TabIndex = 2;
+            this.label8PM.Text = "8:00 PM";
             // 
-            // label4
+            // label10AM
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(0, 149);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(77, 20);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "10:00 AM";
+            this.label10AM.AutoSize = true;
+            this.label10AM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10AM.Location = new System.Drawing.Point(0, 149);
+            this.label10AM.Name = "label10AM";
+            this.label10AM.Size = new System.Drawing.Size(77, 20);
+            this.label10AM.TabIndex = 3;
+            this.label10AM.Text = "10:00 AM";
             // 
-            // label5
+            // label11AM
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(0, 188);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(77, 20);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "11:00 AM";
+            this.label11AM.AutoSize = true;
+            this.label11AM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11AM.Location = new System.Drawing.Point(0, 188);
+            this.label11AM.Name = "label11AM";
+            this.label11AM.Size = new System.Drawing.Size(77, 20);
+            this.label11AM.TabIndex = 4;
+            this.label11AM.Text = "11:00 AM";
             // 
-            // label6
+            // label12AM
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(0, 227);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(76, 20);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "12:00 PM";
+            this.label12AM.AutoSize = true;
+            this.label12AM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12AM.Location = new System.Drawing.Point(0, 227);
+            this.label12AM.Name = "label12AM";
+            this.label12AM.Size = new System.Drawing.Size(76, 20);
+            this.label12AM.TabIndex = 5;
+            this.label12AM.Text = "12:00 PM";
             // 
-            // label7
+            // label1PM
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(9, 266);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(67, 20);
-            this.label7.TabIndex = 6;
-            this.label7.Text = "1:00 PM";
+            this.label1PM.AutoSize = true;
+            this.label1PM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1PM.Location = new System.Drawing.Point(9, 266);
+            this.label1PM.Name = "label1PM";
+            this.label1PM.Size = new System.Drawing.Size(67, 20);
+            this.label1PM.TabIndex = 6;
+            this.label1PM.Text = "1:00 PM";
             // 
-            // label8
+            // label2PM
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(9, 305);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(67, 20);
-            this.label8.TabIndex = 7;
-            this.label8.Text = "2:00 PM";
+            this.label2PM.AutoSize = true;
+            this.label2PM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2PM.Location = new System.Drawing.Point(9, 305);
+            this.label2PM.Name = "label2PM";
+            this.label2PM.Size = new System.Drawing.Size(67, 20);
+            this.label2PM.TabIndex = 7;
+            this.label2PM.Text = "2:00 PM";
             // 
-            // label9
+            // label3PM
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(9, 344);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(67, 20);
-            this.label9.TabIndex = 8;
-            this.label9.Text = "3:00 PM";
+            this.label3PM.AutoSize = true;
+            this.label3PM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3PM.Location = new System.Drawing.Point(9, 344);
+            this.label3PM.Name = "label3PM";
+            this.label3PM.Size = new System.Drawing.Size(67, 20);
+            this.label3PM.TabIndex = 8;
+            this.label3PM.Text = "3:00 PM";
             // 
-            // label10
+            // label4PM
             // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(9, 383);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(67, 20);
-            this.label10.TabIndex = 9;
-            this.label10.Text = "4:00 PM";
+            this.label4PM.AutoSize = true;
+            this.label4PM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4PM.Location = new System.Drawing.Point(9, 383);
+            this.label4PM.Name = "label4PM";
+            this.label4PM.Size = new System.Drawing.Size(67, 20);
+            this.label4PM.TabIndex = 9;
+            this.label4PM.Text = "4:00 PM";
             // 
-            // label11
+            // label5PM
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(9, 422);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(67, 20);
-            this.label11.TabIndex = 10;
-            this.label11.Text = "5:00 PM";
+            this.label5PM.AutoSize = true;
+            this.label5PM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5PM.Location = new System.Drawing.Point(9, 422);
+            this.label5PM.Name = "label5PM";
+            this.label5PM.Size = new System.Drawing.Size(67, 20);
+            this.label5PM.TabIndex = 10;
+            this.label5PM.Text = "5:00 PM";
             // 
-            // label12
+            // label6PM
             // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(9, 461);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(67, 20);
-            this.label12.TabIndex = 11;
-            this.label12.Text = "6:00 PM";
+            this.label6PM.AutoSize = true;
+            this.label6PM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6PM.Location = new System.Drawing.Point(9, 461);
+            this.label6PM.Name = "label6PM";
+            this.label6PM.Size = new System.Drawing.Size(67, 20);
+            this.label6PM.TabIndex = 11;
+            this.label6PM.Text = "6:00 PM";
             // 
-            // label13
+            // label7PM
             // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(9, 500);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(67, 20);
-            this.label13.TabIndex = 12;
-            this.label13.Text = "7:00 PM";
+            this.label7PM.AutoSize = true;
+            this.label7PM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7PM.Location = new System.Drawing.Point(9, 500);
+            this.label7PM.Name = "label7PM";
+            this.label7PM.Size = new System.Drawing.Size(67, 20);
+            this.label7PM.TabIndex = 12;
+            this.label7PM.Text = "7:00 PM";
             // 
-            // label14
+            // label9PM
             // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(9, 578);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(67, 20);
-            this.label14.TabIndex = 13;
-            this.label14.Text = "9:00 PM";
+            this.label9PM.AutoSize = true;
+            this.label9PM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9PM.Location = new System.Drawing.Point(9, 578);
+            this.label9PM.Name = "label9PM";
+            this.label9PM.Size = new System.Drawing.Size(67, 20);
+            this.label9PM.TabIndex = 13;
+            this.label9PM.Text = "9:00 PM";
             // 
             // treeViewClusters
             // 
@@ -323,15 +324,15 @@
             this.labelDate6.Text = "Saturday\r\nmm/dd/yyyy";
             this.labelDate6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label15
+            // labelStartDate
             // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(3, -6);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(135, 29);
-            this.label15.TabIndex = 23;
-            this.label15.Text = "Start Date:";
+            this.labelStartDate.AutoSize = true;
+            this.labelStartDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelStartDate.Location = new System.Drawing.Point(3, -6);
+            this.labelStartDate.Name = "labelStartDate";
+            this.labelStartDate.Size = new System.Drawing.Size(135, 29);
+            this.labelStartDate.TabIndex = 23;
+            this.labelStartDate.Text = "Start Date:";
             // 
             // labelGroupInfo
             // 
@@ -355,29 +356,29 @@
             this.treeViewIsolatedGroups.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewIsolatedGroups_BeforeCheck);
             this.treeViewIsolatedGroups.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewIsolatedGroups_NodeMouseClick);
             // 
-            // defenseInfoGroupBox
+            // groupBoxDefenseInfo
             // 
-            this.defenseInfoGroupBox.BackColor = System.Drawing.Color.Tomato;
-            this.defenseInfoGroupBox.Controls.Add(this.addDefenseButton);
-            this.defenseInfoGroupBox.Controls.Add(this.deleteDefenseButton);
-            this.defenseInfoGroupBox.Controls.Add(this.saveDefenseButton);
-            this.defenseInfoGroupBox.Controls.Add(this.dateTimeLabel);
-            this.defenseInfoGroupBox.Controls.Add(this.venueLabel);
-            this.defenseInfoGroupBox.Controls.Add(this.courseSectionLabel);
-            this.defenseInfoGroupBox.Controls.Add(this.titleLabel);
-            this.defenseInfoGroupBox.Controls.Add(this.defenseDateTimePicker);
-            this.defenseInfoGroupBox.Controls.Add(this.venueTextBox);
-            this.defenseInfoGroupBox.Controls.Add(this.courseSectionTextBox);
-            this.defenseInfoGroupBox.Controls.Add(this.titleTextBox);
-            this.defenseInfoGroupBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.defenseInfoGroupBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.defenseInfoGroupBox.Location = new System.Drawing.Point(701, 433);
-            this.defenseInfoGroupBox.Name = "defenseInfoGroupBox";
-            this.defenseInfoGroupBox.Size = new System.Drawing.Size(254, 153);
-            this.defenseInfoGroupBox.TabIndex = 26;
-            this.defenseInfoGroupBox.TabStop = false;
-            this.defenseInfoGroupBox.Text = "Selected Thesis Group";
-            this.defenseInfoGroupBox.Visible = false;
+            this.groupBoxDefenseInfo.BackColor = System.Drawing.Color.Tomato;
+            this.groupBoxDefenseInfo.Controls.Add(this.addDefenseButton);
+            this.groupBoxDefenseInfo.Controls.Add(this.deleteDefenseButton);
+            this.groupBoxDefenseInfo.Controls.Add(this.saveDefenseButton);
+            this.groupBoxDefenseInfo.Controls.Add(this.labelDateTime);
+            this.groupBoxDefenseInfo.Controls.Add(this.labelVenue);
+            this.groupBoxDefenseInfo.Controls.Add(this.labelSectionCourse);
+            this.groupBoxDefenseInfo.Controls.Add(this.labelThesisTitle);
+            this.groupBoxDefenseInfo.Controls.Add(this.defenseDateTimePicker);
+            this.groupBoxDefenseInfo.Controls.Add(this.venueTextBox);
+            this.groupBoxDefenseInfo.Controls.Add(this.courseSectionTextBox);
+            this.groupBoxDefenseInfo.Controls.Add(this.titleTextBox);
+            this.groupBoxDefenseInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.groupBoxDefenseInfo.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.groupBoxDefenseInfo.Location = new System.Drawing.Point(701, 433);
+            this.groupBoxDefenseInfo.Name = "groupBoxDefenseInfo";
+            this.groupBoxDefenseInfo.Size = new System.Drawing.Size(254, 153);
+            this.groupBoxDefenseInfo.TabIndex = 26;
+            this.groupBoxDefenseInfo.TabStop = false;
+            this.groupBoxDefenseInfo.Text = "Selected Thesis Group";
+            this.groupBoxDefenseInfo.Visible = false;
             // 
             // addDefenseButton
             // 
@@ -410,41 +411,41 @@
             this.saveDefenseButton.UseVisualStyleBackColor = true;
             this.saveDefenseButton.Click += new System.EventHandler(this.saveDefenseButton_Click);
             // 
-            // dateTimeLabel
+            // labelDateTime
             // 
-            this.dateTimeLabel.AutoSize = true;
-            this.dateTimeLabel.Location = new System.Drawing.Point(6, 103);
-            this.dateTimeLabel.Name = "dateTimeLabel";
-            this.dateTimeLabel.Size = new System.Drawing.Size(77, 13);
-            this.dateTimeLabel.TabIndex = 7;
-            this.dateTimeLabel.Text = "Date and Time";
+            this.labelDateTime.AutoSize = true;
+            this.labelDateTime.Location = new System.Drawing.Point(6, 103);
+            this.labelDateTime.Name = "labelDateTime";
+            this.labelDateTime.Size = new System.Drawing.Size(77, 13);
+            this.labelDateTime.TabIndex = 7;
+            this.labelDateTime.Text = "Date and Time";
             // 
-            // venueLabel
+            // labelVenue
             // 
-            this.venueLabel.AutoSize = true;
-            this.venueLabel.Location = new System.Drawing.Point(6, 74);
-            this.venueLabel.Name = "venueLabel";
-            this.venueLabel.Size = new System.Drawing.Size(38, 13);
-            this.venueLabel.TabIndex = 6;
-            this.venueLabel.Text = "Venue";
+            this.labelVenue.AutoSize = true;
+            this.labelVenue.Location = new System.Drawing.Point(6, 74);
+            this.labelVenue.Name = "labelVenue";
+            this.labelVenue.Size = new System.Drawing.Size(38, 13);
+            this.labelVenue.TabIndex = 6;
+            this.labelVenue.Text = "Venue";
             // 
-            // courseSectionLabel
+            // labelSectionCourse
             // 
-            this.courseSectionLabel.AutoSize = true;
-            this.courseSectionLabel.Location = new System.Drawing.Point(6, 48);
-            this.courseSectionLabel.Name = "courseSectionLabel";
-            this.courseSectionLabel.Size = new System.Drawing.Size(87, 13);
-            this.courseSectionLabel.TabIndex = 5;
-            this.courseSectionLabel.Text = "Course / Section";
+            this.labelSectionCourse.AutoSize = true;
+            this.labelSectionCourse.Location = new System.Drawing.Point(6, 48);
+            this.labelSectionCourse.Name = "labelSectionCourse";
+            this.labelSectionCourse.Size = new System.Drawing.Size(87, 13);
+            this.labelSectionCourse.TabIndex = 5;
+            this.labelSectionCourse.Text = "Section/ Course ";
             // 
-            // titleLabel
+            // labelThesisTitle
             // 
-            this.titleLabel.AutoSize = true;
-            this.titleLabel.Location = new System.Drawing.Point(6, 22);
-            this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(57, 13);
-            this.titleLabel.TabIndex = 4;
-            this.titleLabel.Text = "Thesis title";
+            this.labelThesisTitle.AutoSize = true;
+            this.labelThesisTitle.Location = new System.Drawing.Point(6, 22);
+            this.labelThesisTitle.Name = "labelThesisTitle";
+            this.labelThesisTitle.Size = new System.Drawing.Size(61, 13);
+            this.labelThesisTitle.TabIndex = 4;
+            this.labelThesisTitle.Text = "Thesis Title";
             // 
             // defenseDateTimePicker
             // 
@@ -490,26 +491,36 @@
             this.comboBoxDefenseType.TabIndex = 27;
             this.comboBoxDefenseType.SelectedIndexChanged += new System.EventHandler(this.comboBoxDefenseType_SelectedIndexChanged);
             // 
-            // label16
+            // labelDefenseType
             // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(379, -5);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(183, 29);
-            this.label16.TabIndex = 28;
-            this.label16.Text = "Defense Type:";
+            this.labelDefenseType.AutoSize = true;
+            this.labelDefenseType.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDefenseType.Location = new System.Drawing.Point(379, -5);
+            this.labelDefenseType.Name = "labelDefenseType";
+            this.labelDefenseType.Size = new System.Drawing.Size(183, 29);
+            this.labelDefenseType.TabIndex = 28;
+            this.labelDefenseType.Text = "Defense Type:";
+            // 
+            // labelDefDuration
+            // 
+            this.labelDefDuration.AutoSize = true;
+            this.labelDefDuration.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDefDuration.Location = new System.Drawing.Point(698, 589);
+            this.labelDefDuration.Name = "labelDefDuration";
+            this.labelDefDuration.Size = new System.Drawing.Size(0, 19);
+            this.labelDefDuration.TabIndex = 29;
             // 
             // FreeTimeViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.Controls.Add(this.label16);
+            this.Controls.Add(this.labelDefDuration);
+            this.Controls.Add(this.labelDefenseType);
             this.Controls.Add(this.comboBoxDefenseType);
-            this.Controls.Add(this.defenseInfoGroupBox);
+            this.Controls.Add(this.groupBoxDefenseInfo);
             this.Controls.Add(this.labelGroupInfo);
-            this.Controls.Add(this.label15);
+            this.Controls.Add(this.labelStartDate);
             this.Controls.Add(this.labelDate6);
             this.Controls.Add(this.labelDate5);
             this.Controls.Add(this.labelDate4);
@@ -518,27 +529,27 @@
             this.Controls.Add(this.labelDate1);
             this.Controls.Add(this.datePicker);
             this.Controls.Add(this.comboBoxView);
-            this.Controls.Add(this.label14);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label9PM);
+            this.Controls.Add(this.label7PM);
+            this.Controls.Add(this.label6PM);
+            this.Controls.Add(this.label5PM);
+            this.Controls.Add(this.label4PM);
+            this.Controls.Add(this.label3PM);
+            this.Controls.Add(this.label2PM);
+            this.Controls.Add(this.label1PM);
+            this.Controls.Add(this.label12AM);
+            this.Controls.Add(this.label11AM);
+            this.Controls.Add(this.label10AM);
+            this.Controls.Add(this.label8PM);
+            this.Controls.Add(this.label9AM);
+            this.Controls.Add(this.label8AM);
             this.Controls.Add(this.panelCalendar);
             this.Controls.Add(this.treeViewIsolatedGroups);
             this.Controls.Add(this.treeViewClusters);
             this.Name = "FreeTimeViewer";
             this.Size = new System.Drawing.Size(1000, 700);
-            this.defenseInfoGroupBox.ResumeLayout(false);
-            this.defenseInfoGroupBox.PerformLayout();
+            this.groupBoxDefenseInfo.ResumeLayout(false);
+            this.groupBoxDefenseInfo.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -547,20 +558,20 @@
         #endregion
 
         private System.Windows.Forms.Panel panelCalendar;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label8AM;
+        private System.Windows.Forms.Label label9AM;
+        private System.Windows.Forms.Label label8PM;
+        private System.Windows.Forms.Label label10AM;
+        private System.Windows.Forms.Label label11AM;
+        private System.Windows.Forms.Label label12AM;
+        private System.Windows.Forms.Label label1PM;
+        private System.Windows.Forms.Label label2PM;
+        private System.Windows.Forms.Label label3PM;
+        private System.Windows.Forms.Label label4PM;
+        private System.Windows.Forms.Label label5PM;
+        private System.Windows.Forms.Label label6PM;
+        private System.Windows.Forms.Label label7PM;
+        private System.Windows.Forms.Label label9PM;
         private System.Windows.Forms.TreeView treeViewClusters;
         private System.Windows.Forms.ComboBox comboBoxView;
         private System.Windows.Forms.DateTimePicker datePicker;
@@ -570,22 +581,23 @@
         private System.Windows.Forms.Label labelDate4;
         private System.Windows.Forms.Label labelDate5;
         private System.Windows.Forms.Label labelDate6;
-        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label labelStartDate;
         private System.Windows.Forms.Label labelGroupInfo;
         private System.Windows.Forms.TreeView treeViewIsolatedGroups;
-        private System.Windows.Forms.GroupBox defenseInfoGroupBox;
+        private System.Windows.Forms.GroupBox groupBoxDefenseInfo;
         private System.Windows.Forms.DateTimePicker defenseDateTimePicker;
         private System.Windows.Forms.TextBox venueTextBox;
         private System.Windows.Forms.TextBox courseSectionTextBox;
         private System.Windows.Forms.TextBox titleTextBox;
-        private System.Windows.Forms.Label dateTimeLabel;
-        private System.Windows.Forms.Label venueLabel;
-        private System.Windows.Forms.Label courseSectionLabel;
-        private System.Windows.Forms.Label titleLabel;
+        private System.Windows.Forms.Label labelDateTime;
+        private System.Windows.Forms.Label labelVenue;
+        private System.Windows.Forms.Label labelSectionCourse;
+        private System.Windows.Forms.Label labelThesisTitle;
         private System.Windows.Forms.Button deleteDefenseButton;
         private System.Windows.Forms.Button saveDefenseButton;
         private System.Windows.Forms.Button addDefenseButton;
         private System.Windows.Forms.ComboBox comboBoxDefenseType;
-        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label labelDefenseType;
+        private System.Windows.Forms.Label labelDefDuration;
     }
 }

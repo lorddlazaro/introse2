@@ -76,7 +76,7 @@ namespace CustomUserControl
             RefreshTreeViews();
             MarkAllScheduledGroups();
             RefreshCalendar();
-            defenseInfoGroupBox.Refresh();
+            groupBoxDefenseInfo.Refresh();
             Cursor.Current = Cursors.Arrow;
         }
 
@@ -203,7 +203,7 @@ namespace CustomUserControl
                     ChangeSelectedGroup(currGroupID);
                     MarkAllScheduledGroups();
                     RefreshCalendar();
-                    defenseInfoGroupBox.Refresh();
+                    groupBoxDefenseInfo.Refresh();
                 }
             }
             else //Cancel edit/add
@@ -214,7 +214,7 @@ namespace CustomUserControl
                 ChangeSelectedGroup(currGroupID);
                 MarkAllScheduledGroups();
                 RefreshCalendar();
-                defenseInfoGroupBox.Refresh();
+                groupBoxDefenseInfo.Refresh();
             }
         }
 
@@ -350,23 +350,23 @@ namespace CustomUserControl
 
             treeViewClusters.Size = newSize;
             treeViewIsolatedGroups.Size = newSize;
-            defenseInfoGroupBox.Visible = false;
+            groupBoxDefenseInfo.Visible = false;
         }
 
         private void WidenGroupBox()
         {
             addDefenseButton.Visible = false;
-            venueLabel.Visible = true;
+            labelVenue.Visible = true;
             defenseDateTimePicker.Visible = true;
-            dateTimeLabel.Visible = true;
+            labelDateTime.Visible = true;
 
             int defaultWidth = 254;
             int longLength = 153;
-            defenseInfoGroupBox.Size = new Size(defaultWidth, longLength);
+            groupBoxDefenseInfo.Size = new Size(defaultWidth, longLength);
 
             int defaultX = 701;
             int longY = 433;
-            defenseInfoGroupBox.Location = new Point(defaultX, longY);
+            groupBoxDefenseInfo.Location = new Point(defaultX, longY);
 
             int treeViewDefaultWidth = 254;
             int treeViewShortLength = 318;
@@ -381,17 +381,17 @@ namespace CustomUserControl
         private void ShortenGroupBox()
         {
             addDefenseButton.Visible = true;
-            venueLabel.Visible = false;
+            labelVenue.Visible = false;
             defenseDateTimePicker.Visible = false;
-            dateTimeLabel.Visible = false;
+            labelDateTime.Visible = false;
 
             int defaultWidth = 254;
             int shortLength = 100;
-            defenseInfoGroupBox.Size = new Size(defaultWidth, shortLength);
+            groupBoxDefenseInfo.Size = new Size(defaultWidth, shortLength);
 
             int defaultX = 701;
             int shortY = 486;
-            defenseInfoGroupBox.Location = new Point(defaultX, shortY);
+            groupBoxDefenseInfo.Location = new Point(defaultX, shortY);
 
             int treeViewDefaultWidth = 254;
             int treeViewShortLength = 371;
@@ -406,7 +406,7 @@ namespace CustomUserControl
 
         private void ShowGroupBox()
         {
-            defenseInfoGroupBox.Visible = true;
+            groupBoxDefenseInfo.Visible = true;
         }
 
         private bool IsDefenseInfoValid()
@@ -549,6 +549,7 @@ namespace CustomUserControl
             if (newThesisGroupID.Equals(""))
             {
                 labelGroupInfo.Text = "";
+                labelDefDuration.Text = "";
                 HideGroupBox();
             }
             else
@@ -556,9 +557,17 @@ namespace CustomUserControl
                 Cursor.Current = Cursors.WaitCursor;
                 ShowGroupBox();
                 labelGroupInfo.Text = "Selected Group:    " + schedulingDM.GetGroupInfo(currGroupID) + Environment.NewLine + "Panelists:                " + schedulingDM.GetPanelists(currGroupID);
+                
                 titleTextBox.Text = schedulingDM.GetGroupInfo(currGroupID).Split(':')[1];
                 courseSectionTextBox.Text = schedulingDM.GetGroupInfo(currGroupID).Split(':')[0];
-
+                
+               
+                String course = courseSectionTextBox.Text.Split(' ')[1];
+                if (course.Equals("THSST-1"))
+                    labelDefDuration.Text = "THSST-1 Defense Duration: " + (Constants.THSST1_DEFDURATION_MINS / 60) + " hour.";
+                else if (course.Equals("THSST-3"))
+                    labelDefDuration.Text = "THSST-3 Defense Duration: " + (Constants.THSST3_DEFDURATION_MINS / 60) + " hours.";
+               
                 /*The difference between this defenseSchedule and the one in schedulingDM (currGroupDefSched)
                  * is that currGroupDefSched only refers to the defense schedule that fits within the current
                  * calendar.
