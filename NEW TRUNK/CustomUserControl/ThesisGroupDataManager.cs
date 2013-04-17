@@ -118,7 +118,7 @@ namespace CustomUserControl
 
         public List<String>[] GetGroupPanelists(String thesisGroupID)
         {
-            String query = "select panelistID from panelassignment where thesisgroupid = " + thesisGroupID + " order by panelistID;";
+            String query = "select panelistID from panelist where panelistid in (select panelistid from panelassignment where thesisgroupid = " + thesisGroupID + ") order by lastname;";
             return dbHandler.Select(query, 1);
         }
         public List<String>[] GetGroupMembers(String thesisGroupID)
@@ -135,8 +135,8 @@ namespace CustomUserControl
         // used in the swapPanelists method
         public List<String>[] GetPanelistsNotInGroup(String thesisGroupID)
         {
-            String query = "select firstname, MI, lastname from panelist where panelistid not in (select panelistid from panelassignment where thesisgroupid = " + thesisGroupID + ");";
-            return dbHandler.Select(query, 3);
+            String query = "select panelistid, firstname, MI, lastname from panelist where panelistid not in (select panelistid from panelassignment where thesisgroupid = " + thesisGroupID + ");";
+            return dbHandler.Select(query, 4);
         }
         // used for the treeview
         public List<String>[] GetCourses()
