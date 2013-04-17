@@ -19,24 +19,22 @@ namespace introse
         public MainForm()
         {
             InitializeComponent();
-            scheduleEditor2.containerParent = this;
+            scheduleEditorControl.containerParent = this;
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (tabControl1.SelectedIndex) 
+            switch (tabControl.SelectedIndex) 
             {
-                case 0: freeTimeViewer.RefreshAll(); break;
-                case 1: scheduleEditor2.RefreshAll(); break;
-                case 2: thesisGroupControl1.RefreshAll(); break;
+                case 0: freeTimeViewerControl.RefreshAll(); break;
+                case 1: scheduleEditorControl.RefreshAll(); break;
+                case 2: customUserControl_ThesisGroupControl.RefreshAll(); break;
             }
         }
-
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void viewDefenseSchedulesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -46,7 +44,6 @@ namespace introse
             catch (Exception ex1) { }
             defenseSchedulesViewerForm = new DefenseSchedulesViewerForm();
         }
-
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try 

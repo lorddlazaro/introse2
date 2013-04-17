@@ -41,156 +41,154 @@ namespace introse
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.freeTimeViewerControl = new System.Windows.Forms.TabPage();
-            this.freeTimeViewer = new CustomUserControl.FreeTimeViewer();
-            this.scheduleEditorControl = new System.Windows.Forms.TabPage();
-            this.scheduleEditor2 = new CustomUserControl.ScheduleEditor();
-            this.thesisGroupControl = new System.Windows.Forms.TabPage();
-            this.thesisGroupControl1 = new CustomUserControl.ThesisGroupControl();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewDefenseSchedulesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabControl1.SuspendLayout();
-            this.freeTimeViewerControl.SuspendLayout();
-            this.scheduleEditorControl.SuspendLayout();
-            this.thesisGroupControl.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabPageScheduleDefenses = new System.Windows.Forms.TabPage();
+            this.freeTimeViewerControl = new CustomUserControl.FreeTimeViewer();
+            this.tabPageClassSchedulesAndEvents = new System.Windows.Forms.TabPage();
+            this.scheduleEditorControl = new CustomUserControl.ScheduleEditor();
+            this.tabPageThesisGroups = new System.Windows.Forms.TabPage();
+            this.customUserControl_ThesisGroupControl = new CustomUserControl.ThesisGroupControl();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.toolStripMenuItem_File = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_Reset = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_ViewDefenseSchedules = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem_Exit = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabControl.SuspendLayout();
+            this.tabPageScheduleDefenses.SuspendLayout();
+            this.tabPageClassSchedulesAndEvents.SuspendLayout();
+            this.tabPageThesisGroups.SuspendLayout();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // tabControl
             // 
-            this.tabControl1.Controls.Add(this.freeTimeViewerControl);
-            this.tabControl1.Controls.Add(this.scheduleEditorControl);
-            this.tabControl1.Controls.Add(this.thesisGroupControl);
-            this.tabControl1.HotTrack = true;
-            this.tabControl1.Location = new System.Drawing.Point(1, 24);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1007, 682);
-            this.tabControl1.TabIndex = 0;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
-            // not auto-generated
-            //this.tabControl1.SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
+            this.tabControl.Controls.Add(this.tabPageScheduleDefenses);
+            this.tabControl.Controls.Add(this.tabPageClassSchedulesAndEvents);
+            this.tabControl.Controls.Add(this.tabPageThesisGroups);
+            this.tabControl.HotTrack = true;
+            this.tabControl.Location = new System.Drawing.Point(1, 24);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(1007, 682);
+            this.tabControl.TabIndex = 0;
+            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            // 
+            // tabPageScheduleDefenses
+            // 
+            this.tabPageScheduleDefenses.Controls.Add(this.freeTimeViewerControl);
+            this.tabPageScheduleDefenses.Location = new System.Drawing.Point(4, 22);
+            this.tabPageScheduleDefenses.Name = "tabPageScheduleDefenses";
+            this.tabPageScheduleDefenses.Size = new System.Drawing.Size(999, 656);
+            this.tabPageScheduleDefenses.TabIndex = 6;
+            this.tabPageScheduleDefenses.Text = "Schedule Defenses";
+            this.tabPageScheduleDefenses.UseVisualStyleBackColor = true;
             // 
             // freeTimeViewerControl
             // 
-            this.freeTimeViewerControl.Controls.Add(this.freeTimeViewer);
-            this.freeTimeViewerControl.Location = new System.Drawing.Point(4, 22);
+            this.freeTimeViewerControl.BackColor = System.Drawing.SystemColors.Window;
+            this.freeTimeViewerControl.Location = new System.Drawing.Point(21, 16);
             this.freeTimeViewerControl.Name = "freeTimeViewerControl";
-            this.freeTimeViewerControl.Size = new System.Drawing.Size(999, 656);
-            this.freeTimeViewerControl.TabIndex = 6;
-            this.freeTimeViewerControl.Text = "Schedule Defenses";
-            this.freeTimeViewerControl.UseVisualStyleBackColor = true;
+            this.freeTimeViewerControl.Size = new System.Drawing.Size(970, 637);
+            this.freeTimeViewerControl.TabIndex = 0;
             // 
-            // freeTimeViewer
+            // tabPageClassSchedulesAndEvents
             // 
-            this.freeTimeViewer.BackColor = System.Drawing.SystemColors.Window;
-            this.freeTimeViewer.Location = new System.Drawing.Point(21, 16);
-            this.freeTimeViewer.Name = "freeTimeViewer";
-            this.freeTimeViewer.Size = new System.Drawing.Size(970, 637);
-            this.freeTimeViewer.TabIndex = 0;
+            this.tabPageClassSchedulesAndEvents.Controls.Add(this.scheduleEditorControl);
+            this.tabPageClassSchedulesAndEvents.Location = new System.Drawing.Point(4, 22);
+            this.tabPageClassSchedulesAndEvents.Name = "tabPageClassSchedulesAndEvents";
+            this.tabPageClassSchedulesAndEvents.Size = new System.Drawing.Size(999, 656);
+            this.tabPageClassSchedulesAndEvents.TabIndex = 8;
+            this.tabPageClassSchedulesAndEvents.Text = "Class Schedules and Events";
+            this.tabPageClassSchedulesAndEvents.UseVisualStyleBackColor = true;
             // 
             // scheduleEditorControl
             // 
-            this.scheduleEditorControl.Controls.Add(this.scheduleEditor2);
-            this.scheduleEditorControl.Location = new System.Drawing.Point(4, 22);
+            this.scheduleEditorControl.Location = new System.Drawing.Point(-1, 0);
             this.scheduleEditorControl.Name = "scheduleEditorControl";
-            this.scheduleEditorControl.Size = new System.Drawing.Size(999, 656);
-            this.scheduleEditorControl.TabIndex = 8;
-            this.scheduleEditorControl.Text = "View Class Schedules";
-            this.scheduleEditorControl.UseVisualStyleBackColor = true;
+            this.scheduleEditorControl.Size = new System.Drawing.Size(1000, 679);
+            this.scheduleEditorControl.TabIndex = 0;
             // 
-            // scheduleEditor2
+            // tabPageThesisGroups
             // 
-            this.scheduleEditor2.Location = new System.Drawing.Point(-1, 0);
-            this.scheduleEditor2.Name = "scheduleEditor2";
-            this.scheduleEditor2.Size = new System.Drawing.Size(1000, 679);
-            this.scheduleEditor2.TabIndex = 0;
+            this.tabPageThesisGroups.Controls.Add(this.customUserControl_ThesisGroupControl);
+            this.tabPageThesisGroups.Location = new System.Drawing.Point(4, 22);
+            this.tabPageThesisGroups.Name = "tabPageThesisGroups";
+            this.tabPageThesisGroups.Size = new System.Drawing.Size(999, 656);
+            this.tabPageThesisGroups.TabIndex = 5;
+            this.tabPageThesisGroups.Text = "Thesis Groups";
+            this.tabPageThesisGroups.UseVisualStyleBackColor = true;
             // 
-            // thesisGroupControl
+            // customUserControl_ThesisGroupControl
             // 
-            this.thesisGroupControl.Controls.Add(this.thesisGroupControl1);
-            this.thesisGroupControl.Location = new System.Drawing.Point(4, 22);
-            this.thesisGroupControl.Name = "thesisGroupControl";
-            this.thesisGroupControl.Size = new System.Drawing.Size(999, 656);
-            this.thesisGroupControl.TabIndex = 5;
-            this.thesisGroupControl.Text = "Thesis Groups";
-            this.thesisGroupControl.UseVisualStyleBackColor = true;
+            this.customUserControl_ThesisGroupControl.Location = new System.Drawing.Point(-4, -1);
+            this.customUserControl_ThesisGroupControl.Name = "customUserControl_ThesisGroupControl";
+            this.customUserControl_ThesisGroupControl.Size = new System.Drawing.Size(1000, 680);
+            this.customUserControl_ThesisGroupControl.TabIndex = 0;
             // 
-            // thesisGroupControl1
+            // menuStrip
             // 
-            this.thesisGroupControl1.Location = new System.Drawing.Point(-4, -1);
-            this.thesisGroupControl1.Name = "thesisGroupControl1";
-            this.thesisGroupControl1.Size = new System.Drawing.Size(1000, 680);
-            this.thesisGroupControl1.TabIndex = 0;
+            this.menuStrip.AllowMerge = false;
+            this.menuStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem_File});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.menuStrip.Size = new System.Drawing.Size(43, 24);
+            this.menuStrip.TabIndex = 1;
+            this.menuStrip.Text = "menuStrip1";
             // 
-            // menuStrip1
+            // toolStripMenuItem_File
             // 
-            this.menuStrip1.AllowMerge = false;
-            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip1.Size = new System.Drawing.Size(43, 24);
-            this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
+            this.toolStripMenuItem_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem_Reset,
+            this.toolStripMenuItem_ViewDefenseSchedules,
+            this.toolStripMenuItem_Exit});
+            this.toolStripMenuItem_File.Name = "toolStripMenuItem_File";
+            this.toolStripMenuItem_File.Size = new System.Drawing.Size(35, 20);
+            this.toolStripMenuItem_File.Text = "File";
             // 
-            // fileToolStripMenuItem
+            // toolStripMenuItem_Reset
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resetToolStripMenuItem,
-            this.viewDefenseSchedulesToolStripMenuItem,
-            this.exitToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            this.toolStripMenuItem_Reset.Name = "toolStripMenuItem_Reset";
+            this.toolStripMenuItem_Reset.Size = new System.Drawing.Size(190, 22);
+            this.toolStripMenuItem_Reset.Text = "Reset";
+            this.toolStripMenuItem_Reset.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
-            // resetToolStripMenuItem
+            // toolStripMenuItem_ViewDefenseSchedules
             // 
-            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.resetToolStripMenuItem.Text = "Reset";
-            this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
+            this.toolStripMenuItem_ViewDefenseSchedules.Name = "toolStripMenuItem_ViewDefenseSchedules";
+            this.toolStripMenuItem_ViewDefenseSchedules.Size = new System.Drawing.Size(190, 22);
+            this.toolStripMenuItem_ViewDefenseSchedules.Text = "View Defense Schedules";
+            this.toolStripMenuItem_ViewDefenseSchedules.Click += new System.EventHandler(this.viewDefenseSchedulesToolStripMenuItem_Click);
             // 
-            // viewDefenseSchedulesToolStripMenuItem
+            // toolStripMenuItem_Exit
             // 
-            this.viewDefenseSchedulesToolStripMenuItem.Name = "viewDefenseSchedulesToolStripMenuItem";
-            this.viewDefenseSchedulesToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.viewDefenseSchedulesToolStripMenuItem.Text = "View Defense Schedules";
-            this.viewDefenseSchedulesToolStripMenuItem.Click += new System.EventHandler(this.viewDefenseSchedulesToolStripMenuItem_Click);
+            this.toolStripMenuItem_Exit.Name = "toolStripMenuItem_Exit";
+            this.toolStripMenuItem_Exit.Size = new System.Drawing.Size(190, 22);
+            this.toolStripMenuItem_Exit.Text = "Exit";
+            this.toolStripMenuItem_Exit.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 706);
-            this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.tabControl);
+            this.Controls.Add(this.menuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Thesis Defense Scheduling Aid";
-            this.tabControl1.ResumeLayout(false);
-            this.freeTimeViewerControl.ResumeLayout(false);
-            this.scheduleEditorControl.ResumeLayout(false);
-            this.thesisGroupControl.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.tabControl.ResumeLayout(false);
+            this.tabPageScheduleDefenses.ResumeLayout(false);
+            this.tabPageClassSchedulesAndEvents.ResumeLayout(false);
+            this.tabPageThesisGroups.ResumeLayout(false);
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -200,18 +198,18 @@ namespace introse
 
         private CustomUserControl.ScheduleEditor scheduleEditor1;
         private System.Windows.Forms.TabPage scheduleDefense;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage thesisGroupControl;
-        private CustomUserControl.ThesisGroupControl thesisGroupControl1;
-        private System.Windows.Forms.TabPage scheduleEditorControl;
-        private CustomUserControl.ScheduleEditor scheduleEditor2;
-        private System.Windows.Forms.TabPage freeTimeViewerControl;
-        private CustomUserControl.FreeTimeViewer freeTimeViewer;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem viewDefenseSchedulesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage tabPageThesisGroups;
+        private CustomUserControl.ThesisGroupControl customUserControl_ThesisGroupControl;
+        private System.Windows.Forms.TabPage tabPageClassSchedulesAndEvents;
+        private CustomUserControl.ScheduleEditor scheduleEditorControl;
+        private System.Windows.Forms.TabPage tabPageScheduleDefenses;
+        private CustomUserControl.FreeTimeViewer freeTimeViewerControl;
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_File;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Reset;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_ViewDefenseSchedules;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_Exit;
 
 
     }
