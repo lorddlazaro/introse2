@@ -1028,6 +1028,20 @@ namespace CustomUserControl
             comboBox1.SelectedIndex = old;
         }
 
+        private void buttonDeletePanelist_Click(object sender, EventArgs e)
+        {
+            if(String.IsNullOrEmpty(currPanelist))
+            {
+                MessageBox.Show("No Panelist Selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            String query = "DELETE FROM panelist WHERE panelistID = '" + currPanelist + "';";
+            dbHandler.Delete(query);
+            currPanelist = "";
+            ClearEverything();
+            UpdateUngroupedPanelistTreeView(treeViewUngroupedPanelists.Nodes);
+        }
+
         
 
     }
