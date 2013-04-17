@@ -43,9 +43,9 @@ namespace CustomUserControl
             return this.startTime.TimeOfDay.CompareTo(other.startTime.TimeOfDay);
         }
 
-        public bool isWithin(TimePeriod other)
+        public bool IsWithin(TimePeriod other)
         {
-            if (startTime.CompareTo(other.startTime) == 0 && endTime.CompareTo(other.endTime) == 0)
+            if (startTime.TimeOfDay.CompareTo(other.startTime.TimeOfDay) == 0 && endTime.TimeOfDay.CompareTo(other.endTime.TimeOfDay) == 0)
                 return true;
             if (IsBetweenInclusive(other.startTime, other.endTime, startTime) && IsBetweenInclusive(other.startTime, other.endTime, endTime))
                 return true;
@@ -87,7 +87,14 @@ namespace CustomUserControl
 
         public bool IsBetweenInclusive(DateTime start, DateTime end, DateTime check)
         {
-            if (check.TimeOfDay.CompareTo(start.TimeOfDay) >= 0 && check.TimeOfDay.CompareTo(end.TimeOfDay) <= 0)
+            DateTime startTimeWithoutSeconds = new DateTime(1,1,1,start.Hour,start.Minute, 0,0);
+            DateTime endTimeWithoutSeconds = new DateTime(1,1,1,end.Hour,end.Minute, 0,0);
+            DateTime checkTimeWithoutSeconds = new DateTime(1,1,1,check.Hour,check.Minute, 0,0);
+
+            if (startTimeWithoutSeconds.TimeOfDay.Equals(checkTimeWithoutSeconds.TimeOfDay) || endTimeWithoutSeconds.TimeOfDay.Equals(checkTimeWithoutSeconds.TimeOfDay))
+                return true;
+
+            if (checkTimeWithoutSeconds.TimeOfDay.CompareTo(startTimeWithoutSeconds.TimeOfDay) >= 0 && checkTimeWithoutSeconds.TimeOfDay.CompareTo(endTimeWithoutSeconds.TimeOfDay) <= 0)
                 return true;
 
             return false;
