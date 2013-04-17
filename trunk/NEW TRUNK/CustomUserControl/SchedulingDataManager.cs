@@ -937,10 +937,11 @@ namespace CustomUserControl
                 List<TimePeriod>[] list = this.selectedGroupFreeTimes;
 
                 //Console.WriteLine("comparing " + timePeriod.StartTime + " " + timePeriod.EndTime + ".");
-                foreach (TimePeriod freeTime in list[Convert.ToInt16(dayOfWeek) - 1])
+                foreach (TimePeriod freeTime in list[GetDayIndex(dayOfWeek)])
                 {
                     Console.WriteLine("   " + freeTime.StartTime + " " + freeTime.EndTime + ".");
-                    if (timePeriod.isWithin(freeTime))
+                    Console.WriteLine("*********HEREHEREHERE\n" + timePeriod + " Is within " + freeTime + "?" + timePeriod.IsWithin(freeTime));
+                    if (timePeriod.IsWithin(freeTime))
                     {
                         found = true;
                         break;
