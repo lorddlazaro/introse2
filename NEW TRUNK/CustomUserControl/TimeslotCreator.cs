@@ -268,14 +268,18 @@ namespace CustomUserControl
                     }
 
                     query = "SELECT thesisgroupID from panelAssignment WHERE panelistID = '"+panelistID+"';";
-                    thesisGroupID = dbHandler.Select(query, 1)[0][0];
-                    defSchedsWithConflict = schedulingDM.GetDefenseConflictsWithClassTimePeriod(thesisGroupID, classTimePeriod, day);
-                    if(defSchedsWithConflict.Count>0)
+                    
+                    List<String> thesisGroupIDs = dbHandler.Select(query, 1)[0];
+                    if (thesisGroupIDs.Count > 0)
                     {
-                        panelistNameConflictDef = panelistName;
-                        for (int k = 0; k < defSchedsWithConflict.Count; k++) 
+                        defSchedsWithConflict = schedulingDM.GetDefenseConflictsWithClassTimePeriod(thesisGroupIDs[0], classTimePeriod, day);
+                        if (defSchedsWithConflict.Count > 0)
                         {
-                            conflictedDefSchedIDs.Add(defSchedsWithConflict[k].DefenseID);
+                            panelistNameConflictDef = panelistName;
+                            for (int k = 0; k < defSchedsWithConflict.Count; k++)
+                            {
+                                conflictedDefSchedIDs.Add(defSchedsWithConflict[k].DefenseID);
+                            }
                         }
                     }
                 }
