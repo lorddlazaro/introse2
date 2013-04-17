@@ -67,7 +67,7 @@
             // 
             this.treeViewStudentGroup.Location = new System.Drawing.Point(3, 36);
             this.treeViewStudentGroup.Name = "treeViewStudentGroup";
-            this.treeViewStudentGroup.Size = new System.Drawing.Size(245, 327);
+            this.treeViewStudentGroup.Size = new System.Drawing.Size(191, 327);
             this.treeViewStudentGroup.TabIndex = 6;
             this.treeViewStudentGroup.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewStudentGroup_NodeMouseClick);
             // 
@@ -84,7 +84,7 @@
             this.groupBoxTimeslot.Controls.Add(this.buttonUnassignTimeslot);
             this.groupBoxTimeslot.Location = new System.Drawing.Point(3, 369);
             this.groupBoxTimeslot.Name = "groupBoxTimeslot";
-            this.groupBoxTimeslot.Size = new System.Drawing.Size(994, 307);
+            this.groupBoxTimeslot.Size = new System.Drawing.Size(994, 284);
             this.groupBoxTimeslot.TabIndex = 10;
             this.groupBoxTimeslot.TabStop = false;
             this.groupBoxTimeslot.Text = "Class Schedule";
@@ -92,9 +92,9 @@
             // buttonDeleteTimeslot
             // 
             this.buttonDeleteTimeslot.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDeleteTimeslot.Location = new System.Drawing.Point(928, 13);
+            this.buttonDeleteTimeslot.Location = new System.Drawing.Point(473, 193);
             this.buttonDeleteTimeslot.Name = "buttonDeleteTimeslot";
-            this.buttonDeleteTimeslot.Size = new System.Drawing.Size(57, 23);
+            this.buttonDeleteTimeslot.Size = new System.Drawing.Size(49, 26);
             this.buttonDeleteTimeslot.TabIndex = 24;
             this.buttonDeleteTimeslot.Text = "Delete";
             this.buttonDeleteTimeslot.UseVisualStyleBackColor = true;
@@ -103,7 +103,7 @@
             // buttonAddTimeslot
             // 
             this.buttonAddTimeslot.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAddTimeslot.Location = new System.Drawing.Point(802, 14);
+            this.buttonAddTimeslot.Location = new System.Drawing.Point(930, 14);
             this.buttonAddTimeslot.Name = "buttonAddTimeslot";
             this.buttonAddTimeslot.Size = new System.Drawing.Size(57, 23);
             this.buttonAddTimeslot.TabIndex = 12;
@@ -115,7 +115,7 @@
             // 
             this.labelSelectedPersonTimeslot.AutoSize = true;
             this.labelSelectedPersonTimeslot.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSelectedPersonTimeslot.Location = new System.Drawing.Point(8, 13);
+            this.labelSelectedPersonTimeslot.Location = new System.Drawing.Point(5, 13);
             this.labelSelectedPersonTimeslot.Name = "labelSelectedPersonTimeslot";
             this.labelSelectedPersonTimeslot.Size = new System.Drawing.Size(212, 26);
             this.labelSelectedPersonTimeslot.TabIndex = 23;
@@ -126,13 +126,13 @@
             this.dataGridViewExistingTimeslot.AllowUserToAddRows = false;
             this.dataGridViewExistingTimeslot.AllowUserToDeleteRows = false;
             this.dataGridViewExistingTimeslot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewExistingTimeslot.Location = new System.Drawing.Point(524, 40);
+            this.dataGridViewExistingTimeslot.Location = new System.Drawing.Point(527, 40);
             this.dataGridViewExistingTimeslot.MultiSelect = false;
             this.dataGridViewExistingTimeslot.Name = "dataGridViewExistingTimeslot";
             this.dataGridViewExistingTimeslot.ReadOnly = true;
             this.dataGridViewExistingTimeslot.RowHeadersVisible = false;
             this.dataGridViewExistingTimeslot.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewExistingTimeslot.Size = new System.Drawing.Size(460, 261);
+            this.dataGridViewExistingTimeslot.Size = new System.Drawing.Size(460, 238);
             this.dataGridViewExistingTimeslot.TabIndex = 22;
             this.dataGridViewExistingTimeslot.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewExistingTimeslot_RowEnter);
             // 
@@ -140,7 +140,7 @@
             // 
             this.labelWeeklyTimeslot.AutoSize = true;
             this.labelWeeklyTimeslot.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelWeeklyTimeslot.Location = new System.Drawing.Point(524, 14);
+            this.labelWeeklyTimeslot.Location = new System.Drawing.Point(527, 14);
             this.labelWeeklyTimeslot.Name = "labelWeeklyTimeslot";
             this.labelWeeklyTimeslot.Size = new System.Drawing.Size(154, 26);
             this.labelWeeklyTimeslot.TabIndex = 17;
@@ -153,23 +153,23 @@
             this.dataGridViewWeeklyTimeslot.AllowUserToResizeColumns = false;
             this.dataGridViewWeeklyTimeslot.AllowUserToResizeRows = false;
             this.dataGridViewWeeklyTimeslot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewWeeklyTimeslot.Location = new System.Drawing.Point(9, 40);
+            this.dataGridViewWeeklyTimeslot.Location = new System.Drawing.Point(6, 40);
             this.dataGridViewWeeklyTimeslot.MultiSelect = false;
             this.dataGridViewWeeklyTimeslot.Name = "dataGridViewWeeklyTimeslot";
             this.dataGridViewWeeklyTimeslot.ReadOnly = true;
             this.dataGridViewWeeklyTimeslot.RowHeadersVisible = false;
             this.dataGridViewWeeklyTimeslot.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridViewWeeklyTimeslot.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewWeeklyTimeslot.Size = new System.Drawing.Size(460, 261);
+            this.dataGridViewWeeklyTimeslot.Size = new System.Drawing.Size(460, 238);
             this.dataGridViewWeeklyTimeslot.TabIndex = 15;
             this.dataGridViewWeeklyTimeslot.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewWeeklyTimeslot_RowEnter);
             // 
             // buttonTimeslotEdit
             // 
             this.buttonTimeslotEdit.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonTimeslotEdit.Location = new System.Drawing.Point(865, 13);
+            this.buttonTimeslotEdit.Location = new System.Drawing.Point(473, 162);
             this.buttonTimeslotEdit.Name = "buttonTimeslotEdit";
-            this.buttonTimeslotEdit.Size = new System.Drawing.Size(57, 24);
+            this.buttonTimeslotEdit.Size = new System.Drawing.Size(49, 25);
             this.buttonTimeslotEdit.TabIndex = 20;
             this.buttonTimeslotEdit.Text = "Edit";
             this.buttonTimeslotEdit.UseVisualStyleBackColor = true;
@@ -179,9 +179,9 @@
             // 
             this.buttonAssignTimeslot.Enabled = false;
             this.buttonAssignTimeslot.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAssignTimeslot.Location = new System.Drawing.Point(475, 122);
+            this.buttonAssignTimeslot.Location = new System.Drawing.Point(473, 98);
             this.buttonAssignTimeslot.Name = "buttonAssignTimeslot";
-            this.buttonAssignTimeslot.Size = new System.Drawing.Size(43, 29);
+            this.buttonAssignTimeslot.Size = new System.Drawing.Size(49, 26);
             this.buttonAssignTimeslot.TabIndex = 16;
             this.buttonAssignTimeslot.Text = "<--";
             this.buttonAssignTimeslot.UseVisualStyleBackColor = true;
@@ -190,9 +190,9 @@
             // buttonUnassignTimeslot
             // 
             this.buttonUnassignTimeslot.Enabled = false;
-            this.buttonUnassignTimeslot.Location = new System.Drawing.Point(475, 195);
+            this.buttonUnassignTimeslot.Location = new System.Drawing.Point(473, 130);
             this.buttonUnassignTimeslot.Name = "buttonUnassignTimeslot";
-            this.buttonUnassignTimeslot.Size = new System.Drawing.Size(43, 29);
+            this.buttonUnassignTimeslot.Size = new System.Drawing.Size(49, 26);
             this.buttonUnassignTimeslot.TabIndex = 13;
             this.buttonUnassignTimeslot.Text = "-->";
             this.buttonUnassignTimeslot.UseVisualStyleBackColor = true;
@@ -200,18 +200,18 @@
             // 
             // groupBoxEvent
             // 
+            this.groupBoxEvent.Controls.Add(this.buttonEditEvent);
             this.groupBoxEvent.Controls.Add(this.buttonDeleteEvent);
             this.groupBoxEvent.Controls.Add(this.labelAvailableEvents);
             this.groupBoxEvent.Controls.Add(this.labelSelectedPersonEvent);
             this.groupBoxEvent.Controls.Add(this.dataGridViewExistingEvent);
-            this.groupBoxEvent.Controls.Add(this.buttonEditEvent);
             this.groupBoxEvent.Controls.Add(this.dataGridViewEvent);
             this.groupBoxEvent.Controls.Add(this.buttonAssignEvent);
             this.groupBoxEvent.Controls.Add(this.buttonAddEvent);
             this.groupBoxEvent.Controls.Add(this.buttonUnassignEvent);
-            this.groupBoxEvent.Location = new System.Drawing.Point(254, 3);
+            this.groupBoxEvent.Location = new System.Drawing.Point(200, 3);
             this.groupBoxEvent.Name = "groupBoxEvent";
-            this.groupBoxEvent.Size = new System.Drawing.Size(743, 360);
+            this.groupBoxEvent.Size = new System.Drawing.Size(797, 360);
             this.groupBoxEvent.TabIndex = 11;
             this.groupBoxEvent.TabStop = false;
             this.groupBoxEvent.Text = "Events";
@@ -219,9 +219,9 @@
             // buttonDeleteEvent
             // 
             this.buttonDeleteEvent.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDeleteEvent.Location = new System.Drawing.Point(679, 14);
+            this.buttonDeleteEvent.Location = new System.Drawing.Point(373, 229);
             this.buttonDeleteEvent.Name = "buttonDeleteEvent";
-            this.buttonDeleteEvent.Size = new System.Drawing.Size(57, 23);
+            this.buttonDeleteEvent.Size = new System.Drawing.Size(49, 26);
             this.buttonDeleteEvent.TabIndex = 27;
             this.buttonDeleteEvent.Text = "Delete";
             this.buttonDeleteEvent.UseVisualStyleBackColor = true;
@@ -231,7 +231,7 @@
             // 
             this.labelAvailableEvents.AutoSize = true;
             this.labelAvailableEvents.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelAvailableEvents.Location = new System.Drawing.Point(393, 15);
+            this.labelAvailableEvents.Location = new System.Drawing.Point(422, 12);
             this.labelAvailableEvents.Name = "labelAvailableEvents";
             this.labelAvailableEvents.Size = new System.Drawing.Size(149, 26);
             this.labelAvailableEvents.TabIndex = 26;
@@ -241,7 +241,7 @@
             // 
             this.labelSelectedPersonEvent.AutoSize = true;
             this.labelSelectedPersonEvent.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSelectedPersonEvent.Location = new System.Drawing.Point(6, 15);
+            this.labelSelectedPersonEvent.Location = new System.Drawing.Point(0, 12);
             this.labelSelectedPersonEvent.Name = "labelSelectedPersonEvent";
             this.labelSelectedPersonEvent.Size = new System.Drawing.Size(143, 26);
             this.labelSelectedPersonEvent.TabIndex = 25;
@@ -253,22 +253,22 @@
             this.dataGridViewExistingEvent.AllowUserToDeleteRows = false;
             this.dataGridViewExistingEvent.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewExistingEvent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewExistingEvent.Location = new System.Drawing.Point(394, 41);
+            this.dataGridViewExistingEvent.Location = new System.Drawing.Point(427, 41);
             this.dataGridViewExistingEvent.MultiSelect = false;
             this.dataGridViewExistingEvent.Name = "dataGridViewExistingEvent";
             this.dataGridViewExistingEvent.ReadOnly = true;
             this.dataGridViewExistingEvent.RowHeadersVisible = false;
             this.dataGridViewExistingEvent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewExistingEvent.Size = new System.Drawing.Size(343, 313);
+            this.dataGridViewExistingEvent.Size = new System.Drawing.Size(365, 313);
             this.dataGridViewExistingEvent.TabIndex = 24;
             this.dataGridViewExistingEvent.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewExistingEvent_RowEnter);
             // 
             // buttonEditEvent
             // 
             this.buttonEditEvent.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonEditEvent.Location = new System.Drawing.Point(616, 14);
+            this.buttonEditEvent.Location = new System.Drawing.Point(373, 197);
             this.buttonEditEvent.Name = "buttonEditEvent";
-            this.buttonEditEvent.Size = new System.Drawing.Size(57, 23);
+            this.buttonEditEvent.Size = new System.Drawing.Size(49, 26);
             this.buttonEditEvent.TabIndex = 23;
             this.buttonEditEvent.Text = "Edit";
             this.buttonEditEvent.UseVisualStyleBackColor = true;
@@ -280,22 +280,22 @@
             this.dataGridViewEvent.AllowUserToDeleteRows = false;
             this.dataGridViewEvent.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewEvent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewEvent.Location = new System.Drawing.Point(6, 41);
+            this.dataGridViewEvent.Location = new System.Drawing.Point(4, 41);
             this.dataGridViewEvent.MultiSelect = false;
             this.dataGridViewEvent.Name = "dataGridViewEvent";
             this.dataGridViewEvent.ReadOnly = true;
             this.dataGridViewEvent.RowHeadersVisible = false;
             this.dataGridViewEvent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewEvent.Size = new System.Drawing.Size(343, 313);
+            this.dataGridViewEvent.Size = new System.Drawing.Size(365, 313);
             this.dataGridViewEvent.TabIndex = 16;
             this.dataGridViewEvent.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewEvent_RowEnter);
             // 
             // buttonAssignEvent
             // 
             this.buttonAssignEvent.Enabled = false;
-            this.buttonAssignEvent.Location = new System.Drawing.Point(350, 156);
+            this.buttonAssignEvent.Location = new System.Drawing.Point(373, 134);
             this.buttonAssignEvent.Name = "buttonAssignEvent";
-            this.buttonAssignEvent.Size = new System.Drawing.Size(43, 30);
+            this.buttonAssignEvent.Size = new System.Drawing.Size(49, 25);
             this.buttonAssignEvent.TabIndex = 20;
             this.buttonAssignEvent.Text = "<--";
             this.buttonAssignEvent.UseVisualStyleBackColor = true;
@@ -304,7 +304,7 @@
             // buttonAddEvent
             // 
             this.buttonAddEvent.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAddEvent.Location = new System.Drawing.Point(553, 14);
+            this.buttonAddEvent.Location = new System.Drawing.Point(735, 14);
             this.buttonAddEvent.Name = "buttonAddEvent";
             this.buttonAddEvent.Size = new System.Drawing.Size(57, 24);
             this.buttonAddEvent.TabIndex = 17;
@@ -315,9 +315,9 @@
             // buttonUnassignEvent
             // 
             this.buttonUnassignEvent.Enabled = false;
-            this.buttonUnassignEvent.Location = new System.Drawing.Point(350, 215);
+            this.buttonUnassignEvent.Location = new System.Drawing.Point(373, 165);
             this.buttonUnassignEvent.Name = "buttonUnassignEvent";
-            this.buttonUnassignEvent.Size = new System.Drawing.Size(43, 29);
+            this.buttonUnassignEvent.Size = new System.Drawing.Size(49, 26);
             this.buttonUnassignEvent.TabIndex = 18;
             this.buttonUnassignEvent.Text = "-->";
             this.buttonUnassignEvent.UseVisualStyleBackColor = true;
@@ -327,7 +327,7 @@
             // 
             this.treeViewPanelistGroup.Location = new System.Drawing.Point(3, 36);
             this.treeViewPanelistGroup.Name = "treeViewPanelistGroup";
-            this.treeViewPanelistGroup.Size = new System.Drawing.Size(245, 327);
+            this.treeViewPanelistGroup.Size = new System.Drawing.Size(191, 327);
             this.treeViewPanelistGroup.TabIndex = 7;
             this.treeViewPanelistGroup.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewPanelistGroup_NodeMouseClick);
             // 
@@ -335,7 +335,7 @@
             // 
             this.treeViewStudents.Location = new System.Drawing.Point(3, 36);
             this.treeViewStudents.Name = "treeViewStudents";
-            this.treeViewStudents.Size = new System.Drawing.Size(245, 327);
+            this.treeViewStudents.Size = new System.Drawing.Size(191, 327);
             this.treeViewStudents.TabIndex = 12;
             this.treeViewStudents.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewStudents_NodeMouseClick);
             // 
@@ -343,7 +343,7 @@
             // 
             this.treeViewPanelists.Location = new System.Drawing.Point(3, 36);
             this.treeViewPanelists.Name = "treeViewPanelists";
-            this.treeViewPanelists.Size = new System.Drawing.Size(245, 327);
+            this.treeViewPanelists.Size = new System.Drawing.Size(191, 327);
             this.treeViewPanelists.TabIndex = 13;
             this.treeViewPanelists.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewPanelists_NodeMouseClick);
             // 
@@ -351,7 +351,7 @@
             // 
             this.treeViewUngroupedPanelists.Location = new System.Drawing.Point(3, 36);
             this.treeViewUngroupedPanelists.Name = "treeViewUngroupedPanelists";
-            this.treeViewUngroupedPanelists.Size = new System.Drawing.Size(245, 327);
+            this.treeViewUngroupedPanelists.Size = new System.Drawing.Size(191, 327);
             this.treeViewUngroupedPanelists.TabIndex = 14;
             this.treeViewUngroupedPanelists.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewUngroupedPanelists_NodeMouseClick);
             // 
@@ -367,14 +367,14 @@
             "Panelists (Ungrouped)"});
             this.comboBoxSortType.Location = new System.Drawing.Point(4, 9);
             this.comboBoxSortType.Name = "comboBoxSortType";
-            this.comboBoxSortType.Size = new System.Drawing.Size(173, 21);
+            this.comboBoxSortType.Size = new System.Drawing.Size(119, 21);
             this.comboBoxSortType.TabIndex = 15;
             this.comboBoxSortType.SelectionChangeCommitted += new System.EventHandler(this.comboBoxSortType_SelectionChangeCommitted);
             // 
             // buttonDeletePanelist
             // 
             this.buttonDeletePanelist.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDeletePanelist.Location = new System.Drawing.Point(183, 9);
+            this.buttonDeletePanelist.Location = new System.Drawing.Point(129, 9);
             this.buttonDeletePanelist.Name = "buttonDeletePanelist";
             this.buttonDeletePanelist.Size = new System.Drawing.Size(65, 23);
             this.buttonDeletePanelist.TabIndex = 16;
@@ -396,7 +396,7 @@
             this.Controls.Add(this.treeViewStudents);
             this.Controls.Add(this.treeViewPanelistGroup);
             this.Name = "ScheduleEditor";
-            this.Size = new System.Drawing.Size(1000, 679);
+            this.Size = new System.Drawing.Size(1000, 656);
             this.groupBoxTimeslot.ResumeLayout(false);
             this.groupBoxTimeslot.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExistingTimeslot)).EndInit();
