@@ -864,7 +864,6 @@
             this.selPanelist3.TabIndex = 27;
             this.selPanelist3.Text = "Select Existing:";
             this.selPanelist3.UseVisualStyleBackColor = true;
-            this.selPanelist3.Click += new System.EventHandler(this.selPanelist3_Click);
             // 
             // selectPanelist3
             // 
@@ -1008,7 +1007,6 @@
             this.selPanelist2.TabIndex = 27;
             this.selPanelist2.Text = "Select Existing:";
             this.selPanelist2.UseVisualStyleBackColor = true;
-            this.selPanelist2.Click += new System.EventHandler(this.selPanelist2_Click);
             // 
             // selectPanelist2
             // 
@@ -1162,7 +1160,6 @@
             this.selPanelist1.TabIndex = 27;
             this.selPanelist1.Text = "Select Existing:";
             this.selPanelist1.UseVisualStyleBackColor = true;
-            this.selPanelist1.Click += new System.EventHandler(this.selPanelist1_Click);
             // 
             // selectPanelist1
             // 
