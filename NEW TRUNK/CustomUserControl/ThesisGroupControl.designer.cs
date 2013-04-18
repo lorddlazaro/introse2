@@ -706,6 +706,7 @@ namespace CustomUserControl
             // 
             // selectAdviser
             // 
+            this.selectAdviser.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.selectAdviser.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.selectAdviser.FormattingEnabled = true;
             this.selectAdviser.Location = new System.Drawing.Point(90, 45);
@@ -749,6 +750,7 @@ namespace CustomUserControl
             // 
             // selectPanelist4
             // 
+            this.selectPanelist4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.selectPanelist4.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.selectPanelist4.FormattingEnabled = true;
             this.selectPanelist4.Location = new System.Drawing.Point(100, 59);
@@ -896,6 +898,7 @@ namespace CustomUserControl
             // 
             // selectPanelist3
             // 
+            this.selectPanelist3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.selectPanelist3.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.selectPanelist3.FormattingEnabled = true;
             this.selectPanelist3.Location = new System.Drawing.Point(100, 59);
@@ -1043,6 +1046,7 @@ namespace CustomUserControl
             // 
             // selectPanelist2
             // 
+            this.selectPanelist2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.selectPanelist2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.selectPanelist2.FormattingEnabled = true;
             this.selectPanelist2.Location = new System.Drawing.Point(100, 59);
@@ -1200,6 +1204,7 @@ namespace CustomUserControl
             // 
             // selectPanelist1
             // 
+            this.selectPanelist1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.selectPanelist1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.selectPanelist1.FormattingEnabled = true;
             this.selectPanelist1.Location = new System.Drawing.Point(100, 59);
@@ -1440,6 +1445,7 @@ namespace CustomUserControl
             // 
             // groupStartTerm
             // 
+            this.groupStartTerm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.groupStartTerm.Enabled = false;
             this.groupStartTerm.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupStartTerm.FormattingEnabled = true;
@@ -1464,6 +1470,7 @@ namespace CustomUserControl
             // 
             // groupCourse
             // 
+            this.groupCourse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.groupCourse.Enabled = false;
             this.groupCourse.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupCourse.FormattingEnabled = true;
