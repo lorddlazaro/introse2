@@ -798,7 +798,7 @@ namespace CustomUserControl
             this.delPanelist4.Name = "delPanelist4";
             this.delPanelist4.Size = new System.Drawing.Size(80, 20);
             this.delPanelist4.TabIndex = 22;
-            this.delPanelist4.Text = "Delete";
+            this.delPanelist4.Text = "Remove";
             this.delPanelist4.UseVisualStyleBackColor = true;
             // 
             // savePanelist4
@@ -946,7 +946,7 @@ namespace CustomUserControl
             this.delPanelist3.Name = "delPanelist3";
             this.delPanelist3.Size = new System.Drawing.Size(80, 20);
             this.delPanelist3.TabIndex = 22;
-            this.delPanelist3.Text = "Delete";
+            this.delPanelist3.Text = "Remove";
             this.delPanelist3.UseVisualStyleBackColor = true;
             // 
             // savePanelist3
@@ -1094,7 +1094,7 @@ namespace CustomUserControl
             this.delPanelist2.Name = "delPanelist2";
             this.delPanelist2.Size = new System.Drawing.Size(80, 20);
             this.delPanelist2.TabIndex = 22;
-            this.delPanelist2.Text = "Delete";
+            this.delPanelist2.Text = "Remove";
             this.delPanelist2.UseVisualStyleBackColor = true;
             // 
             // savePanelist2
@@ -1252,7 +1252,7 @@ namespace CustomUserControl
             this.delPanelist1.Name = "delPanelist1";
             this.delPanelist1.Size = new System.Drawing.Size(80, 20);
             this.delPanelist1.TabIndex = 22;
-            this.delPanelist1.Text = "Delete";
+            this.delPanelist1.Text = "Remove";
             this.delPanelist1.UseVisualStyleBackColor = true;
             // 
             // savePanelist1
