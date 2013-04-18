@@ -11,7 +11,7 @@ namespace CustomUserControl
         
         private String course;
         private String section;
-        private String day;
+        public String day;
         private String panelist;
 
         //Not in the uml
@@ -31,6 +31,7 @@ namespace CustomUserControl
             this.day = day;
             this.panelist = panelistID;
         }
+
 
         public override String ToString() 
         {
