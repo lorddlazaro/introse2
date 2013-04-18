@@ -775,11 +775,18 @@ namespace CustomUserControl
                         return;
                     }
 
+                    
 
                     query = "SELECT thesisGroupID FROM panelAssignment where panelistID = '" + currPanelist + "';";
                     Console.WriteLine(currPanelist);
-                    String thesisGroupID = dbHandler.Select(query, 1)[0][0];
-                    bool shouldProceed = ClassAssignmentConflictFreeWithDefScheds(thesisGroupID, classTimePeriod);
+                    List<String> thesisGroupIDs = dbHandler.Select(query, 1)[0];
+                    String thesisGroupID;
+                    bool shouldProceed = true;
+                    if (thesisGroupIDs.Count > 0)
+                    {
+                        thesisGroupID = thesisGroupIDs[0];
+                        shouldProceed = ClassAssignmentConflictFreeWithDefScheds(thesisGroupID, classTimePeriod);
+                    }
                     if (shouldProceed)
                     {
                         if (classDayIDs[6][0] + "" != "")
