@@ -109,7 +109,7 @@
             this.labelStartPageText.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelStartPageText.Location = new System.Drawing.Point(212, 64);
             this.labelStartPageText.Name = "labelStartPageText";
-            this.labelStartPageText.Size = new System.Drawing.Size(448, 180);
+            this.labelStartPageText.Size = new System.Drawing.Size(446, 180);
             this.labelStartPageText.TabIndex = 4;
             this.labelStartPageText.Text = resources.GetString("labelStartPageText.Text");
             // 
@@ -317,7 +317,7 @@
             this.buttonGroupSelectionNext.Name = "buttonGroupSelectionNext";
             this.buttonGroupSelectionNext.Size = new System.Drawing.Size(111, 23);
             this.buttonGroupSelectionNext.TabIndex = 0;
-            this.buttonGroupSelectionNext.Text = "Next >";
+            this.buttonGroupSelectionNext.Text = "Begin Reset >";
             this.buttonGroupSelectionNext.UseVisualStyleBackColor = true;
             this.buttonGroupSelectionNext.Click += new System.EventHandler(this.buttonGroupSelectionNext_Click);
             // 
