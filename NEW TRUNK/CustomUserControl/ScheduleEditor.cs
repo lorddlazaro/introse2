@@ -728,11 +728,11 @@ namespace CustomUserControl
             TimePeriod classTimePeriod = new TimePeriod(Convert.ToDateTime(classDayIDs[4][0]), Convert.ToDateTime(classDayIDs[5][0]));
 
             Console.WriteLine("classdays count: " + classDayIDs[0].Count);
-
+            bool overwrite = false;
             for (int k = 0; k < classDayIDs[0].Count; k++)
             {
 
-                bool overwrite = false;
+                
                 String dayOfWeek = classDayIDs[3][k];
                 Console.WriteLine(dayOfWeek);
 
@@ -777,31 +777,31 @@ namespace CustomUserControl
 
 
                     query = "SELECT thesisGroupID FROM panelAssignment where panelistID = '" + currPanelist + "';";
+                    Console.WriteLine(currPanelist);
                     String thesisGroupID = dbHandler.Select(query, 1)[0][0];
                     bool shouldProceed = ClassAssignmentConflictFreeWithDefScheds(thesisGroupID, classTimePeriod);
                     if (shouldProceed)
                     {
                         if (classDayIDs[6][0] + "" != "")
                         {
+                            Console.WriteLine(overwrite);
                             if (!overwrite)
                             {
                                 DialogResult response = MessageBox.Show("This Timeslot already has a Professor. Overwrite?", "Panelist Overwrite", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
+                                overwrite = true;
                                 if (response == DialogResult.Yes)
                                 {
+                                    
                                     query = "UPDATE Timeslot SET panelistID = '" + currPanelist + "' WHERE (courseName = '" + classDayIDs[1][0] + "') AND ( section = '" + classDayIDs[2][0] + "') AND (day ='" + dayOfWeek + "');";
                                     dbHandler.Update(query);
 
                                 }
                             }
-                            else
-                            {
-                                query = "UPDATE Timeslot SET panelistID = '" + currPanelist + "' WHERE (courseName = '" + classDayIDs[1][0] + "') AND ( section = '" + classDayIDs[2][0] + "') AND (day ='" + dayOfWeek + "');";
-                                dbHandler.Update(query);
-                            }
+                           
                         }
                         else
                         {
+
                             query = "UPDATE Timeslot SET panelistID = '" + currPanelist + "' WHERE (courseName = '" + classDayIDs[1][0] + "') AND ( section = '" + classDayIDs[2][0] + "') AND (day ='" + dayOfWeek + "');";
                             dbHandler.Update(query);
 
