@@ -254,9 +254,15 @@ namespace CustomUserControl
             if (String.IsNullOrEmpty(currThesisGroupID))
             {
                 for (int i = 0; i < 3; i++)
+                {
+                    groupDetails[i].Enabled = false;
                     groupDetails[i].Text = "";
+                }
                 for (int i = 0; i < 2; i++)
+                {
+                    groupDetails2[i].Enabled = false;
                     groupDetails2[i].SelectedItem = "";
+                }
 
                 groupButtons[0].Enabled = false;
                 groupButtons[1].Enabled = true;
@@ -1033,19 +1039,6 @@ namespace CustomUserControl
         }
         private void cancelEdits_Click(object sender, EventArgs e)
         {
-            if (!groupButtons[0].Enabled)
-            {
-                UpdateComponents();
-                return;
-            }
-
-            for (int i = 0; i < 3; i++)
-                if (String.IsNullOrEmpty(groupDetails[i].Text))
-                    return;
-            for (int i = 0; i < 2; i++)
-                if (groupDetails2[i].SelectedItem == null)
-                    return;
-
             UpdateComponents();
         }
         private void deleteGroup_Click(object sender, EventArgs e)
@@ -1067,12 +1060,14 @@ namespace CustomUserControl
         private void defenseCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             String eligible = defenseCheckBox.Checked + "";
-            tgDM.UpdateEligible(currThesisGroupID, eligible, "False");
+            if (!String.IsNullOrEmpty(currThesisGroupID))
+                tgDM.UpdateEligible(currThesisGroupID, eligible, redefenseCheckBox.Checked + "");
         }
         private void redefenseCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             String eligible = redefenseCheckBox.Checked + "";
-            tgDM.UpdateEligible(currThesisGroupID, "False", eligible);
+            if (!String.IsNullOrEmpty(currThesisGroupID))
+                tgDM.UpdateEligible(currThesisGroupID, defenseCheckBox.Checked + "", eligible);
         }
 
         //TREEVIEW LISTENER

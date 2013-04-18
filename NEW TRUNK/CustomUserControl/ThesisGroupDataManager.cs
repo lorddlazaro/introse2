@@ -110,7 +110,7 @@ namespace CustomUserControl
             }
             else if (defenseType.Equals("Redefense"))
             {
-                String update = "update thesisgroup set eligibleforerdefense = 'false' where thesisgroupid = " + thesisGroupID + ";";
+                String update = "update thesisgroup set eligibleforredefense = 'false' where thesisgroupid = " + thesisGroupID + ";";
                 dbHandler.Update(update);
             }
         }
