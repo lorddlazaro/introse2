@@ -151,21 +151,21 @@ namespace introse
             // toolStripMenuItem_Reset
             // 
             this.toolStripMenuItem_Reset.Name = "toolStripMenuItem_Reset";
-            this.toolStripMenuItem_Reset.Size = new System.Drawing.Size(190, 22);
-            this.toolStripMenuItem_Reset.Text = "Reset";
+            this.toolStripMenuItem_Reset.Size = new System.Drawing.Size(225, 22);
+            this.toolStripMenuItem_Reset.Text = "Reset Wizard";
             this.toolStripMenuItem_Reset.Click += new System.EventHandler(this.toolStripMenuItem_Reset_Click);
             // 
             // toolStripMenuItem_ViewDefenseSchedules
             // 
             this.toolStripMenuItem_ViewDefenseSchedules.Name = "toolStripMenuItem_ViewDefenseSchedules";
-            this.toolStripMenuItem_ViewDefenseSchedules.Size = new System.Drawing.Size(190, 22);
-            this.toolStripMenuItem_ViewDefenseSchedules.Text = "View Defense Schedules";
+            this.toolStripMenuItem_ViewDefenseSchedules.Size = new System.Drawing.Size(225, 22);
+            this.toolStripMenuItem_ViewDefenseSchedules.Text = "Summary of Defense Schedules";
             this.toolStripMenuItem_ViewDefenseSchedules.Click += new System.EventHandler(this.toolStripMenuItem_ViewDefenseSchedules_Click);
             // 
             // toolStripMenuItem_Exit
             // 
             this.toolStripMenuItem_Exit.Name = "toolStripMenuItem_Exit";
-            this.toolStripMenuItem_Exit.Size = new System.Drawing.Size(190, 22);
+            this.toolStripMenuItem_Exit.Size = new System.Drawing.Size(225, 22);
             this.toolStripMenuItem_Exit.Text = "Exit";
             this.toolStripMenuItem_Exit.Click += new System.EventHandler(this.toolStripMenuItem_Exit_Click);
             // 
