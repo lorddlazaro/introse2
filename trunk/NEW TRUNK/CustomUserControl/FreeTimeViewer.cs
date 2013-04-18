@@ -553,25 +553,25 @@ namespace CustomUserControl
             currGroupID = newThesisGroupID;
             if (newThesisGroupID.Equals(""))
             {
-                labelGroupInfo.Text = "";
-                labelDefDuration.Text = "";
+                //labelGroupInfo.Text = "";
+                //labelDefDuration.Text = "";
                 HideGroupBox();
             }
             else
             {
                 Cursor.Current = Cursors.WaitCursor;
                 ShowGroupBox();
-                labelGroupInfo.Text = "Selected Group:    " + schedulingDM.GetGroupInfo(currGroupID) + Environment.NewLine + "Panelists:                " + schedulingDM.GetPanelists(currGroupID);
+                //labelGroupInfo.Text = "Selected Group:    " + schedulingDM.GetGroupInfo(currGroupID) + Environment.NewLine + "Panelists:                " + schedulingDM.GetPanelists(currGroupID);
                 
                 titleTextBox.Text = schedulingDM.GetGroupInfo(currGroupID).Split(':')[1];
                 courseSectionTextBox.Text = schedulingDM.GetGroupInfo(currGroupID).Split(':')[0];
                 
                
                 String course = courseSectionTextBox.Text.Split(' ')[1];
-                if (course.Equals("THSST-1"))
-                    labelDefDuration.Text = "THSST-1 Defense Duration: " + (Constants.THSST1_DEFDURATION_MINS / 60) + " hour.";
-                else if (course.Equals("THSST-3"))
-                    labelDefDuration.Text = "THSST-3 Defense Duration: " + (Constants.THSST3_DEFDURATION_MINS / 60) + " hours.";
+                //if (course.Equals("THSST-1"))
+                    //labelDefDuration.Text = "THSST-1 Defense Duration: " + (Constants.THSST1_DEFDURATION_MINS / 60) + " hour.";
+                //else if (course.Equals("THSST-3"))
+                    //labelDefDuration.Text = "THSST-3 Defense Duration: " + (Constants.THSST3_DEFDURATION_MINS / 60) + " hours.";
                
                 /*The difference between this defenseSchedule and the one in schedulingDM (currGroupDefSched)
                  * is that currGroupDefSched only refers to the defense schedule that fits within the current
