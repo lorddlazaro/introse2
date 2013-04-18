@@ -249,6 +249,8 @@ namespace CustomUserControl
         }
         private void UpdateThesisGroup()
         {
+            labelEligibleNeeds.Text = "";
+
             if (String.IsNullOrEmpty(currThesisGroupID))
             {
                 for (int i = 0; i < 3; i++)
@@ -299,6 +301,15 @@ namespace CustomUserControl
             {
                 defenseCheckBox.Enabled = true;
                 redefenseCheckBox.Enabled = true;
+            }
+            
+            if (studentCount == 0)
+            {
+                labelEligibleNeeds.Text += "No students in group.";
+            }
+            if (panelCount < 3)
+            {
+                labelEligibleNeeds.Text += "\nGroup must have at least 3 panelists.";
             }
 
             Boolean[] eligibility = tgDM.GetEligibilities(currThesisGroupID);
@@ -568,7 +579,6 @@ namespace CustomUserControl
                     if (studentsInGroups[0].ElementAt(i).Equals(newID))
                     {
                         MessageBox.Show("Duplicate Entry, Student already in another thesis group.", "Error", MessageBoxButtons.OK);
-                        UpdateStudents();
                         return;
                     }
                 }
@@ -604,8 +614,7 @@ namespace CustomUserControl
                 tgDM.InsertNewStudent(currThesisGroupID, newID, newFirstName, newMI, newLastName);
             }
 
-
-            UpdateStudents();
+            UpdateComponents();
         }
         private void deleteStudent_Click(object sender, EventArgs e)
         {
@@ -636,6 +645,8 @@ namespace CustomUserControl
             {
                 return;
             }
+
+            UpdateComponents();
         }
 
         //PANELIST LISTENERS
