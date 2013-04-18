@@ -1350,26 +1350,28 @@ namespace CustomUserControl
             // 
             // redefenseCheckBox
             // 
-            this.redefenseCheckBox.AutoSize = true;
+            this.redefenseCheckBox.BackColor = System.Drawing.Color.Silver;
             this.redefenseCheckBox.Enabled = false;
             this.redefenseCheckBox.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.redefenseCheckBox.Location = new System.Drawing.Point(353, 94);
+            this.redefenseCheckBox.Location = new System.Drawing.Point(438, 138);
             this.redefenseCheckBox.Name = "redefenseCheckBox";
-            this.redefenseCheckBox.Size = new System.Drawing.Size(146, 19);
+            this.redefenseCheckBox.Size = new System.Drawing.Size(146, 28);
             this.redefenseCheckBox.TabIndex = 44;
             this.redefenseCheckBox.Text = "Eligible For Redefense";
-            this.redefenseCheckBox.UseVisualStyleBackColor = true;
+            this.redefenseCheckBox.UseVisualStyleBackColor = false;
+            this.redefenseCheckBox.CheckedChanged += new System.EventHandler(this.redefenseCheckBox_CheckedChanged);
             // 
             // defenseCheckBox
             // 
-            this.defenseCheckBox.AutoSize = true;
+            this.defenseCheckBox.BackColor = System.Drawing.Color.Silver;
             this.defenseCheckBox.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.defenseCheckBox.Location = new System.Drawing.Point(353, 71);
+            this.defenseCheckBox.Location = new System.Drawing.Point(438, 106);
             this.defenseCheckBox.Name = "defenseCheckBox";
-            this.defenseCheckBox.Size = new System.Drawing.Size(134, 19);
+            this.defenseCheckBox.Size = new System.Drawing.Size(146, 26);
             this.defenseCheckBox.TabIndex = 43;
             this.defenseCheckBox.Text = "Eligible For Defense";
-            this.defenseCheckBox.UseVisualStyleBackColor = true;
+            this.defenseCheckBox.UseVisualStyleBackColor = false;
+            this.defenseCheckBox.CheckedChanged += new System.EventHandler(this.defenseCheckBox_CheckedChanged);
             // 
             // deleteGroup
             // 

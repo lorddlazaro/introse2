@@ -263,7 +263,9 @@ namespace CustomUserControl
                 groupButtons[4].Enabled = false;
 
                 defenseCheckBox.Enabled = false;
+                defenseCheckBox.Checked = false;
                 redefenseCheckBox.Enabled = false;
+                redefenseCheckBox.Checked = false;
                 return;
             }
 
@@ -293,6 +295,12 @@ namespace CustomUserControl
             int studentCount = tgDM.StudentCount(currThesisGroupID);
             int panelCount = tgDM.PanelistCount(currThesisGroupID);
 
+            if (studentCount > 0 && panelCount >= 3)
+            {
+                defenseCheckBox.Enabled = true;
+                redefenseCheckBox.Enabled = true;
+            }
+
             Boolean[] eligibility = tgDM.GetEligibilities(currThesisGroupID);
 
             Boolean eligible = eligibility[0] && (studentCount >= 1 && panelCount >= 3);
@@ -307,7 +315,7 @@ namespace CustomUserControl
                 defenseCheckBox.Checked = false;
                 if (eligibility[0])
                 {
-                    tgDM.UpdateEligible(currThesisGroupID, "Defense");
+                    tgDM.FalseEligible(currThesisGroupID, "Defense");
                 }
             }
 
@@ -320,7 +328,7 @@ namespace CustomUserControl
                 redefenseCheckBox.Checked = false;
                 if (eligibility[1])
                 {
-                    tgDM.UpdateEligible(currThesisGroupID, "Redefense");
+                    tgDM.FalseEligible(currThesisGroupID, "Redefense");
                 }
             }
 
@@ -624,12 +632,10 @@ namespace CustomUserControl
                 tgDM.DeleteStudent(studentDetails[studentIndex].ElementAt(0).Text);
                 tgDM.DeleteDefenseSchedule(currThesisGroupID);
             }
-
-            UpdateComponents();
-        }
-        private void changeStudentSort(object sender, EventArgs e)
-        {
-            UpdateComponents();
+            else
+            {
+                return;
+            }
         }
 
         //PANELIST LISTENERS
@@ -807,6 +813,10 @@ namespace CustomUserControl
                 tgDM.RemoveAssignedPanelistFromGroup(currThesisGroupID, panelistID);
                 tgDM.DeleteDefenseSchedule(currThesisGroupID);
             }
+            else
+            {
+                return;
+            }
 
             UpdateComponents();
         }
@@ -976,9 +986,6 @@ namespace CustomUserControl
             String newSY = groupDetails[2].Text;
             String newCourse = (String)groupDetails2[0].SelectedItem;
             String newTerm = (String)groupDetails2[1].SelectedItem;
-            String eligibility = defenseCheckBox.Checked + "";
-            String eligibility_redef = redefenseCheckBox.Checked + "";
-
             if (!Regex.IsMatch(newSY, "\\d{4}-\\d{4}$"))
             {
                 MessageBox.Show("Invalid school year format, format is <year>-<year+1>.", "Error", MessageBoxButtons.OK);
@@ -997,7 +1004,7 @@ namespace CustomUserControl
 
                 if (!duplicate)
                 {
-                    tgDM.UpdateGroupDetails(currThesisGroupID, newTitle, newSection, newSY, newCourse, newTerm, eligibility, eligibility_redef);
+                    tgDM.UpdateGroupDetails(currThesisGroupID, newTitle, newSection, newSY, newCourse, newTerm);
                 }
                 else
                 {
@@ -1006,7 +1013,7 @@ namespace CustomUserControl
             }
             else
             {
-                tgDM.InsertNewGroup(newTitle, newCourse, newSection, newSY, newTerm, eligibility, eligibility_redef);
+                tgDM.InsertNewGroup(newTitle, newCourse, newSection, newSY, newTerm);
                 currThesisGroupID = tgDM.GetGroupIDFromTitle(newTitle);
             }
 
@@ -1045,6 +1052,16 @@ namespace CustomUserControl
                 UpdateComponents();
                 UpdateTreeview();
             }
+        }
+        private void defenseCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            String eligible = defenseCheckBox.Checked + "";
+            tgDM.UpdateEligible(currThesisGroupID, eligible, "False");
+        }
+        private void redefenseCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            String eligible = redefenseCheckBox.Checked + "";
+            tgDM.UpdateEligible(currThesisGroupID, "False", eligible);
         }
 
         //TREEVIEW LISTENER

@@ -37,15 +37,15 @@ namespace CustomUserControl
             return count > 0;
         }
 
-        public void UpdateGroupDetails(String thesisGroupID, String title, String section, String startSY, String course, String startTerm, String eligiblefordefense, String eligibleforredef)
+        public void UpdateGroupDetails(String thesisGroupID, String title, String section, String startSY, String course, String startTerm)
         {
-            String query = "update thesisgroup set title = '" + title + "', course = '" + course + "', section = '" + section + "', startSY = '" + startSY + "', startTerm = '" + startTerm + "', eligiblefordefense = '" + eligiblefordefense + "', eligibleforredefense = '" + eligibleforredef + "' ";
+            String query = "update thesisgroup set title = '" + title + "', course = '" + course + "', section = '" + section + "', startSY = '" + startSY + "', startTerm = '" + startTerm + "', eligiblefordefense = '" + false + "', eligibleforredefense = '" + false + "' ";
             query += "where thesisgroupid = " + thesisGroupID + ";";
             dbHandler.Update(query);
         }
-        public void InsertNewGroup(String title, String course, String section, String startSY, String startTerm, String eligiblefordefense, String eligibleforredef)
+        public void InsertNewGroup(String title, String course, String section, String startSY, String startTerm)
         {
-            String insert = "('" + title + "', '" + course + "', '" + section + "', '" + startSY + "', '" + startTerm + "', '" + eligiblefordefense + "', '" + eligibleforredef + "')";
+            String insert = "('" + title + "', '" + course + "', '" + section + "', '" + startSY + "', '" + startTerm + "', '" + false + "', '" + false + "')";
             String query = "insert into thesisgroup (title, course, section, startsy, startterm, eligiblefordefense, eligibleforredefense) values" + insert + ";";
             dbHandler.Insert(query);
         }
@@ -101,7 +101,7 @@ namespace CustomUserControl
             return eligible;
         }
         // updates eligiblefordefense/redefense given a defenseType, either "Defense" or "Redefense"
-        public void UpdateEligible(String thesisGroupID, String defenseType)
+        public void FalseEligible(String thesisGroupID, String defenseType)
         {
             if (defenseType.Equals("Defense"))
             {
@@ -113,6 +113,11 @@ namespace CustomUserControl
                 String update = "update thesisgroup set eligibleforerdefense = 'false' where thesisgroupid = " + thesisGroupID + ";";
                 dbHandler.Update(update);
             }
+        }
+        public void UpdateEligible(String thesisGroupID, String eligiblefordefense, String eligibleforredefense) 
+        {
+            String query = "update thesisgroup set eligiblefordefense = '" + eligiblefordefense + "', eligibleforredefense = '" + eligibleforredefense + "' where thesisgroupid = " + thesisGroupID + ";";
+            dbHandler.Update(query);
         }
 
         public List<String>[] GetGroupPanelists(String thesisGroupID)
