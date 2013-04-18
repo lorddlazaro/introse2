@@ -528,7 +528,7 @@ namespace CustomUserControl
             if (String.IsNullOrEmpty(newMI))
             {
             }
-            else if (newMI[0] > 'a' && newMI[0] < 'z')
+            else if (newMI[0] >= 'a' && newMI[0] <= 'z')
             {
                 newMI = newMI.ToUpper();
             }
@@ -684,7 +684,7 @@ namespace CustomUserControl
 
             if (newMI.Length == 1)
             {
-                if (newMI[0] > 'a' && newMI[0] < 'z')
+                if (newMI[0] >= 'a' && newMI[0] <= 'z')
                 {
                     newMI = newMI.ToUpper();
                 }
