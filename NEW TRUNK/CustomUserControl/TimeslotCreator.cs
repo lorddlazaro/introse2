@@ -295,7 +295,7 @@ namespace CustomUserControl
                 }
 
                 //
-                if (rows >= 0)  // if there are students who have this schedule being edited
+                if (rows > 0)  // if there are students who have this schedule being edited
                 {
 
                     query = "SELECT distinct thesisgroup.thesisGroupID, title FROM student INNER JOIN thesisGroup ON student.thesisGroupID = thesisGroup.thesisGroupID WHERE ";
@@ -414,25 +414,7 @@ namespace CustomUserControl
 
                         }
 
-                        // START: Check for conflict for panelist being assigned
-                        TimePeriod panelistClassTimePeriod = new TimePeriod(dateTimePickerWeeklyTimeslotStartTime.Value, dateTimePickerWeeklyTimeslotEndTime.Value);
-
-                        if (!schedulingDM.IsNewClassTimePeriodConflictFreePanelist(panelTable[0][comboBoxPanelist.SelectedIndex], panelistClassTimePeriod, day))
-                        {
-                            MessageBox.Show("The class schedule conflicts with another class of the panelist.", "Conflict with Other Schedules", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            return;
-                        }
-                        query = "SELECT thesisGroupID FROM panelAssignment where panelistID = '" + panelTable[0][comboBoxPanelist.SelectedIndex] + "';";
-                        String panelistThesisGroupID = dbHandler.Select(query, 1)[0][0];
-                        bool shouldProceed = subParent.ClassAssignmentConflictFreeWithDefScheds(panelistThesisGroupID, panelistClassTimePeriod);
-                        if (!shouldProceed)
-                        {
-                            DialogResult result = MessageBox.Show("Class conflicts with a defense of the assigned panelist.", "Conflict with Defense", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                        }
                         
-                        // END: Check for conflict for panelist being assigned
-
                         query = "SELECT timeslotID FROM Timeslot WHERE courseName = '" + textBoxWeeklyTimeslotCourse.Text + "' AND section ='" + textBoxWeeklyTimeslotSection.Text + "' AND day ='" + day + "'";
 
                         List<String> duplicate = dbHandler.Select(query, 1)[0];
@@ -483,6 +465,27 @@ namespace CustomUserControl
                         }
                         else
                         {
+
+                            // START: Check for conflict for panelist being assigned
+                            TimePeriod panelistClassTimePeriod = new TimePeriod(dateTimePickerWeeklyTimeslotStartTime.Value, dateTimePickerWeeklyTimeslotEndTime.Value);
+
+                            if (!schedulingDM.IsNewClassTimePeriodConflictFreePanelist(panelistID, panelistClassTimePeriod, day))
+                            {
+                                MessageBox.Show("The class schedule conflicts with another class of the panelist.", "Conflict with Other Schedules", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                return;
+                            }
+                            query = "SELECT thesisGroupID FROM panelAssignment where panelistID = '" + panelTable[0][comboBoxPanelist.SelectedIndex] + "';";
+                            String panelistThesisGroupID = dbHandler.Select(query, 1)[0][0];
+                            bool shouldProceed = subParent.ClassAssignmentConflictFreeWithDefScheds(panelistThesisGroupID, panelistClassTimePeriod);
+                            if (!shouldProceed)
+                            {
+                                DialogResult result = MessageBox.Show("Class conflicts with a defense of the assigned panelist.", "Conflict with Defense", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+
+                            // END: Check for conflict for panelist being assigned
+
+                            
                             panelistID = panelTable[0][comboBoxPanelist.SelectedIndex];
                             //query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES('" + textBoxWeeklyTimeslotCourse.Text + "', '" + textBoxWeeklyTimeslotSection.Text + "', '" + day + "',CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString() + "', 102), CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString() + "', 102), N'" + panelistID + "')";
                             query = "INSERT INTO Timeslot(courseName, section, day,startTime,endTime,panelistID) VALUES('" + textBoxWeeklyTimeslotCourse.Text + "', '" + textBoxWeeklyTimeslotSection.Text + "', '" + day + "',CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotStartTime.Value.ToString() + "', 102), CONVERT(DATETIME, '" + dateTimePickerWeeklyTimeslotEndTime.Value.ToString() + "', 102), N'" + panelistID + "')";
