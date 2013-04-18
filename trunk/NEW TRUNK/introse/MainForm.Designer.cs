@@ -86,9 +86,9 @@ namespace introse
             // freeTimeViewerControl
             // 
             this.freeTimeViewerControl.BackColor = System.Drawing.SystemColors.Window;
-            this.freeTimeViewerControl.Location = new System.Drawing.Point(21, 16);
+            this.freeTimeViewerControl.Location = new System.Drawing.Point(8, 9);
             this.freeTimeViewerControl.Name = "freeTimeViewerControl";
-            this.freeTimeViewerControl.Size = new System.Drawing.Size(970, 637);
+            this.freeTimeViewerControl.Size = new System.Drawing.Size(982, 637);
             this.freeTimeViewerControl.TabIndex = 0;
             // 
             // tabPageClassSchedulesAndEvents
