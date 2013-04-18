@@ -814,7 +814,7 @@ namespace CustomUserControl
             {
                 panelists += columns[0][i] + ", " + columns[1][i];
                 if (i != columns[0].Count - 1)
-                    panelists += "     ";
+                    panelists += ":";
             }
 
             return panelists;
