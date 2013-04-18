@@ -680,8 +680,10 @@ namespace CustomUserControl
         private System.Windows.Forms.Label labelDate4;
         private System.Windows.Forms.Label labelDate5;
         private System.Windows.Forms.Label labelDate6;
+        private System.Windows.Forms.Label labelStartDate;
         private System.Windows.Forms.TreeView treeViewIsolatedGroups;
         private System.Windows.Forms.GroupBox groupBoxDefenseInfo;
+        private System.Windows.Forms.DateTimePicker datePicker;
         private System.Windows.Forms.DateTimePicker defenseDateTimePicker;
         private System.Windows.Forms.TextBox venueTextBox;
         private System.Windows.Forms.TextBox courseSectionTextBox;
@@ -693,14 +695,12 @@ namespace CustomUserControl
         private System.Windows.Forms.Button deleteDefenseButton;
         private System.Windows.Forms.Button saveDefenseButton;
         private System.Windows.Forms.Button addDefenseButton;
-        private Label labelNoEligibleGroups;
-        private GroupBox groupBoxTopRight;
-        private DateTimePicker datePicker;
-        private Label labelStartDate;
-        private ComboBox comboBoxDefenseType;
-        private Label labelDefenseType;
-        private Label labelPanelists;
-        private TextBox textBoxPanelists;
-        private Label labelDuration;
+        private System.Windows.Forms.Label labelNoEligibleGroups;
+        private System.Windows.Forms.GroupBox groupBoxTopRight;
+        private System.Windows.Forms.ComboBox comboBoxDefenseType;
+        private System.Windows.Forms.Label labelDefenseType;
+        private System.Windows.Forms.Label labelPanelists;
+        private System.Windows.Forms.TextBox textBoxPanelists;
+        private System.Windows.Forms.Label labelDuration;
     }
 }
