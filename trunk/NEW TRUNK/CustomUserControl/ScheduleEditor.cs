@@ -717,94 +717,110 @@ namespace CustomUserControl
                 return;
             }
 
+
             int rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index;
-            TimePeriod classTimePeriod = new TimePeriod(Convert.ToDateTime(existingTimeslots[4][rowIndex]), Convert.ToDateTime(existingTimeslots[5][rowIndex]));
-            String dayOfWeek = existingTimeslots[3][rowIndex];
+            String query = "SELECT timeslotID, courseName, section,day,startTime,endTime,panelistID FROM Timeslot WHERE courseName = '" + dataGridViewExistingTimeslot[1, rowIndex].Value + "' AND section = '" + dataGridViewExistingTimeslot[2, rowIndex].Value + "'";
 
 
-            //CONFLICT WITH SAME COURSES
-            for(int i=0;i<timeSlotTable[0].Count;i++)
+
+            List<String>[] classDayIDs = dbHandler.Select(query, 7);
+
+            TimePeriod classTimePeriod = new TimePeriod(Convert.ToDateTime(classDayIDs[4][0]), Convert.ToDateTime(classDayIDs[5][0]));
+
+            Console.WriteLine("classdays count: " + classDayIDs[0].Count);
+
+            for (int k = 0; k < classDayIDs[0].Count; k++)
             {
-                if(existingTimeslots[1][rowIndex].Equals(timeSlotTable[1][i]))
+
+                bool overwrite = false;
+                String dayOfWeek = classDayIDs[3][k];
+                Console.WriteLine(dayOfWeek);
+
+                Console.WriteLine("selected count: " + dataGridViewExistingTimeslot.SelectedRows.Count);
+
+                if (IsTreeViewSetToStudents())
                 {
-                    MessageBox.Show("The course is already in the schedule", "Duplicate Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
+                    int slot = Convert.ToInt32(classDayIDs[0][k]);
 
-
-
-            //CONFLICT WITH SAME COURSES
-            
-            
-            if (IsTreeViewSetToStudents())
-            {
-                String query;
-                int slot = Convert.ToInt32(dataGridViewExistingTimeslot["Id", rowIndex].Value.ToString());
-
-                //START: Check for conflicts with other classes
-                if (!schedulingDM.IsNewClassTimePeriodConflictFreeStudent(currStudent, classTimePeriod, dayOfWeek))
-                {
-                    MessageBox.Show("The new class schedule conflicts with another.", "Conflict with Other Schedules", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    return;
-                }
-
-                //START: Defense Schedule Validation
-
-                query = "SELECT thesisGroupID FROM student where studentID = '" + currStudent + "';";
-                String thesisGroupID = dbHandler.Select(query, 1)[0][0];
-                bool shouldProceed = ClassAssignmentConflictFreeWithDefScheds(thesisGroupID, classTimePeriod);
-
-                // END: Defense Schedule Validation
-                if (shouldProceed)
-                {
-                    query = "INSERT INTO StudentSchedule(studentID, timeslotID)VALUES ('" + currStudent + "', " + Convert.ToInt32(slot) + ")";
-                    dbHandler.Insert(query);
-                    RefreshStudentClassScheds();
-                }
-            }
-            else
-            {
-                //START: Check for conflicts with other classes
-                if (!schedulingDM.IsNewClassTimePeriodConflictFreePanelist(currPanelist, classTimePeriod, dayOfWeek))
-                {
-                    MessageBox.Show("The new class schedule conflicts with another.", "Conflict with Other Schedules", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    return;
-                }
-
-                String query;
-
-                query = "SELECT thesisGroupID FROM panelAssignment where panelistID = '" + currPanelist + "';";
-                String thesisGroupID = dbHandler.Select(query, 1)[0][0];
-                bool shouldProceed = ClassAssignmentConflictFreeWithDefScheds(thesisGroupID, classTimePeriod);
-                if (shouldProceed)
-                {
-                    if (existingTimeslots[6][rowIndex] != "")
+                    //START: Check for conflicts with other classes
+                    if (!schedulingDM.IsNewClassTimePeriodConflictFreeStudent(currStudent, classTimePeriod, dayOfWeek))
                     {
-                        DialogResult response = MessageBox.Show("This Timeslot already has a Professor. Overwrite?", "Panelist Overwrite", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        MessageBox.Show("The new class schedule conflicts with another.", "Conflict with Other Schedules", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        return;
+                    }
 
-                        if (response == DialogResult.Yes)
+                    //START: Defense Schedule Validation
+
+                    query = "SELECT thesisGroupID FROM student where studentID = '" + currStudent + "';";
+                    String thesisGroupID = dbHandler.Select(query, 1)[0][0];
+
+                    Console.WriteLine("selected count: " + dataGridViewExistingTimeslot.SelectedRows.Count);
+
+                    bool shouldProceed = ClassAssignmentConflictFreeWithDefScheds(thesisGroupID, classTimePeriod);
+
+                    // END: Defense Schedule Validation
+                    if (shouldProceed)
+                    {
+                        query = "INSERT INTO StudentSchedule(studentID, timeslotID)VALUES ('" + currStudent + "', " + Convert.ToInt32(slot) + ")";
+                        dbHandler.Insert(query);
+
+                    }
+                }
+                else
+                {
+                    //START: Check for conflicts with other classes
+                    if (!schedulingDM.IsNewClassTimePeriodConflictFreePanelist(currPanelist, classTimePeriod, dayOfWeek))
+                    {
+                        MessageBox.Show("The new class schedule conflicts with another.", "Conflict with Other Schedules", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        return;
+                    }
+
+
+                    query = "SELECT thesisGroupID FROM panelAssignment where panelistID = '" + currPanelist + "';";
+                    String thesisGroupID = dbHandler.Select(query, 1)[0][0];
+                    bool shouldProceed = ClassAssignmentConflictFreeWithDefScheds(thesisGroupID, classTimePeriod);
+                    if (shouldProceed)
+                    {
+                        if (classDayIDs[6][0] + "" != "")
                         {
-                            query = "UPDATE Timeslot SET panelistID = '" + currPanelist + "' WHERE (courseName = '" + existingTimeslots[1][rowIndex] + "') AND ( section = '" + existingTimeslots[2][rowIndex] + "') AND (day ='" + existingTimeslots[3][rowIndex] + "');";
+                            if (!overwrite)
+                            {
+                                DialogResult response = MessageBox.Show("This Timeslot already has a Professor. Overwrite?", "Panelist Overwrite", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                                if (response == DialogResult.Yes)
+                                {
+                                    query = "UPDATE Timeslot SET panelistID = '" + currPanelist + "' WHERE (courseName = '" + classDayIDs[1][0] + "') AND ( section = '" + classDayIDs[2][0] + "') AND (day ='" + dayOfWeek + "');";
+                                    dbHandler.Update(query);
+
+                                }
+                            }
+                            else
+                            {
+                                query = "UPDATE Timeslot SET panelistID = '" + currPanelist + "' WHERE (courseName = '" + classDayIDs[1][0] + "') AND ( section = '" + classDayIDs[2][0] + "') AND (day ='" + dayOfWeek + "');";
+                                dbHandler.Update(query);
+                            }
+                        }
+                        else
+                        {
+                            query = "UPDATE Timeslot SET panelistID = '" + currPanelist + "' WHERE (courseName = '" + classDayIDs[1][0] + "') AND ( section = '" + classDayIDs[2][0] + "') AND (day ='" + dayOfWeek + "');";
                             dbHandler.Update(query);
-                            RefreshPanelistClassScheds();
+
                         }
                     }
                     else
                     {
-                        query = "UPDATE Timeslot SET panelistID = '" + currPanelist + "' WHERE (courseName = '" + existingTimeslots[1][rowIndex] + "') AND ( section = '" + existingTimeslots[2][rowIndex] + "') AND (day ='" + existingTimeslots[3][rowIndex] + "');";
-                        dbHandler.Update(query);
-                        RefreshPanelistClassScheds();
+                        DialogResult result = MessageBox.Show("Class conflicts with a defense of the panelist.", "Conflict with Defense", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
+                    //? ADD error message here
+
                 }
-                else 
-                {
-                    DialogResult result = MessageBox.Show("Class conflicts with a defense of the panelist.", "Conflict with Defense", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                //? ADD error message here
 
             }
+            if (IsTreeViewSetToStudents())
+                RefreshStudentClassScheds();
+            else
+                RefreshPanelistClassScheds();
             UpdateAvailableTimeslot();
             //RefreshTreeView();
         }
@@ -817,24 +833,39 @@ namespace CustomUserControl
             }
             //NO VALIDATION NEEDED
 
+            
+            int selectedRowIndex = dataGridViewWeeklyTimeslot.SelectedRows[0].Index;
 
 
-            String selectedRowIndex = dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString();
+            String query = "SELECT timeslotID, courseName, section,day,startTime,endTime,panelistID FROM Timeslot WHERE courseName = '" + dataGridViewWeeklyTimeslot[1, selectedRowIndex].Value + "' AND section = '" + dataGridViewWeeklyTimeslot[2, selectedRowIndex].Value + "'";
+            List<String>[] classDayIDs = dbHandler.Select(query, 7);
 
-            String currTimeslot = timeSlotTable[0][dataGridViewWeeklyTimeslot.SelectedRows[0].Index];
+
+            for (int k = 0; k < classDayIDs[0].Count; k++)
+            {
+                int currTimeslot = Convert.ToInt32(classDayIDs[0][k]);
+                Console.WriteLine(currTimeslot);
+                if (IsTreeViewSetToStudents())
+                {
+                    query = "DELETE FROM StudentSchedule WHERE studentID = '" + currStudent + "' AND timeslotID = " + currTimeslot + ";";
+                    Console.WriteLine(query);
+                    dbHandler.Delete(query);
+                }
+                else
+                {
+                    query = "UPDATE Timeslot SET panelistID = NULL WHERE timeslotID = " + currTimeslot + ";";
+                    Console.WriteLine(query);
+                    dbHandler.Update(query);
+                }
+
+
+            }
+
+
             if (IsTreeViewSetToStudents())
-            {
-                String query = "DELETE FROM StudentSchedule WHERE studentID = " + currStudent + " AND timeslotID = " + currTimeslot + ";";
-                dbHandler.Delete(query);
                 RefreshStudentClassScheds();
-            }
             else
-            {
-                String query = "UPDATE Timeslot SET panelistID = NULL WHERE timeslotID = " + currTimeslot + ";";
-                dbHandler.Update(query);
                 RefreshPanelistClassScheds();
-            }
-
             UpdateAvailableTimeslot();
             //RefreshTreeView();
             if (dataGridViewWeeklyTimeslot.Rows.Count > 0 && (dataGridViewWeeklyTimeslot.DataSource == null || dataGridViewWeeklyTimeslot.SelectedRows.Count == 0))
