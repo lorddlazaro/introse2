@@ -103,7 +103,6 @@ namespace CustomUserControl
             treeViewClusters.Nodes.Clear();
             schedulingDM.AddPanelistsToTree(treeViewClusters.Nodes, "eligibleFor" + currDefenseType);
             treeViewClusters.EndUpdate();
-            treeViewClusters.ExpandAll();
             treeViewClusters.Focus();
 
             treeViewIsolatedGroups.BeginUpdate();

@@ -535,9 +535,8 @@ namespace CustomUserControl
          * */
         public void AddPanelistsToTree(TreeNodeCollection tree, String eligibilityColumnName)
         {
-            String query = "select panelistID from panelassignment group by panelistID having count(*) > 1;";
-            List<String>[] parentList = dbHandler.Select(query, 1);
-            List<String>[] parentInfo;
+            String query = "select distinct p.panelistID, lastName+', '+firstName+' '+MI+'.' FROM panelassignment pa, panelist p WHERE pa.panelistID = p.panelistID ORDER by lastName+', '+firstName+' '+MI+'.';";
+            List<String>[] parentList = dbHandler.Select(query, 2);
             List<String>[] childList;
             TreeNode parent;
             TreeNode[] child;
@@ -545,10 +544,6 @@ namespace CustomUserControl
 
             for (int i = 0; i < parentList[0].Count(); i++)
             {
-                query = "Select firstName, MI, lastName from panelist where panelistid = " + parentList[0].ElementAt(i) + ";";
-                parentInfo = dbHandler.Select(query, 3);
-
-                //query = "Select t.thesisgroupID,t.title from thesisgroup t, panelassignment p where t.thesisgroupid = p.thesisgroupid and p.panelistID =" + parentList[0].ElementAt(i) + ";";
                 query = "Select thesisgroupID, title from thesisgroup where " + eligibilityColumnName + " = 'True' AND thesisgroupid in( select thesisgroupid from panelassignment where panelistID =" + parentList[0].ElementAt(i) + ") ORDER BY title;";
                 childList = dbHandler.Select(query, 2);
 
@@ -557,24 +552,14 @@ namespace CustomUserControl
                 children = parent.Nodes;
 
                 parent.Name = parentList[0].ElementAt(i);
-                parent.Text = parentInfo[0].ElementAt(0) + " " + parentInfo[1].ElementAt(0) + " " + parentInfo[2].ElementAt(0);
+                parent.Text = parentList[1].ElementAt(i);
 
                 for (int j = 0; j < childList[0].Count(); j++)
                 {
-                    // check whether thesis group has >= 1 student and 3 panelists
-                    String subq1 = "select count(*) from panelassignment where thesisgroupid = " + childList[0].ElementAt(j) + ";";
-                    String subq2 = "select count(*) from student where thesisgroupid = " + childList[0].ElementAt(j) + ";";
-
-                    int panelCount = Convert.ToInt32(dbHandler.Select(subq1, 1)[0].ElementAt(0));
-                    int memberCount = Convert.ToInt32(dbHandler.Select(subq2, 1)[0].ElementAt(0));
-
-                    if (panelCount == 3 && memberCount >= 1)
-                    {
-                        child[j] = new TreeNode();
-                        child[j].Name = childList[0].ElementAt(j);
-                        child[j].Text = childList[1].ElementAt(j);
-                        children.Add(child[j]);
-                    }
+                    child[j] = new TreeNode();
+                    child[j].Name = childList[0].ElementAt(j);
+                    child[j].Text = childList[1].ElementAt(j);
+                    children.Add(child[j]);
                 }
 
                 // check whether there are children
