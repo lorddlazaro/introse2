@@ -22,7 +22,7 @@ namespace CustomUserControl
         }
 
         // Refreshers
-        private void RefreshDataGridView(DateTime start, DateTime end)
+        private void RefreshDataGridView()
         {
             String query;
             List<String>[] list;
@@ -33,26 +33,34 @@ namespace CustomUserControl
             dataGridViewDefSchedInfo.Rows.Clear();
             rowIndex = 0;
 
-            String orderpart ="";
-            if (checkBoxIncludeTHSST1.Checked && checkBoxIncludeTHSST3.Checked)
-                orderpart += " order by t.course, t.section, d.defensedatetime;";
-            else if (checkBoxIncludeTHSST1.Checked)
-                orderpart += " and t.course = 'THSST-1' order by t.course, t.section, d.defensedatetime;";
-            else if (checkBoxIncludeTHSST3.Checked)
-                orderpart += " and t.course = 'THSST-3' order by t.course, t.section, d.defensedatetime;";
+            // Building the query string
+            query = "select t.thesisgroupid, t.course, t.title, d.defensedatetime, d.place, d.defensetype from defenseschedule d, thesisgroup t where d.thesisgroupid = t.thesisgroupid";
+            
+            if (checkBoxTHSST1.Checked && checkBoxTHSST3.Checked);
+            else if (checkBoxTHSST1.Checked)
+                query += " and t.course = 'THSST-1'";
+            else if (checkBoxTHSST3.Checked)
+                query += " and t.course = 'THSST-3'";
             else
             {
-                MessageBox.Show("No Course Included", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                labelNoSchedulesFound.Visible = true;
+                labelNotice.Text = "No Course Included";
+                return;
+            }
+            if (checkBoxDefense.Checked && checkBoxRedefense.Checked);
+            else if (checkBoxDefense.Checked)
+                query += " and d.defensetype = 'Defense'";
+            else if (checkBoxRedefense.Checked)
+                query += " and d.defensetype = 'Redefense'";
+            else
+            {
+                labelNotice.Text = "No Defense Type Included";
                 return;
             }
 
-            for (DateTime i = start; i.CompareTo(end) != 1; i = i.AddDays(1))
-            {
-                query = "select t.thesisgroupid, t.course, t.title, d.defensedatetime, d.place from defenseschedule d, thesisgroup t where d.thesisgroupid = t.thesisgroupid";
-                query += " and datepart(yyyy,d.defensedatetime) =" + i.Year + " and datepart(mm,d.defensedatetime) =" + i.Month + " and datepart(dd,d.defensedatetime) =" + i.Day + orderpart;
+            query += " order by t.course, t.section, d.defensedatetime;";
+
                 
-                list = dbHandler.Select(query, 5);
+                list = dbHandler.Select(query, 6);
 
                 for (int j = 0; j < list[0].Count(); j++, rowIndex++)
                 {
@@ -60,15 +68,7 @@ namespace CustomUserControl
                     dataGridViewDefSchedInfo.Rows[rowIndex].Cells[0].Value = list[1].ElementAt(j);
                     dataGridViewDefSchedInfo.Rows[rowIndex].Cells[1].Value = list[2].ElementAt(j);
 
-                    String dateTimeString = String.Format("{0:M/d/yyyy H:mm}", list[3].ElementAt(j));
-
-                    int month = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[0]);
-                    int day = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[1]);
-                    int year = Convert.ToInt16(dateTimeString.Split(' ')[0].Split('/')[2]);
-                    int hour = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[0]);
-                    int minute = Convert.ToInt16(dateTimeString.Split(' ')[1].Split(':')[1]);
-
-                    DateTime dateTime = new DateTime(year, month, day, hour, minute, 0);
+                    DateTime dateTime = Convert.ToDateTime(list[3].ElementAt(j));
 
                     dataGridViewDefSchedInfo.Rows[rowIndex].Cells[2].Value = String.Format("{0:M/d/yyyy}", dateTime);
 
@@ -98,45 +98,25 @@ namespace CustomUserControl
                     }
 
                     dataGridViewDefSchedInfo.Rows[rowIndex].Cells[6].Value = panelistCellText;
-                }
+                    dataGridViewDefSchedInfo.Rows[rowIndex].Cells[7].Value = list[5].ElementAt(j);
             }
 
             if (dataGridViewDefSchedInfo.Rows.Count == 0)
             {
-                labelNoSchedulesFound.Visible = true;
+                labelNotice.Text = "No Defense Schedules found";
                 buttonSave.Enabled = false;
             }
             else
             {
-                labelNoSchedulesFound.Visible = false;
+                labelNotice.Text = "";
                 buttonSave.Enabled = true;
             }
         }
         
         // Event Listeners
-        private void DefenseSchedulesViewer_Load(object sender, EventArgs e)
-        {
-            dateTimePickerStartDate.Value = DateTime.Now;
-            buttonSave.Enabled = false;
-        }
-        private void buttonRefresh_Click(object sender, EventArgs e)
-        {
-            Cursor.Current = Cursors.WaitCursor;
-            RefreshDataGridView(dateTimePickerStartDate.Value, dateTimePickerEndDate.Value);
-            Cursor.Current = Cursors.Arrow;
-        }
         private void buttonSave_Click(object sender, EventArgs e)
         {
             saveFileDialog.ShowDialog();
-        }
-        private void dateTimePickerStartDate_ValueChanged(object sender, EventArgs e)
-        {
-            dateTimePickerEndDate.Value = dateTimePickerStartDate.Value.AddDays(6);
-        }
-        private void dateTimePickerEndDate_ValueChanged(object sender, EventArgs e)
-        {
-            if (dateTimePickerEndDate.Value.CompareTo(dateTimePickerStartDate.Value) < 0)
-                dateTimePickerEndDate.Value = dateTimePickerStartDate.Value;
         }
         private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
@@ -217,16 +197,15 @@ namespace CustomUserControl
                         lineToWrite += "\t";
                 }
                 if (isCSVfile)
-                    lineToWrite += "Title,Date,Time,Venue,Advisor";
+                    lineToWrite += "Title,Date,Time,Venue";
                 else
-                    lineToWrite += "Title\tDate\tTime\tVenue\tAdvisor";
+                    lineToWrite += "Title\tDate\tTime\tVenue";
                 if (savePanelColumn)
                 {
                     if (isCSVfile)
-                        lineToWrite += ",";
+                        lineToWrite += ",Advisor,Panelist 1,Panelist 2,Panelist 3,Panelist 4";
                     else
-                        lineToWrite += "\t";
-                    lineToWrite += "Panelists";
+                        lineToWrite += ",Advisor\tPanelist 1\tPanelist 2\tPanelist 3,\tPanelist 4";
                 }
 
                 sw.WriteLine(lineToWrite);
@@ -266,9 +245,9 @@ namespace CustomUserControl
                     if (savePanelColumn)
                     {
                         if(isCSVfile)
-                            lineToWrite += dataGridViewDefSchedInfo.Rows[i].Cells[5].Value + ",";
+                            lineToWrite += "\""+dataGridViewDefSchedInfo.Rows[i].Cells[5].Value + "\",";
                         else
-                            lineToWrite += dataGridViewDefSchedInfo.Rows[i].Cells[5].Value + "\t";
+                            lineToWrite += "\""+dataGridViewDefSchedInfo.Rows[i].Cells[5].Value + "\"\t";
                         
                         String[] panels = dataGridViewDefSchedInfo.Rows[i].Cells[6].Value.ToString().Split('\n');
 
@@ -288,6 +267,11 @@ namespace CustomUserControl
                 sw.Flush();
                 sw.Close();
             }
+        }
+
+        private void DefenseSchedulesViewerForm_Load(object sender, EventArgs e)
+        {
+            RefreshDataGridView();
         }
     }
 }

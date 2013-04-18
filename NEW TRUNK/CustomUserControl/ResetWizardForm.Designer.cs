@@ -371,7 +371,6 @@
             this.Name = "FormResetWizard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Reset Wizard";
-            this.TopMost = true;
             this.tabControlResetWizard.ResumeLayout(false);
             this.tabPageStartPage.ResumeLayout(false);
             this.tabPageStartPage.PerformLayout();
