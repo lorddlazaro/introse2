@@ -162,8 +162,8 @@ namespace CustomUserControl
             this.labelGroupCourse = new System.Windows.Forms.Label();
             this.labelGroupThesisTitle = new System.Windows.Forms.Label();
             this.labelGroupControl = new System.Windows.Forms.Label();
-            this.thesisGroupTreeView = new System.Windows.Forms.TreeView();
             this.labelEligibleNeeds = new System.Windows.Forms.Label();
+            this.thesisGroupTreeView = new System.Windows.Forms.TreeView();
             this.studentsPanel.SuspendLayout();
             this.student4.SuspendLayout();
             this.student3.SuspendLayout();
@@ -1331,7 +1331,6 @@ namespace CustomUserControl
             // thesisGroupPanel
             // 
             this.thesisGroupPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.thesisGroupPanel.Controls.Add(this.labelEligibleNeeds);
             this.thesisGroupPanel.Controls.Add(this.redefenseCheckBox);
             this.thesisGroupPanel.Controls.Add(this.defenseCheckBox);
             this.thesisGroupPanel.Controls.Add(this.deleteGroup);
@@ -1350,6 +1349,7 @@ namespace CustomUserControl
             this.thesisGroupPanel.Controls.Add(this.labelGroupCourse);
             this.thesisGroupPanel.Controls.Add(this.labelGroupThesisTitle);
             this.thesisGroupPanel.Controls.Add(this.labelGroupControl);
+            this.thesisGroupPanel.Controls.Add(this.labelEligibleNeeds);
             this.thesisGroupPanel.Location = new System.Drawing.Point(277, 3);
             this.thesisGroupPanel.Name = "thesisGroupPanel";
             this.thesisGroupPanel.Size = new System.Drawing.Size(720, 176);
@@ -1359,10 +1359,10 @@ namespace CustomUserControl
             // 
             this.redefenseCheckBox.BackColor = System.Drawing.Color.Silver;
             this.redefenseCheckBox.Enabled = false;
-            this.redefenseCheckBox.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.redefenseCheckBox.Location = new System.Drawing.Point(341, 139);
+            this.redefenseCheckBox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.redefenseCheckBox.Location = new System.Drawing.Point(358, 124);
             this.redefenseCheckBox.Name = "redefenseCheckBox";
-            this.redefenseCheckBox.Size = new System.Drawing.Size(146, 28);
+            this.redefenseCheckBox.Size = new System.Drawing.Size(176, 28);
             this.redefenseCheckBox.TabIndex = 44;
             this.redefenseCheckBox.Text = "Eligible For Redefense";
             this.redefenseCheckBox.UseVisualStyleBackColor = false;
@@ -1371,10 +1371,10 @@ namespace CustomUserControl
             // defenseCheckBox
             // 
             this.defenseCheckBox.BackColor = System.Drawing.Color.Silver;
-            this.defenseCheckBox.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.defenseCheckBox.Location = new System.Drawing.Point(341, 113);
+            this.defenseCheckBox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.defenseCheckBox.Location = new System.Drawing.Point(358, 97);
             this.defenseCheckBox.Name = "defenseCheckBox";
-            this.defenseCheckBox.Size = new System.Drawing.Size(146, 26);
+            this.defenseCheckBox.Size = new System.Drawing.Size(176, 26);
             this.defenseCheckBox.TabIndex = 43;
             this.defenseCheckBox.Text = "Eligible For Defense";
             this.defenseCheckBox.UseVisualStyleBackColor = false;
@@ -1554,6 +1554,17 @@ namespace CustomUserControl
             this.labelGroupControl.TabIndex = 0;
             this.labelGroupControl.Text = "Group Control";
             // 
+            // labelEligibleNeeds
+            // 
+            this.labelEligibleNeeds.BackColor = System.Drawing.Color.Silver;
+            this.labelEligibleNeeds.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelEligibleNeeds.ForeColor = System.Drawing.Color.Firebrick;
+            this.labelEligibleNeeds.Location = new System.Drawing.Point(341, 65);
+            this.labelEligibleNeeds.Name = "labelEligibleNeeds";
+            this.labelEligibleNeeds.Size = new System.Drawing.Size(224, 95);
+            this.labelEligibleNeeds.TabIndex = 45;
+            this.labelEligibleNeeds.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // thesisGroupTreeView
             // 
             this.thesisGroupTreeView.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1562,16 +1573,6 @@ namespace CustomUserControl
             this.thesisGroupTreeView.Size = new System.Drawing.Size(263, 598);
             this.thesisGroupTreeView.TabIndex = 35;
             this.thesisGroupTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.changeSelectedGroup);
-            // 
-            // labelEligibleNeeds
-            // 
-            this.labelEligibleNeeds.BackColor = System.Drawing.Color.Silver;
-            this.labelEligibleNeeds.ForeColor = System.Drawing.Color.Red;
-            this.labelEligibleNeeds.Location = new System.Drawing.Point(486, 113);
-            this.labelEligibleNeeds.Name = "labelEligibleNeeds";
-            this.labelEligibleNeeds.Size = new System.Drawing.Size(107, 54);
-            this.labelEligibleNeeds.TabIndex = 45;
-            this.labelEligibleNeeds.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ThesisGroupControl
             // 
