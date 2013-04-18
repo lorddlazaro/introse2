@@ -319,6 +319,8 @@ namespace CustomUserControl
             {
                 dataGridViewExistingTimeslot.DataSource = null;
                 dataGridViewExistingTimeslot.Refresh();
+                dataGridViewExistingTimeslot.ClearSelection();
+                selectedTimeslotDGV = "current";
                 return;
             }
 
@@ -340,7 +342,7 @@ namespace CustomUserControl
                 startTime = Convert.ToDateTime(existingTimeslots[4][i]);
                 //endTime = Convert.ToDateTime(timeSlotTable[5][i]);
                 endTime = Convert.ToDateTime(existingTimeslots[5][i]);
-                panelistID = existingTimeslots[6][i];
+                panelistID = existingTimeslots[6][i]+"";
                 existingClassScheds.Add(new ClassTimePeriod(id, section, course, day, startTime, endTime, panelistID));
             }
 
@@ -372,6 +374,8 @@ namespace CustomUserControl
             {
                 dataGridViewExistingEvent.DataSource = null;
                 dataGridViewExistingEvent.Refresh();
+                dataGridViewExistingEvent.ClearSelection();
+                selectedEventDGV = "current";
                 return;
             }
 
@@ -413,6 +417,8 @@ namespace CustomUserControl
             {
                 dataGridViewWeeklyTimeslot.DataSource = null;
                 dataGridViewWeeklyTimeslot.Refresh();
+                dataGridViewWeeklyTimeslot.ClearSelection();
+                selectedTimeslotDGV = "existing";
                 return;
             }
             query = "SELECT Timeslot.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime, Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM            Panelist RIGHT OUTER JOIN Timeslot ON Panelist.panelistID = Timeslot.panelistID WHERE ";
@@ -446,7 +452,7 @@ namespace CustomUserControl
                 startTime = Convert.ToDateTime(timeSlotTable[4][i]);
                 //endTime = Convert.ToDateTime(timeSlotTable[5][i]);
                 endTime = Convert.ToDateTime(timeSlotTable[5][i]);
-                panelistID = timeSlotTable[6][i];
+                panelistID = timeSlotTable[6][i]+"";
                 classSchedList.Add(new ClassTimePeriod(id, section, course, day, startTime, endTime, panelistID));
             }
 
@@ -475,6 +481,8 @@ namespace CustomUserControl
             {
                 dataGridViewEvent.DataSource = null;
                 dataGridViewEvent.Refresh();
+                dataGridViewEvent.ClearSelection();
+                selectedEventDGV = "existing";
                 return;
             }
 
@@ -659,7 +667,7 @@ namespace CustomUserControl
             else if (selectedTimeslotDGV.Equals("current"))
             {
                 rowIndex = dataGridViewWeeklyTimeslot.SelectedRows[0].Index;
-                for (int i = 0; i < dataGridViewExistingTimeslot.Columns.Count; i++)
+                for (int i = 0; i < dataGridViewWeeklyTimeslot.Columns.Count; i++)
                 {
                     timeslotAdder.forEditing.Add(dataGridViewWeeklyTimeslot[i, rowIndex].Value.ToString());
 
@@ -718,19 +726,6 @@ namespace CustomUserControl
                 String query;
                 int slot = Convert.ToInt32(dataGridViewExistingTimeslot["Id", rowIndex].Value.ToString());
 
-                //VALIDATION-DUPLICATION
-                /*
-                query = "SELECT timeslotID FROM StudentSchedule WHERE (studentID = '" + currStudent + "') AND (timeslotID =" + slot + ");";
-
-                List<String>[] duplicateCheck = dbHandler.Select(query, 1);
-
-                if (duplicateCheck[0].Count == 1)
-                {
-                    MessageBox.Show("This timeslot is already a duplicate", "Duplicate Timeslot", MessageBoxButtons.OK, MessageBoxIcon.Error); 
-                    return;
-                }
-                */
-
                 //START: Check for conflicts with other classes
                 if (!schedulingDM.IsNewClassTimePeriodConflictFreeStudent(currStudent, classTimePeriod, dayOfWeek))
                 {
@@ -738,26 +733,19 @@ namespace CustomUserControl
                     return;
                 }
 
-
                 //START: Defense Schedule Validation
 
                 query = "SELECT thesisGroupID FROM student where studentID = '" + currStudent + "';";
                 String thesisGroupID = dbHandler.Select(query, 1)[0][0];
-                bool shouldProceed = ClassAssignmentConflictFreeWithDefScheds(thesisGroupID, rowIndex, classTimePeriod);
+                bool shouldProceed = ClassAssignmentConflictFreeWithDefScheds(thesisGroupID, classTimePeriod);
 
                 // END: Defense Schedule Validation
                 if (shouldProceed)
                 {
                     query = "INSERT INTO StudentSchedule(studentID, timeslotID)VALUES ('" + currStudent + "', " + Convert.ToInt32(slot) + ")";
-                    try
-                    {
-                        dbHandler.Insert(query);
-                    }
-                    catch (SqlException sqlEx) { }
-
+                    dbHandler.Insert(query);
                     RefreshStudentClassScheds();
                 }
-
             }
             else
             {
@@ -768,15 +756,14 @@ namespace CustomUserControl
                     return;
                 }
 
-
                 String query;
 
                 query = "SELECT thesisGroupID FROM panelAssignment where panelistID = '" + currPanelist + "';";
                 String thesisGroupID = dbHandler.Select(query, 1)[0][0];
-                bool shouldProceed = ClassAssignmentConflictFreeWithDefScheds(thesisGroupID, rowIndex, classTimePeriod);
+                bool shouldProceed = ClassAssignmentConflictFreeWithDefScheds(thesisGroupID, classTimePeriod);
                 if (shouldProceed)
                 {
-                    if (existingTimeslots[6][rowIndex] != null)
+                    if (existingTimeslots[6][rowIndex] != "")
                     {
                         DialogResult response = MessageBox.Show("This Timeslot already has a Professor. Overwrite?", "Panelist Overwrite", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -787,7 +774,19 @@ namespace CustomUserControl
                             RefreshPanelistClassScheds();
                         }
                     }
+                    else
+                    {
+                        query = "UPDATE Timeslot SET panelistID = '" + currPanelist + "' WHERE (courseName = '" + existingTimeslots[1][rowIndex] + "') AND ( section = '" + existingTimeslots[2][rowIndex] + "') AND (day ='" + existingTimeslots[3][rowIndex] + "');";
+                        dbHandler.Update(query);
+                        RefreshPanelistClassScheds();
+                    }
                 }
+                else 
+                {
+                    DialogResult result = MessageBox.Show("Class conflicts with a defense of the panelist.", "Conflict with Defense", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                //? ADD error message here
 
             }
             UpdateAvailableTimeslot();
@@ -831,8 +830,10 @@ namespace CustomUserControl
 
         }
         //Extra
-        private bool ClassAssignmentConflictFreeWithDefScheds(String thesisGroupID, int rowIndex, TimePeriod classTimePeriod)
+        public bool ClassAssignmentConflictFreeWithDefScheds(String thesisGroupID, TimePeriod classTimePeriod)
         {
+            int rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index; // removed from the parameter to be used outside scheduleeditor
+
             DefenseSchedule defSched = schedulingDM.GetDefSched(thesisGroupID, Constants.DEFENSE_TYPE);
             DefenseSchedule redefSched = schedulingDM.GetDefSched(thesisGroupID, Constants.REDEFENSE_TYPE);
 
@@ -910,13 +911,11 @@ namespace CustomUserControl
             else if (selectedEventDGV.Equals("current"))
             {
                 rowIndex = dataGridViewEvent.SelectedRows[0].Index;
-                for (int i = 0; i < dataGridViewExistingEvent.Columns.Count; i++)
+                for (int i = 0; i < dataGridViewEvent.Columns.Count; i++)
                 {
                     eventAdder.forEditing.Add(dataGridViewEvent[i, rowIndex].Value.ToString());
                 }
             }
-
-
 
 
             eventAdder.initializeTextBoxes();
@@ -963,6 +962,7 @@ namespace CustomUserControl
             }
             int rowIndex = dataGridViewExistingEvent.SelectedRows[0].Index;
             //VALIDATION
+            
             //-Conflict of Defense Checking
             if (IsTreeViewSetToStudents())
             {
@@ -982,16 +982,20 @@ namespace CustomUserControl
                     DateTime minEnd;
                     DateTime defenseEndtime;
                     //get start of conflict
+                    Console.WriteLine(defenseOfSelected[0][i]);
+                    Console.WriteLine(existingEvents[2][rowIndex]);
                     if (Convert.ToDateTime(defenseOfSelected[0][i]) > Convert.ToDateTime(existingEvents[2][rowIndex]))
                         maxStart = Convert.ToDateTime(defenseOfSelected[0][i]);
                     else
                         maxStart = Convert.ToDateTime(existingEvents[2][rowIndex]);
 
                     //GET endtime of defense
+                    
+
                     if (defenseOfSelected[2][i].Equals("THSST-1"))
-                        defenseEndtime = Convert.ToDateTime(defenseOfSelected[1][i]).AddMinutes(Constants.THSST1_DEFDURATION_MINS);
+                        defenseEndtime = Convert.ToDateTime(defenseOfSelected[0][i]).AddMinutes(Constants.THSST1_DEFDURATION_MINS);
                     else
-                        defenseEndtime = Convert.ToDateTime(defenseOfSelected[1][i]).AddMinutes(Constants.THSST3_DEFDURATION_MINS);
+                        defenseEndtime = Convert.ToDateTime(defenseOfSelected[0][i]).AddMinutes(Constants.THSST3_DEFDURATION_MINS);
                     
                     //get end of conflict
                     if (defenseEndtime > Convert.ToDateTime(existingEvents[3][rowIndex]))
@@ -1022,6 +1026,7 @@ namespace CustomUserControl
 
             }
 
+            
             //ADD 
 
             if (IsTreeViewSetToStudents())
