@@ -49,9 +49,9 @@
             this.columnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnVenue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnAdvisor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnAdviser = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnPanels = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDefSchedInfo)).BeginInit();
             this.groupBoxSettings.SuspendLayout();
             this.SuspendLayout();
@@ -79,9 +79,9 @@
             this.columnDate,
             this.columnTime,
             this.columnVenue,
-            this.columnAdvisor,
+            this.columnAdviser,
             this.columnPanels,
-            this.ColumnType});
+            this.columnType});
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -244,14 +244,14 @@
             // 
             // columnAdvisor
             // 
-            this.columnAdvisor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.columnAdviser.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.columnAdvisor.DefaultCellStyle = dataGridViewCellStyle3;
-            this.columnAdvisor.HeaderText = "Advisor";
-            this.columnAdvisor.MinimumWidth = 150;
-            this.columnAdvisor.Name = "columnAdvisor";
-            this.columnAdvisor.ReadOnly = true;
-            this.columnAdvisor.Width = 150;
+            this.columnAdviser.DefaultCellStyle = dataGridViewCellStyle3;
+            this.columnAdviser.HeaderText = "Advisor";
+            this.columnAdviser.MinimumWidth = 150;
+            this.columnAdviser.Name = "columnAdvisor";
+            this.columnAdviser.ReadOnly = true;
+            this.columnAdviser.Width = 150;
             // 
             // columnPanels
             // 
@@ -266,11 +266,11 @@
             // 
             // ColumnType
             // 
-            this.ColumnType.HeaderText = "Type";
-            this.ColumnType.MinimumWidth = 80;
-            this.ColumnType.Name = "ColumnType";
-            this.ColumnType.ReadOnly = true;
-            this.ColumnType.Width = 80;
+            this.columnType.HeaderText = "Type";
+            this.columnType.MinimumWidth = 80;
+            this.columnType.Name = "ColumnType";
+            this.columnType.ReadOnly = true;
+            this.columnType.Width = 80;
             // 
             // DefenseSchedulesViewerForm
             // 
@@ -310,8 +310,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn columnDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnVenue;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnAdvisor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnAdviser;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnPanels;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnType;
     }
 }
