@@ -72,7 +72,10 @@ namespace CustomUserControl
         {
             Cursor.Current = Cursors.WaitCursor;
             Refresh();
-            ChangeSelectedGroup(currGroupID);
+            if (schedulingDM.DoesGroupStillExist(currGroupID))
+                ChangeSelectedGroup(currGroupID);
+            else
+                ChangeSelectedGroup("");
             RefreshTreeViews();
             MarkAllScheduledGroups();
             RefreshCalendar();
@@ -95,6 +98,7 @@ namespace CustomUserControl
         public void RefreshTreeViews()
         {
             Cursor.Current = Cursors.WaitCursor;
+            
             treeViewClusters.BeginUpdate();
             treeViewClusters.Nodes.Clear();
             schedulingDM.AddPanelistsToTree(treeViewClusters.Nodes, "eligibleFor" + currDefenseType);
@@ -107,6 +111,12 @@ namespace CustomUserControl
             schedulingDM.AddIsolatedGroupsToTree(treeViewIsolatedGroups.Nodes, "eligibleFor" + currDefenseType);
             treeViewIsolatedGroups.EndUpdate();
             treeViewIsolatedGroups.ExpandAll();
+            treeViewIsolatedGroups.Focus();
+
+            if (treeViewClusters.Nodes.Count == 0 && treeViewIsolatedGroups.Nodes.Count == 0)
+                labelNoEligibleGroups.Show();
+            else
+                labelNoEligibleGroups.Hide();
 
             MarkAllScheduledGroups();
 
@@ -581,6 +591,7 @@ namespace CustomUserControl
         {
             if (schedulingDM != null)
             {
+                List<String> groupIDsWithMissingSchedule = schedulingDM.GetAllGroupsWithMemberHavingNoSchedule(currDefenseType);
                 schedulingDM.RefreshScheduledGroupIDs(currDefenseType);
                 TreeView currTreeView;
 
@@ -611,6 +622,11 @@ namespace CustomUserControl
                                 group.Checked = false;
                                 allChildrenAreMarked = false;
                             }
+
+                            if (groupIDsWithMissingSchedule.Contains(group.Name))
+                                group.BackColor = Color.LightPink;
+                            else
+                                group.BackColor = Color.White;
                         }
                         isCheckingInProgram = true;
                         if (allChildrenAreMarked)
@@ -635,6 +651,11 @@ namespace CustomUserControl
                                 group.Checked = false;
                                 allChildrenAreMarked = false;
                             }
+
+                            if (groupIDsWithMissingSchedule.Contains(group.Name))
+                                group.BackColor = Color.LightPink;
+                            else
+                                group.BackColor = Color.White;
                         }
                         isCheckingInProgram = true;
                         if (allChildrenAreMarked)
