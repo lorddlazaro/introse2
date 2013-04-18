@@ -352,8 +352,8 @@ namespace CustomUserControl
 
         private void HideGroupBox()
         {
-            int defaultWidth = 280;
-            int longLength = 481;
+            int defaultWidth = 306;
+            int longLength = 513;
             Size newSize = new Size(defaultWidth, longLength);
 
             treeViewClusters.Size = newSize;
@@ -366,18 +366,17 @@ namespace CustomUserControl
             addDefenseButton.Visible = false;
             labelVenue.Visible = true;
             defenseDateTimePicker.Visible = true;
-            labelDateTime.Visible = true;
 
-            int defaultWidth = 280;
-            int longLength = 153;
+            int defaultWidth = 306;
+            int longLength = 212;
             groupBoxDefenseInfo.Size = new Size(defaultWidth, longLength);
 
-            int defaultX = 685;
-            int longY = 437;
+            int defaultX = 675;
+            int longY = 411;
             groupBoxDefenseInfo.Location = new Point(defaultX, longY);
 
-            int treeViewDefaultWidth = 280;
-            int treeViewShortLength = 318;
+            int treeViewDefaultWidth = 306;
+            int treeViewShortLength = 295;
             Size newSize = new Size(treeViewDefaultWidth, treeViewShortLength);
 
             treeViewClusters.Size = newSize;
@@ -391,18 +390,17 @@ namespace CustomUserControl
             addDefenseButton.Visible = true;
             labelVenue.Visible = false;
             defenseDateTimePicker.Visible = false;
-            labelDateTime.Visible = false;
 
-            int defaultWidth = 280;
-            int shortLength = 100;
+            int defaultWidth = 306;
+            int shortLength = 159;
             groupBoxDefenseInfo.Size = new Size(defaultWidth, shortLength);
 
-            int defaultX = 685;
-            int shortY = 490;
+            int defaultX = 675;
+            int shortY = 464;
             groupBoxDefenseInfo.Location = new Point(defaultX, shortY);
 
-            int treeViewDefaultWidth = 280;
-            int treeViewShortLength = 371;
+            int treeViewDefaultWidth = 306;
+            int treeViewShortLength = 348;
             Size newSize = new Size(treeViewDefaultWidth, treeViewShortLength);
 
             treeViewClusters.Size = newSize;
@@ -553,26 +551,35 @@ namespace CustomUserControl
             currGroupID = newThesisGroupID;
             if (newThesisGroupID.Equals(""))
             {
-                //labelGroupInfo.Text = "";
-                //labelDefDuration.Text = "";
+                textBoxPanelists.Text = "";
+                labelDuration.Text = "";
                 HideGroupBox();
             }
             else
             {
                 Cursor.Current = Cursors.WaitCursor;
                 ShowGroupBox();
-                //labelGroupInfo.Text = "Selected Group:    " + schedulingDM.GetGroupInfo(currGroupID) + Environment.NewLine + "Panelists:                " + schedulingDM.GetPanelists(currGroupID);
+                //note
+                textBoxPanelists.Text = "";
+                String panelistText = schedulingDM.GetPanelists(currGroupID);
+
+                for (int i = 0, n = panelistText.Split(':').Count(); i < n; i++)
+                {
+                    textBoxPanelists.Text += panelistText.Split(':')[i];
+                    if (i + 1 < n)
+                        textBoxPanelists.Text += System.Environment.NewLine;
+                }
                 
                 titleTextBox.Text = schedulingDM.GetGroupInfo(currGroupID).Split(':')[1];
                 courseSectionTextBox.Text = schedulingDM.GetGroupInfo(currGroupID).Split(':')[0];
                 
-               
                 String course = courseSectionTextBox.Text.Split(' ')[1];
-                //if (course.Equals("THSST-1"))
-                    //labelDefDuration.Text = "THSST-1 Defense Duration: " + (Constants.THSST1_DEFDURATION_MINS / 60) + " hour.";
-                //else if (course.Equals("THSST-3"))
-                    //labelDefDuration.Text = "THSST-3 Defense Duration: " + (Constants.THSST3_DEFDURATION_MINS / 60) + " hours.";
-               
+
+                if (course.Equals("THSST-1"))
+                labelDuration.Text = "Duration: "+(Constants.THSST1_DEFDURATION_MINS / 60) + " hour/s";
+                    else if (course.Equals("THSST-3"))
+                labelDuration.Text = "Duration: " + (Constants.THSST3_DEFDURATION_MINS / 60) + " hour/s";
+
                 /*The difference between this defenseSchedule and the one in schedulingDM (currGroupDefSched)
                  * is that currGroupDefSched only refers to the defense schedule that fits within the current
                  * calendar.
