@@ -23,7 +23,7 @@ namespace CustomUserControl
         public DefenseSchedule CurrGroupDefSched { get { return currGroupDefSched; } }
         public List<String> ScheduledGroupIDs { get { return scheduledGroupIDs; } }
         public List<TimePeriod>[] SelectedGroupFreeTimes { get { return selectedGroupFreeTimes; } }
-
+        
         public SchedulingDataManager()
         {
             selectedGroupFreeTimes = new List<TimePeriod>[Constants.DAYS_IN_DEF_WEEK];
@@ -496,31 +496,38 @@ namespace CustomUserControl
             TreeNode courseNode = new TreeNode();
             TreeNode groupNode;
             courseNode.Text = "THSST-1";
-            tree.Add(courseNode);
+            
 
 
             List<String>[] groupTable = dbHandler.Select(query, 2);
-            for (int i = 0; i < groupTable[0].Count; i++)
+            if (groupTable[0].Count > 0)
             {
-                groupNode = new TreeNode();
-                groupNode.Text = groupTable[1].ElementAt(i);
-                groupNode.Name = groupTable[0].ElementAt(i);
-                courseNode.Nodes.Add(groupNode);
+                tree.Add(courseNode);
+                for (int i = 0; i < groupTable[0].Count; i++)
+                {
+                    groupNode = new TreeNode();
+                    groupNode.Text = groupTable[1].ElementAt(i);
+                    groupNode.Name = groupTable[0].ElementAt(i);
+                    courseNode.Nodes.Add(groupNode);
+                }
             }
-
             query = "select thesisgroupID, title from thesisgroup where " + eligibilityColumnName + "= 'True' AND course = 'THSST-3';";
             courseNode = new TreeNode();
             courseNode.Text = "THSST-3";
-            tree.Add(courseNode);
+            
 
             groupTable = dbHandler.Select(query, 2);
 
-            for (int i = 0; i < groupTable[0].Count; i++)
+            if (groupTable[0].Count > 0)
             {
-                groupNode = new TreeNode();
-                groupNode.Text = groupTable[1].ElementAt(i);
-                groupNode.Name = groupTable[0].ElementAt(i);
-                courseNode.Nodes.Add(groupNode);
+                tree.Add(courseNode);
+                for (int i = 0; i < groupTable[0].Count; i++)
+                {
+                    groupNode = new TreeNode();
+                    groupNode.Text = groupTable[1].ElementAt(i);
+                    groupNode.Name = groupTable[0].ElementAt(i);
+                    courseNode.Nodes.Add(groupNode);
+                }
             }
         }
 
@@ -631,6 +638,13 @@ namespace CustomUserControl
             }
 
             selectedGroupFreeTimes[dayIndex] = currDayFreeSlots;
+        }
+
+        public bool DoesGroupStillExist(String currGroupID) 
+        {
+            String query = "SELECT count(*) from thesisGroup WHERE thesisGroupID = '"+currGroupID+"';";
+            int count = dbHandler.ExecuteScalar(query);
+            return count > 0;
         }
 
         /* This method returns a DefenseSchedule object within the specified startDate and endDDate 
@@ -821,6 +835,50 @@ namespace CustomUserControl
             return panelists;
         }
 
+        public List<String> GetAllGroupsWithMemberHavingNoSchedule(String currDefenseType) 
+        {
+           String query = "SELECT distinct studentID FROM student WHERE studentID NOT IN (SELECT distinct studentID FROM studentschedule) AND studentID NOT IN(SELECT distinct studentID from studentEventRecord);";
+           
+            List<String> studentIDs = dbHandler.Select(query, 1)[0];
+
+            query = "SELECT distinct panelistID FROM panelist WHERE panelistID NOT IN (SELECT distinct panelistID from timeslot) AND panelistID NOT IN (SELECT distinct panelistID FROM panelistEventRecord);";
+
+            List<String> panelistIDs = dbHandler.Select(query, 1)[0];
+            List<String> groupIDs;
+
+            if(studentIDs.Count > 0)
+            {
+                query = "SELECT distinct thesisGroupID from Student WHERE ";
+                for(int i=0;i<studentIDs.Count;i++)
+                {
+                    query += " studentID = '" + studentIDs[i] + "'";
+                    if (i == studentIDs.Count - 1)
+                        query += ";";
+                    else
+                        query += " OR ";
+                }
+            }
+
+            groupIDs = dbHandler.Select(query,1)[0];
+
+
+            if (panelistIDs.Count > 0) 
+            {
+                query = "SELECT distinct thesisGroupID from panelAssignment WHERE ";
+                for (int i = 0; i < panelistIDs.Count; i++)
+                {
+                    query += " panelistID = '" + panelistIDs[i] + "'";
+                    if (i == panelistIDs.Count - 1)
+                        query += ";";
+                    else
+                        query += " OR ";
+                }
+            }
+
+            groupIDs.AddRange(dbHandler.Select(query,1)[0]);
+
+            return groupIDs;
+        }
         /*** Miscellaneous Methods - END ***/
 
 

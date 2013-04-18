@@ -82,6 +82,7 @@ namespace CustomUserControl
             this.comboBoxDefenseType = new System.Windows.Forms.ComboBox();
             this.labelDefenseType = new System.Windows.Forms.Label();
             this.labelDefDuration = new System.Windows.Forms.Label();
+            this.labelNoEligibleGroups = new System.Windows.Forms.Label();
             this.groupBoxDefenseInfo.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -242,10 +243,10 @@ namespace CustomUserControl
             this.treeViewClusters.FullRowSelect = true;
             this.treeViewClusters.HideSelection = false;
             this.treeViewClusters.HotTracking = true;
-            this.treeViewClusters.Location = new System.Drawing.Point(696, 109);
+            this.treeViewClusters.Location = new System.Drawing.Point(685, 109);
             this.treeViewClusters.Name = "treeViewClusters";
             this.treeViewClusters.ShowNodeToolTips = true;
-            this.treeViewClusters.Size = new System.Drawing.Size(269, 477);
+            this.treeViewClusters.Size = new System.Drawing.Size(280, 477);
             this.treeViewClusters.TabIndex = 14;
             this.treeViewClusters.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewClusters_BeforeCheck);
             this.treeViewClusters.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewClusters_NodeMouseClick);
@@ -374,7 +375,6 @@ namespace CustomUserControl
             // groupBoxDefenseInfo
             // 
             this.groupBoxDefenseInfo.BackColor = System.Drawing.Color.Tomato;
-            this.groupBoxDefenseInfo.Controls.Add(this.addDefenseButton);
             this.groupBoxDefenseInfo.Controls.Add(this.deleteDefenseButton);
             this.groupBoxDefenseInfo.Controls.Add(this.saveDefenseButton);
             this.groupBoxDefenseInfo.Controls.Add(this.labelDateTime);
@@ -382,9 +382,10 @@ namespace CustomUserControl
             this.groupBoxDefenseInfo.Controls.Add(this.labelSectionCourse);
             this.groupBoxDefenseInfo.Controls.Add(this.labelThesisTitle);
             this.groupBoxDefenseInfo.Controls.Add(this.defenseDateTimePicker);
-            this.groupBoxDefenseInfo.Controls.Add(this.venueTextBox);
             this.groupBoxDefenseInfo.Controls.Add(this.courseSectionTextBox);
             this.groupBoxDefenseInfo.Controls.Add(this.titleTextBox);
+            this.groupBoxDefenseInfo.Controls.Add(this.addDefenseButton);
+            this.groupBoxDefenseInfo.Controls.Add(this.venueTextBox);
             this.groupBoxDefenseInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBoxDefenseInfo.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxDefenseInfo.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -399,9 +400,9 @@ namespace CustomUserControl
             // addDefenseButton
             // 
             this.addDefenseButton.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addDefenseButton.Location = new System.Drawing.Point(116, 71);
+            this.addDefenseButton.Location = new System.Drawing.Point(115, 71);
             this.addDefenseButton.Name = "addDefenseButton";
-            this.addDefenseButton.Size = new System.Drawing.Size(156, 23);
+            this.addDefenseButton.Size = new System.Drawing.Size(159, 23);
             this.addDefenseButton.TabIndex = 10;
             this.addDefenseButton.Text = "Schedule Defense";
             this.addDefenseButton.UseVisualStyleBackColor = true;
@@ -479,36 +480,36 @@ namespace CustomUserControl
             this.defenseDateTimePicker.CustomFormat = "MMM d, yyyy  h:mm tt";
             this.defenseDateTimePicker.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.defenseDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.defenseDateTimePicker.Location = new System.Drawing.Point(117, 97);
+            this.defenseDateTimePicker.Location = new System.Drawing.Point(115, 97);
             this.defenseDateTimePicker.Name = "defenseDateTimePicker";
-            this.defenseDateTimePicker.Size = new System.Drawing.Size(154, 23);
+            this.defenseDateTimePicker.Size = new System.Drawing.Size(159, 23);
             this.defenseDateTimePicker.TabIndex = 3;
             // 
             // venueTextBox
             // 
             this.venueTextBox.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.venueTextBox.Location = new System.Drawing.Point(117, 71);
-            this.venueTextBox.MaxLength = 4;
+            this.venueTextBox.Location = new System.Drawing.Point(115, 71);
+            this.venueTextBox.MaxLength = 16;
             this.venueTextBox.Name = "venueTextBox";
-            this.venueTextBox.Size = new System.Drawing.Size(154, 23);
+            this.venueTextBox.Size = new System.Drawing.Size(159, 23);
             this.venueTextBox.TabIndex = 2;
             // 
             // courseSectionTextBox
             // 
             this.courseSectionTextBox.Enabled = false;
             this.courseSectionTextBox.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.courseSectionTextBox.Location = new System.Drawing.Point(117, 45);
+            this.courseSectionTextBox.Location = new System.Drawing.Point(115, 45);
             this.courseSectionTextBox.Name = "courseSectionTextBox";
-            this.courseSectionTextBox.Size = new System.Drawing.Size(154, 23);
+            this.courseSectionTextBox.Size = new System.Drawing.Size(159, 23);
             this.courseSectionTextBox.TabIndex = 1;
             // 
             // titleTextBox
             // 
             this.titleTextBox.Enabled = false;
             this.titleTextBox.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.titleTextBox.Location = new System.Drawing.Point(117, 19);
+            this.titleTextBox.Location = new System.Drawing.Point(115, 19);
             this.titleTextBox.Name = "titleTextBox";
-            this.titleTextBox.Size = new System.Drawing.Size(154, 23);
+            this.titleTextBox.Size = new System.Drawing.Size(159, 23);
             this.titleTextBox.TabIndex = 0;
             // 
             // comboBoxDefenseType
@@ -543,11 +544,24 @@ namespace CustomUserControl
             this.labelDefDuration.Size = new System.Drawing.Size(0, 19);
             this.labelDefDuration.TabIndex = 29;
             // 
+            // labelNoEligibleGroups
+            // 
+            this.labelNoEligibleGroups.AutoSize = true;
+            this.labelNoEligibleGroups.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelNoEligibleGroups.ForeColor = System.Drawing.Color.ForestGreen;
+            this.labelNoEligibleGroups.Location = new System.Drawing.Point(716, 165);
+            this.labelNoEligibleGroups.Name = "labelNoEligibleGroups";
+            this.labelNoEligibleGroups.Size = new System.Drawing.Size(227, 23);
+            this.labelNoEligibleGroups.TabIndex = 30;
+            this.labelNoEligibleGroups.Text = "There are no eligible groups.";
+            this.labelNoEligibleGroups.Visible = false;
+            // 
             // FreeTimeViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.labelNoEligibleGroups);
             this.Controls.Add(this.labelDefDuration);
             this.Controls.Add(this.labelDefenseType);
             this.Controls.Add(this.comboBoxDefenseType);
@@ -577,8 +591,8 @@ namespace CustomUserControl
             this.Controls.Add(this.label9AM);
             this.Controls.Add(this.label8AM);
             this.Controls.Add(this.panelCalendar);
-            this.Controls.Add(this.treeViewIsolatedGroups);
             this.Controls.Add(this.treeViewClusters);
+            this.Controls.Add(this.treeViewIsolatedGroups);
             this.Name = "FreeTimeViewer";
             this.Size = new System.Drawing.Size(984, 676);
             this.groupBoxDefenseInfo.ResumeLayout(false);
@@ -632,5 +646,6 @@ namespace CustomUserControl
         private System.Windows.Forms.ComboBox comboBoxDefenseType;
         private System.Windows.Forms.Label labelDefenseType;
         private System.Windows.Forms.Label labelDefDuration;
+        private Label labelNoEligibleGroups;
     }
 }
