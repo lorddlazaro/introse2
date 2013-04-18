@@ -125,7 +125,7 @@ namespace CustomUserControl
             }
             Cursor.Current = Cursors.Arrow;
         }
-        
+
         //Students
         public void RefreshStudentClassScheds()
         {
@@ -313,7 +313,7 @@ namespace CustomUserControl
                 query = "SELECT DISTINCT  Timeslot.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime,  Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM StudentSchedule RIGHT OUTER JOIN Timeslot ON StudentSchedule.timeslotID = Timeslot.timeslotID LEFT OUTER JOIN Panelist ON Timeslot.panelistID = Panelist.panelistID WHERE (Timeslot.timeslotID NOT IN (SELECT        timeslotID FROM            StudentSchedule AS StudentSchedule_1 WHERE        (studentID = '" + currStudent + "'))) ORDER BY Timeslot.courseName, Timeslot.section";
             else
                 query = "SELECT        Timeslot.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime,  Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM            Timeslot LEFT OUTER JOIN Panelist ON Timeslot.panelistID = Panelist.panelistID WHERE        (NOT (Timeslot.panelistID = '" + currPanelist + "')) OR (Timeslot.panelistID IS NULL) ORDER BY Timeslot.courseName, Timeslot.section";
-            
+
             existingTimeslots = dbHandler.Select(query, 7);
             if (existingTimeslots[0].Count == 0)
             {
@@ -342,7 +342,7 @@ namespace CustomUserControl
                 startTime = Convert.ToDateTime(existingTimeslots[4][i]);
                 //endTime = Convert.ToDateTime(timeSlotTable[5][i]);
                 endTime = Convert.ToDateTime(existingTimeslots[5][i]);
-                panelistID = existingTimeslots[6][i]+"";
+                panelistID = existingTimeslots[6][i] + "";
                 existingClassScheds.Add(new ClassTimePeriod(id, section, course, day, startTime, endTime, panelistID));
             }
 
@@ -367,7 +367,7 @@ namespace CustomUserControl
                 query = "SELECT DISTINCT eventID, name,eventStart,eventEnd FROM Event WHERE eventID NOT IN ( SELECT eventID FROM StudentEventRecord WHERE studentID = '" + currStudent + "');";
             else
                 query = "SELECT DISTINCT eventID, name,eventStart,eventEnd FROM Event WHERE eventID NOT IN ( SELECT eventID FROM PanelistEventRecord WHERE panelistID = '" + currPanelist + "');";
-           
+
             existingEvents = dbHandler.Select(query, 4);
 
             if (existingEvents[0].Count == 0)
@@ -452,7 +452,7 @@ namespace CustomUserControl
                 startTime = Convert.ToDateTime(timeSlotTable[4][i]);
                 //endTime = Convert.ToDateTime(timeSlotTable[5][i]);
                 endTime = Convert.ToDateTime(timeSlotTable[5][i]);
-                panelistID = timeSlotTable[6][i]+"";
+                panelistID = timeSlotTable[6][i] + "";
                 classSchedList.Add(new ClassTimePeriod(id, section, course, day, startTime, endTime, panelistID));
             }
 
@@ -522,7 +522,7 @@ namespace CustomUserControl
                 MessageBox.Show("No Panelist Selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-            if( DialogResult.Cancel == MessageBox.Show("Are you sure you want to delete this panelist?", "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question))
+            if (DialogResult.Cancel == MessageBox.Show("Are you sure you want to delete this panelist?", "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question))
                 return;
 
             String query = "DELETE FROM panelist WHERE panelistID = '" + currPanelist + "';";
@@ -609,12 +609,12 @@ namespace CustomUserControl
             labelSelectedPersonTimeslot.Text = selectedNode.Text + "'s Class Schedule";
             currStudent = selectedNode.Name;
 
-            
+
             RefreshStudentClassScheds();
             RefreshStudentEvents();
             UpdateAvailableTimeslot();
             UpdateAvailableEvents();
-            
+
         }
         private void ClearEverything()
         {
@@ -721,6 +721,22 @@ namespace CustomUserControl
             TimePeriod classTimePeriod = new TimePeriod(Convert.ToDateTime(existingTimeslots[4][rowIndex]), Convert.ToDateTime(existingTimeslots[5][rowIndex]));
             String dayOfWeek = existingTimeslots[3][rowIndex];
 
+
+            //CONFLICT WITH SAME COURSES
+            for(int i=0;i<timeSlotTable[0].Count;i++)
+            {
+                if(existingTimeslots[1][rowIndex].Equals(timeSlotTable[1][i]))
+                {
+                    MessageBox.Show("The course is already in the schedule", "Duplicate Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+
+
+            //CONFLICT WITH SAME COURSES
+            
+            
             if (IsTreeViewSetToStudents())
             {
                 String query;
@@ -804,7 +820,7 @@ namespace CustomUserControl
 
 
             String selectedRowIndex = dataGridViewWeeklyTimeslot.SelectedRows[0].Index.ToString();
-           
+
             String currTimeslot = timeSlotTable[0][dataGridViewWeeklyTimeslot.SelectedRows[0].Index];
             if (IsTreeViewSetToStudents())
             {
@@ -962,7 +978,7 @@ namespace CustomUserControl
             }
             int rowIndex = dataGridViewExistingEvent.SelectedRows[0].Index;
             //VALIDATION
-            
+
             //-Conflict of Defense Checking
             if (IsTreeViewSetToStudents())
             {
@@ -970,9 +986,12 @@ namespace CustomUserControl
             }
             else
                 query = "SELECT        DefenseSchedule.defenseID, DefenseSchedule.defenseDateTime, ThesisGroup.course FROM            PanelAssignment INNER JOIN Panelist ON PanelAssignment.panelistID = Panelist.panelistID INNER JOIN ThesisGroup ON PanelAssignment.thesisGroupID = ThesisGroup.thesisGroupID INNER JOIN DefenseSchedule ON ThesisGroup.thesisGroupID = DefenseSchedule.thesisGroupID WHERE        (Panelist.panelistID = '" + currPanelist + "')";
-            
+
             List<String>[] defenseOfSelected = dbHandler.Select(query, 3);
-            
+
+
+
+
             if (defenseOfSelected[0].Count > 0)
             {
 
@@ -990,13 +1009,13 @@ namespace CustomUserControl
                         maxStart = Convert.ToDateTime(existingEvents[2][rowIndex]);
 
                     //GET endtime of defense
-                    
+
 
                     if (defenseOfSelected[2][i].Equals("THSST-1"))
                         defenseEndtime = Convert.ToDateTime(defenseOfSelected[0][i]).AddMinutes(Constants.THSST1_DEFDURATION_MINS);
                     else
                         defenseEndtime = Convert.ToDateTime(defenseOfSelected[0][i]).AddMinutes(Constants.THSST3_DEFDURATION_MINS);
-                    
+
                     //get end of conflict
                     if (defenseEndtime > Convert.ToDateTime(existingEvents[3][rowIndex]))
                         minEnd = Convert.ToDateTime(existingEvents[3][rowIndex]);
@@ -1026,7 +1045,7 @@ namespace CustomUserControl
 
             }
 
-            
+
             //ADD 
 
             if (IsTreeViewSetToStudents())
@@ -1056,7 +1075,7 @@ namespace CustomUserControl
                 return;
             }
             String selectedRowIndex = dataGridViewEvent.SelectedRows[0].Index.ToString();
-            
+
             String currEvent = eventTable[0][dataGridViewEvent.SelectedRows[0].Index];
             if (IsTreeViewSetToStudents())
             {
@@ -1068,7 +1087,7 @@ namespace CustomUserControl
             {
                 String query = "DELETE FROM PanelistEventRecord WHERE panelistID = " + currPanelist + " AND eventID = " + currEvent + ";";
                 dbHandler.Delete(query);
-                
+
                 RefreshPanelistEvents();
             }
 
@@ -1082,7 +1101,7 @@ namespace CustomUserControl
                 return;
             }
         }
-        
+
         //Datagridview Table Row Selection
         private void DataGridViewExistingEvent_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
