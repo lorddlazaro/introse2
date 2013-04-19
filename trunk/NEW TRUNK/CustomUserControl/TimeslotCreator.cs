@@ -379,9 +379,17 @@ namespace CustomUserControl
                     dbHandler.Delete(query);
                 }
 
-                
 
-                
+                if (panelistID.Equals("NULL"))
+                    query = "UPDATE timeslot SET courseName = '" + textBoxWeeklyTimeslotCourse.Text + "', section = '" + textBoxWeeklyTimeslotSection.Text + "', day = '" + day + "', startTime = '" + dateTimePickerWeeklyTimeslotStartTime.Value + "', endTime = '" + dateTimePickerWeeklyTimeslotEndTime.Value + "', panelistID = NULL WHERE timeslotID = " + forEditing[0] + ";";
+                else
+                    query = "UPDATE timeslot SET courseName = '" + textBoxWeeklyTimeslotCourse.Text + "', section = '" + textBoxWeeklyTimeslotSection.Text + "', day = '" + day + "', startTime = '" + dateTimePickerWeeklyTimeslotStartTime.Value + "', endTime = '" + dateTimePickerWeeklyTimeslotEndTime.Value + "', panelistID = '" + panelistID + "' WHERE timeslotID = " + forEditing[0] + ";";
+
+                try
+                {
+                    dbHandler.Update(query);
+                }
+                catch (Exception ex) { }
             }
             else
             {
