@@ -47,7 +47,7 @@ namespace introse
             this.tabPageClassSchedulesAndEvents = new System.Windows.Forms.TabPage();
             this.scheduleEditorControl = new CustomUserControl.ScheduleEditor();
             this.tabPageThesisGroups = new System.Windows.Forms.TabPage();
-            this.customUserControl_ThesisGroupControl = new CustomUserControl.ThesisGroupControl();
+            this.thesisGroupControl = new CustomUserControl.ThesisGroupControl();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem_File = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_Reset = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,7 +110,7 @@ namespace introse
             // 
             // tabPageThesisGroups
             // 
-            this.tabPageThesisGroups.Controls.Add(this.customUserControl_ThesisGroupControl);
+            this.tabPageThesisGroups.Controls.Add(this.thesisGroupControl);
             this.tabPageThesisGroups.Location = new System.Drawing.Point(4, 22);
             this.tabPageThesisGroups.Name = "tabPageThesisGroups";
             this.tabPageThesisGroups.Size = new System.Drawing.Size(999, 656);
@@ -120,10 +120,10 @@ namespace introse
             // 
             // customUserControl_ThesisGroupControl
             // 
-            this.customUserControl_ThesisGroupControl.Location = new System.Drawing.Point(-4, -1);
-            this.customUserControl_ThesisGroupControl.Name = "customUserControl_ThesisGroupControl";
-            this.customUserControl_ThesisGroupControl.Size = new System.Drawing.Size(1000, 680);
-            this.customUserControl_ThesisGroupControl.TabIndex = 0;
+            this.thesisGroupControl.Location = new System.Drawing.Point(-4, -1);
+            this.thesisGroupControl.Name = "customUserControl_ThesisGroupControl";
+            this.thesisGroupControl.Size = new System.Drawing.Size(1000, 680);
+            this.thesisGroupControl.TabIndex = 0;
             // 
             // menuStrip
             // 
@@ -201,7 +201,7 @@ namespace introse
         private System.Windows.Forms.TabPage tabPageClassSchedulesAndEvents;
         private System.Windows.Forms.TabPage tabPageThesisGroups;
         private CustomUserControl.FreeTimeViewer freeTimeViewerControl;
-        private CustomUserControl.ThesisGroupControl customUserControl_ThesisGroupControl;
+        private CustomUserControl.ThesisGroupControl thesisGroupControl;
         private CustomUserControl.ScheduleEditor scheduleEditorControl;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_File;

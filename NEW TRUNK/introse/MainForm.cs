@@ -24,11 +24,11 @@ namespace introse
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (tabControl.SelectedIndex) 
+            switch (tabControl.SelectedIndex)
             {
                 case 0: freeTimeViewerControl.RefreshAll(); break;
                 case 1: scheduleEditorControl.RefreshAll(); break;
-                case 2: customUserControl_ThesisGroupControl.RefreshAll(); break;
+                case 2: thesisGroupControl.RefreshAll(); break;
             }
         }
         private void toolStripMenuItem_Exit_Click(object sender, EventArgs e)
@@ -51,7 +51,7 @@ namespace introse
                 formResetWizard.Close();
             }
             catch (Exception ex2) { }
-            formResetWizard = new FormResetWizard();
+            formResetWizard = new FormResetWizard(freeTimeViewerControl, scheduleEditorControl, thesisGroupControl);
         }
     }
 }
