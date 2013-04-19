@@ -318,7 +318,9 @@ namespace CustomUserControl
                 query = "SELECT        Timeslot.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime,  Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM            Timeslot LEFT OUTER JOIN Panelist ON Timeslot.panelistID = Panelist.panelistID WHERE        (NOT (Timeslot.panelistID = '" + currPanelist + "')) OR (Timeslot.panelistID IS NULL) ORDER BY Timeslot.courseName, Timeslot.section";
 
             existingTimeslots = dbHandler.Select(query, 7);
-            
+
+            Console.WriteLine("SELECTEDTIMESLOTDGV 1: " + selectedTimeslotDGV);
+
             //
             if (existingTimeslots[0].Count == 0)
             {
@@ -328,6 +330,8 @@ namespace CustomUserControl
                 selectedTimeslotDGV = "current";
                 return;
             }
+
+            Console.WriteLine("SELECTEDTIMESLOTDGV 2: " + selectedTimeslotDGV);
 
             BindingList<ClassTimePeriod> existingClassScheds = new BindingList<ClassTimePeriod>();
             int id;
@@ -351,10 +355,16 @@ namespace CustomUserControl
                 existingClassScheds.Add(new ClassTimePeriod(id, section, course, day, startTime, endTime, panelistID));
             }
 
+            Console.WriteLine("SELECTEDTIMESLOTDGV 3: " + selectedTimeslotDGV);
+
             dataGridViewExistingTimeslot.DataSource = existingClassScheds;
+
+
             dataGridViewExistingTimeslot.Columns[5].DefaultCellStyle.Format = "hh:mm tt";
             dataGridViewExistingTimeslot.Columns[6].DefaultCellStyle.Format = "hh:mm tt";
             dataGridViewExistingTimeslot.Columns["Id"].Visible = false;
+
+            Console.WriteLine("SELECTEDTIMESLOTDGV 4: " + selectedTimeslotDGV);
 
             dataGridViewExistingTimeslot.Columns["Course"].Width = 70;
             dataGridViewExistingTimeslot.Columns["Section"].Width = 50;
@@ -364,6 +374,8 @@ namespace CustomUserControl
             dataGridViewExistingTimeslot.Columns["EndTime"].Width = 80;
 
             dataGridViewExistingTimeslot.Refresh();
+
+            Console.WriteLine("SELECTEDTIMESLOTDGV 5: " + selectedTimeslotDGV);
         }
         private void UpdateAvailableEvents()
         {
@@ -713,6 +725,7 @@ namespace CustomUserControl
                 selectedTimeslotDGV = "";
 
             int timeslotID = 0;
+            Console.WriteLine("SELECTEDTIMESLOTDGV BEFORE DELETE: " + selectedTimeslotDGV);
             if (selectedTimeslotDGV.Equals("existing"))
             {
                 rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index;
@@ -734,11 +747,14 @@ namespace CustomUserControl
                 //delete timeslot from timeslot table
                 query = "DELETE FROM Timeslot WHERE timeslotID = " + timeslotID + "";
                 dbHandler.Delete(query);
+                Console.WriteLine("SELECTEDTIMESLOTDGV BEFORE refresh: " + selectedTimeslotDGV);
                 if (IsTreeViewSetToStudents())
                     RefreshStudentClassScheds();
                 else
                     RefreshPanelistClassScheds();
+                Console.WriteLine("SELECTEDTIMESLOTDGV after refresh: " + selectedTimeslotDGV);
                 UpdateAvailableTimeslot();
+                Console.WriteLine("SELECTEDTIMESLOTDGV after update: " + selectedTimeslotDGV);
 
 
                 retainSelection(rowIndex, true);
@@ -788,6 +804,7 @@ namespace CustomUserControl
                     {
                         MessageBox.Show("The new class schedule conflicts with another.", "Conflict with Other Schedules", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         RefreshStudentClassScheds();
+                        UpdateAvailableTimeslot();
                         return;
                     }
 
@@ -815,6 +832,7 @@ namespace CustomUserControl
                     {
                         MessageBox.Show("The new class schedule conflicts with another.", "Conflict with Other Schedules", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         RefreshPanelistClassScheds();
+                        UpdateAvailableTimeslot();
                         return;
                     }
 
@@ -995,6 +1013,7 @@ namespace CustomUserControl
         {
             //Selection transfer
             Console.WriteLine("rowIndex: " + rowIndex);
+            Console.WriteLine("selectedtimeslotdgv: " + selectedTimeslotDGV);
             if (isTimeslot)
             {
                 if (selectedTimeslotDGV.Equals("existing"))
