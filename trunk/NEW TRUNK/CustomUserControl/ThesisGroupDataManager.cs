@@ -39,7 +39,7 @@ namespace CustomUserControl
 
         public void UpdateGroupDetails(String thesisGroupID, String title, String section, String startSY, String course, String startTerm)
         {
-            String query = "update thesisgroup set title = '" + title + "', course = '" + course + "', section = '" + section + "', startSY = '" + startSY + "', startTerm = '" + startTerm + "', eligiblefordefense = '" + false + "', eligibleforredefense = '" + false + "' ";
+            String query = "update thesisgroup set title = '" + title + "', course = '" + course + "', section = '" + section + "', startSY = '" + startSY + "', startTerm = '" + startTerm + "', eligiblefordefense = '" + GetEligibilities(thesisGroupID)[0] + "', eligibleforredefense = '" + GetEligibilities(thesisGroupID)[1] + "' ";
             query += "where thesisgroupid = " + thesisGroupID + ";";
             dbHandler.Update(query);
         }
@@ -95,8 +95,8 @@ namespace CustomUserControl
             String query = "select eligiblefordefense, eligibleforredefense from thesisgroup where thesisgroupid = " + thesisGroupID + ";";
             List<String>[] result = dbHandler.Select(query, 2);
 
-            eligible[0] = Convert.ToBoolean(dbHandler.Select(query, 2)[0].ElementAt(0));
-            eligible[1] = Convert.ToBoolean(dbHandler.Select(query, 2)[1].ElementAt(0));
+            eligible[0] = Convert.ToBoolean(result[0].ElementAt(0));
+            eligible[1] = Convert.ToBoolean(result[1].ElementAt(0));
 
             return eligible;
         }
