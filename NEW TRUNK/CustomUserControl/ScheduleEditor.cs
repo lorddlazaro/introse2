@@ -51,10 +51,7 @@ namespace CustomUserControl
             Cursor.Current = Cursors.WaitCursor;
             selectedTimeslotDGV = "";
             selectedEventDGV = "";
-            buttonEditEvent.Enabled = false;
-            buttonTimeslotEdit.Enabled = false;
-            buttonDeleteEvent.Enabled = false;
-            buttonDeleteTimeslot.Enabled = false;
+
             Refresh();
             if (IsTreeViewSetToStudents())
             {
@@ -714,18 +711,20 @@ namespace CustomUserControl
         {
             //GET timeslotID
 
+            int rowIndex=0;
+
             if (dataGridViewExistingTimeslot.DataSource == null && dataGridViewWeeklyTimeslot.DataSource == null)
                 selectedTimeslotDGV = "";
 
             int timeslotID = 0;
             if (selectedTimeslotDGV.Equals("existing"))
             {
-                int rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index;
+                rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index;
                 timeslotID = Convert.ToInt32(dataGridViewExistingTimeslot[0, rowIndex].Value);
             }
             else if (selectedTimeslotDGV.Equals("current"))
             {
-                int rowIndex = dataGridViewWeeklyTimeslot.SelectedRows[0].Index;
+                rowIndex = dataGridViewWeeklyTimeslot.SelectedRows[0].Index;
                 timeslotID = Convert.ToInt32(dataGridViewWeeklyTimeslot[0, rowIndex].Value);
             }
             else 
@@ -745,10 +744,17 @@ namespace CustomUserControl
                     RefreshPanelistClassScheds();
                 UpdateAvailableTimeslot();
 
+
+                retainSelection(rowIndex, true);
+
             }
             else
                 return;
         }
+
+
+        
+
         private void buttonAssignTimeslot_Click(object sender, EventArgs e)
         {
             if (dataGridViewExistingTimeslot.DataSource == null || dataGridViewExistingTimeslot.SelectedRows.Count == 0)
@@ -868,6 +874,9 @@ namespace CustomUserControl
             else
                 RefreshPanelistClassScheds();
             UpdateAvailableTimeslot();
+
+            retainSelection(rowIndex, true);
+
             //RefreshTreeView();
         }
         private void buttonUnassignTimeslot_Click(object sender, EventArgs e)
@@ -914,12 +923,18 @@ namespace CustomUserControl
                 RefreshPanelistClassScheds();
             UpdateAvailableTimeslot();
             //RefreshTreeView();
+            Console.WriteLine(dataGridViewWeeklyTimeslot.Rows.Count > 0);
+            Console.WriteLine(dataGridViewWeeklyTimeslot.DataSource == null);
+            Console.WriteLine(dataGridViewWeeklyTimeslot.SelectedRows.Count == 0);
+            retainSelection(selectedRowIndex, true);
             if (dataGridViewWeeklyTimeslot.Rows.Count > 0 && (dataGridViewWeeklyTimeslot.DataSource == null || dataGridViewWeeklyTimeslot.SelectedRows.Count == 0))
             {
                 dataGridViewWeeklyTimeslot.Rows[0].Selected = true;
                 dataGridViewExistingTimeslot.ClearSelection();
                 return;
             }
+
+            
 
         }
         //Extra
@@ -978,6 +993,77 @@ namespace CustomUserControl
             }
             return true;
         }
+        public void retainSelection(int rowIndex, bool isTimeslot)
+        {
+            //Selection transfer
+            Console.WriteLine("rowIndex: " + rowIndex);
+            if (isTimeslot)
+            {
+                if (selectedTimeslotDGV.Equals("existing"))
+                {
+                    if (dataGridViewExistingTimeslot.DataSource != null)
+                    {
+                        if (dataGridViewExistingTimeslot.Rows.Count >= rowIndex + 1)
+                        {
+                            dataGridViewExistingTimeslot.Rows[rowIndex].Selected = true;
+                        }
+                        else if (dataGridViewExistingTimeslot.Rows.Count >= rowIndex)
+                        {
+                            dataGridViewExistingTimeslot.Rows[rowIndex - 1].Selected = true;
+                        }
+                    }
+                }
+                else if (selectedTimeslotDGV.Equals("current"))
+                {
+                    if (dataGridViewWeeklyTimeslot.DataSource != null)
+                    {
+                        if (dataGridViewWeeklyTimeslot.Rows.Count >= rowIndex + 1)
+                        {
+                            dataGridViewWeeklyTimeslot.Rows[rowIndex].Selected = true;
+                        }
+                        else if (dataGridViewWeeklyTimeslot.Rows.Count >= rowIndex)
+                        {
+                            dataGridViewWeeklyTimeslot.Rows[rowIndex - 1].Selected = true;
+                        }
+                    }
+                }
+                else
+                    return;
+            }
+            else
+            {
+                if (selectedEventDGV.Equals("existing"))
+                {
+                    if (dataGridViewExistingEvent.DataSource != null)
+                    {
+                        if (dataGridViewExistingEvent.Rows.Count >= rowIndex + 1)
+                        {
+                            dataGridViewExistingEvent.Rows[rowIndex].Selected = true;
+                        }
+                        else if (dataGridViewExistingEvent.Rows.Count >= rowIndex)
+                        {
+                            dataGridViewExistingEvent.Rows[rowIndex - 1].Selected = true;
+                        }
+                    }
+                }
+                else if (selectedEventDGV.Equals("current"))
+                {
+                    if (dataGridViewEvent.DataSource != null)
+                    {
+                        if (dataGridViewEvent.Rows.Count >= rowIndex + 1)
+                        {
+                            dataGridViewEvent.Rows[rowIndex].Selected = true;
+                        }
+                        else if (dataGridViewEvent.Rows.Count >= rowIndex)
+                        {
+                            dataGridViewEvent.Rows[rowIndex-1].Selected = true;
+                        }
+                    }
+                }
+                else
+                    return;
+            }
+        }
 
         //Event
         private void buttonAddEvent_Click(object sender, EventArgs e)
@@ -1024,18 +1110,20 @@ namespace CustomUserControl
         private void buttonDeleteEvent_Click(object sender, EventArgs e)
         {
             //GET EVENT ID
+            int rowIndex;
+
             if (dataGridViewEvent.DataSource == null && dataGridViewExistingEvent.DataSource == null)
                 selectedEventDGV = "";
 
             int eventID = 0;
             if (selectedEventDGV.Equals("existing"))
             {
-                int rowIndex = dataGridViewExistingEvent.SelectedRows[0].Index;
+                rowIndex = dataGridViewExistingEvent.SelectedRows[0].Index;
                 eventID = Convert.ToInt32(dataGridViewExistingEvent[0, rowIndex].Value);
             }
             else if (selectedEventDGV.Equals("current"))
             {
-                int rowIndex = dataGridViewEvent.SelectedRows[0].Index;
+                rowIndex = dataGridViewEvent.SelectedRows[0].Index;
                 eventID = Convert.ToInt32(dataGridViewEvent[0, rowIndex].Value);
             }
             else
@@ -1056,6 +1144,8 @@ namespace CustomUserControl
                 else
                     RefreshPanelistEvents();
                 UpdateAvailableEvents();
+
+                retainSelection(rowIndex, false);
             }
             else
                 return;
@@ -1157,6 +1247,7 @@ namespace CustomUserControl
             }
             UpdateAvailableEvents();
             //RefreshTreeView();
+            retainSelection(rowIndex, false);
 
         }
         private void buttonUnassignEvent_Click(object sender, EventArgs e)
@@ -1165,9 +1256,9 @@ namespace CustomUserControl
             {
                 return;
             }
-            String selectedRowIndex = dataGridViewEvent.SelectedRows[0].Index.ToString();
+            int rowIndex = dataGridViewEvent.SelectedRows[0].Index;
 
-            String currEvent = eventTable[0][dataGridViewEvent.SelectedRows[0].Index];
+            String currEvent = eventTable[0][rowIndex];
             if (IsTreeViewSetToStudents())
             {
                 String query = "DELETE FROM StudentEventRecord WHERE studentID = " + currStudent + " AND eventID = " + currEvent + ";";
@@ -1183,14 +1274,21 @@ namespace CustomUserControl
             }
 
             UpdateAvailableEvents();
-            //RefreshTreeView();
 
+
+            //RefreshTreeView();
+            Console.WriteLine(dataGridViewEvent.Rows.Count > 0);
+            Console.WriteLine(dataGridViewEvent.DataSource == null);
+            Console.WriteLine(dataGridViewEvent.SelectedRows.Count == 0);
+            retainSelection(rowIndex, false);
             if (dataGridViewEvent.Rows.Count > 0 && (dataGridViewEvent.DataSource == null || dataGridViewEvent.SelectedRows.Count == 0))
             {
                 dataGridViewEvent.Rows[0].Selected = true;
                 dataGridViewExistingEvent.ClearSelection();
                 return;
             }
+            
+            
         }
 
         //Datagridview Table Row Selection
