@@ -109,7 +109,7 @@
             this.labelStartPageText.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelStartPageText.Location = new System.Drawing.Point(212, 64);
             this.labelStartPageText.Name = "labelStartPageText";
-            this.labelStartPageText.Size = new System.Drawing.Size(446, 180);
+            this.labelStartPageText.Size = new System.Drawing.Size(448, 180);
             this.labelStartPageText.TabIndex = 4;
             this.labelStartPageText.Text = resources.GetString("labelStartPageText.Text");
             // 
@@ -345,10 +345,9 @@
             // 
             // labelResetting
             // 
-            this.labelResetting.AutoSize = true;
             this.labelResetting.Location = new System.Drawing.Point(13, 19);
             this.labelResetting.Name = "labelResetting";
-            this.labelResetting.Size = new System.Drawing.Size(106, 13);
+            this.labelResetting.Size = new System.Drawing.Size(500, 13);
             this.labelResetting.TabIndex = 2;
             this.labelResetting.Text = "Resetting in progress";
             // 
@@ -378,7 +377,6 @@
             this.tabPageGroupSelection.ResumeLayout(false);
             this.tabPageGroupSelection.PerformLayout();
             this.tabPageResetting.ResumeLayout(false);
-            this.tabPageResetting.PerformLayout();
             this.ResumeLayout(false);
 
         }
