@@ -638,10 +638,6 @@ namespace CustomUserControl
             buttonAssignTimeslot.Enabled = false;
             buttonUnassignTimeslot.Enabled = false;
             buttonUnassignEvent.Enabled = false;
-            buttonEditEvent.Enabled = false;
-            buttonDeleteEvent.Enabled = false;
-            buttonTimeslotEdit.Enabled =false;
-            buttonDeleteTimeslot.Enabled = false;
             //clears the tables
             dataGridViewWeeklyTimeslot.DataSource = null;
             dataGridViewWeeklyTimeslot.Refresh();
