@@ -52,11 +52,11 @@ namespace CustomUserControl
             this.buttonAssignTimeslot = new System.Windows.Forms.Button();
             this.buttonUnassignTimeslot = new System.Windows.Forms.Button();
             this.groupBoxEvent = new System.Windows.Forms.GroupBox();
+            this.buttonEditEvent = new System.Windows.Forms.Button();
             this.buttonDeleteEvent = new System.Windows.Forms.Button();
             this.labelAvailableEvents = new System.Windows.Forms.Label();
             this.labelSelectedPersonEvent = new System.Windows.Forms.Label();
             this.dataGridViewExistingEvent = new System.Windows.Forms.DataGridView();
-            this.buttonEditEvent = new System.Windows.Forms.Button();
             this.dataGridViewEvent = new System.Windows.Forms.DataGridView();
             this.buttonAssignEvent = new System.Windows.Forms.Button();
             this.buttonAddEvent = new System.Windows.Forms.Button();
@@ -228,6 +228,17 @@ namespace CustomUserControl
             this.groupBoxEvent.TabStop = false;
             this.groupBoxEvent.Text = "Events";
             // 
+            // buttonEditEvent
+            // 
+            this.buttonEditEvent.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonEditEvent.Location = new System.Drawing.Point(373, 197);
+            this.buttonEditEvent.Name = "buttonEditEvent";
+            this.buttonEditEvent.Size = new System.Drawing.Size(49, 26);
+            this.buttonEditEvent.TabIndex = 23;
+            this.buttonEditEvent.Text = "Edit";
+            this.buttonEditEvent.UseVisualStyleBackColor = true;
+            this.buttonEditEvent.Click += new System.EventHandler(this.buttonEditEvent_Click);
+            // 
             // buttonDeleteEvent
             // 
             this.buttonDeleteEvent.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -274,17 +285,6 @@ namespace CustomUserControl
             this.dataGridViewExistingEvent.Size = new System.Drawing.Size(365, 313);
             this.dataGridViewExistingEvent.TabIndex = 24;
             this.dataGridViewExistingEvent.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewExistingEvent_RowEnter);
-            // 
-            // buttonEditEvent
-            // 
-            this.buttonEditEvent.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonEditEvent.Location = new System.Drawing.Point(373, 197);
-            this.buttonEditEvent.Name = "buttonEditEvent";
-            this.buttonEditEvent.Size = new System.Drawing.Size(49, 26);
-            this.buttonEditEvent.TabIndex = 23;
-            this.buttonEditEvent.Text = "Edit";
-            this.buttonEditEvent.UseVisualStyleBackColor = true;
-            this.buttonEditEvent.Click += new System.EventHandler(this.buttonEditEvent_Click);
             // 
             // dataGridViewEvent
             // 
@@ -379,16 +379,16 @@ namespace CustomUserControl
             "Panelists (Ungrouped)"});
             this.comboBoxSortType.Location = new System.Drawing.Point(4, 9);
             this.comboBoxSortType.Name = "comboBoxSortType";
-            this.comboBoxSortType.Size = new System.Drawing.Size(119, 21);
+            this.comboBoxSortType.Size = new System.Drawing.Size(134, 21);
             this.comboBoxSortType.TabIndex = 15;
             this.comboBoxSortType.SelectionChangeCommitted += new System.EventHandler(this.comboBoxSortType_SelectionChangeCommitted);
             // 
             // buttonDeletePanelist
             // 
             this.buttonDeletePanelist.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDeletePanelist.Location = new System.Drawing.Point(129, 9);
+            this.buttonDeletePanelist.Location = new System.Drawing.Point(144, 8);
             this.buttonDeletePanelist.Name = "buttonDeletePanelist";
-            this.buttonDeletePanelist.Size = new System.Drawing.Size(65, 23);
+            this.buttonDeletePanelist.Size = new System.Drawing.Size(50, 23);
             this.buttonDeletePanelist.TabIndex = 16;
             this.buttonDeletePanelist.Text = "Delete";
             this.buttonDeletePanelist.UseVisualStyleBackColor = true;
