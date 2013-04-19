@@ -12,12 +12,19 @@ namespace CustomUserControl
     public partial class FormResetWizard : Form
     {
         DBce DBHandler;
+        private FreeTimeViewer freeTimeViewer;
+        private ScheduleEditor scheduleEditor;
+        private ThesisGroupControl thesisGroupControl;
 
-        public FormResetWizard()
+        public FormResetWizard(FreeTimeViewer freeTimeViewer, ScheduleEditor scheduleEditor, ThesisGroupControl thesisGroupControl )
         {
             InitializeComponent();
             DBHandler = new DBce();
             Show();
+
+            this.freeTimeViewer = freeTimeViewer;
+            this.scheduleEditor = scheduleEditor;
+            this.thesisGroupControl = thesisGroupControl;
         }
 
         // Initialization Methods
@@ -50,13 +57,21 @@ namespace CustomUserControl
             }
         }
 
-        // Refreshers
+        // Refreshers and other GUI methods
         private int RefreshProgressLabel(String labelText, int stepsLeft) 
         {
             labelResetting.Text = labelText;
             return stepsLeft - 1;
         }
-
+        private void RefreshMainForm() 
+        {
+            TopMost = true;
+            freeTimeViewer.RefreshAll();
+            scheduleEditor.RefreshAll();
+            thesisGroupControl.RefreshAll();
+            TopMost = false;
+        }
+    
         // Event Listeners
         private void buttonResettingExit_Click(object sender, EventArgs e)
         {
@@ -90,8 +105,9 @@ namespace CustomUserControl
         // Resetting Methods
         private void ResetData()
         {
+            this.ControlBox = false;
             String query;
-            int stepsLeft = 6; // amount of steps left + 1
+            int stepsLeft = 7; // amount of steps left + 1
 
             // Legend: Task (Database table/s involved)
 
@@ -148,6 +164,12 @@ namespace CustomUserControl
             // Groups proceed to next course (ThesisGroup)
             AdvanceThesisGroups();
 
+            progressBarResetting.Value = progressBarResetting.Maximum / stepsLeft;
+
+            //SIXTH STEP
+            stepsLeft = RefreshProgressLabel("Refreshing System", stepsLeft);
+
+            RefreshMainForm();
             progressBarResetting.Value = progressBarResetting.Maximum / stepsLeft;
 
             // RESET COMPLETE
