@@ -475,14 +475,18 @@ namespace CustomUserControl
                                 return;
                             }
                             query = "SELECT thesisGroupID FROM panelAssignment where panelistID = '" + panelTable[0][comboBoxPanelist.SelectedIndex] + "';";
-                            String panelistThesisGroupID = dbHandler.Select(query, 1)[0][0];
-                            bool shouldProceed = subParent.ClassAssignmentConflictFreeWithDefScheds(panelistThesisGroupID, panelistClassTimePeriod);
-                            if (!shouldProceed)
-                            {
-                                DialogResult result = MessageBox.Show("Class conflicts with a defense of the assigned panelist.", "Conflict with Defense", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
+                            List<String> groupIDs = dbHandler.Select(query, 1)[0];
 
+                            if (groupIDs.Count > 0)
+                            {
+                                String panelistThesisGroupID = groupIDs[0];
+                                bool shouldProceed = subParent.ClassAssignmentConflictFreeWithDefScheds(panelistThesisGroupID, panelistClassTimePeriod);
+                                if (!shouldProceed)
+                                {
+                                    DialogResult result = MessageBox.Show("Class conflicts with a defense of the assigned panelist.", "Conflict with Defense", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+                            }
                             // END: Check for conflict for panelist being assigned
 
                             
