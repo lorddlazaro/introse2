@@ -358,10 +358,13 @@ namespace CustomUserControl
             Console.WriteLine("SELECTEDTIMESLOTDGV 3: " + selectedTimeslotDGV);
 
             dataGridViewExistingTimeslot.DataSource = existingClassScheds;
+            Console.WriteLine("SELECTEDTIMESLOTDGV 3.1: " + selectedTimeslotDGV);
 
 
             dataGridViewExistingTimeslot.Columns[5].DefaultCellStyle.Format = "hh:mm tt";
+            Console.WriteLine("SELECTEDTIMESLOTDGV 3.2: " + selectedTimeslotDGV);
             dataGridViewExistingTimeslot.Columns[6].DefaultCellStyle.Format = "hh:mm tt";
+            Console.WriteLine("SELECTEDTIMESLOTDGV 3.3: " + selectedTimeslotDGV);
             dataGridViewExistingTimeslot.Columns["Id"].Visible = false;
 
             Console.WriteLine("SELECTEDTIMESLOTDGV 4: " + selectedTimeslotDGV);
@@ -956,55 +959,59 @@ namespace CustomUserControl
         //Extra
         public bool ClassAssignmentConflictFreeWithDefScheds(String thesisGroupID, TimePeriod classTimePeriod)
         {
-            int rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index; // removed from the parameter to be used outside scheduleeditor
 
-            DefenseSchedule defSched = schedulingDM.GetDefSched(thesisGroupID, Constants.DEFENSE_TYPE);
-            DefenseSchedule redefSched = schedulingDM.GetDefSched(thesisGroupID, Constants.REDEFENSE_TYPE);
-
-            String defDayOfWeek;
-            String redefDayOfWeek;
-
-            bool conflictWithDefense = false;
-            bool conflictWithRedefense = false;
-
-            if (defSched != null)
+            if (dataGridViewExistingTimeslot.DataSource != null)
             {
-                defDayOfWeek = schedulingDM.ConvertDayOfWeekToString(defSched.StartTime.DayOfWeek);
-                conflictWithDefense = defDayOfWeek.Equals(existingTimeslots[3][rowIndex]) && classTimePeriod.IntersectsExclusive(defSched);
-            }
-            if (redefSched != null)
-            {
-                redefDayOfWeek = schedulingDM.ConvertDayOfWeekToString(redefSched.StartTime.DayOfWeek);
-                conflictWithRedefense = redefDayOfWeek.Equals(existingTimeslots[3][rowIndex]) && classTimePeriod.IntersectsExclusive(redefSched);
-            }
+                int rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index; // removed from the parameter to be used outside scheduleeditor
 
-            if (conflictWithDefense || conflictWithRedefense)
-            {
-                String warningMsg;
-                if (conflictWithDefense && conflictWithRedefense)
-                    warningMsg = "There are conflicts with this group's defense and re-defense schedule. ";
-                else if (conflictWithDefense)
-                    warningMsg = "There is conflict with this group's defense schedule. ";
-                else
-                    warningMsg = "There is conflict with this group's re-defense schedule. ";
-                warningMsg += "Proceeding will unschedule said schedule";
+                DefenseSchedule defSched = schedulingDM.GetDefSched(thesisGroupID, Constants.DEFENSE_TYPE);
+                DefenseSchedule redefSched = schedulingDM.GetDefSched(thesisGroupID, Constants.REDEFENSE_TYPE);
 
+                String defDayOfWeek;
+                String redefDayOfWeek;
 
-                if (MessageBox.Show(warningMsg, "Conflict with Defense", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.Cancel)
-                    return false;
-                else
+                bool conflictWithDefense = false;
+                bool conflictWithRedefense = false;
+
+                if (defSched != null)
                 {
+                    defDayOfWeek = schedulingDM.ConvertDayOfWeekToString(defSched.StartTime.DayOfWeek);
+                    conflictWithDefense = defDayOfWeek.Equals(existingTimeslots[3][rowIndex]) && classTimePeriod.IntersectsExclusive(defSched);
+                }
+                if (redefSched != null)
+                {
+                    redefDayOfWeek = schedulingDM.ConvertDayOfWeekToString(redefSched.StartTime.DayOfWeek);
+                    conflictWithRedefense = redefDayOfWeek.Equals(existingTimeslots[3][rowIndex]) && classTimePeriod.IntersectsExclusive(redefSched);
+                }
 
-                    String query = "DELETE FROM defenseSchedule WHERE ";
-
+                if (conflictWithDefense || conflictWithRedefense)
+                {
+                    String warningMsg;
                     if (conflictWithDefense && conflictWithRedefense)
-                        query += " defenseID = " + defSched.DefenseID + " OR defenseID = " + redefSched.DefenseID + ";";
+                        warningMsg = "There are conflicts with this group's defense and re-defense schedule. ";
                     else if (conflictWithDefense)
-                        query += " defenseID = " + defSched.DefenseID + ";";
-                    else// if(conflictWithRedefense)
-                        query += " defenseID = " + redefSched.DefenseID + ";";
+                        warningMsg = "There is conflict with this group's defense schedule. ";
+                    else
+                        warningMsg = "There is conflict with this group's re-defense schedule. ";
+                    warningMsg += "Proceeding will unschedule said schedule";
 
-                    dbHandler.Delete(query);
+
+                    if (MessageBox.Show(warningMsg, "Conflict with Defense", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.Cancel)
+                        return false;
+                    else
+                    {
+
+                        String query = "DELETE FROM defenseSchedule WHERE ";
+
+                        if (conflictWithDefense && conflictWithRedefense)
+                            query += " defenseID = " + defSched.DefenseID + " OR defenseID = " + redefSched.DefenseID + ";";
+                        else if (conflictWithDefense)
+                            query += " defenseID = " + defSched.DefenseID + ";";
+                        else// if(conflictWithRedefense)
+                            query += " defenseID = " + redefSched.DefenseID + ";";
+
+                        dbHandler.Delete(query);
+                    }
                 }
             }
             return true;
@@ -1329,6 +1336,7 @@ namespace CustomUserControl
         private void DataGridViewExistingTimeslot_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             dataGridViewWeeklyTimeslot.ClearSelection();
+            Console.WriteLine("OH NO");
             if (dataGridViewExistingTimeslot.DataSource != null)
                 selectedTimeslotDGV = "existing";
             else
