@@ -787,6 +787,7 @@ namespace CustomUserControl
                     if (!schedulingDM.IsNewClassTimePeriodConflictFreeStudent(currStudent, classTimePeriod, dayOfWeek))
                     {
                         MessageBox.Show("The new class schedule conflicts with another.", "Conflict with Other Schedules", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        RefreshStudentClassScheds();
                         return;
                     }
 
@@ -813,6 +814,7 @@ namespace CustomUserControl
                     if (!schedulingDM.IsNewClassTimePeriodConflictFreePanelist(currPanelist, classTimePeriod, dayOfWeek))
                     {
                         MessageBox.Show("The new class schedule conflicts with another.", "Conflict with Other Schedules", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        RefreshPanelistClassScheds();
                         return;
                     }
 
