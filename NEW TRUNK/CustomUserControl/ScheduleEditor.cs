@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 
 namespace CustomUserControl
 {
+    
     public partial class ScheduleEditor : UserControl
     {
         private String currStudent;
@@ -43,9 +44,7 @@ namespace CustomUserControl
             comboBoxSortType.SelectedIndex = 0;
             schedulingDM = new SchedulingDataManager();
             Console.WriteLine("END-of-ScheduleEditor Constructor");
-
         }
-
         //REFRESHERS
         public void RefreshAll()
         {
