@@ -25,29 +25,37 @@ namespace CustomUserControl
         List<String>[] timeSlotTable;
         List<String>[] eventTable;
         public Form containerParent; //Form1 pointer
-        private String selectedEventDGV; // either contains the values ("existing","current")
-        private String selectedTimeslotDGV;  // either contains the values ("existing","current")
+        private String selectedEventDGV=""; // either contains the values ("existing","current")
+        private String selectedTimeslotDGV="";  // either contains the values ("existing","current")
         private SchedulingDataManager schedulingDM;
 
         //Constructor
         public ScheduleEditor()
         {
+            Console.WriteLine("START-of-ScheduleEditor Constructor");
             InitializeComponent();
             currStudent = "";
             currPanelist = "";
             treeViewStudentGroup.Show();
             treeViewPanelistGroup.Hide();
             UpdateStudentGroupTreeView();
-            UpdateAvailableTimeslot();
-            UpdateAvailableEvents();
+            RefreshAll();
             comboBoxSortType.SelectedIndex = 0;
             schedulingDM = new SchedulingDataManager();
+            Console.WriteLine("END-of-ScheduleEditor Constructor");
+
         }
 
         //REFRESHERS
         public void RefreshAll()
         {
             Cursor.Current = Cursors.WaitCursor;
+            selectedTimeslotDGV = "";
+            selectedEventDGV = "";
+            buttonEditEvent.Enabled = false;
+            buttonTimeslotEdit.Enabled = false;
+            buttonDeleteEvent.Enabled = false;
+            buttonDeleteTimeslot.Enabled = false;
             Refresh();
             if (IsTreeViewSetToStudents())
             {
@@ -135,7 +143,6 @@ namespace CustomUserControl
         {
             UpdateEvent(currStudent, "studentID", "StudentEventRecord");
         }
-
         //Panelist
         public void RefreshPanelistClassScheds()
         {
@@ -315,6 +322,8 @@ namespace CustomUserControl
                 query = "SELECT        Timeslot.timeslotID, Timeslot.courseName, Timeslot.section, Timeslot.day, Timeslot.startTime, Timeslot.endTime,  Panelist.firstName + ' ' + Panelist.MI + '. ' + Panelist.lastName AS Professor FROM            Timeslot LEFT OUTER JOIN Panelist ON Timeslot.panelistID = Panelist.panelistID WHERE        (NOT (Timeslot.panelistID = '" + currPanelist + "')) OR (Timeslot.panelistID IS NULL) ORDER BY Timeslot.courseName, Timeslot.section";
 
             existingTimeslots = dbHandler.Select(query, 7);
+            
+            //
             if (existingTimeslots[0].Count == 0)
             {
                 dataGridViewExistingTimeslot.DataSource = null;
@@ -576,7 +585,7 @@ namespace CustomUserControl
             treeViewUngroupedPanelists.SelectedNode = e.Node;
             SwitchToPanelistMode(e.Node);
         }
-        //Extra
+        //Extraz
         private void SwitchToPanelistMode(TreeNode selectedNode)
         {
             //enable buttons
@@ -584,6 +593,10 @@ namespace CustomUserControl
             buttonAssignTimeslot.Enabled = true;
             buttonUnassignTimeslot.Enabled = true;
             buttonUnassignEvent.Enabled = true;
+            buttonEditEvent.Enabled = true;
+            buttonDeleteEvent.Enabled = true;
+            buttonTimeslotEdit.Enabled = true;
+            buttonDeleteTimeslot.Enabled = true;
 
             //updates tables
             labelSelectedPersonEvent.Text = selectedNode.Text + "'s Events";
@@ -604,6 +617,10 @@ namespace CustomUserControl
             buttonAssignTimeslot.Enabled = true;
             buttonUnassignTimeslot.Enabled = true;
             buttonUnassignEvent.Enabled = true;
+            buttonEditEvent.Enabled = true;
+            buttonDeleteEvent.Enabled = true;
+            buttonTimeslotEdit.Enabled = true;
+            buttonDeleteTimeslot.Enabled = true;
             //updates tables
             labelSelectedPersonEvent.Text = selectedNode.Text + "'s Events";
             labelSelectedPersonTimeslot.Text = selectedNode.Text + "'s Class Schedule";
@@ -625,6 +642,10 @@ namespace CustomUserControl
             buttonAssignTimeslot.Enabled = false;
             buttonUnassignTimeslot.Enabled = false;
             buttonUnassignEvent.Enabled = false;
+            buttonEditEvent.Enabled = false;
+            buttonDeleteEvent.Enabled = false;
+            buttonTimeslotEdit.Enabled =false;
+            buttonDeleteTimeslot.Enabled = false;
             //clears the tables
             dataGridViewWeeklyTimeslot.DataSource = null;
             dataGridViewWeeklyTimeslot.Refresh();
@@ -632,8 +653,10 @@ namespace CustomUserControl
             dataGridViewEvent.Refresh();
 
             //selection
+
             if (dataGridViewExistingEvent.DataSource != null)
                 dataGridViewExistingEvent.Rows[0].Selected = true;
+
             if (dataGridViewExistingTimeslot.DataSource != null)
                 dataGridViewExistingTimeslot.Rows[0].Selected = true;
 
@@ -655,6 +678,10 @@ namespace CustomUserControl
         {
             timeslotAdder = new TimeslotCreator(true, containerParent, this);
             int rowIndex = 0;
+
+            if (dataGridViewExistingTimeslot.DataSource == null && dataGridViewWeeklyTimeslot.DataSource == null)
+                selectedTimeslotDGV = "";
+
             if (selectedTimeslotDGV.Equals("existing"))
             {
                 rowIndex = dataGridViewExistingTimeslot.SelectedRows[0].Index;
@@ -673,6 +700,8 @@ namespace CustomUserControl
 
                 }
             }
+            else
+                return;
 
 
 
@@ -685,6 +714,10 @@ namespace CustomUserControl
         private void buttonDeleteTimeslot_Click(object sender, EventArgs e)
         {
             //GET timeslotID
+
+            if (dataGridViewExistingTimeslot.DataSource == null && dataGridViewWeeklyTimeslot.DataSource == null)
+                selectedTimeslotDGV = "";
+
             int timeslotID = 0;
             if (selectedTimeslotDGV.Equals("existing"))
             {
@@ -696,6 +729,8 @@ namespace CustomUserControl
                 int rowIndex = dataGridViewWeeklyTimeslot.SelectedRows[0].Index;
                 timeslotID = Convert.ToInt32(dataGridViewWeeklyTimeslot[0, rowIndex].Value);
             }
+            else 
+                return;
 
             if (DialogResult.Yes == MessageBox.Show("Are you sure you want to remove this timeslot for all student/panelist schedules?", "Delete confirmation.", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
             {   //delete timeslot in student schedule table
@@ -705,7 +740,12 @@ namespace CustomUserControl
                 //delete timeslot from timeslot table
                 query = "DELETE FROM Timeslot WHERE timeslotID = " + timeslotID + "";
                 dbHandler.Delete(query);
-                RefreshAll();
+                if (IsTreeViewSetToStudents())
+                    RefreshStudentClassScheds();
+                else
+                    RefreshPanelistClassScheds();
+                UpdateAvailableTimeslot();
+
             }
             else
                 return;
@@ -951,6 +991,9 @@ namespace CustomUserControl
         }
         private void buttonEditEvent_Click(object sender, EventArgs e)
         {
+
+            if (dataGridViewEvent.DataSource == null && dataGridViewExistingEvent.DataSource == null)
+                selectedEventDGV = "";
             eventAdder = new EventCreator(true, containerParent, this);
             int rowIndex = 0;
             if (selectedEventDGV.Equals("existing"))
@@ -970,6 +1013,8 @@ namespace CustomUserControl
                     eventAdder.forEditing.Add(dataGridViewEvent[i, rowIndex].Value.ToString());
                 }
             }
+            else
+                return;
 
 
             eventAdder.initializeTextBoxes();
@@ -980,6 +1025,9 @@ namespace CustomUserControl
         private void buttonDeleteEvent_Click(object sender, EventArgs e)
         {
             //GET EVENT ID
+            if (dataGridViewEvent.DataSource == null && dataGridViewExistingEvent.DataSource == null)
+                selectedEventDGV = "";
+
             int eventID = 0;
             if (selectedEventDGV.Equals("existing"))
             {
@@ -991,6 +1039,8 @@ namespace CustomUserControl
                 int rowIndex = dataGridViewEvent.SelectedRows[0].Index;
                 eventID = Convert.ToInt32(dataGridViewEvent[0, rowIndex].Value);
             }
+            else
+                return;
             //ASK FOR DELETE CONFIRMATION
             if (DialogResult.Yes == MessageBox.Show("Are you sure you want to remove this event for all student/panelist schedules?", "Delete confirmation.", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
             {
@@ -1002,7 +1052,11 @@ namespace CustomUserControl
                 //delete from event table
                 query = "DELETE FROM Event WHERE eventID = " + eventID + "";
                 dbHandler.Delete(query);
-                RefreshAll();
+                if (IsTreeViewSetToStudents())
+                    RefreshStudentEvents();
+                else
+                    RefreshPanelistEvents();
+                UpdateAvailableEvents();
             }
             else
                 return;
@@ -1143,23 +1197,36 @@ namespace CustomUserControl
         //Datagridview Table Row Selection
         private void DataGridViewExistingEvent_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            dataGridViewEvent.ClearSelection();
-            selectedEventDGV = "existing";
+                dataGridViewEvent.ClearSelection();
+                if (dataGridViewExistingEvent.DataSource != null)
+                    selectedEventDGV = "existing";
+                else
+                    selectedEventDGV = "";
+            
         }
         private void DataGridViewEvent_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             dataGridViewExistingEvent.ClearSelection();
-            selectedEventDGV = "current";
+            if (dataGridViewEvent.DataSource != null)
+                selectedEventDGV = "current";
+            else
+                selectedEventDGV = "";
         }
         private void DataGridViewExistingTimeslot_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             dataGridViewWeeklyTimeslot.ClearSelection();
-            selectedTimeslotDGV = "existing";
+            if (dataGridViewExistingTimeslot.DataSource != null)
+                selectedTimeslotDGV = "existing";
+            else
+                selectedTimeslotDGV = "";
         }
         private void DataGridViewWeeklyTimeslot_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             dataGridViewExistingTimeslot.ClearSelection();
-            selectedTimeslotDGV = "current";
+            if (dataGridViewWeeklyTimeslot.DataSource != null)
+                selectedTimeslotDGV = "current";
+            else
+                selectedTimeslotDGV = "";
         }
 
 
