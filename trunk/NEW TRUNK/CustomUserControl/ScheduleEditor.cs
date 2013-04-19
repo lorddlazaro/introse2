@@ -1023,7 +1023,7 @@ namespace CustomUserControl
                 query = "SELECT        DefenseSchedule.defenseDateTime, DefenseSchedule.defenseID, ThesisGroup.course FROM            DefenseSchedule INNER JOIN ThesisGroup ON DefenseSchedule.thesisGroupID = ThesisGroup.thesisGroupID INNER JOIN Student ON ThesisGroup.thesisGroupID = Student.thesisGroupID WHERE        (Student.studentID = '" + currStudent + "')";
             }
             else
-                query = "SELECT        DefenseSchedule.defenseID, DefenseSchedule.defenseDateTime, ThesisGroup.course FROM            PanelAssignment INNER JOIN Panelist ON PanelAssignment.panelistID = Panelist.panelistID INNER JOIN ThesisGroup ON PanelAssignment.thesisGroupID = ThesisGroup.thesisGroupID INNER JOIN DefenseSchedule ON ThesisGroup.thesisGroupID = DefenseSchedule.thesisGroupID WHERE        (Panelist.panelistID = '" + currPanelist + "')";
+                query = "SELECT        DefenseSchedule.defenseDateTime, DefenseSchedule.defenseID,  ThesisGroup.course FROM            PanelAssignment INNER JOIN Panelist ON PanelAssignment.panelistID = Panelist.panelistID INNER JOIN ThesisGroup ON PanelAssignment.thesisGroupID = ThesisGroup.thesisGroupID INNER JOIN DefenseSchedule ON ThesisGroup.thesisGroupID = DefenseSchedule.thesisGroupID WHERE        (Panelist.panelistID = '" + currPanelist + "')";
 
             List<String>[] defenseOfSelected = dbHandler.Select(query, 3);
 
