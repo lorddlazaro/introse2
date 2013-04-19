@@ -226,7 +226,7 @@ namespace CustomUserControl
             this.studentLN4.Location = new System.Drawing.Point(2, 29);
             this.studentLN4.Name = "studentLN4";
             this.studentLN4.Size = new System.Drawing.Size(104, 23);
-            this.studentLN4.TabIndex = 28;
+            this.studentLN4.TabIndex = 23;
             // 
             // studentMI4
             // 
@@ -236,7 +236,7 @@ namespace CustomUserControl
             this.studentMI4.MaxLength = 1;
             this.studentMI4.Name = "studentMI4";
             this.studentMI4.Size = new System.Drawing.Size(24, 23);
-            this.studentMI4.TabIndex = 27;
+            this.studentMI4.TabIndex = 25;
             // 
             // studentFN4
             // 
@@ -245,7 +245,7 @@ namespace CustomUserControl
             this.studentFN4.Location = new System.Drawing.Point(126, 29);
             this.studentFN4.Name = "studentFN4";
             this.studentFN4.Size = new System.Drawing.Size(100, 23);
-            this.studentFN4.TabIndex = 26;
+            this.studentFN4.TabIndex = 24;
             // 
             // deleteStudent4
             // 
@@ -265,7 +265,7 @@ namespace CustomUserControl
             this.saveStudent4.Location = new System.Drawing.Point(263, 35);
             this.saveStudent4.Name = "saveStudent4";
             this.saveStudent4.Size = new System.Drawing.Size(82, 23);
-            this.saveStudent4.TabIndex = 21;
+            this.saveStudent4.TabIndex = 27;
             this.saveStudent4.Text = "Save";
             this.saveStudent4.UseVisualStyleBackColor = true;
             // 
@@ -276,7 +276,7 @@ namespace CustomUserControl
             this.editStudent4.Location = new System.Drawing.Point(263, 6);
             this.editStudent4.Name = "editStudent4";
             this.editStudent4.Size = new System.Drawing.Size(82, 23);
-            this.editStudent4.TabIndex = 20;
+            this.editStudent4.TabIndex = 22;
             this.editStudent4.Text = "Edit";
             this.editStudent4.UseVisualStyleBackColor = true;
             // 
@@ -288,7 +288,7 @@ namespace CustomUserControl
             this.studentID4.MaxLength = 8;
             this.studentID4.Name = "studentID4";
             this.studentID4.Size = new System.Drawing.Size(192, 23);
-            this.studentID4.TabIndex = 19;
+            this.studentID4.TabIndex = 26;
             // 
             // labelMemberID4
             // 
@@ -346,7 +346,7 @@ namespace CustomUserControl
             this.studentLN3.Location = new System.Drawing.Point(2, 29);
             this.studentLN3.Name = "studentLN3";
             this.studentLN3.Size = new System.Drawing.Size(104, 23);
-            this.studentLN3.TabIndex = 28;
+            this.studentLN3.TabIndex = 17;
             // 
             // studentMI3
             // 
@@ -356,7 +356,7 @@ namespace CustomUserControl
             this.studentMI3.MaxLength = 1;
             this.studentMI3.Name = "studentMI3";
             this.studentMI3.Size = new System.Drawing.Size(24, 23);
-            this.studentMI3.TabIndex = 27;
+            this.studentMI3.TabIndex = 19;
             // 
             // studentFN3
             // 
@@ -365,7 +365,7 @@ namespace CustomUserControl
             this.studentFN3.Location = new System.Drawing.Point(125, 30);
             this.studentFN3.Name = "studentFN3";
             this.studentFN3.Size = new System.Drawing.Size(101, 23);
-            this.studentFN3.TabIndex = 26;
+            this.studentFN3.TabIndex = 18;
             // 
             // deleteStudent3
             // 
@@ -396,7 +396,7 @@ namespace CustomUserControl
             this.editStudent3.Location = new System.Drawing.Point(263, 6);
             this.editStudent3.Name = "editStudent3";
             this.editStudent3.Size = new System.Drawing.Size(82, 23);
-            this.editStudent3.TabIndex = 20;
+            this.editStudent3.TabIndex = 16;
             this.editStudent3.Text = "Edit";
             this.editStudent3.UseVisualStyleBackColor = true;
             // 
@@ -408,7 +408,7 @@ namespace CustomUserControl
             this.studentID3.MaxLength = 8;
             this.studentID3.Name = "studentID3";
             this.studentID3.Size = new System.Drawing.Size(192, 23);
-            this.studentID3.TabIndex = 19;
+            this.studentID3.TabIndex = 20;
             // 
             // labelMemberID3
             // 
@@ -466,7 +466,7 @@ namespace CustomUserControl
             this.studentLN2.Location = new System.Drawing.Point(2, 29);
             this.studentLN2.Name = "studentLN2";
             this.studentLN2.Size = new System.Drawing.Size(104, 23);
-            this.studentLN2.TabIndex = 28;
+            this.studentLN2.TabIndex = 11;
             // 
             // studentMI2
             // 
@@ -476,7 +476,7 @@ namespace CustomUserControl
             this.studentMI2.MaxLength = 1;
             this.studentMI2.Name = "studentMI2";
             this.studentMI2.Size = new System.Drawing.Size(24, 23);
-            this.studentMI2.TabIndex = 27;
+            this.studentMI2.TabIndex = 13;
             // 
             // studentFN2
             // 
@@ -485,7 +485,7 @@ namespace CustomUserControl
             this.studentFN2.Location = new System.Drawing.Point(125, 29);
             this.studentFN2.Name = "studentFN2";
             this.studentFN2.Size = new System.Drawing.Size(100, 23);
-            this.studentFN2.TabIndex = 26;
+            this.studentFN2.TabIndex = 12;
             // 
             // deleteStudent2
             // 
@@ -505,7 +505,7 @@ namespace CustomUserControl
             this.saveStudent2.Location = new System.Drawing.Point(263, 35);
             this.saveStudent2.Name = "saveStudent2";
             this.saveStudent2.Size = new System.Drawing.Size(82, 23);
-            this.saveStudent2.TabIndex = 21;
+            this.saveStudent2.TabIndex = 15;
             this.saveStudent2.Text = "Save";
             this.saveStudent2.UseVisualStyleBackColor = true;
             // 
@@ -516,7 +516,7 @@ namespace CustomUserControl
             this.editStudent2.Location = new System.Drawing.Point(263, 6);
             this.editStudent2.Name = "editStudent2";
             this.editStudent2.Size = new System.Drawing.Size(82, 23);
-            this.editStudent2.TabIndex = 20;
+            this.editStudent2.TabIndex = 10;
             this.editStudent2.Text = "Edit";
             this.editStudent2.UseVisualStyleBackColor = true;
             // 
@@ -528,7 +528,7 @@ namespace CustomUserControl
             this.studentID2.MaxLength = 8;
             this.studentID2.Name = "studentID2";
             this.studentID2.Size = new System.Drawing.Size(192, 23);
-            this.studentID2.TabIndex = 19;
+            this.studentID2.TabIndex = 14;
             // 
             // labelMemberID2
             // 
@@ -586,7 +586,7 @@ namespace CustomUserControl
             this.studentLN1.Location = new System.Drawing.Point(2, 29);
             this.studentLN1.Name = "studentLN1";
             this.studentLN1.Size = new System.Drawing.Size(104, 23);
-            this.studentLN1.TabIndex = 24;
+            this.studentLN1.TabIndex = 6;
             // 
             // studentMI1
             // 
@@ -596,7 +596,7 @@ namespace CustomUserControl
             this.studentMI1.MaxLength = 1;
             this.studentMI1.Name = "studentMI1";
             this.studentMI1.Size = new System.Drawing.Size(24, 23);
-            this.studentMI1.TabIndex = 23;
+            this.studentMI1.TabIndex = 8;
             // 
             // deleteStudent1
             // 
@@ -616,7 +616,7 @@ namespace CustomUserControl
             this.saveStudent1.Location = new System.Drawing.Point(263, 35);
             this.saveStudent1.Name = "saveStudent1";
             this.saveStudent1.Size = new System.Drawing.Size(82, 23);
-            this.saveStudent1.TabIndex = 21;
+            this.saveStudent1.TabIndex = 10;
             this.saveStudent1.Text = "Save";
             this.saveStudent1.UseVisualStyleBackColor = true;
             // 
@@ -627,7 +627,7 @@ namespace CustomUserControl
             this.editStudent1.Location = new System.Drawing.Point(263, 6);
             this.editStudent1.Name = "editStudent1";
             this.editStudent1.Size = new System.Drawing.Size(82, 23);
-            this.editStudent1.TabIndex = 20;
+            this.editStudent1.TabIndex = 6;
             this.editStudent1.Text = "Edit";
             this.editStudent1.UseVisualStyleBackColor = true;
             // 
@@ -639,7 +639,7 @@ namespace CustomUserControl
             this.studentID1.MaxLength = 8;
             this.studentID1.Name = "studentID1";
             this.studentID1.Size = new System.Drawing.Size(192, 23);
-            this.studentID1.TabIndex = 19;
+            this.studentID1.TabIndex = 9;
             // 
             // studentFN1
             // 
@@ -648,7 +648,7 @@ namespace CustomUserControl
             this.studentFN1.Location = new System.Drawing.Point(125, 29);
             this.studentFN1.Name = "studentFN1";
             this.studentFN1.Size = new System.Drawing.Size(101, 23);
-            this.studentFN1.TabIndex = 18;
+            this.studentFN1.TabIndex = 7;
             // 
             // labelMemberID1
             // 
@@ -777,7 +777,7 @@ namespace CustomUserControl
             this.panelistLN4.Location = new System.Drawing.Point(101, 4);
             this.panelistLN4.Name = "panelistLN4";
             this.panelistLN4.Size = new System.Drawing.Size(104, 23);
-            this.panelistLN4.TabIndex = 24;
+            this.panelistLN4.TabIndex = 43;
             // 
             // panelistMI4
             // 
@@ -787,7 +787,7 @@ namespace CustomUserControl
             this.panelistMI4.MaxLength = 1;
             this.panelistMI4.Name = "panelistMI4";
             this.panelistMI4.Size = new System.Drawing.Size(24, 23);
-            this.panelistMI4.TabIndex = 23;
+            this.panelistMI4.TabIndex = 45;
             // 
             // delPanelist4
             // 
@@ -809,7 +809,7 @@ namespace CustomUserControl
             this.savePanelist4.MaximumSize = new System.Drawing.Size(80, 20);
             this.savePanelist4.Name = "savePanelist4";
             this.savePanelist4.Size = new System.Drawing.Size(80, 20);
-            this.savePanelist4.TabIndex = 21;
+            this.savePanelist4.TabIndex = 47;
             this.savePanelist4.Text = "Save";
             this.savePanelist4.UseVisualStyleBackColor = true;
             // 
@@ -833,7 +833,7 @@ namespace CustomUserControl
             this.panelistID4.MaxLength = 8;
             this.panelistID4.Name = "panelistID4";
             this.panelistID4.Size = new System.Drawing.Size(194, 23);
-            this.panelistID4.TabIndex = 19;
+            this.panelistID4.TabIndex = 46;
             // 
             // panelistFN4
             // 
@@ -842,7 +842,7 @@ namespace CustomUserControl
             this.panelistFN4.Location = new System.Drawing.Point(218, 4);
             this.panelistFN4.Name = "panelistFN4";
             this.panelistFN4.Size = new System.Drawing.Size(101, 23);
-            this.panelistFN4.TabIndex = 18;
+            this.panelistFN4.TabIndex = 44;
             // 
             // labelPanelistID4
             // 
@@ -925,7 +925,7 @@ namespace CustomUserControl
             this.panelistLN3.Location = new System.Drawing.Point(101, 4);
             this.panelistLN3.Name = "panelistLN3";
             this.panelistLN3.Size = new System.Drawing.Size(104, 23);
-            this.panelistLN3.TabIndex = 24;
+            this.panelistLN3.TabIndex = 38;
             // 
             // panelistMI3
             // 
@@ -935,7 +935,7 @@ namespace CustomUserControl
             this.panelistMI3.MaxLength = 1;
             this.panelistMI3.Name = "panelistMI3";
             this.panelistMI3.Size = new System.Drawing.Size(24, 23);
-            this.panelistMI3.TabIndex = 23;
+            this.panelistMI3.TabIndex = 40;
             // 
             // delPanelist3
             // 
@@ -957,7 +957,7 @@ namespace CustomUserControl
             this.savePanelist3.MaximumSize = new System.Drawing.Size(80, 20);
             this.savePanelist3.Name = "savePanelist3";
             this.savePanelist3.Size = new System.Drawing.Size(80, 20);
-            this.savePanelist3.TabIndex = 21;
+            this.savePanelist3.TabIndex = 42;
             this.savePanelist3.Text = "Save";
             this.savePanelist3.UseVisualStyleBackColor = true;
             // 
@@ -981,7 +981,7 @@ namespace CustomUserControl
             this.panelistID3.MaxLength = 8;
             this.panelistID3.Name = "panelistID3";
             this.panelistID3.Size = new System.Drawing.Size(194, 23);
-            this.panelistID3.TabIndex = 19;
+            this.panelistID3.TabIndex = 41;
             // 
             // panelistFN3
             // 
@@ -990,7 +990,7 @@ namespace CustomUserControl
             this.panelistFN3.Location = new System.Drawing.Point(218, 4);
             this.panelistFN3.Name = "panelistFN3";
             this.panelistFN3.Size = new System.Drawing.Size(101, 23);
-            this.panelistFN3.TabIndex = 18;
+            this.panelistFN3.TabIndex = 39;
             // 
             // labelPanelistID3
             // 
@@ -1073,7 +1073,7 @@ namespace CustomUserControl
             this.panelistLN2.Location = new System.Drawing.Point(101, 4);
             this.panelistLN2.Name = "panelistLN2";
             this.panelistLN2.Size = new System.Drawing.Size(104, 23);
-            this.panelistLN2.TabIndex = 24;
+            this.panelistLN2.TabIndex = 33;
             // 
             // panelistMI2
             // 
@@ -1083,7 +1083,7 @@ namespace CustomUserControl
             this.panelistMI2.MaxLength = 1;
             this.panelistMI2.Name = "panelistMI2";
             this.panelistMI2.Size = new System.Drawing.Size(24, 23);
-            this.panelistMI2.TabIndex = 23;
+            this.panelistMI2.TabIndex = 35;
             // 
             // delPanelist2
             // 
@@ -1105,7 +1105,7 @@ namespace CustomUserControl
             this.savePanelist2.MaximumSize = new System.Drawing.Size(80, 20);
             this.savePanelist2.Name = "savePanelist2";
             this.savePanelist2.Size = new System.Drawing.Size(80, 20);
-            this.savePanelist2.TabIndex = 21;
+            this.savePanelist2.TabIndex = 37;
             this.savePanelist2.Text = "Save";
             this.savePanelist2.UseVisualStyleBackColor = true;
             // 
@@ -1129,7 +1129,7 @@ namespace CustomUserControl
             this.panelistID2.MaxLength = 8;
             this.panelistID2.Name = "panelistID2";
             this.panelistID2.Size = new System.Drawing.Size(194, 23);
-            this.panelistID2.TabIndex = 19;
+            this.panelistID2.TabIndex = 36;
             // 
             // panelistFN2
             // 
@@ -1138,7 +1138,7 @@ namespace CustomUserControl
             this.panelistFN2.Location = new System.Drawing.Point(218, 4);
             this.panelistFN2.Name = "panelistFN2";
             this.panelistFN2.Size = new System.Drawing.Size(101, 23);
-            this.panelistFN2.TabIndex = 18;
+            this.panelistFN2.TabIndex = 34;
             // 
             // labelPanelistID2
             // 
@@ -1231,7 +1231,7 @@ namespace CustomUserControl
             this.panelistLN1.Location = new System.Drawing.Point(101, 4);
             this.panelistLN1.Name = "panelistLN1";
             this.panelistLN1.Size = new System.Drawing.Size(104, 23);
-            this.panelistLN1.TabIndex = 24;
+            this.panelistLN1.TabIndex = 28;
             // 
             // panelistMI1
             // 
@@ -1241,7 +1241,7 @@ namespace CustomUserControl
             this.panelistMI1.MaxLength = 1;
             this.panelistMI1.Name = "panelistMI1";
             this.panelistMI1.Size = new System.Drawing.Size(24, 23);
-            this.panelistMI1.TabIndex = 23;
+            this.panelistMI1.TabIndex = 30;
             // 
             // delPanelist1
             // 
@@ -1263,7 +1263,7 @@ namespace CustomUserControl
             this.savePanelist1.MaximumSize = new System.Drawing.Size(80, 20);
             this.savePanelist1.Name = "savePanelist1";
             this.savePanelist1.Size = new System.Drawing.Size(80, 20);
-            this.savePanelist1.TabIndex = 21;
+            this.savePanelist1.TabIndex = 32;
             this.savePanelist1.Text = "Save";
             this.savePanelist1.UseVisualStyleBackColor = true;
             // 
@@ -1287,7 +1287,7 @@ namespace CustomUserControl
             this.panelistID1.MaxLength = 8;
             this.panelistID1.Name = "panelistID1";
             this.panelistID1.Size = new System.Drawing.Size(194, 23);
-            this.panelistID1.TabIndex = 19;
+            this.panelistID1.TabIndex = 31;
             // 
             // panelistFN1
             // 
@@ -1296,7 +1296,7 @@ namespace CustomUserControl
             this.panelistFN1.Location = new System.Drawing.Point(218, 4);
             this.panelistFN1.Name = "panelistFN1";
             this.panelistFN1.Size = new System.Drawing.Size(101, 23);
-            this.panelistFN1.TabIndex = 18;
+            this.panelistFN1.TabIndex = 29;
             // 
             // labelPanelistID1
             // 
@@ -1408,7 +1408,7 @@ namespace CustomUserControl
             this.saveDetails.Location = new System.Drawing.Point(596, 109);
             this.saveDetails.Name = "saveDetails";
             this.saveDetails.Size = new System.Drawing.Size(117, 27);
-            this.saveDetails.TabIndex = 36;
+            this.saveDetails.TabIndex = 5;
             this.saveDetails.Text = "Save Group Details";
             this.saveDetails.UseVisualStyleBackColor = true;
             this.saveDetails.Click += new System.EventHandler(this.saveGroupDetails_Click);
@@ -1432,7 +1432,7 @@ namespace CustomUserControl
             this.groupStartSY.MaxLength = 9;
             this.groupStartSY.Name = "groupStartSY";
             this.groupStartSY.Size = new System.Drawing.Size(240, 23);
-            this.groupStartSY.TabIndex = 11;
+            this.groupStartSY.TabIndex = 3;
             // 
             // newThesisGroup
             // 
@@ -1458,7 +1458,7 @@ namespace CustomUserControl
             this.groupStartTerm.Location = new System.Drawing.Point(91, 138);
             this.groupStartTerm.Name = "groupStartTerm";
             this.groupStartTerm.Size = new System.Drawing.Size(240, 23);
-            this.groupStartTerm.TabIndex = 10;
+            this.groupStartTerm.TabIndex = 4;
             // 
             // groupSection
             // 
@@ -1468,7 +1468,7 @@ namespace CustomUserControl
             this.groupSection.MaxLength = 3;
             this.groupSection.Name = "groupSection";
             this.groupSection.Size = new System.Drawing.Size(240, 23);
-            this.groupSection.TabIndex = 8;
+            this.groupSection.TabIndex = 2;
             // 
             // groupCourse
             // 
@@ -1483,7 +1483,7 @@ namespace CustomUserControl
             this.groupCourse.Location = new System.Drawing.Point(91, 59);
             this.groupCourse.Name = "groupCourse";
             this.groupCourse.Size = new System.Drawing.Size(240, 23);
-            this.groupCourse.TabIndex = 7;
+            this.groupCourse.TabIndex = 1;
             // 
             // groupThesisTitle
             // 
@@ -1492,7 +1492,7 @@ namespace CustomUserControl
             this.groupThesisTitle.Location = new System.Drawing.Point(91, 34);
             this.groupThesisTitle.Name = "groupThesisTitle";
             this.groupThesisTitle.Size = new System.Drawing.Size(474, 23);
-            this.groupThesisTitle.TabIndex = 6;
+            this.groupThesisTitle.TabIndex = 0;
             // 
             // labelGroupStartTerm
             // 
