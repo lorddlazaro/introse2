@@ -231,7 +231,6 @@ namespace CustomUserControl
         {
             String messageBoxText = "Are you sure you want to save changes made?";
             String messageBoxCaption = "Save Changes?";
-            String query;
             String dateTime = String.Format("{0:M/d/yyyy h:mm:ss tt}", defenseDateTimePicker.Value);
 
 
