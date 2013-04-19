@@ -320,8 +320,8 @@ namespace CustomUserControl
 
             Boolean[] eligibility = tgDM.GetEligibilities(currThesisGroupID);
 
-            Boolean eligible = eligibility[0] && (studentCount >= 1 && panelCount >= 3);
-            Boolean eligible_redef = eligibility[1] && (studentCount >= 1 && panelCount >= 3);
+            Boolean eligible = eligibility[0];
+            Boolean eligible_redef = eligibility[1];
 
             if (eligible)
             {
@@ -330,10 +330,6 @@ namespace CustomUserControl
             else
             {
                 defenseCheckBox.Checked = false;
-                if (eligibility[0])
-                {
-                    tgDM.FalseEligible(currThesisGroupID, "Defense");
-                }
             }
 
             if (eligible_redef)
@@ -343,10 +339,6 @@ namespace CustomUserControl
             else
             {
                 redefenseCheckBox.Checked = false;
-                if (eligibility[1])
-                {
-                    tgDM.FalseEligible(currThesisGroupID, "Redefense");
-                }
             }
 
             groupDetails2[0].SelectedItem = "";
@@ -1061,7 +1053,9 @@ namespace CustomUserControl
         {
             String eligible = defenseCheckBox.Checked + "";
             if (!String.IsNullOrEmpty(currThesisGroupID))
+            {
                 tgDM.UpdateEligible(currThesisGroupID, eligible, redefenseCheckBox.Checked + "");
+            }
         }
         private void redefenseCheckBox_CheckedChanged(object sender, EventArgs e)
         {
